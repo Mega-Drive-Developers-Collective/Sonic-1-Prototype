@@ -1,9 +1,10 @@
 *.md
 *.lst
 *.dat
+*.unc
 *.nem
 *.kos
 *.eni
-*.ss
+*.ssf
 *.pal
 *.blk
