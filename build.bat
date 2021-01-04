@@ -4,3 +4,5 @@ type out.log
 if not exist out.md pause & exit
 rem "tools/fixheadr.exe" out.md
 del out.log
+
+pause
