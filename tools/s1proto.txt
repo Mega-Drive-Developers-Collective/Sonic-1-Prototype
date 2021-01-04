@@ -1,0 +1,327 @@
+# disassemble debug text
+005EA unsorted/debugtext.unc
+00B0A
+
+# disassemble palette cycle data
+0184C unknown/0184C.pal
+0186C unknown/0186C.pal
+0188C unknown/0188C.pal
+018F4 unknown/018F4.pal
+01918 unknown/01918.pal
+01938 unknown/01938.pal
+01950
+01A6A unknown/01A6A.pal
+01AA8
+
+# disassemble standard palette data
+01B3C unknown/01B3C.pal
+01BBC unknown/01BBC.pal
+01C3C unknown/01C3C.pal
+01CBC unknown/01CBC.pal
+01CDC unknown/01CDC.pal
+01D3C unknown/01D3C.pal
+01D9C unknown/01D9C.pal
+01E1C unknown/01E1C.pal
+01E7C unknown/01E7C.pal
+01EDC unknown/01EDC.pal
+01F3C unknown/01F3C.pal
+01F9C unknown/01F9C.pal
+0201C
+
+# disassemble misc stuff
+02066 unsorted/sinetable.dat
+022E6
+02382 unsorted/angletable.dat
+02484
+038E0 unknown/038E0.pal
+039B2
+
+# disassemble art and map data
+18720 unknown/18720.nem
+18A56 unknown/18A56.eni
+18A62 unknown/18A62.unc
+1903A unknown/1903A.nem
+1A046 unknown/1A046.nem
+1C000
+1C8EE unsorted/art sonic.unc
+2656E unknown/2656E.nem
+2680E unknown/2680E.nem
+269A4 unknown/269A4.nem
+26C48 unknown/26C48.nem
+27400 unknown/27400.nem
+2744A unknown/2744A.nem
+27564 unknown/27564.nem
+27698 unknown/27698.nem
+27836 unknown/27836.nem
+27AC6 unknown/27AC6.nem
+27BF2 unknown/27BF2.nem
+27D20 unknown/27D20.nem
+27DBE unknown/27DBE.nem
+27E22 unknown/27E22.nem
+280B0 unknown/280B0.nem
+2816E unknown/2816E.nem
+2827A unknown/2827A.nem
+28558 unknown/28558.nem
+28E6E unknown/28E6E.nem
+2905A unknown/2905A.nem
+29296 unknown/29296.nem
+294DA unknown/294DA.nem
+2953C unknown/2953C.nem
+2961E unknown/2961E.nem
+297B6 unknown/297B6.nem
+29D4A unknown/29D4A.nem
+29E56 unknown/29E56.nem
+29FC0 unknown/29FC0.nem
+2A022 unknown/2A022.nem
+2A104 unknown/2A104.nem
+2A56A unknown/2A56A.nem
+2AA58 unknown/2AA58.nem
+2B6D0 unknown/2B6D0.nem
+2B938 unknown/2B938.nem
+2BC04 unknown/2BC04.nem
+2C128 unknown/2C128.nem
+2C3B2 unknown/2C3B2.nem
+2C9D0 unknown/2C9D0.nem
+2CDB8 unknown/2CDB8.nem
+2D0B4 unknown/2D0B4.nem
+2D2FC unknown/2D2FC.nem
+2D912 unknown/2D912.nem
+2DA08 unknown/2DA08.nem
+2DB0E unknown/2DB0E.nem
+2DC02 unknown/2DC02.nem
+2E062 unknown/2E062.nem
+2E6C8 unknown/2E6C8.nem
+2E77C unknown/2E77C.nem
+2ECDC unknown/2ECDC.nem
+2EDDE unknown/2EDDE.nem
+2EEBA unknown/2EEBA.nem
+2F336 unknown/2F336.nem
+2F48E unknown/2F48E.nem
+2F5EA unknown/2F5EA.nem
+2F766 unknown/2F766.nem
+2F882 unknown/2F882.nem
+2F9B8 unknown/2F9B8.nem
+2FAF2 unknown/2FAF2.nem
+2FC4E
+
+# disassemble level stuff
+30000 levels/GHZ/Blocks.unc
+30C80 levels/GHZ/Tiles1.nem
+322E0 levels/GHZ/Tiles2.nem
+33688 levels/GHZ/Chunks.kos
+35908 levels/LZ/Blocks.unc
+35EF8 levels/LZ/Tiles.nem
+37194 levels/LZ/Chunks.kos
+38F24 levels/MZ/Blocks.unc
+39A14 levels/MZ/Tiles.nem
+3C258 levels/MZ/Chunks.kos
+46000 levels/SLZ/Blocks.unc
+46D20 levels/SLZ/Tiles.nem
+4A3A8 levels/SLZ/Chunks.kos
+4CB38 levels/SYZ/Blocks.unc
+4D8F8 levels/SYZ/Tiles.nem
+50DD4 levels/SYZ/Chunks.kos
+530F4 levels/SBZ/Blocks.unc
+53A04 levels/SBZ/Tiles.nem
+5548C levels/SBZ/Chunks.kos
+60000
+
+# disassemble art and map data
+60000 unknown/60000.dat
+60864 unknown/60864.dat
+60BB0 unknown/60BB0.dat
+61434
+
+# disassemble demo data
+61434 unknown/61434.dat
+614C6 unknown/614C6.dat
+61578 unknown/61578.dat
+6161E unknown/6161E.dat
+63000
+
+# disassemble art and map data
+63080 unknown/63080.nem
+639B8 unknown/639B8.eni
+63AEC unknown/63AEC.nem
+6477C unknown/6477C.eni
+64A7C unknown/64A7C.nem
+64F70 unknown/64F70.nem
+6505E unknown/6505E.nem
+6512E unknown/6512E.nem
+651FE unknown/651FE.nem
+652DE unknown/652DE.nem
+653D4 unknown/653D4.nem
+65432 unknown/65432.nem
+654C4 unknown/654C4.nem
+65586 unknown/65586.nem
+65654 unknown/65654.nem
+65720 unknown/65720.nem
+657E8 unknown/657E8.nem
+658B2 unknown/658B2.nem
+65982 unknown/65982.nem
+65B76 unknown/65B76.nem
+65BE6
+
+# disassemble misc data
+68000 unknown/68000.dat
+68100 unknown/68100.dat
+69100 unknown/69100.dat
+6A100
+
+# disassemble collision data
+6A100 unknown/col 06A100.dat
+6A290 unknown/col 06A290.dat
+6A358 unknown/col 06A358.dat
+6A658 unknown/col 06A658.dat
+6A84C unknown/col 06A84C.dat
+6A9DC unknown/col 06A9DC.dat
+6AB08
+
+# disassemble misc data
+6AB08 unknown/6AB08.dat
+6B018 unknown/6B018.dat
+6B218 unknown/6B218.dat
+6B618 unknown/6B618.dat
+6BA98 unknown/6BA98.dat
+6BD98 unknown/6BD98.dat
+6C398 unknown/6C398.dat
+6C998 unknown/6C998.dat
+6CC98
+
+# disassemble layout data
+6CD40 levels/GHZ/Foreground 1.unc
+6CE32 levels/GHZ/Background 1.unc
+6CE54
+6CE58 levels/GHZ/Foreground 2.unc
+6CF1A levels/GHZ/Background 2.unc
+6CF3C
+6CF40 levels/GHZ/Foreground 3.unc
+6D062 levels/GHZ/Background 3.unc
+6D084
+6D08C levels/LZ/Foreground 1.unc
+6D16E levels/LZ/Background.unc
+6D190
+6D194 levels/LZ/Foreground 2.unc
+6D216
+6D21A levels/LZ/Foreground 3.unc
+6D31C
+6D324 levels/MZ/Foreground 1.unc
+6D3BC levels/MZ/Background 1.unc
+6D47E levels/MZ/Foreground 2.unc
+6D552 levels/MZ/Background 2.unc
+6D614
+6D618 levels/MZ/Foreground 3.unc
+6D6FA levels/MZ/Background 3.unc
+6D7DC
+6D7E4 levels/SLZ/Foreground 1.unc
+6D926 levels/SLZ/Background.unc
+6D9A0 levels/SLZ/Foreground 2.unc
+6DAE2 levels/SLZ/Foreground 3.unc
+6DBE4
+6DBE8 levels/SYZ/Foreground 1.unc
+6DC9E levels/SYZ/Background.unc
+6DCD8
+6DCDC levels/SYZ/Foreground 2.unc
+6DDDA
+6DDDE levels/SYZ/Foreground 3.unc
+6DF30
+6DF38 levels/SBZ/Foreground 1.unc
+6E13A levels/SBZ/Foreground 2.unc
+6E33C levels/SBZ/Background 2.unc
+6E340
+6E348 levels/Unknown/Foreground 1.unc
+6E3CA
+
+# disassemble object lists
+70066 levels/GHZ/Objects 1.unc
+70546 levels/GHZ/Objects 2.unc
+70B10 levels/GHZ/Objects 3.unc
+71164 levels/LZ/Objects 1.unc
+7116A levels/LZ/Objects 2.unc
+71170 levels/LZ/Objects 3.unc
+71176 levels/MZ/Objects 1.unc
+714A6 levels/MZ/Objects 2.unc
+71AA6 levels/MZ/Objects 3.unc
+720CA levels/SLZ/Objects 1.unc
+72328 levels/SLZ/Objects 2.unc
+723D0 levels/SLZ/Objects 3.unc
+72460 levels/SYZ/Objects 1.unc
+728BC levels/SYZ/Objects 2.unc
+72D00 levels/SYZ/Objects 3.unc
+72D0C levels/SBZ/Objects 1.unc
+72D12 levels/SBZ/Objects 2.unc
+72D18 levels/SBZ/Objects 3.unc
+72D1E
+
+# disassemble sound data
+756D0 sound/z80.unc
+7732C sound/music/GHZ.ssf
+77C68 sound/music/LZ.ssf
+78332 sound/music/MZ.ssf
+78966 sound/music/SLZ.ssf
+79032 sound/music/SYZ.ssf
+79758 sound/music/SBZ.ssf
+79EA8 sound/music/Invincibility.ssf
+7A146 sound/music/ExtraLife.ssf
+7A230 sound/music/SpecialStage.ssf
+7A6A4 sound/music/TitleScreen.ssf
+7A8A4 sound/music/Ending.ssf
+7AC54 sound/music/Boss.ssf
+7AFE4 sound/music/FZ.ssf
+7B2F0 sound/music/Results.ssf
+7B440 sound/music/GameOver.ssf
+7B5B8 sound/music/Continue.ssf
+7B7B4 sound/music/Credits.ssf
+7CF52
+7D01E sound/sfx/A0.ssf
+7D034 sound/sfx/A1.ssf
+7D068 sound/sfx/A2.ssf
+7D088 sound/sfx/A3.ssf
+7D0EC sound/sfx/A4.ssf
+7D122 sound/sfx/A5.ssf
+7D14E sound/sfx/A6.ssf
+7D17E sound/sfx/A7.ssf
+7D1C6 sound/sfx/A8.ssf
+7D1E6 sound/sfx/A9.ssf
+7D220 sound/sfx/AA.ssf
+7D27A sound/sfx/AB.ssf
+7D29A sound/sfx/AC.ssf
+7D2CE sound/sfx/AD.ssf
+7D2FC sound/sfx/AE.ssf
+7D360 sound/sfx/AF.ssf
+7D38E sound/sfx/B0.ssf
+7D3BE sound/sfx/B1.ssf
+7D3EE sound/sfx/B2.ssf
+7D416 sound/sfx/B3.ssf
+7D44C sound/sfx/B4.ssf
+7D4C0 sound/sfx/B5.ssf
+7D4EE sound/sfx/B6.ssf
+7D50C sound/sfx/B7.ssf
+7D548 sound/sfx/B8.ssf
+7D566 sound/sfx/B9.ssf
+7D5CA sound/sfx/BA.ssf
+7D5F4 sound/sfx/BB.ssf
+7D620 sound/sfx/BC.ssf
+7D662 sound/sfx/BD.ssf
+7D6B6 sound/sfx/BE.ssf
+7D6F0 sound/sfx/BF.ssf
+7D72E sound/sfx/C0.ssf
+7D75C sound/sfx/C1.ssf
+7D796 sound/sfx/C2.ssf
+7D7C4 sound/sfx/C3.ssf
+7D7EC sound/sfx/C4.ssf
+7D814 sound/sfx/C5.ssf
+7D87C sound/sfx/C6.ssf
+7D8BE sound/sfx/C7.ssf
+7D906 sound/sfx/C8.ssf
+7D918 sound/sfx/C9.ssf
+7D946 sound/sfx/CA.ssf
+7D960 sound/sfx/CB.ssf
+7D9AC sound/sfx/CC.ssf
+7D9E6 sound/sfx/CD.ssf
+7D9F4 sound/sfx/CE.ssf
+7DA22 sound/sfx/CF.ssf
+7DA5A sound/sfx/D0.ssf
+7DA92 sound/sfx/D1.ssf
+7DABE sound/sfx/D2.ssf
+7DB0A
