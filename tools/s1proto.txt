@@ -14,18 +14,18 @@
 01AA8
 
 # disassemble standard palette data
-01B3C unknown/01B3C.pal
-01BBC unknown/01BBC.pal
-01C3C unknown/01C3C.pal
-01CBC unknown/01CBC.pal
-01CDC unknown/01CDC.pal
-01D3C unknown/01D3C.pal
-01D9C unknown/01D9C.pal
-01E1C unknown/01E1C.pal
-01E7C unknown/01E7C.pal
-01EDC unknown/01EDC.pal
-01F3C unknown/01F3C.pal
-01F9C unknown/01F9C.pal
+01B3C screens/sega/main.pal
+01BBC screens/title/main.pal
+01C3C screens/title/level select.pal
+01CBC levels/shared/ObjSonic/sonic.pal
+01CDC levels/GHZ/main.pal
+01D3C levels/LZ/main.pal
+01D9C levels/GHZ/night.pal
+01E1C levels/MZ/main.pal
+01E7C levels/SLZ/main.pal
+01EDC levels/SYZ/main.pal
+01F3C levels/SBZ/main.pal
+01F9C screens/special stage/main.pal
 0201C
 
 # disassemble misc stuff
