@@ -133,14 +133,21 @@ loc_28E:
 		move	#$2700,sr
 		bra.s	loc_306
 ; ---------------------------------------------------------------------------
-InitValues:	dc.l $8000, $3FFF, $100, $A00000, $A11100, $A11200, $C00000
-		dc.l $C00004
+InitValues:	dc.l $8000, $3FFF, $100
+		dc.l $A00000	; Z80 RAM
+		dc.l $A11100    ; Z80 bus release
+		dc.l $A11200	; Z80 reset
+		dc.l $C00000
+		dc.l $C00004    ; VDP registers
+		; VDP values
 		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
+		; Z80 instructions
 		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77
 		dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
 		dc.b 8, $D9, $F1, $C1, $D1, $E1, 8, $D9, $F1, $D1, $E1
 		dc.b $F9, $F3, $ED, $56, $36, $E9, $E9
+		; PSG channel volumes
 		dc.b $9F, $BF, $DF, $FF
 ; ---------------------------------------------------------------------------
 
@@ -185,7 +192,7 @@ loc_36A:
 loc_376:
 		move.l	d7,(a6)+
 		dbf	d6,loc_376
-		bsr.w	sub_100A
+		bsr.w	SetupVDP
 		bsr.w	LoadZ80
 		bsr.w	padInit
 		move.b	#0,(GameMode).w
@@ -210,9 +217,9 @@ ScreensArray:
 ; ---------------------------------------------------------------------------
 		rts	
 ; ---------------------------------------------------------------------------
-
+; Not used
 ChecksumError:
-		bsr.w	sub_100A
+		bsr.w	SetupVDP
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
 
@@ -311,7 +318,7 @@ loc_472:
 
 loc_47C:
 		move	#$2300,sr
-		rte	
+		rte
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -395,9 +402,9 @@ loc_5D2:
 
 
 ErrorWaitInput:
-		bsr.w	padRead
-		cmpi.b	#$20,(padPress1).w
-		bne.w	ErrorWaitInput
+		bsr.w	padRead			; Read the controller
+		cmpi.b	#$20,(padPress1).w	; Are you pressing the C button?
+		bne.w	ErrorWaitInput		; If not, continue waiting for C button
 		rts	
 
 ; ---------------------------------------------------------------------------
@@ -411,12 +418,12 @@ vint:
 		move.w	($C00004).l,d0
 		move.l	#$40000010,($C00004).l
 		move.l	(dword_FFF616).w,($C00000).l
-		btst	#6,(ConsoleRegion).w
-		beq.s	loc_B3C
-		move.w	#$700,d0
+		btst	#6,(ConsoleRegion).w	; is this a PAL machine?
+		beq.s	loc_B3C			; if not, branch
+		move.w	#$700,d0		; loop counter
 
 loc_B38:
-		dbf	d0,loc_B38
+		dbf	d0,loc_B38		; waste some cycles
 
 loc_B3C:
 		move.b	(VintRoutine).w,d0
@@ -594,7 +601,7 @@ loc_D7A:
 		subq.w	#1,(word_FFF614).w
 
 locret_D86:
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -724,7 +731,7 @@ locret_F3A:
 		rte	
 
 ; ---------------------------------------------------------------------------
-		tst.w	(word_FFF648).w
+		tst.w	(word_FFF648).w		; ???
 		beq.s	locret_F7E
 		movem.l	d0/a0/a5,-(sp)
 		move.w	#0,(word_FFF648).w
@@ -806,15 +813,15 @@ sub_FDC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_100A:
+SetupVDP:
 		lea	($C00004).l,a0
 		lea	($C00000).l,a1
 		lea	($1080).l,a2
 		moveq	#$12,d7
 
-loc_101E:
+@setreg:
 		move.w	(a2)+,(a0)
-		dbf	d7,loc_101E
+		dbf	d7,@setreg
 		move.w	(word_1080+2).l,d0
 		move.w	d0,(word_FFF60C).w
 		moveq	#0,d0
@@ -843,6 +850,7 @@ loc_1070:
 		rts	
 
 ; ---------------------------------------------------------------------------
+; VDP Registers
 word_1080:	dc.w $8004, $8134, $8230, $8328, $8407
 		dc.w $857C, $8600, $8700, $8800, $8900
 		dc.w $8A00, $8B00, $8C81, $8D3F, $8E00
@@ -897,35 +905,35 @@ loc_112C:
 
 ; =============== S U B R O U T I N E =======================================
 
-
+; ??? - what does $A01FF8 do?
 LoadZ80:
-		nop	
-		move.w	#$100,($A11100).l
-		move.w	#$100,($A11200).l
-		lea	(Z80Driver).l,a0
-		lea	($A00000).l,a1
-		move.w	#$1C5B,d0
+		nop	                        ; no operation...
+		move.w	#$100,($A11100).l	; stop the Z80
+		move.w	#$100,($A11200).l	; release the Z80 bus
+		lea	(Z80Driver).l,a0	; load the driver into a0
+		lea	($A00000).l,a1		; load Z80 RAM into A1
+		move.w	#(Z80Drv_End-Z80Driver)-1,d0		; load the sound driver size into d0
 
-loc_1156:
-		move.b	(a0)+,(a1)+
-		dbf	d0,loc_1156
-		moveq	#0,d0
-		lea	($A01FF8).l,a1
-		move.b	d0,(a1)+
-		move.b	#$80,(a1)+
-		move.b	#7,(a1)+
-		move.b	#$80,(a1)+
-		move.b	d0,(a1)+
-		move.b	d0,(a1)+
-		move.b	d0,(a1)+
-		move.b	d0,(a1)+
-		move.w	#0,($A11200).l
-		nop	
-		nop	
-		nop	
-		nop	
-		move.w	#$100,($A11200).l
-		move.w	#0,($A11100).l
+@loadZ80:
+		move.b	(a0)+,(a1)+		; move the driver into Z80 RAM
+		dbf	d0,@loadZ80		; continue for however large the driver is
+		moveq	#0,d0			; clear d0
+		lea	($A01FF8).l,a1		; move $A01FF8 (?) into a1
+		move.b	d0,(a1)+		; clear that part of Z80 memory
+		move.b	#$80,(a1)+		; move $80 to it
+		move.b	#7,(a1)+		; then 7
+		move.b	#$80,(a1)+		; then $80 again
+		move.b	d0,(a1)+		; then move d0 to a1
+		move.b	d0,(a1)+		; again
+		move.b	d0,(a1)+		; and again
+		move.b	d0,(a1)+		; and again
+		move.w	#0,($A11200).l		; reset Z80
+		nop                             ; no operation
+		nop				; ...
+		nop
+		nop
+		move.w	#$100,($A11200).l	; release the Z80 bus
+		move.w	#0,($A11100).l          ; start Z80
 		rts	
 
 ; ---------------------------------------------------------------------------
@@ -947,6 +955,7 @@ PlaySFX:
 		rts	
 
 ; ---------------------------------------------------------------------------
+PlayUnk:
 		move.b	d0,(SoundMemory+$C).w
 		rts	
 
@@ -27461,20 +27470,20 @@ loc_742FC:
 		beq.s	locret_74326
 		btst	#3,d0
 		bne.s	loc_74328
-		tst.b	($A01FF6).l
-		bne.s	locret_74326
+		tst.b	($A01FF6).l		; is $A01FF6 blank?
+		bne.s	locret_74326		; if not, return
 		move.b	d0,($A01FFF).l
 
 locret_74326:
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_74328:
 		subi.b	#$88,d0
 		move.b	byte_74348(pc,d0.w),d0
-		tst.b	($A01FF6).l
-		bne.s	locret_74346
-		move.b	d0,($A00183).l
+		tst.b	($A01FF6).l		; is $A01FF6 blank?
+		bne.s	locret_74346		; if not return
+		move.b	d0,($A00183).l		; modify the pitch
 		move.b	#$83,($A01FFF).l
 
 locret_74346:
@@ -29713,6 +29722,7 @@ loc_756AE:
 byte_756C8:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
 Z80Driver:	incbin "sound/z80.unc"
+Z80Drv_End:
 mGHZ:		incbin "sound/music/GHZ.ssf"
 mLZ:		incbin "sound/music/LZ.ssf"
 mMZ:		incbin "sound/music/MZ.ssf"
