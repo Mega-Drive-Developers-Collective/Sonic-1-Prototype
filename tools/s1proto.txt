@@ -37,71 +37,71 @@
 039B2
 
 # disassemble art and map data
-18720 unknown/18720.nem
+18720 screens/sega/sega art.nem
 18A56 unknown/18A56.eni
 18A62 unknown/18A62.unc
-1903A unknown/1903A.nem
-1A046 unknown/1A046.nem
+1903A screens/title/main art.nem
+1A046 screens/title/sonic.nem
 1C000
 1C8EE unsorted/art sonic.unc
-2656E unknown/2656E.nem
-2680E unknown/2680E.nem
-269A4 unknown/269A4.nem
-26C48 unknown/26C48.nem
-27400 unknown/27400.nem
-2744A unknown/2744A.nem
-27564 unknown/27564.nem
-27698 unknown/27698.nem
-27836 unknown/27836.nem
-27AC6 unknown/27AC6.nem
-27BF2 unknown/27BF2.nem
-27D20 unknown/27D20.nem
-27DBE unknown/27DBE.nem
-27E22 unknown/27E22.nem
-280B0 unknown/280B0.nem
-2816E unknown/2816E.nem
-2827A unknown/2827A.nem
-28558 unknown/28558.nem
-28E6E unknown/28E6E.nem
-2905A unknown/2905A.nem
-29296 unknown/29296.nem
-294DA unknown/294DA.nem
-2953C unknown/2953C.nem
-2961E unknown/2961E.nem
-297B6 unknown/297B6.nem
-29D4A unknown/29D4A.nem
-29E56 unknown/29E56.nem
-29FC0 unknown/29FC0.nem
-2A022 unknown/2A022.nem
-2A104 unknown/2A104.nem
-2A56A unknown/2A56A.nem
-2AA58 unknown/2AA58.nem
-2B6D0 unknown/2B6D0.nem
-2B938 unknown/2B938.nem
-2BC04 unknown/2BC04.nem
-2C128 unknown/2C128.nem
-2C3B2 unknown/2C3B2.nem
-2C9D0 unknown/2C9D0.nem
-2CDB8 unknown/2CDB8.nem
-2D0B4 unknown/2D0B4.nem
-2D2FC unknown/2D2FC.nem
-2D912 unknown/2D912.nem
-2DA08 unknown/2DA08.nem
-2DB0E unknown/2DB0E.nem
-2DC02 unknown/2DC02.nem
-2E062 unknown/2E062.nem
-2E6C8 unknown/2E6C8.nem
-2E77C unknown/2E77C.nem
-2ECDC unknown/2ECDC.nem
-2EDDE unknown/2EDDE.nem
-2EEBA unknown/2EEBA.nem
-2F336 unknown/2F336.nem
-2F48E unknown/2F48E.nem
-2F5EA unknown/2F5EA.nem
-2F766 unknown/2F766.nem
-2F882 unknown/2F882.nem
-2F9B8 unknown/2F9B8.nem
-2FAF2 unknown/2FAF2.nem
+2656E artnem/unused/smoke.nem
+2680E artnem/shield.nem
+269A4 artnem/invicibility stars.nem
+26C48 artnem/unused/flash.nem
+27400 levels/GHZ/ghz flower stalk.nem
+2744A levels/GHZ/ghz swing.nem
+27564 levels/GHZ/ghz bridge.nem
+27698 levels/GHZ/ghz checkered ball.nem
+27836 artnem/spikes.nem
+27AC6 levels/GHZ/ghz rotating spikes.nem
+27BF2 levels/GHZ/ghz rock.nem
+27D20 levels/GHZ/ghz breakable wall.nem
+27DBE levels/GHZ/ghz solid wall.nem
+27E22 levels/MZ/mz chandelier.nem
+280B0 levels/MZ/mz button.nem
+2816E levels/MZ/mz piston.nem
+2827A levels/MZ/mz fire ball.nem
+28558 levels/MZ/mz lava.nem
+28E6E levels/MZ/mz pushable block.nem
+2905A levels/SLZ/slz seesaw.nem
+29296 levels/SLZ/slz fan.nem
+294DA levels/SLZ/slz platform.nem
+2953C levels/SLZ/slz girders.nem
+2961E levels/SLZ/slz spiked platforms.nem
+297B6 levels/SLZ/slz misc platforms.nem
+29D4A levels/SLZ/slz metal block.nem
+29E56 levels/SYZ/syz bumper.nem
+29FC0 levels/SYZ/syz small spiked ball.nem
+2A022 artnem/button.nem
+2A104 artnem/swinging spiked ball.nem
+2A56A artnem/badnik/crabmeat.nem
+2AA58 artnem/badnik/buzzkill.nem
+2B6D0 artnem/badnik/chopper.nem
+2B938 artnem/badnik/jaws.nem
+2BC04 artnem/badnik/roller.nem
+2C128 artnem/badnik/motobug.nem
+2C3B2 artnem/badnik/newtron.nem
+2C9D0 artnem/badnik/yadrin.nem
+2CDB8 artnem/badnik/batbrain.nem
+2D0B4 artnem/badnik/splats.nem
+2D2FC artnem/titlecards.nem
+2D912 artnem/hud main.nem
+2DA08 artnem/hud lives.nem
+2DB0E artnem/ring.nem
+2DC02 artnem/monitor.nem
+2E062 artnem/explosion.nem
+2E6C8 artnem/score points.nem
+2E77C artnem/game over.nem
+2ECDC artnem/spring v.nem
+2EDDE artnem/spring h.nem
+2EEBA artnem/end sign post.nem
+2F336 artnem/animals/pocky.nem
+2F48E artnem/animals/cucky.nem
+2F5EA artnem/animals/pecky.nem
+2F766 artnem/animals/rocky.nem
+2F882 artnem/animals/picky.nem
+2F9B8 artnem/animals/flicky.nem
+2FAF2 artnem/animals/ricky.nem
 2FC4E
 
 # disassemble level stuff
@@ -140,26 +140,26 @@
 63000
 
 # disassemble art and map data
-63080 unknown/63080.nem
+63080 screens/special stage/ss generic blocks.nem
 639B8 unknown/639B8.eni
-63AEC unknown/63AEC.nem
+63AEC screens/special stage/ss bg animals.nem
 6477C unknown/6477C.eni
-64A7C unknown/64A7C.nem
-64F70 unknown/64F70.nem
-6505E unknown/6505E.nem
-6512E unknown/6512E.nem
-651FE unknown/651FE.nem
-652DE unknown/652DE.nem
-653D4 unknown/653D4.nem
-65432 unknown/65432.nem
-654C4 unknown/654C4.nem
-65586 unknown/65586.nem
-65654 unknown/65654.nem
-65720 unknown/65720.nem
-657E8 unknown/657E8.nem
-658B2 unknown/658B2.nem
-65982 unknown/65982.nem
-65B76 unknown/65B76.nem
+64A7C screens/special stage/ss bg misc.nem
+64F70 screens/special stage/ss goal.nem
+6505E screens/special stage/ss r.nem
+6512E screens/special stage/ss skull.nem
+651FE screens/special stage/ss u.nem
+652DE screens/special stage/ss 1up.nem
+653D4 screens/special stage/ss stars.nem
+65432 screens/special stage/ss red white.nem
+654C4 screens/special stage/ss zone1.nem
+65586 screens/special stage/ss zone2.nem
+65654 screens/special stage/ss zone3.nem
+65720 screens/special stage/ss zone4.nem
+657E8 screens/special stage/ss zone5.nem
+658B2 screens/special stage/ss zone6.nem
+65982 screens/special stage/ss up down.nem
+65B76 screens/special stage/ss emerald.nem
 65BE6
 
 # disassemble misc data
