@@ -27279,6 +27279,7 @@ word_72D12:	incbin "levels/SBZ/Objects 2.unc"
 word_72D18:	incbin "levels/SBZ/Objects 3.unc"
 ObjListNull:	dc.w $FFFF, 0, 0
 		align	$4000					; Unnecessary alignment
+		; Sound driver stuff...
 mSoundPriorities:dc.l mSoundPrioList
 mSpecialSFXPtr:	dc.l mSpecialSFXList
 mMusicPtr:	dc.l mMusicList
@@ -27288,40 +27289,38 @@ mVolEnvPtr:	dc.l mVolEnvList
 		dc.l $A0
 		dc.l SoundSource
 mSpeedTempos:	dc.l mSpeedTempoList
-mVolEnvList:	dc.l byte_74048, byte_7405F, byte_74066, byte_74077, byte_74091
-		dc.l byte_74082, byte_740BB, byte_740D7, byte_740FF
-byte_74048:	dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
+mVolEnvList:	dc.l PSGEnv_01, PSGEnv_02, PSGEnv_03, PSGEnv_04, PSGEnv_05
+		dc.l PSGEnv_06, PSGEnv_07, PSGEnv_08, PSGEnv_09
+PSGEnv_01:	dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
 		dc.b 5, 6, 6, 6, 7, $83
-byte_7405F:	dc.b 0, 2, 4, 6, 8, $10, $83
-byte_74066:	dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
-byte_74077:	dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
-byte_74082:	dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
-byte_74091:	dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
+PSGEnv_02:	dc.b 0, 2, 4, 6, 8, $10, $83
+PSGEnv_03:	dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
+PSGEnv_04:	dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
+PSGEnv_06:	dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
+PSGEnv_05:	dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
 		dc.b 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3
 		dc.b 3, 3, 3, 3, 3, 3, 4, $83
-byte_740BB:	dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
+PSGEnv_07:	dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 4, 4, 4, 5, 5, 5, 6, 7, $83
-byte_740D7:	dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
+PSGEnv_08:	dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6
 		dc.b 6, 6, 7, 7, 7, $83
-byte_740FF:	dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, $A, $B, $C, $D, $E
+PSGEnv_09:	dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, $A, $B, $C, $D, $E
 		dc.b $F, $83
 byte_74110:	dc.b $D, 1, 7, 4, 1, 1, 1, 4, 2, 1, 2, 4, 8, 1, 6, 4
 mSpeedTempoList:dc.b 7, $72, $73, $26, $15, 8, $FF, 5
 mMusicList:	dc.l mGHZ, mLZ, mMZ, mSLZ, mSYZ, mSBZ, mInvincibility
 		dc.l mExtraLife, mSS, mTitle, mEnding, mBoss, mFZ, mResults
 		dc.l mGameOver, mContinue, mCredits
-mSoundPrioList:	dcb.b $1F,$80
-		dcb.b $30,$70
-		dcb.b $16,$80
-		dc.b 0
+mSoundPrioList:	dcb.b $1F,$80	; $80 - $9F
+		dcb.b $30,$70	; $A0 - $CF
+		dcb.b $16,$80	; $D0 - $DF
+		even
 
 ; =============== S U B R O U T I N E =======================================
 
 
 SoundSource:
-
-
 		move.w	#$100,($A11100).l
 
 loc_741DA:
@@ -29130,7 +29129,7 @@ loc_7518E:
 ; ---------------------------------------------------------------------------
 		bra.w	loc_7568C
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0
+		moveq	#0,d0			; random code in pointers (???)
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
 		jmp	loc_75214(pc,d0.w)
@@ -29798,6 +29797,7 @@ sCF:		incbin "sound/sfx/CF.ssf"
 sD0:		incbin "sound/sfx/D0.ssf"
 sD1:		incbin "sound/sfx/D1.ssf"
 sD2:		incbin "sound/sfx/D2.ssf"
+		even
 		align	$8000					; Unnecessary alignment
 ; end of 'ROM'
 
