@@ -236,8 +236,6 @@ AddressErr:
 
 IllegalInstr:
 		move.b	#6,(byte_FFFC00+$44).w
-
-loc_3E6:
 		addq.l	#2,2(sp)
 		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
@@ -259,8 +257,6 @@ TrapvInstr:
 
 PrivilegeViol:
 		move.b	#$E,(byte_FFFC00+$44).w
-
-loc_40A:
 		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
@@ -298,8 +294,6 @@ loc_440:
 		move.l	2(sp),d0
 		bsr.w	ErrorPrintAddr
 		move.l	(byte_FFFC00+$40).w,d0
-
-loc_456:
 		bsr.w	ErrorPrintAddr
 		bra.s	loc_472
 ; ---------------------------------------------------------------------------
@@ -324,15 +318,13 @@ loc_47C:
 
 ErrorPrint:
 		lea	($C00000).l,a6
-
-loc_488:
 		move.l	#$78000003,($C00004).l
 		lea	(ArtText).l,a0
 		move.w	#$27F,d1
 
-loc_49C:
+@loadart:
 		move.w	(a0)+,(a6)
-		dbf	d1,loc_49C
+		dbf	d1,@loadart
 
 loc_4A2:
 		moveq	#0,d0
@@ -487,8 +479,8 @@ sub_BAA:
 
 
 sub_BB0:
-		cmpi.b	#$10,(GameMode).w
-		beq.w	loc_CBC
+		cmpi.b	#$10,(GameMode).w	; are you in the special stage?
+		beq.w	loc_CBC			; if so, branch
 
 loc_BBA:
 		bsr.w	padRead
@@ -552,7 +544,7 @@ loc_CA8:
 		subq.w	#1,(word_FFF614).w
 
 locret_CBA:
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_CBC:
@@ -2094,29 +2086,29 @@ loc_1AD4:
 		rts	
 
 ; ---------------------------------------------------------------------------
-PaletteLoadTable:dc.l palSegaBG
+PaletteLoadTable:dc.l palSegaBG		; 0
 		dc.w $FB00, $1F
-		dc.l palTitle
+		dc.l palTitle           ; 1
 		dc.w $FB00, $1F
-		dc.l palLevelSel
+		dc.l palLevelSel        ; 2
 		dc.w $FB00, $1F
-		dc.l palSonic
+		dc.l palSonic           ; 3
 		dc.w $FB00, 7
-		dc.l palGHZ
+		dc.l palGHZ             ; 4
 		dc.w $FB20, $17
-		dc.l palLZ
+		dc.l palLZ              ; 5
 		dc.w $FB20, $17
-		dc.l palMZ
+		dc.l palMZ              ; 6
 		dc.w $FB20, $17
-		dc.l palSLZ
+		dc.l palSLZ             ; 7
 		dc.w $FB20, $17
-		dc.l palSYZ
+		dc.l palSYZ             ; 8
 		dc.w $FB20, $17
-		dc.l palSBZ
+		dc.l palSBZ             ; 9
 		dc.w $FB20, $17
-		dc.l palSpecial
+		dc.l palSpecial         ; $A
 		dc.w $FB00, $1F
-		dc.l palGHZNight
+		dc.l palGHZNight        ; $B
 		dc.w $FB00, $1F
 palSegaBG:	incbin "screens/sega/main.pal"
 palTitle:	incbin "screens/title/main.pal"
@@ -2181,7 +2173,7 @@ GetSine:
 ; ---------------------------------------------------------------------------
 SineTable:	incbin "unsorted/sinetable.dat"
 ; ---------------------------------------------------------------------------
-		movem.l	d1-d2,-(sp)
+		movem.l	d1-d2,-(sp)	; garbage code
 		move.w	d0,d1
 		swap	d1
 		moveq	#0,d0
@@ -2266,7 +2258,7 @@ loc_2372:
 loc_2378:
 		move.w	#$40,d0
 		movem.l	(sp)+,d3-d4
-		rts	
+		rts
 
 ; ---------------------------------------------------------------------------
 AngleTable:	incbin "unsorted/angletable.dat"
@@ -2381,9 +2373,9 @@ loc_25D8:
 		lea	(Blocks).w,a4
 		move.w	#$5FF,d0
 
-loc_262E:
+@loadghzblocks:
 		move.l	(a0)+,(a4)+
-		dbf	d0,loc_262E
+		dbf	d0,@loadghzblocks
 		lea	(ChunksGHZ).l,a0
 		lea	((Chunks)&$FFFFFF).l,a1
 		bsr.w	KosinskiDec
@@ -2469,10 +2461,10 @@ loc_273C:
 		bne.s	loc_2780
 		move.w	(word_FFF66A).w,d0
 		addi.w	#$80,d0
-		cmpi.w	#$93,d0
-		bcs.s	loc_277A
-		cmpi.w	#$A0,d0
-		bcs.s	loc_273C
+		cmpi.w	#$93,d0		; is the music ID 94+
+		bcs.s	loc_277A	; if not, branch
+		cmpi.w	#$A0,d0		; is it before sound effects?
+		bcs.s	loc_273C	; if so, go back to the loop
 
 loc_277A:
 		bsr.w	PlaySFX
@@ -2481,7 +2473,7 @@ loc_277A:
 
 loc_2780:
 		add.w	d0,d0
-		move.w	LevelSelectLlvels(pc,d0.w),d0
+		move.w	LevSel_LevelOrder(pc,d0.w),d0
 		bmi.s	loc_273C
 		cmpi.w	#$700,d0
 		bne.s	loc_2796
@@ -2509,7 +2501,7 @@ loc_27AA:
 		bsr.w	PlaySFX
 		rts	
 ; ---------------------------------------------------------------------------
-LevelSelectLlvels:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
+LevSel_LevelOrder:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
 		dc.w $301, $302, $400, $401, $402, $500, $501, $8500, $700
 		dc.w $700, $8000
 ; ---------------------------------------------------------------------------
@@ -5345,9 +5337,9 @@ LoadLevelData:
 		lea	(Blocks).w,a4
 		move.w	#$5FF,d0
 
-loc_482A:
+@loadblocks:
 		move.l	(a0)+,(a4)+
-		dbf	d0,loc_482A
+		dbf	d0,@loadblocks
 		movea.l	(a2)+,a0
 		lea	((Chunks)&$FFFFFF).l,a1
 		bsr.w	KosinskiDec
@@ -27958,15 +27950,15 @@ loc_746FE:
 ; ---------------------------------------------------------------------------
 
 loc_74708:
-		bra.w	loc_74C1E
+		bra.w	loc_74C1E	; $E0
 ; ---------------------------------------------------------------------------
-		bra.w	sub_74B10
+		bra.w	sub_74B10	; $E1
 ; ---------------------------------------------------------------------------
-		bra.w	loc_74D90
+		bra.w	loc_74D90	; $E2
 ; ---------------------------------------------------------------------------
-		bra.w	loc_74DA4
+		bra.w	loc_74DA4	; $E3
 ; ---------------------------------------------------------------------------
-		bra.w	sub_74BB4
+		bra.w	sub_74BB4	; $E4
 ; ---------------------------------------------------------------------------
 
 loc_7471C:
@@ -29812,7 +29804,7 @@ byte_FF1020:	ds.b $70E
 byte_FF172E:	ds.b $1C52
 byte_FF3380:	ds.b $C80
 byte_FF4000:	ds.b 8
-byte_FF4008:	ds.b 4
+byte_FF4008:	ds.l 1
 byte_FF400C:	ds.b $22
 byte_FF402E:	ds.b $3D2
 byte_FF4400:	ds.b $3C00
@@ -29869,21 +29861,21 @@ padHeld2:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF60C:	ds.b 2
+word_FFF60C:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF614:	ds.b 2
-dword_FFF616:	ds.b 4
-dword_FFF61A:	ds.b 4
-word_FFF61E:	ds.b 2
-word_FFF620:	ds.b 2
-word_FFF622:	ds.b 2
-word_FFF624:	ds.b 2
-word_FFF626:	ds.b 2
+word_FFF614:	ds.w 1
+dword_FFF616:	ds.l 1
+dword_FFF61A:	ds.l 1
+word_FFF61E:	ds.w 1
+word_FFF620:	ds.w 1
+word_FFF622:	ds.w 1
+word_FFF624:	ds.w 1
+word_FFF626:	ds.w 1
 byte_FFF628:	ds.b 1
 byte_FFF629:	ds.b 1
 VintRoutine:	ds.b 1
@@ -29894,10 +29886,10 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF632:	ds.b 2
-word_FFF634:	ds.b 2
-RandomSeed:	ds.b 4
-word_FFF63A:	ds.b 2
+word_FFF632:	ds.w 1
+word_FFF634:	ds.w 1
+RandomSeed:	ds.l 1
+word_FFF63A:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29906,22 +29898,13 @@ word_FFF63A:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF644:	ds.b 2
+word_FFF644:	ds.w 1
 		ds.b 1
 		ds.b 1
-word_FFF648:	ds.b 2
+word_FFF648:	ds.w 1
 		ds.b 1
 		ds.b 1
-word_FFF64C:	ds.b 2
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
+word_FFF64C:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29931,13 +29914,22 @@ word_FFF64C:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF660:	ds.b 2
-word_FFF662:	ds.b 2
 		ds.b 1
 		ds.b 1
-word_FFF666:	ds.b 2
-word_FFF668:	ds.b 2
-word_FFF66A:	ds.b 2
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+word_FFF660:	ds.w 1
+word_FFF662:	ds.w 1
+		ds.b 1
+		ds.b 1
+word_FFF666:	ds.w 1
+word_FFF668:	ds.w 1
+word_FFF66A:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30253,19 +30245,19 @@ Palette:	ds.b $80
 PaletteTarget:	ds.b $80
 byte_FFFC00:	ds.b $100
 		ds.b $100					; stack data!
-StackPointer:	ds.b 2
-word_FFFE02:	ds.b 2
-LevelFrames:	ds.b 2
+StackPointer:	ds.w 1
+word_FFFE02:	ds.w 1
+LevelFrames:	ds.w 1
 byte_FFFE06:	ds.b 1
 		ds.b 1
-DebugRoutine:	ds.b 2
+DebugRoutine:	ds.w 1
 byte_FFFE0A:	ds.b 1
 byte_FFFE0B:	ds.b 1
 unk_FFFE0C:	ds.b 1
 		ds.b 1
 		ds.b 1
 byte_FFFE0F:	ds.b 1
-level:		ds.b 2
+level:		ds.w 1
 Lives:		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30280,9 +30272,9 @@ byte_FFFE1C:	ds.b 1
 ExtraLifeFlags:	ds.b 1
 byte_FFFE1E:	ds.b 1
 byte_FFFE1F:	ds.b 1
-Rings:		ds.b 2
-dword_FFFE22:	ds.b 4
-dword_FFFE26:	ds.b 4
+Rings:		ds.w 1
+dword_FFFE22:	ds.l 1
+dword_FFFE26:	ds.l 1
 		ds.b 1
 		ds.b 1
 byte_FFFE2C:	ds.b 1
@@ -30325,15 +30317,15 @@ unk_FFFE50:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFFE54:	ds.b 2
-word_FFFE56:	ds.b 2
+word_FFFE54:	ds.w 1
+word_FFFE56:	ds.w 1
 byte_FFFE58:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFFE5E:	ds.b 2
+word_FFFE5E:	ds.w 1
 byte_FFFE60:	ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30376,16 +30368,16 @@ byte_FFFE84:	ds.b 1
 		ds.b 1
 byte_FFFE88:	ds.b 1
 		ds.b 1
-word_FFFE8A:	ds.b 2
+word_FFFE8A:	ds.w 1
 byte_FFFE8C:	ds.b 1
 		ds.b 1
-word_FFFE8E:	ds.b 2
+word_FFFE8E:	ds.w 1
 byte_FFFE90:	ds.b 1
 		ds.b 1
-word_FFFE92:	ds.b 2
+word_FFFE92:	ds.w 1
 byte_FFFE94:	ds.b 1
 		ds.b 1
-word_FFFE96:	ds.b 2
+word_FFFE96:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30434,7 +30426,7 @@ byte_FFFEC4:	ds.b 1
 byte_FFFEC5:	ds.b 1
 byte_FFFEC6:	ds.b 1
 byte_FFFEC7:	ds.b 1
-word_FFFEC8:	ds.b 2
+word_FFFEC8:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30713,29 +30705,29 @@ word_FFFEC8:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFFFE0:	ds.b 2
+word_FFFFE0:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFFFE8:	ds.b 2
+word_FFFFE8:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-DemoMode:	ds.b 2
-DemoNum:	ds.b 2
+DemoMode:	ds.w 1
+DemoNum:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 ConsoleRegion:	ds.b 1
 		ds.b 1
-word_FFFFFA:	ds.b 2
+word_FFFFFA:	ds.w 1
 ChecksumStr:	ds.b 3
 ; end of 'RAM'
 
