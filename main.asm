@@ -29,30 +29,33 @@ align		macro pos
 		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
 	endm
 
-off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, loc_3D0, loc_3D8
-		dc.l loc_3E0, loc_3EC, loc_3F4, loc_3FC, loc_404, loc_40C
-		dc.l loc_414, loc_420, loc_42C, loc_42C, loc_42C, loc_42C
-		dc.l loc_42C, loc_42C, loc_42C, loc_42C, loc_42C, loc_42C
-		dc.l loc_42C, loc_42C, loc_42C, ErrorTrap, ErrorTrap, ErrorTrap
-		dc.l hint, ErrorTrap, vint, ErrorTrap, ErrorTrap, ErrorTrap
+off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
+		dc.l IllegalInstr, ZeroDiv, ChkInstr, TrapvInstr, PrivilegeViol
+		dc.l Trace, LineAEmu, LineFEmu, ErrorException, ErrorException
+		dc.l ErrorException, ErrorException, ErrorException, ErrorException
+		dc.l ErrorException, ErrorException, ErrorException, ErrorException
+		dc.l ErrorException, ErrorException, ErrorException, ErrorTrap
+		dc.l ErrorTrap, ErrorTrap, hint, ErrorTrap, vint, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
 		dc.l ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap, ErrorTrap
-aSegaMegaDrive:	dc.b 'SEGA MEGA DRIVE '
-aCSega1989Jan:	dc.b '(C)SEGA 1989.JAN'
-		dc.b '                                                '
-		dc.b '                                                '
-aGm0000000000:	dc.b 'GM 00000000-00'
-word_18E:	dc.w 0
-aJ:		dc.b 'J               '
+		dc.l ErrorTrap, ErrorTrap
+		dc.b 'SEGA MEGA DRIVE '				; Console name
+		dc.b '(C)SEGA 1989.JAN'				; Copyright/release date
+		dc.b '                                                '; Domestic name
+		dc.b '                                                '; International name
+		dc.b 'GM 00000000-00'				; Serial code
+Checksum:	dc.w 0
+		dc.b 'J               '				; I/O support
 dword_1A0:	dc.l 0, $7FFFF
-		dc.l $FF0000, $FFFFFF
+; ROM region
+		dc.l $FF0000, $FFFFFF				; RAM region
 		dc.b '                                                               '
 		dc.b ' '
-aJu:		dc.b 'JU              '
+		dc.b 'JU              '				; Region codes
 ; ---------------------------------------------------------------------------
 
 ErrorTrap:
@@ -68,7 +71,7 @@ loc_20C:
 		bne.w	loc_306
 		tst.w	($A1000C).l
 		bne.s	loc_20C
-		lea	dword_2A2(pc),a5
+		lea	InitValues(pc),a5
 		movem.l	(a5)+,d5-a4
 		move.w	-$1100(a1),d0
 		andi.w	#$F00,d0
@@ -130,7 +133,7 @@ loc_28E:
 		move	#$2700,sr
 		bra.s	loc_306
 ; ---------------------------------------------------------------------------
-dword_2A2:	dc.l $8000, $3FFF, $100, $A00000, $A11100, $A11200, $C00000
+InitValues:	dc.l $8000, $3FFF, $100, $A00000, $A11100, $A11200, $C00000
 		dc.l $C00004
 		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
@@ -143,11 +146,11 @@ dword_2A2:	dc.l $8000, $3FFF, $100, $A00000, $A11100, $A11200, $C00000
 
 loc_306:
 		btst	#6,($A1000D).l
-		beq.s	loc_31C
-		cmpi.l	#'init',(byte_FFFFFC).w
+		beq.s	DoChecksum
+		cmpi.l	#'init',(ChecksumStr).w
 		beq.w	loc_36A
 
-loc_31C:
+DoChecksum:
 		movea.l	#ErrorTrap,a0
 		movea.l	#(dword_1A0+4),a1
 		move.l	(a1),d0
@@ -157,7 +160,7 @@ loc_32C:
 		add.w	(a0)+,d1
 		cmp.l	a0,d0
 		bcc.s	loc_32C
-		movea.l	#word_18E,a1
+		movea.l	#Checksum,a1
 		cmp.w	(a1),d1
 		nop	
 		nop	
@@ -170,9 +173,9 @@ loc_348:
 		dbf	d6,loc_348
 		move.b	($A10001).l,d0
 		andi.b	#$C0,d0
-		move.b	d0,(byte_FFFFF8).w
+		move.b	d0,(ConsoleRegion).w
 		move.w	#1,(word_FFFFE0).w
-		move.l	#'init',(byte_FFFFFC).w
+		move.l	#'init',(ChecksumStr).w
 
 loc_36A:
 		lea	((Chunks)&$FFFFFF).l,a6
@@ -187,14 +190,14 @@ loc_376:
 		bsr.w	padInit
 		move.b	#0,(GameMode).w
 
-loc_38E:
+ScreensLoop:
 		move.b	(GameMode).w,d0
 		andi.w	#$1C,d0
-		jsr	loc_39C(pc,d0.w)
-		bra.s	loc_38E
+		jsr	ScreensArray(pc,d0.w)
+		bra.s	ScreensLoop
 ; ---------------------------------------------------------------------------
 
-loc_39C:
+ScreensArray:
 		bra.w	sSega
 ; ---------------------------------------------------------------------------
 		bra.w	sTitle
@@ -207,6 +210,8 @@ loc_39C:
 ; ---------------------------------------------------------------------------
 		rts	
 ; ---------------------------------------------------------------------------
+
+ChecksumError:
 		bsr.w	sub_100A
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
@@ -219,69 +224,69 @@ loc_3CE:
 		bra.s	loc_3CE
 ; ---------------------------------------------------------------------------
 
-loc_3D0:
+BusErr:
 		move.b	#2,(byte_FFFC00+$44).w
-		bra.s	loc_434
+		bra.s	ErrorAddress
 ; ---------------------------------------------------------------------------
 
-loc_3D8:
+AddressErr:
 		move.b	#4,(byte_FFFC00+$44).w
-		bra.s	loc_434
+		bra.s	ErrorAddress
 ; ---------------------------------------------------------------------------
 
-loc_3E0:
+IllegalInstr:
 		move.b	#6,(byte_FFFC00+$44).w
 
 loc_3E6:
 		addq.l	#2,2(sp)
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_3EC:
+ZeroDiv:
 		move.b	#8,(byte_FFFC00+$44).w
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_3F4:
+ChkInstr:
 		move.b	#$A,(byte_FFFC00+$44).w
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_3FC:
+TrapvInstr:
 		move.b	#$C,(byte_FFFC00+$44).w
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_404:
+PrivilegeViol:
 		move.b	#$E,(byte_FFFC00+$44).w
 
 loc_40A:
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_40C:
+Trace:
 		move.b	#$10,(byte_FFFC00+$44).w
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_414:
+LineAEmu:
 		move.b	#$12,(byte_FFFC00+$44).w
 		addq.l	#2,2(sp)
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_420:
+LineFEmu:
 		move.b	#$14,(byte_FFFC00+$44).w
 		addq.l	#2,2(sp)
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_42C:
+ErrorException:
 		move.b	#0,(byte_FFFC00+$44).w
-		bra.s	loc_45C
+		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
-loc_434:
+ErrorAddress:
 		move	#$2700,sr
 		addq.w	#2,sp
 		move.l	(sp)+,(byte_FFFC00+$40).w
@@ -289,25 +294,25 @@ loc_434:
 
 loc_440:
 		movem.l	d0-a7,(byte_FFFC00).w
-		bsr.w	sub_482
+		bsr.w	ErrorPrint
 		move.l	2(sp),d0
-		bsr.w	sub_5B4
+		bsr.w	ErrorPrintAddr
 		move.l	(byte_FFFC00+$40).w,d0
 
 loc_456:
-		bsr.w	sub_5B4
+		bsr.w	ErrorPrintAddr
 		bra.s	loc_472
 ; ---------------------------------------------------------------------------
 
-loc_45C:
+ErrorNormal:
 		move	#$2700,sr
 		movem.l	d0-a7,(byte_FFFC00).w
-		bsr.w	sub_482
+		bsr.w	ErrorPrint
 		move.l	2(sp),d0
-		bsr.w	sub_5B4
+		bsr.w	ErrorPrintAddr
 
 loc_472:
-		bsr.w	sub_5DA
+		bsr.w	ErrorWaitInput
 		movem.l	(byte_FFFC00).w,d0-a7
 
 loc_47C:
@@ -317,12 +322,12 @@ loc_47C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_482:
+ErrorPrint:
 		lea	($C00000).l,a6
 
 loc_488:
 		move.l	#$78000003,($C00004).l
-		lea	(word_5EA).l,a0
+		lea	(ArtText).l,a0
 		move.w	#$27F,d1
 
 loc_49C:
@@ -332,8 +337,8 @@ loc_49C:
 loc_4A2:
 		moveq	#0,d0
 		move.b	(byte_FFFC00+$44).w,d0
-		move.w	off_4CC(pc,d0.w),d0
-		lea	off_4CC(pc,d0.w),a0
+		move.w	ErrorMessages(pc,d0.w),d0
+		lea	ErrorMessages(pc,d0.w),a0
 
 loc_4B0:
 		move.l	#$46040003,($C00004).l
@@ -348,26 +353,26 @@ loc_4BC:
 		rts	
 
 ; ---------------------------------------------------------------------------
-off_4CC:	dc.w aErrorException-off_4CC, aBusError-off_4CC, aAddressError-off_4CC, aIllegalInstruc-off_4CC
-		dc.w aEroDivide-off_4CC, aChkInstruction-off_4CC, aTrapvInstructi-off_4CC
-		dc.w aPrivilegeViola-off_4CC, aTrace-off_4CC, aLine1010Emulat-off_4CC, aLine1111Emulat-off_4CC
-aErrorException:dc.b 'ERROR EXCEPTION    '
-aBusError:	dc.b 'BUS ERROR          '
-aAddressError:	dc.b 'ADDRESS ERROR      '
-aIllegalInstruc:dc.b 'ILLEGAL INSTRUCTION'
-aEroDivide:	dc.b '@ERO DIVIDE        '
-aChkInstruction:dc.b 'CHK INSTRUCTION    '
-aTrapvInstructi:dc.b 'TRAPV INSTRUCTION  '
-aPrivilegeViola:dc.b 'PRIVILEGE VIOLATION'
-aTrace:		dc.b 'TRACE              '
-aLine1010Emulat:dc.b 'LINE 1010 EMULATOR '
-aLine1111Emulat:dc.b 'LINE 1111 EMULATOR '
+ErrorMessages:	dc.w strErrorException-ErrorMessages, strBusErr-ErrorMessages, strAddressErr-ErrorMessages
+		dc.w strIllegalInstr-ErrorMessages, strZeroDiv-ErrorMessages, strChkInstr-ErrorMessages, strTrapvInstr-ErrorMessages
+		dc.w strPrivilegeViol-ErrorMessages, strTrace-ErrorMessages, strLineAEmu-ErrorMessages, strLineFEmu-ErrorMessages
+strErrorException:dc.b 'ERROR EXCEPTION    '
+strBusErr:	dc.b 'BUS ERROR          '
+strAddressErr:	dc.b 'ADDRESS ERROR      '
+strIllegalInstr:dc.b 'ILLEGAL INSTRUCTION'
+strZeroDiv:	dc.b '@ERO DIVIDE        '
+strChkInstr:	dc.b 'CHK INSTRUCTION    '
+strTrapvInstr:	dc.b 'TRAPV INSTRUCTION  '
+strPrivilegeViol:dc.b 'PRIVILEGE VIOLATION'
+strTrace:	dc.b 'TRACE              '
+strLineAEmu:	dc.b 'LINE 1010 EMULATOR '
+strLineFEmu:	dc.b 'LINE 1111 EMULATOR '
 		dc.b 0
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_5B4:
+ErrorPrintAddr:
 		move.w	#$7CA,(a6)
 		moveq	#7,d2
 
@@ -397,14 +402,14 @@ loc_5D2:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_5DA:
+ErrorWaitInput:
 		bsr.w	padRead
 		cmpi.b	#$20,(padPress1).w
-		bne.w	sub_5DA
+		bne.w	ErrorWaitInput
 		rts	
 
 ; ---------------------------------------------------------------------------
-word_5EA:	incbin "unsorted/debugtext.unc"
+ArtText:	incbin "unsorted/debugtext.unc"
 ; ---------------------------------------------------------------------------
 
 vint:
@@ -414,7 +419,7 @@ vint:
 		move.w	($C00004).l,d0
 		move.l	#$40000010,($C00004).l
 		move.l	(dword_FFF616).w,($C00000).l
-		btst	#6,(byte_FFFFF8).w
+		btst	#6,(ConsoleRegion).w
 		beq.s	loc_B3C
 		move.w	#$700,d0
 
@@ -2116,7 +2121,7 @@ PaletteLoadTable:dc.l palSegaBG
 palSegaBG:	incbin "screens/sega/main.pal"
 palTitle:	incbin "screens/title/main.pal"
 palLevelSel:	incbin "screens/title/level select.pal"
-palSonic:	incbin "levels/shared/ObjSonic/sonic.pal"
+palSonic:	incbin "levels/shared/Sonic/sonic.pal"
 palGHZ:		incbin "levels/GHZ/main.pal"
 palLZ:		incbin "levels/LZ/main.pal"
 palGHZNight:	incbin "levels/GHZ/night.pal"
@@ -2132,9 +2137,9 @@ palSpecial:	incbin "screens/special stage/main.pal"
 vsync:
 		move	#$2300,sr
 
-loc_2020:
+@wait:
 		tst.b	(VintRoutine).w
-		bne.s	loc_2020
+		bne.s	@wait
 		rts	
 
 
@@ -2142,11 +2147,11 @@ loc_2020:
 
 
 RandomNumber:
-		move.l	(dword_FFF636).w,d1
-		bne.s	loc_2034
+		move.l	(RandomSeed).w,d1
+		bne.s	@noreset
 		move.l	#$2A6D365A,d1
 
-loc_2034:
+@noreset:
 		move.l	d1,d0
 		asl.l	#2,d1
 		add.l	d0,d1
@@ -2157,7 +2162,7 @@ loc_2034:
 		add.w	d1,d0
 		move.w	d0,d1
 		swap	d1
-		move.l	d1,(dword_FFF636).w
+		move.l	d1,(RandomSeed).w
 		rts	
 
 
@@ -2168,13 +2173,13 @@ GetSine:
 		andi.w	#$FF,d0
 		add.w	d0,d0
 		addi.w	#$80,d0
-		move.w	word_2066(pc,d0.w),d1
+		move.w	SineTable(pc,d0.w),d1
 		subi.w	#$80,d0
-		move.w	word_2066(pc,d0.w),d0
+		move.w	SineTable(pc,d0.w),d0
 		rts	
 
 ; ---------------------------------------------------------------------------
-word_2066:	incbin "unsorted/sinetable.dat"
+SineTable:	incbin "unsorted/sinetable.dat"
 ; ---------------------------------------------------------------------------
 		movem.l	d1-d2,-(sp)
 		move.w	d0,d1
@@ -2231,7 +2236,7 @@ loc_233E:
 		lsl.l	#8,d4
 		divu.w	d3,d4
 		moveq	#0,d0
-		move.b	byte_2382(pc,d4.w),d0
+		move.b	AngleTable(pc,d4.w),d0
 		bra.s	loc_235A
 ; ---------------------------------------------------------------------------
 
@@ -2239,7 +2244,7 @@ loc_2350:
 		lsl.l	#8,d3
 		divu.w	d4,d3
 		moveq	#$40,d0
-		sub.b	byte_2382(pc,d3.w),d0
+		sub.b	AngleTable(pc,d3.w),d0
 
 loc_235A:
 		tst.w	d1
@@ -2264,8 +2269,10 @@ loc_2378:
 		rts	
 
 ; ---------------------------------------------------------------------------
-byte_2382:	incbin "unsorted/angletable.dat"
-; ---------------------------------------------------------------------------
+AngleTable:	incbin "unsorted/angletable.dat"
+
+; =============== S U B R O U T I N E =======================================
+
 
 sSega:
 		move.b	#$E0,d0
@@ -2285,7 +2292,7 @@ sSega:
 loc_24BC:
 		bsr.w	sub_10A6
 		move.l	#$40000000,($C00004).l
-		lea	(byte_18720).l,a0
+		lea	(ArtSega).l,a0
 		bsr.w	NemesisDec
 		lea	((Chunks)&$FFFFFF).l,a1
 		lea	(byte_18A56).l,a0
@@ -2318,6 +2325,7 @@ loc_2528:
 loc_2544:
 		move.b	#4,(GameMode).w
 		rts	
+
 ; ---------------------------------------------------------------------------
 
 sTitle:
@@ -2343,14 +2351,14 @@ loc_2592:
 		move.l	d0,(a1)+
 		dbf	d1,loc_2592
 		move.l	#$40000001,($C00004).l
-		lea	(byte_1903A).l,a0
+		lea	(ArtTitleMain).l,a0
 		bsr.w	NemesisDec
 		move.l	#$60000001,($C00004).l
-		lea	(byte_1A046).l,a0
+		lea	(ArtTitleSonic).l,a0
 		bsr.w	NemesisDec
 		lea	($C00000).l,a6
 		move.l	#$50000003,4(a6)
-		lea	(word_5EA).l,a5
+		lea	(ArtText).l,a5
 		move.w	#$28F,d1
 
 loc_25D8:
@@ -2362,7 +2370,7 @@ loc_25D8:
 		moveq	#$15,d2
 		bsr.w	sub_1216
 		move.w	#0,(DebugRoutine).w
-		move.w	#0,(word_FFFFF0).w
+		move.w	#0,(DemoMode).w
 		move.w	#0,(level).w
 		bsr.w	LoadLevelBounds
 		bsr.w	sub_3DF6
@@ -2473,7 +2481,7 @@ loc_277A:
 
 loc_2780:
 		add.w	d0,d0
-		move.w	word_27CE(pc,d0.w),d0
+		move.w	LevelSelectLlvels(pc,d0.w),d0
 		bmi.s	loc_273C
 		cmpi.w	#$700,d0
 		bne.s	loc_2796
@@ -2501,7 +2509,7 @@ loc_27AA:
 		bsr.w	PlaySFX
 		rts	
 ; ---------------------------------------------------------------------------
-word_27CE:	dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
+LevelSelectLlvels:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
 		dc.w $301, $302, $400, $401, $402, $500, $501, $8500, $700
 		dc.w $700, $8000
 ; ---------------------------------------------------------------------------
@@ -2529,18 +2537,18 @@ loc_282C:
 		bne.w	loc_27FE
 		move.b	#$E0,d0
 		bsr.w	PlaySFX
-		move.w	(word_FFFFF2).w,d0
+		move.w	(DemoNum).w,d0
 		andi.w	#7,d0
 		add.w	d0,d0
-		move.w	word_288E(pc,d0.w),d0
+		move.w	DemoLevels(pc,d0.w),d0
 		move.w	d0,(level).w
-		addq.w	#1,(word_FFFFF2).w
-		cmpi.w	#6,(word_FFFFF2).w
+		addq.w	#1,(DemoNum).w
+		cmpi.w	#6,(DemoNum).w
 		bcs.s	loc_2860
-		move.w	#0,(word_FFFFF2).w
+		move.w	#0,(DemoNum).w
 
 loc_2860:
-		move.w	#1,(word_FFFFF0).w
+		move.w	#1,(DemoMode).w
 		move.b	#8,(GameMode).w
 		cmpi.w	#$600,d0
 		bne.s	loc_2878
@@ -2554,7 +2562,7 @@ loc_2878:
 		move.l	d0,(dword_FFFE26).w
 		rts	
 ; ---------------------------------------------------------------------------
-word_288E:	dc.w 0, $600, $200, $600, $400, $600, $300, $600, $200
+DemoLevels:	dc.w 0, $600, $200, $600, $400, $600, $300, $600, $200
 		dc.w $600, $400, $600
 
 ; =============== S U B R O U T I N E =======================================
@@ -2626,7 +2634,7 @@ locret_292A:
 
 
 sub_292C:
-		lea	(byte_29E8).l,a1
+		lea	(LevelSelectText).l,a1
 		lea	($C00000).l,a6
 		move.l	#$62100003,d4
 		move.w	#$E680,d3
@@ -2644,7 +2652,7 @@ loc_2944:
 		lsl.w	#7,d0
 		swap	d0
 		add.l	d0,d4
-		lea	(byte_29E8).l,a1
+		lea	(LevelSelectText).l,a1
 		lsl.w	#3,d1
 		move.w	d1,d0
 		add.w	d1,d1
@@ -2707,7 +2715,7 @@ loc_29DE:
 		rts	
 
 ; ---------------------------------------------------------------------------
-byte_29E8:	dc.b $17, $22, $15, $15, $1E, $FF, $18, $19, $1C, $1C
+LevelSelectText:dc.b $17, $22, $15, $15, $1E, $FF, $18, $19, $1C, $1C
 		dc.b $FF, $10, $1F, $1E, $15, $FF, $23, $24, $11, $17
 		dc.b $15, $FF, 1, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 		dc.b $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $23
@@ -3119,7 +3127,7 @@ locret_3076:
 
 
 DemoPlayback:
-		tst.w	(word_FFFFF0).w
+		tst.w	(DemoMode).w
 		bne.s	loc_30B8
 		rts	
 ; ---------------------------------------------------------------------------
@@ -3327,11 +3335,11 @@ nullsub_1:
 
 ; ---------------------------------------------------------------------------
 		move.l	#$5E000002,($C00004).l
-		lea	(word_5EA).l,a0
+		lea	(ArtText).l,a0
 		move.w	#$9F,d1
 		bsr.s	sub_3326
-		lea	(word_5EA).l,a0
-		adda.w	#(word_5EA+$220-$5EA),a0
+		lea	(ArtText).l,a0
+		adda.w	#$220,a0
 		move.w	#$5F,d1
 
 ; =============== S U B R O U T I N E =======================================
@@ -3606,7 +3614,7 @@ loc_3620:
 		bsr.w	ProcessMaps
 		jsr	sub_10872
 		bsr.w	sub_39B2
-		tst.w	(word_FFFFF0).w
+		tst.w	(DemoMode).w
 		beq.s	loc_3656
 		tst.w	(word_FFF614).w
 		beq.s	loc_3662
@@ -24226,7 +24234,7 @@ sub_1181E:
 
 sub_1183E:
 		moveq	#7,d6
-		lea	(word_5EA).l,a1
+		lea	(ArtText).l,a1
 
 loc_11846:
 		rol.w	#4,d1
@@ -24906,7 +24914,7 @@ PLCArray:	dc.w word_122A0-PLCArray, word_122C0-PLCArray, word_122D4-PLCArray, wo
 		dc.w word_124A8-PLCArray, word_1251C-PLCArray, word_1252A-PLCArray, word_12538-PLCArray
 		dc.w word_12546-PLCArray, word_12554-PLCArray, word_12562-PLCArray
 word_122A0:	dc.w 4
-		dc.l byte_2656E
+		dc.l ArtSmoke
 		dc.w $F400
 		dc.l byte_2D912
 		dc.w $D940
@@ -24919,9 +24927,9 @@ word_122A0:	dc.w 4
 word_122C0:	dc.w 2
 		dc.l byte_2DC02
 		dc.w $D000
-		dc.l byte_2680E
+		dc.l ArtShield
 		dc.w $A820
-		dc.l byte_269A4
+		dc.l ArtInvinStars
 		dc.w $AB80
 word_122D4:	dc.w 0
 		dc.l byte_2E062
@@ -24936,7 +24944,7 @@ word_122E4:	dc.w $B
 		dc.w $39A0
 		dc.l byte_27400
 		dc.w $6B00
-		dc.l byte_27BF2
+		dc.l ArtPurpleRock
 		dc.w $7A00
 		dc.l byte_2A56A
 		dc.w $8000
@@ -24948,7 +24956,7 @@ word_122E4:	dc.w $B
 		dc.w $9360
 		dc.l byte_2C128
 		dc.w $9E00
-		dc.l byte_27836
+		dc.l ArtSpikes
 		dc.w $A360
 		dc.l byte_2ECDC
 		dc.w $A460
@@ -24959,13 +24967,13 @@ word_1232E:	dc.w 5
 		dc.w $7000
 		dc.l byte_27564
 		dc.w $71C0
-		dc.l byte_27AC6
+		dc.l ArtSpikeLogs
 		dc.w $7300
 		dc.l byte_27698
 		dc.w $7540
-		dc.l byte_27D20
+		dc.l ArtSmashWall
 		dc.w $A1E0
-		dc.l byte_27DBE
+		dc.l ArtWall
 		dc.w $6980
 word_12354:	dc.w 0
 		dc.l TilesLZ
@@ -24976,7 +24984,7 @@ word_1235C:	dc.w 0
 word_12364:	dc.w 9
 		dc.l TilesMZ
 		dc.w 0
-		dc.l byte_27E22
+		dc.l ArtChainPtfm
 		dc.w $6000
 		dc.l byte_2827A
 		dc.w $68A0
@@ -24997,7 +25005,7 @@ word_12364:	dc.w 9
 word_123A2:	dc.w 4
 		dc.l byte_280B0
 		dc.w $A260
-		dc.l byte_27836
+		dc.l ArtSpikes
 		dc.w $A360
 		dc.l byte_2ECDC
 		dc.w $A460
@@ -25022,7 +25030,7 @@ word_123C2:	dc.w $A
 		dc.w $9E00
 		dc.l byte_294DA
 		dc.w $A260
-		dc.l byte_27836
+		dc.l ArtSpikes
 		dc.w $A360
 		dc.l byte_2ECDC
 		dc.w $A460
@@ -25057,7 +25065,7 @@ word_12440:	dc.w 6
 		dc.w $7740
 		dc.l byte_2A022
 		dc.w $A1E0
-		dc.l byte_27836
+		dc.l ArtSpikes
 		dc.w $A360
 		dc.l byte_2ECDC
 		dc.w $A460
@@ -25083,7 +25091,7 @@ word_12498:	dc.w 0
 		dc.l byte_2EEBA
 		dc.w $D000
 word_124A0:	dc.w 0
-		dc.l byte_26C48
+		dc.l ArtFlash
 		dc.w $A820
 word_124A8:	dc.w $B
 		dc.l byte_64A7C
@@ -26979,72 +26987,72 @@ word_12562:	dc.w 1
 		dc.b 5
 		dc.b 0
 		dc.b 0
-byte_18720:	incbin "screens/sega/sega art.nem"
+ArtSega:	incbin "screens/sega/Main.nem"
 byte_18A56:	incbin "unknown/18A56.eni"
 byte_18A62:	incbin "unknown/18A62.unc"
-byte_1903A:	incbin "screens/title/main art.nem"
-byte_1A046:	incbin "screens/title/sonic.nem"
-		include "levels/shared/ObjSonic/sprite.map"
-		include "levels/shared/ObjSonic/dynamic.map"
-ArtSonic:	incbin "unsorted/art sonic.unc"
-byte_2656E:	incbin "artnem/unused/smoke.nem"
-byte_2680E:	incbin "artnem/shield.nem"
-byte_269A4:	incbin "artnem/invicibility stars.nem"
-byte_26C48:	incbin "artnem/unused/flash.nem"
-byte_27400:	incbin "levels/GHZ/ghz flower stalk.nem"
-byte_2744A:	incbin "levels/GHZ/ghz swing.nem"
-byte_27564:	incbin "levels/GHZ/ghz bridge.nem"
-byte_27698:	incbin "levels/GHZ/ghz checkered ball.nem"
-byte_27836:	incbin "artnem/spikes.nem"
-byte_27AC6:	incbin "levels/GHZ/ghz rotating spikes.nem"
-byte_27BF2:	incbin "levels/GHZ/ghz rock.nem"
-byte_27D20:	incbin "levels/GHZ/ghz breakable wall.nem"
-byte_27DBE:	incbin "levels/GHZ/ghz solid wall.nem"
-byte_27E22:	incbin "levels/MZ/mz chandelier.nem"
-byte_280B0:	incbin "levels/MZ/mz button.nem"
-byte_2816E:	incbin "levels/MZ/mz piston.nem"
-byte_2827A:	incbin "levels/MZ/mz fire ball.nem"
-byte_28558:	incbin "levels/MZ/mz lava.nem"
-byte_28E6E:	incbin "levels/MZ/mz pushable block.nem"
-byte_2905A:	incbin "levels/SLZ/slz seesaw.nem"
-byte_29296:	incbin "levels/SLZ/slz fan.nem"
-byte_294DA:	incbin "levels/SLZ/slz platform.nem"
-byte_2953C:	incbin "levels/SLZ/slz girders.nem"
-byte_2961E:	incbin "levels/SLZ/slz spiked platforms.nem"
-byte_297B6:	incbin "levels/SLZ/slz misc platforms.nem"
-byte_29D4A:	incbin "levels/SLZ/slz metal block.nem"
-byte_29E56:	incbin "levels/SYZ/syz bumper.nem"
-byte_29FC0:	incbin "levels/SYZ/syz small spiked ball.nem"
-byte_2A022:	incbin "artnem/button.nem"
-byte_2A104:	incbin "artnem/swinging spiked ball.nem"
-byte_2A56A:	incbin "artnem/badnik/crabmeat.nem"
-byte_2AA58:	incbin "artnem/badnik/buzzkill.nem"
-byte_2B6D0:	incbin "artnem/badnik/chopper.nem"
-byte_2B938:	incbin "artnem/badnik/jaws.nem"
-byte_2BC04:	incbin "artnem/badnik/roller.nem"
-byte_2C128:	incbin "artnem/badnik/motobug.nem"
-byte_2C3B2:	incbin "artnem/badnik/newtron.nem"
-byte_2C9D0:	incbin "artnem/badnik/yadrin.nem"
-byte_2CDB8:	incbin "artnem/badnik/batbrain.nem"
-byte_2D0B4:	incbin "artnem/badnik/splats.nem"
-byte_2D2FC:	incbin "artnem/titlecards.nem"
-byte_2D912:	incbin "artnem/hud main.nem"
-byte_2DA08:	incbin "artnem/hud lives.nem"
-byte_2DB0E:	incbin "artnem/ring.nem"
-byte_2DC02:	incbin "artnem/monitor.nem"
-byte_2E062:	incbin "artnem/explosion.nem"
-byte_2E6C8:	incbin "artnem/score points.nem"
-byte_2E77C:	incbin "artnem/game over.nem"
-byte_2ECDC:	incbin "artnem/spring v.nem"
-byte_2EDDE:	incbin "artnem/spring h.nem"
-byte_2EEBA:	incbin "artnem/end sign post.nem"
-byte_2F336:	incbin "artnem/animals/pocky.nem"
-byte_2F48E:	incbin "artnem/animals/cucky.nem"
-byte_2F5EA:	incbin "artnem/animals/pecky.nem"
-byte_2F766:	incbin "artnem/animals/rocky.nem"
-byte_2F882:	incbin "artnem/animals/picky.nem"
-byte_2F9B8:	incbin "artnem/animals/flicky.nem"
-byte_2FAF2:	incbin "artnem/animals/ricky.nem"
+ArtTitleMain:	incbin "screens/title/Main.nem"
+ArtTitleSonic:	incbin "screens/title/Sonic.nem"
+		include "levels/shared/Sonic/sprite.map"
+		include "levels/shared/Sonic/dynamic.map"
+ArtSonic:	incbin "levels/shared/Sonic/Art.unc"
+ArtSmoke:	incbin "unsorted/smoke.nem"
+ArtShield:	incbin "levels/shared/Shield/Shield.nem"
+ArtInvinStars:	incbin "levels/shared/Shield/Stars.nem"
+ArtFlash:	incbin "unsorted/flash.nem"
+byte_27400:	incbin "unsorted/ghz flower stalk.nem"
+byte_2744A:	incbin "unsorted/ghz swing.nem"
+byte_27564:	incbin "levels/GHZ/Bridge/Art.nem"
+byte_27698:	incbin "unsorted/ghz checkered ball.nem"
+ArtSpikes:	incbin "levels/shared/Spikes/Art.nem"
+ArtSpikeLogs:	incbin "levels/GHZ/SpikeLogs/Art.nem"
+ArtPurpleRock:	incbin "levels/GHZ/PurpleRock/Art.nem"
+ArtSmashWall:	incbin "levels/GHZ/SmashWall/Art.nem"
+ArtWall:	incbin "levels/GHZ/Wall/Art.nem"
+ArtChainPtfm:	incbin "levels/MZ/ChainPtfm/Art.nem"
+byte_280B0:	incbin "unsorted/mz button.nem"
+byte_2816E:	incbin "unsorted/mz piston.nem"
+byte_2827A:	incbin "unsorted/mz fire ball.nem"
+byte_28558:	incbin "unsorted/mz lava.nem"
+byte_28E6E:	incbin "unsorted/mz pushable block.nem"
+byte_2905A:	incbin "unsorted/slz seesaw.nem"
+byte_29296:	incbin "unsorted/slz fan.nem"
+byte_294DA:	incbin "unsorted/slz platform.nem"
+byte_2953C:	incbin "unsorted/slz girders.nem"
+byte_2961E:	incbin "unsorted/slz spiked platforms.nem"
+byte_297B6:	incbin "unsorted/slz misc platforms.nem"
+byte_29D4A:	incbin "unsorted/slz metal block.nem"
+byte_29E56:	incbin "unsorted/syz bumper.nem"
+byte_29FC0:	incbin "unsorted/syz small spiked ball.nem"
+byte_2A022:	incbin "unsorted/button.nem"
+byte_2A104:	incbin "unsorted/swinging spiked ball.nem"
+byte_2A56A:	incbin "unsorted/crabmeat.nem"
+byte_2AA58:	incbin "unsorted/buzzkill.nem"
+byte_2B6D0:	incbin "unsorted/chopper.nem"
+byte_2B938:	incbin "unsorted/jaws.nem"
+byte_2BC04:	incbin "unsorted/roller.nem"
+byte_2C128:	incbin "unsorted/motobug.nem"
+byte_2C3B2:	incbin "unsorted/newtron.nem"
+byte_2C9D0:	incbin "unsorted/yadrin.nem"
+byte_2CDB8:	incbin "unsorted/batbrain.nem"
+byte_2D0B4:	incbin "unsorted/splats.nem"
+byte_2D2FC:	incbin "unsorted/titlecards.nem"
+byte_2D912:	incbin "unsorted/hud main.nem"
+byte_2DA08:	incbin "unsorted/hud lives.nem"
+byte_2DB0E:	incbin "unsorted/ring.nem"
+byte_2DC02:	incbin "unsorted/monitor.nem"
+byte_2E062:	incbin "unsorted/explosion.nem"
+byte_2E6C8:	incbin "unsorted/score points.nem"
+byte_2E77C:	incbin "unsorted/game over.nem"
+byte_2ECDC:	incbin "unsorted/spring v.nem"
+byte_2EDDE:	incbin "unsorted/spring h.nem"
+byte_2EEBA:	incbin "unsorted/end sign post.nem"
+byte_2F336:	incbin "levels/shared/Animals/pocky.nem"
+byte_2F48E:	incbin "levels/shared/Animals/cucky.nem"
+byte_2F5EA:	incbin "levels/shared/Animals/pecky.nem"
+byte_2F766:	incbin "levels/shared/Animals/rocky.nem"
+byte_2F882:	incbin "levels/shared/Animals/picky.nem"
+byte_2F9B8:	incbin "levels/shared/Animals/flicky.nem"
+byte_2FAF2:	incbin "levels/shared/Animals/ricky.nem"
 		align	$8000					; Unnecessary alignment
 BlocksGHZ:	incbin "levels/GHZ/Blocks.unc"
 TilesGHZ_1:	incbin "levels/GHZ/Tiles1.nem"
@@ -29888,7 +29896,7 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 word_FFF632:	ds.b 2
 word_FFF634:	ds.b 2
-dword_FFF636:	ds.b 4
+RandomSeed:	ds.b 4
 word_FFF63A:	ds.b 2
 		ds.b 1
 		ds.b 1
@@ -30719,16 +30727,16 @@ word_FFFFE8:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFFFF0:	ds.b 2
-word_FFFFF2:	ds.b 2
+DemoMode:	ds.b 2
+DemoNum:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-byte_FFFFF8:	ds.b 1
+ConsoleRegion:	ds.b 1
 		ds.b 1
 word_FFFFFA:	ds.b 2
-byte_FFFFFC:	ds.b 3
+ChecksumStr:	ds.b 3
 ; end of 'RAM'
 
 
