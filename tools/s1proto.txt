@@ -17,7 +17,7 @@
 01B3C screens/sega/main.pal
 01BBC screens/title/main.pal
 01C3C screens/title/level select.pal
-01CBC levels/shared/ObjSonic/sonic.pal
+01CBC levels/shared/Sonic/sonic.pal
 01CDC levels/GHZ/main.pal
 01D3C levels/LZ/main.pal
 01D9C levels/GHZ/night.pal
@@ -37,71 +37,71 @@
 039B2
 
 # disassemble art and map data
-18720 screens/sega/sega art.nem
+18720 screens/sega/Main.nem
 18A56 unknown/18A56.eni
 18A62 unknown/18A62.unc
-1903A screens/title/main art.nem
-1A046 screens/title/sonic.nem
+1903A screens/title/Main.nem
+1A046 screens/title/Sonic.nem
 1C000
-1C8EE unsorted/art sonic.unc
-2656E artnem/unused/smoke.nem
-2680E artnem/shield.nem
-269A4 artnem/invicibility stars.nem
-26C48 artnem/unused/flash.nem
-27400 levels/GHZ/ghz flower stalk.nem
-2744A levels/GHZ/ghz swing.nem
-27564 levels/GHZ/ghz bridge.nem
-27698 levels/GHZ/ghz checkered ball.nem
-27836 artnem/spikes.nem
-27AC6 levels/GHZ/ghz rotating spikes.nem
-27BF2 levels/GHZ/ghz rock.nem
-27D20 levels/GHZ/ghz breakable wall.nem
-27DBE levels/GHZ/ghz solid wall.nem
-27E22 levels/MZ/mz chandelier.nem
-280B0 levels/MZ/mz button.nem
-2816E levels/MZ/mz piston.nem
-2827A levels/MZ/mz fire ball.nem
-28558 levels/MZ/mz lava.nem
-28E6E levels/MZ/mz pushable block.nem
-2905A levels/SLZ/slz seesaw.nem
-29296 levels/SLZ/slz fan.nem
-294DA levels/SLZ/slz platform.nem
-2953C levels/SLZ/slz girders.nem
-2961E levels/SLZ/slz spiked platforms.nem
-297B6 levels/SLZ/slz misc platforms.nem
-29D4A levels/SLZ/slz metal block.nem
-29E56 levels/SYZ/syz bumper.nem
-29FC0 levels/SYZ/syz small spiked ball.nem
-2A022 artnem/button.nem
-2A104 artnem/swinging spiked ball.nem
-2A56A artnem/badnik/crabmeat.nem
-2AA58 artnem/badnik/buzzkill.nem
-2B6D0 artnem/badnik/chopper.nem
-2B938 artnem/badnik/jaws.nem
-2BC04 artnem/badnik/roller.nem
-2C128 artnem/badnik/motobug.nem
-2C3B2 artnem/badnik/newtron.nem
-2C9D0 artnem/badnik/yadrin.nem
-2CDB8 artnem/badnik/batbrain.nem
-2D0B4 artnem/badnik/splats.nem
-2D2FC artnem/titlecards.nem
-2D912 artnem/hud main.nem
-2DA08 artnem/hud lives.nem
-2DB0E artnem/ring.nem
-2DC02 artnem/monitor.nem
-2E062 artnem/explosion.nem
-2E6C8 artnem/score points.nem
-2E77C artnem/game over.nem
-2ECDC artnem/spring v.nem
-2EDDE artnem/spring h.nem
-2EEBA artnem/end sign post.nem
-2F336 artnem/animals/pocky.nem
-2F48E artnem/animals/cucky.nem
-2F5EA artnem/animals/pecky.nem
-2F766 artnem/animals/rocky.nem
-2F882 artnem/animals/picky.nem
-2F9B8 artnem/animals/flicky.nem
-2FAF2 artnem/animals/ricky.nem
+1C8EE levels/shared/Sonic/Art.unc
+2656E unsorted/smoke.nem
+2680E levels/shared/Shield/Shield.nem
+269A4 levels/shared/Shield/Stars.nem
+26C48 unsorted/flash.nem
+27400 unsorted/ghz flower stalk.nem
+2744A unsorted/ghz swing.nem
+27564 levels/GHZ/Bridge/Art.nem
+27698 unsorted/ghz checkered ball.nem
+27836 levels/shared/Spikes/Art.nem
+27AC6 levels/GHZ/SpikeLogs/Art.nem
+27BF2 levels/GHZ/PurpleRock/Art.nem
+27D20 levels/GHZ/SmashWall/Art.nem
+27DBE levels/GHZ/Wall/Art.nem
+27E22 levels/MZ/ChainPtfm/Art.nem
+280B0 unsorted/mz button.nem
+2816E unsorted/mz piston.nem
+2827A unsorted/mz fire ball.nem
+28558 unsorted/mz lava.nem
+28E6E unsorted/mz pushable block.nem
+2905A unsorted/slz seesaw.nem
+29296 unsorted/slz fan.nem
+294DA unsorted/slz platform.nem
+2953C unsorted/slz girders.nem
+2961E unsorted/slz spiked platforms.nem
+297B6 unsorted/slz misc platforms.nem
+29D4A unsorted/slz metal block.nem
+29E56 unsorted/syz bumper.nem
+29FC0 unsorted/syz small spiked ball.nem
+2A022 unsorted/button.nem
+2A104 unsorted/swinging spiked ball.nem
+2A56A unsorted/crabmeat.nem
+2AA58 unsorted/buzzkill.nem
+2B6D0 unsorted/chopper.nem
+2B938 unsorted/jaws.nem
+2BC04 unsorted/roller.nem
+2C128 unsorted/motobug.nem
+2C3B2 unsorted/newtron.nem
+2C9D0 unsorted/yadrin.nem
+2CDB8 unsorted/batbrain.nem
+2D0B4 unsorted/splats.nem
+2D2FC unsorted/titlecards.nem
+2D912 unsorted/hud main.nem
+2DA08 unsorted/hud lives.nem
+2DB0E unsorted/ring.nem
+2DC02 unsorted/monitor.nem
+2E062 unsorted/explosion.nem
+2E6C8 unsorted/score points.nem
+2E77C unsorted/game over.nem
+2ECDC unsorted/spring v.nem
+2EDDE unsorted/spring h.nem
+2EEBA unsorted/end sign post.nem
+2F336 levels/shared/Animals/pocky.nem
+2F48E levels/shared/Animals/cucky.nem
+2F5EA levels/shared/Animals/pecky.nem
+2F766 levels/shared/Animals/rocky.nem
+2F882 levels/shared/Animals/picky.nem
+2F9B8 levels/shared/Animals/flicky.nem
+2FAF2 levels/shared/Animals/ricky.nem
 2FC4E
 
 # disassemble level stuff
