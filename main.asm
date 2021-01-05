@@ -366,7 +366,7 @@ strPrivilegeViol:dc.b 'PRIVILEGE VIOLATION'
 strTrace:	dc.b 'TRACE              '
 strLineAEmu:	dc.b 'LINE 1010 EMULATOR '
 strLineFEmu:	dc.b 'LINE 1111 EMULATOR '
-		dc.b 0
+		even
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -452,9 +452,9 @@ off_B6A:	dc.w nullsub_3-off_B6A, loc_B7E-off_B6A, sub_B90-off_B6A, sub_BAA-off_B
 
 loc_B7E:
 		bsr.w	sub_E78
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.w	locret_B8E
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(Countdown_Timer).w
 
 locret_B8E:
 		rts	
@@ -466,9 +466,9 @@ sub_B90:
 		bsr.w	sub_E78
 		bsr.w	sub_43B6
 		bsr.w	sub_1438
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.w	locret_BA8
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(Countdown_Timer).w
 
 locret_BA8:
 		rts	
@@ -546,9 +546,9 @@ loc_C7A:
 
 loc_CA8:
 		move.b	#0,(byte_FFF628).w
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.w	locret_CBA
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(Countdown_Timer).w
 
 locret_CBA:
 		rts
@@ -596,9 +596,9 @@ loc_CC8:
 		move.b	#0,(unk_FFF767).w
 
 loc_D7A:
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.w	locret_D86
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(Countdown_Timer).w
 
 locret_D86:
 		rts
@@ -823,7 +823,7 @@ SetupVDP:
 		move.w	(a2)+,(a0)
 		dbf	d7,@setreg
 		move.w	(word_1080+2).l,d0
-		move.w	d0,(word_FFF60C).w
+		move.w	d0,(VDPReg2_Cmd).w
 		moveq	#0,d0
 		move.l	#$C0000000,($C00004).l
 		move.w	#$3F,d7
@@ -2286,7 +2286,7 @@ sSega:
 		move.w	#$8407,(a6)
 		move.w	#$8700,(a6)
 		move.w	#$8B00,(a6)
-		move.w	(word_FFF60C).w,d0
+		move.w	(VDPReg2_Cmd).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 
@@ -2309,8 +2309,8 @@ loc_24BC:
 		move.w	#$28,(PalCyc_Offset).w
 		move.w	#0,(word_FFF662).w
 		move.w	#0,(word_FFF660).w
-		move.w	#$B4,(word_FFF614).w
-		move.w	(word_FFF60C).w,d0
+		move.w	#$B4,(Countdown_Timer).w
+		move.w	(VDPReg2_Cmd).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 
@@ -2318,7 +2318,7 @@ loc_2528:
 		move.b	#2,(VintRoutine).w
 		bsr.w	vsync
 		bsr.w	sub_1A3A
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.s	loc_2544
 		andi.b	#$80,(padPress1).w
 		beq.s	loc_2528
@@ -2340,7 +2340,7 @@ sTitle:
 		move.w	#$9200,(a6)
 		move.w	#$8B03,(a6)
 		move.w	#$8720,(a6)
-		move.w	(word_FFF60C).w,d0
+		move.w	(VDPReg2_Cmd).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_10A6
@@ -2400,14 +2400,14 @@ loc_25D8:
 		move.b	#$8A,d0
 		bsr.w	PlaySFX
 		move.b	#0,(word_FFFFFA).w
-		move.w	#$178,(word_FFF614).w
+		move.w	#$178,(Countdown_Timer).w
 		move.b	#$E,(byte_FFD040).w
 		move.b	#$F,(byte_FFD080).w
 		move.b	#$F,(byte_FFD0C0).w
 		move.b	#2,(byte_FFD0C0+$1A).w
 		moveq	#0,d0
 		bsr.w	LoadPLC2
-		move.w	(word_FFF60C).w,d0
+		move.w	(VDPReg2_Cmd).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_1950
@@ -2430,7 +2430,7 @@ loc_26AE:
 ; ---------------------------------------------------------------------------
 
 loc_26E4:
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.w	loc_27F8
 		andi.b	#$80,(padPress1).w
 		beq.w	loc_26AE
@@ -2516,7 +2516,7 @@ LevSel_LevelOrder:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
 ; ---------------------------------------------------------------------------
 
 loc_27F8:
-		move.w	#$1E,(word_FFF614).w
+		move.w	#$1E,(Countdown_Timer).w
 
 loc_27FE:
 		move.b	#4,(VintRoutine).w
@@ -2534,7 +2534,7 @@ loc_27FE:
 ; ---------------------------------------------------------------------------
 
 loc_282C:
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		bne.w	loc_27FE
 		move.b	#$E0,d0
 		bsr.w	PlaySFX
@@ -2909,7 +2909,7 @@ loc_2D54:
 		movea.l	(a1,d0.w),a1
 		move.b	1(a1),(unk_FFF792).w
 		subq.b	#1,(unk_FFF792).w
-		move.w	#$708,(word_FFF614).w
+		move.w	#$708,(Countdown_Timer).w
 		move.b	#8,(VintRoutine).w
 		bsr.w	vsync
 		move.w	#$202F,(word_FFF626).w
@@ -2956,7 +2956,7 @@ loc_2E2E:
 loc_2E66:
 		tst.w	(word_FFFE02).w
 		bne.s	loc_2E84
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.s	loc_2E84
 		cmpi.b	#8,(GameMode).w
 		beq.w	sLevelLoop
@@ -2970,7 +2970,7 @@ loc_2E84:
 		move.b	#0,(GameMode).w
 
 loc_2E92:
-		move.w	#$3C,(word_FFF614).w
+		move.w	#$3C,(Countdown_Timer).w
 		move.w	#$3F,(word_FFF626).w
 
 loc_2E9E:
@@ -2986,7 +2986,7 @@ loc_2E9E:
 		bsr.w	sub_19F2
 
 loc_2EC8:
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		bne.s	loc_2E9E
 		rts
 ; ---------------------------------------------------------------------------
@@ -3526,7 +3526,7 @@ locret_34FA:
 
 sSpecial:
 		bsr.w	sub_19D2
-		move.w	(word_FFF60C).w,d0
+		move.w	(VDPReg2_Cmd).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_10A6
@@ -3599,8 +3599,8 @@ loc_3584:
 		movea.l	(a1,d0.w),a1
 		move.b	1(a1),(unk_FFF792).w
 		subq.b	#1,(unk_FFF792).w
-		move.w	#$708,(word_FFF614).w
-		move.w	(word_FFF60C).w,d0
+		move.w	#$708,(Countdown_Timer).w
+		move.w	(VDPReg2_Cmd).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_1950
@@ -3617,7 +3617,7 @@ loc_3620:
 		bsr.w	sub_39B2
 		tst.w	(DemoMode).w
 		beq.s	loc_3656
-		tst.w	(word_FFF614).w
+		tst.w	(Countdown_Timer).w
 		beq.s	loc_3662
 
 loc_3656:
@@ -29878,7 +29878,7 @@ word_FFF60C:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF614:	ds.w 1
+Countdown_Timer:	ds.w 1
 dword_FFF616:	ds.l 1
 dword_FFF61A:	ds.l 1
 word_FFF61E:	ds.w 1
