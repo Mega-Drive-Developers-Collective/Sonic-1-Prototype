@@ -966,13 +966,13 @@ PauseGame:
 		nop	
 		tst.b	(Lives).w
 		beq.s	loc_1206
-		tst.w	(word_FFF63A).w
+		tst.w	(Pause_flag).w
 		bne.s	loc_11CC
 		btst	#7,(padPress1).w
 		beq.s	locret_120C
 
 loc_11CC:
-		move.w	#-1,(word_FFF63A).w
+		move.w	#-1,(Pause_flag).w
 
 loc_11D2:
 		move.b	#$10,(VintRoutine).w
@@ -993,14 +993,14 @@ loc_11EE:
 		beq.s	loc_11D2
 
 loc_1206:
-		move.w	#0,(word_FFF63A).w
+		move.w	#0,(Pause_flag).w
 
 locret_120C:
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_120E:
-		move.w	#1,(word_FFF63A).w
+		move.w	#1,(Pause_flag).w
 		rts	
 
 
@@ -1772,11 +1772,11 @@ loc_175A:
 		lea	(word_186C).l,a0
 
 loc_1760:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCyc_WaitTimer).w
 		bpl.s	locret_1786
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCyc_WaitTimer).w
+		move.w	(PalCyc_Offset).w,d0
+		addq.w	#1,(PalCyc_Offset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	((Palette+$50)).w,a1
@@ -1794,11 +1794,11 @@ nullsub_4:
 		rts	
 
 ; ---------------------------------------------------------------------------
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCyc_WaitTimer).w
 		bpl.s	locret_17B8
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCyc_WaitTimer).w
+		move.w	(PalCyc_Offset).w,d0
+		addq.w	#1,(PalCyc_Offset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_188C).l,a0
@@ -1818,17 +1818,17 @@ locret_17BA:
 ; ---------------------------------------------------------------------------
 
 loc_17BC:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCyc_WaitTimer).w
 		bpl.s	locret_17F6
-		move.w	#$F,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#$F,(PalCyc_WaitTimer).w
+		move.w	(PalCyc_Offset).w,d0
 		addq.w	#1,d0
 		cmpi.w	#6,d0
 		bcs.s	loc_17D6
 		moveq	#0,d0
 
 loc_17D6:
-		move.w	d0,(word_FFF632).w
+		move.w	d0,(PalCyc_Offset).w
 		move.w	d0,d1
 		add.w	d1,d1
 		add.w	d1,d0
@@ -1843,12 +1843,12 @@ locret_17F6:
 ; ---------------------------------------------------------------------------
 
 loc_17F8:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCyc_WaitTimer).w
 		bpl.s	locret_1846
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#5,(PalCyc_WaitTimer).w
+		move.w	(PalCyc_Offset).w,d0
 		move.w	d0,d1
-		addq.w	#1,(word_FFF632).w
+		addq.w	#1,(PalCyc_Offset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_1918).l,a0
@@ -2038,12 +2038,12 @@ loc_1A36:
 
 
 sub_1A3A:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCyc_WaitTimer).w
 		bpl.s	locret_1A68
-		move.w	#3,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#3,(PalCyc_WaitTimer).w
+		move.w	(PalCyc_Offset).w,d0
 		bmi.s	locret_1A68
-		subq.w	#2,(word_FFF632).w
+		subq.w	#2,(PalCyc_Offset).w
 		lea	(word_1A6A).l,a0
 		lea	((Palette+4)).w,a1
 		adda.w	d0,a0
@@ -2306,7 +2306,7 @@ loc_24BC:
 		bsr.w	sub_1216
 		moveq	#0,d0
 		bsr.w	PalLoadNormal
-		move.w	#$28,(word_FFF632).w
+		move.w	#$28,(PalCyc_Offset).w
 		move.w	#0,(word_FFF662).w
 		move.w	#0,(word_FFF660).w
 		move.w	#$B4,(word_FFF614).w
@@ -2988,7 +2988,7 @@ loc_2E9E:
 loc_2EC8:
 		tst.w	(word_FFF614).w
 		bne.s	loc_2E9E
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 		lea	(word_2EF4).l,a0
 		lea	(byte_FFD400).w,a1
@@ -3455,39 +3455,39 @@ word_340E:	dc.w 2, $10
 
 
 sub_344E:
-		subq.b	#1,(byte_FFFEC0).w
+		subq.b	#1,(GHZSpikes_AnimTimer).w
 		bpl.s	loc_3464
-		move.b	#$B,(byte_FFFEC0).w
-		subq.b	#1,(byte_FFFEC1).w
-		andi.b	#7,(byte_FFFEC1).w
+		move.b	#$B,(GHZSpikes_AnimTimer).w
+		subq.b	#1,(GHZSpikes_AnimFrame).w
+		andi.b	#7,(GHZSpikes_AnimFrame).w
 
 loc_3464:
-		subq.b	#1,(byte_FFFEC2).w
+		subq.b	#1,(Ring_AnimTimer).w
 		bpl.s	loc_347A
-		move.b	#7,(byte_FFFEC2).w
-		addq.b	#1,(byte_FFFEC3).w
-		andi.b	#3,(byte_FFFEC3).w
+		move.b	#7,(Ring_AnimTimer).w
+		addq.b	#1,(Ring_AnimFrame).w
+		andi.b	#3,(Ring_AnimFrame).w
 
 loc_347A:
-		subq.b	#1,(byte_FFFEC4).w
+		subq.b	#1,(Unk_AnimTimer).w
 		bpl.s	loc_3498
-		move.b	#7,(byte_FFFEC4).w
-		addq.b	#1,(byte_FFFEC5).w
-		cmpi.b	#6,(byte_FFFEC5).w
+		move.b	#7,(Unk_AnimTimer).w
+		addq.b	#1,(Unk_AnimFrame).w
+		cmpi.b	#6,(Unk_AnimFrame).w
 		bcs.s	loc_3498
-		move.b	#0,(byte_FFFEC5).w
+		move.b	#0,(Unk_AnimFrame).w
 
 loc_3498:
-		tst.b	(byte_FFFEC6).w
+		tst.b	(RingLoss_Timer).w
 		beq.s	locret_34BA
 		moveq	#0,d0
-		move.b	(byte_FFFEC6).w,d0
-		add.w	(word_FFFEC8).w,d0
-		move.w	d0,(word_FFFEC8).w
+		move.b	(RingLoss_Timer).w,d0
+		add.w	(RingLoss_Accumulator).w,d0
+		move.w	d0,(RingLoss_Accumulator).w
 		rol.w	#7,d0
 		andi.w	#3,d0
-		move.b	d0,(byte_FFFEC7).w
-		subq.b	#1,(byte_FFFEC6).w
+		move.b	d0,(RingLoss_AnimFrame).w
+		subq.b	#1,(RingLoss_Timer).w
 
 locret_34BA:
 		rts	
@@ -3704,7 +3704,7 @@ loc_36EA:
 
 
 sub_3730:
-		tst.w	(word_FFF63A).w
+		tst.w	(Pause_flag).w
 		bmi.s	locret_37B4
 		subq.w	#1,(unk_FFF79C).w
 		bpl.s	locret_37B4
@@ -6804,7 +6804,7 @@ loc_5854:
 
 
 sub_5860:
-		move.b	(byte_FFFEC1).w,d0
+		move.b	(GHZSpikes_AnimFrame).w,d0
 		move.b	#0,$20(a0)
 		add.b	$3E(a0),d0
 		andi.b	#7,d0
@@ -9822,7 +9822,7 @@ loc_7CC8:
 		bne.w	ObjectDelete
 
 loc_7CD0:
-		move.b	(byte_FFFEC3).w,$1A(a0)
+		move.b	(Ring_AnimFrame).w,$1A(a0)
 		bsr.w	ObjectDisplay
 		move.w	$32(a0),d0
 		andi.w	#$FF80,d0
@@ -9924,7 +9924,7 @@ loc_7DA8:
 		move.b	#2,$19(a1)
 		move.b	#$47,$20(a1)
 		move.b	#8,$18(a1)
-		move.b	#$FF,(byte_FFFEC6).w
+		move.b	#$FF,(RingLoss_Timer).w
 		tst.w	d4
 		bmi.s	loc_7E1C
 		move.w	d4,d0
@@ -9956,7 +9956,7 @@ loc_7E2C:
 		jsr	(PlaySFX).l
 
 loc_7E48:
-		move.b	(byte_FFFEC7).w,$1A(a0)
+		move.b	(RingLoss_AnimFrame).w,$1A(a0)
 		bsr.w	ObjectMove
 		addi.w	#$18,$12(a0)
 		bmi.s	loc_7E82
@@ -9974,7 +9974,7 @@ loc_7E48:
 		neg.w	$12(a0)
 
 loc_7E82:
-		tst.b	(byte_FFFEC6).w
+		tst.b	(RingLoss_Timer).w
 		beq.s	loc_7EBC
 		move.w	(unk_FFF72E).w,d0
 		addi.w	#$E0,d0
@@ -10023,7 +10023,7 @@ loc_7ED6:
 		move.b	#$C,$18(a0)
 
 loc_7F12:
-		move.b	(byte_FFFEC3).w,$1A(a0)
+		move.b	(Ring_AnimFrame).w,$1A(a0)
 		bsr.w	ObjectDisplay
 		move.w	8(a0),d0
 		andi.w	#$FF80,d0
@@ -22763,39 +22763,39 @@ loc_109C2:
 		move.w	d0,(a1)
 		addq.w	#8,a1
 		dbf	d1,loc_109C2
-		subq.b	#1,(byte_FFFEC2).w
+		subq.b	#1,(Ring_AnimTimer).w
 		bpl.s	loc_109E0
-		move.b	#7,(byte_FFFEC2).w
-		addq.b	#1,(byte_FFFEC3).w
-		andi.b	#3,(byte_FFFEC3).w
+		move.b	#7,(Ring_AnimTimer).w
+		addq.b	#1,(Ring_AnimFrame).w
+		andi.b	#3,(Ring_AnimFrame).w
 
 loc_109E0:
-		move.b	(byte_FFFEC3).w,1(a1)
+		move.b	(Ring_AnimFrame).w,1(a1)
 		addq.w	#8,a1
 		addq.w	#8,a1
-		subq.b	#1,(byte_FFFEC4).w
+		subq.b	#1,(Unk_AnimTimer).w
 		bpl.s	loc_10A02
-		move.b	#7,(byte_FFFEC4).w
+		move.b	#7,(Unk_AnimTimer).w
 		bra.s	loc_10A02
 ; ---------------------------------------------------------------------------
-		addq.b	#1,(byte_FFFEC5).w
-		andi.b	#1,(byte_FFFEC5).w
+		addq.b	#1,(Unk_AnimFrame).w
+		andi.b	#1,(Unk_AnimFrame).w
 
 loc_10A02:
-		move.b	(byte_FFFEC5).w,1(a1)
+		move.b	(Unk_AnimFrame).w,1(a1)
 		addq.w	#8,a1
-		move.b	(byte_FFFEC5).w,1(a1)
-		subq.b	#1,(byte_FFFEC0).w
+		move.b	(Unk_AnimFrame).w,1(a1)
+		subq.b	#1,(GHZSpikes_AnimTimer).w
 		bpl.s	loc_10A26
-		move.b	#7,(byte_FFFEC0).w
-		subq.b	#1,(byte_FFFEC1).w
-		andi.b	#3,(byte_FFFEC1).w
+		move.b	#7,(GHZSpikes_AnimTimer).w
+		subq.b	#1,(GHZSpikes_AnimFrame).w
+		andi.b	#3,(GHZSpikes_AnimFrame).w
 
 loc_10A26:
 		lea	((byte_FF402E)&$FFFFFF).l,a1
 		lea	(word_10A8C).l,a0
 		moveq	#0,d0
-		move.b	(byte_FFFEC1).w,d0
+		move.b	(GHZSpikes_AnimFrame).w,d0
 		add.w	d0,d0
 		lea	(a0,d0.w),a0
 		move.w	(a0),(a1)
@@ -23664,7 +23664,7 @@ loc_11286:
 
 
 sub_1128C:
-		tst.w	(word_FFF63A).w
+		tst.w	(Pause_flag).w
 		bmi.s	locret_112A8
 		lea	($C00000).l,a6
 		moveq	#0,d0
@@ -24079,7 +24079,7 @@ loc_116A6:
 loc_116BA:
 		tst.b	(byte_FFFE1E).w
 		beq.s	loc_1170E
-		tst.w	(word_FFF63A).w
+		tst.w	(Pause_flag).w
 		bmi.s	loc_1170E
 		lea	(dword_FFFE26).w,a1
 		addq.b	#1,-(a1)
@@ -29896,10 +29896,10 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF632:	ds.w 1
-word_FFF634:	ds.w 1
+PalCyc_Offset:	ds.w 1
+PalCyc_WaitTimer:	ds.w 1
 RandomSeed:	ds.l 1
-word_FFF63A:	ds.w 1
+Pause_flag:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30428,15 +30428,15 @@ word_FFFE96:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-byte_FFFEC0:	ds.b 1
-byte_FFFEC1:	ds.b 1
-byte_FFFEC2:	ds.b 1
-byte_FFFEC3:	ds.b 1
-byte_FFFEC4:	ds.b 1
-byte_FFFEC5:	ds.b 1
-byte_FFFEC6:	ds.b 1
-byte_FFFEC7:	ds.b 1
-word_FFFEC8:	ds.w 1
+GHZSpikes_AnimTimer:	ds.b 1
+GHZSpikes_AnimFrame:	ds.b 1
+Ring_AnimTimer:	ds.b 1
+Ring_AnimFrame:	ds.b 1
+Unk_AnimTimer:	ds.b 1
+Unk_AnimFrame:	ds.b 1
+RingLoss_Timer:	ds.b 1
+RingLoss_AnimFrame:	ds.b 1
+RingLoss_Accumulator:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
