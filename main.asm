@@ -28,7 +28,7 @@ ROM		section org(0)
 align		macro pos
 		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
 	endm
-
+		; ROM Header
 off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l IllegalInstr, ZeroDiv, ChkInstr, TrapvInstr, PrivilegeViol
 		dc.l Trace, LineAEmu, LineFEmu, ErrorException, ErrorException
@@ -2296,7 +2296,7 @@ loc_24BC:
 		lea	(ArtSega).l,a0
 		bsr.w	NemesisDec
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_18A56).l,a0
+		lea	(EniSega).l,a0
 		move.w	#0,d0
 		bsr.w	EnigmaDec
 		lea	((Chunks)&$FFFFFF).l,a1
@@ -2465,12 +2465,12 @@ loc_273C:
 		bne.s	loc_273C
 		andi.b	#$F0,(padPress1).w
 		beq.s	loc_273C
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSel_Option).w,d0
 		cmpi.w	#$13,d0
 		bne.s	loc_2780
-		move.w	(word_FFF66A).w,d0
+		move.w	(SndTest_Num).w,d0
 		addi.w	#$80,d0
-		cmpi.w	#$93,d0		; is the music ID 94+
+		cmpi.w	#$93,d0		; is the music ID 93+
 		bcs.s	loc_277A	; if not, branch
 		cmpi.w	#$A0,d0		; is it before sound effects?
 		bcs.s	loc_273C	; if so, go back to the loop
@@ -2581,7 +2581,7 @@ loc_28B6:
 		move.b	(padHeld1).w,d1
 		andi.b	#3,d1
 		beq.s	loc_28F0
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSel_Option).w,d0
 		btst	#0,d1
 		beq.s	loc_28D6
 		subq.w	#1,d0
@@ -2597,18 +2597,18 @@ loc_28D6:
 		moveq	#0,d0
 
 loc_28E6:
-		move.w	d0,(word_FFF668).w
+		move.w	d0,(LevSel_Option).w
 		bsr.w	sub_292C
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_28F0:
-		cmpi.w	#$13,(word_FFF668).w
+		cmpi.w	#$13,(LevSel_Option).w
 		bne.s	locret_292A
 		move.b	(padPress1).w,d1
 		andi.b	#$C,d1
 		beq.s	locret_292A
-		move.w	(word_FFF66A).w,d0
+		move.w	(SndTest_Num).w,d0
 		btst	#2,d1
 		beq.s	loc_2912
 		subq.w	#1,d0
@@ -2624,7 +2624,7 @@ loc_2912:
 		moveq	#0,d0
 
 loc_2922:
-		move.w	d0,(word_FFF66A).w
+		move.w	d0,(SndTest_Num).w
 		bsr.w	sub_292C
 
 locret_292A:
@@ -2647,7 +2647,7 @@ loc_2944:
 		addi.l	#$800000,d4
 		dbf	d1,loc_2944
 		moveq	#0,d0
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSel_Option).w,d0
 		move.w	d0,d1
 		move.l	#$62100003,d4
 		lsl.w	#7,d0
@@ -2663,13 +2663,13 @@ loc_2944:
 		move.l	d4,4(a6)
 		bsr.w	sub_29CC
 		move.w	#$E680,d3
-		cmpi.w	#$13,(word_FFF668).w
+		cmpi.w	#$13,(LevSel_Option).w
 		bne.s	loc_2996
 		move.w	#$C680,d3
 
 loc_2996:
 		move.l	#$6BB00003,($C00004).l
-		move.w	(word_FFF66A).w,d0
+		move.w	(SndTest_Num).w,d0
 		addi.w	#$80,d0
 		move.b	d0,d2
 		lsr.b	#4,d0
@@ -2770,7 +2770,7 @@ sLevel:
 		move.b	#$E0,d0
 		bsr.w	PlaySFX
 		move.l	#$70000002,($C00004).l
-		lea	(byte_2D2FC).l,a0
+		lea	(Nem_TitleCards).l,a0
 		bsr.w	NemesisDec
 		bsr.w	ClearPLC
 		moveq	#0,d0
@@ -2848,30 +2848,30 @@ loc_2C92:
 		bsr.w	sub_31EE
 		bsr.w	sub_478A
 		jsr	nullsub_2
-		move.l	#byte_6A100,(unk_FFF796).w
-		cmpi.b	#1,(level).w
-		bne.s	loc_2CFA
-		move.l	#byte_6A290,(unk_FFF796).w
+		move.l	#ColGHZ,(unk_FFF796).w  ; load Green Hill's collision
+		cmpi.b	#1,(level).w		; are you in LZ?
+		bne.s	loc_2CFA                ; if not, go onto the next condition
+		move.l	#ColLZ,(unk_FFF796).w   ; load Labyrinth's collision
 
 loc_2CFA:
-		cmpi.b	#2,(level).w
-		bne.s	loc_2D0A
-		move.l	#byte_6A358,(unk_FFF796).w
+		cmpi.b	#2,(level).w		; are you in MZ?
+		bne.s	loc_2D0A                ; if not, go onto the next condition
+		move.l	#ColMZ,(unk_FFF796).w   ; load Marbles's collision
 
 loc_2D0A:
-		cmpi.b	#3,(level).w
-		bne.s	loc_2D1A
-		move.l	#byte_6A658,(unk_FFF796).w
+		cmpi.b	#3,(level).w		; are you in SLZ?
+		bne.s	loc_2D1A                ; if not, go onto the next condition
+		move.l	#ColSLZ,(unk_FFF796).w  ; load Star Lights's collision
 
 loc_2D1A:
-		cmpi.b	#4,(level).w
-		bne.s	loc_2D2A
-		move.l	#byte_6A84C,(unk_FFF796).w
+		cmpi.b	#4,(level).w		; are you in SYZ
+		bne.s	loc_2D2A                ; if not, go onto the next condition
+		move.l	#ColSYZ,(unk_FFF796).w  ; load Sparkling/Spring Yard's collision
 
 loc_2D2A:
-		cmpi.b	#5,(level).w
-		bne.s	loc_2D3A
-		move.l	#byte_6A9DC,(unk_FFF796).w
+		cmpi.b	#5,(level).w		; are you in SBZ?
+		bne.s	loc_2D3A                ; if not, continue loading
+		move.l	#ColSBZ,(unk_FFF796).w  ; load Scrap Brain's collision
 
 loc_2D3A:
 		move.b	#1,(ObjectsList).w
@@ -24917,26 +24917,26 @@ PLCArray:	dc.w word_122A0-PLCArray, word_122C0-PLCArray, word_122D4-PLCArray, wo
 word_122A0:	dc.w 4
 		dc.l ArtSmoke
 		dc.w $F400
-		dc.l byte_2D912
+		dc.l ArtHUDMain
 		dc.w $D940
-		dc.l byte_2DA08
+		dc.l ArtHUDLives
 		dc.w $FA80
-		dc.l byte_2DB0E
+		dc.l ArtRing
 		dc.w $F640
-		dc.l byte_2E6C8
+		dc.l ArtPoints
 		dc.w $F2E0
 word_122C0:	dc.w 2
-		dc.l byte_2DC02
+		dc.l ArtMonitor
 		dc.w $D000
 		dc.l ArtShield
 		dc.w $A820
 		dc.l ArtInvinStars
 		dc.w $AB80
 word_122D4:	dc.w 0
-		dc.l byte_2E062
+		dc.l ArtExplosion
 		dc.w $B400
 word_122DC:	dc.w 0
-		dc.l byte_2E77C
+		dc.l ArtGameOver
 		dc.w $B000
 word_122E4:	dc.w $B
 		dc.l TilesGHZ_1
@@ -24947,21 +24947,21 @@ word_122E4:	dc.w $B
 		dc.w $6B00
 		dc.l ArtPurpleRock
 		dc.w $7A00
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2B6D0
+		dc.l ArtChopper
 		dc.w $8F60
-		dc.l byte_2C3B2
+		dc.l ArtNewtron
 		dc.w $9360
-		dc.l byte_2C128
+		dc.l ArtMotobug
 		dc.w $9E00
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtVertSpring
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtHorizSpring
 		dc.w $A660
 word_1232E:	dc.w 5
 		dc.l byte_2744A
@@ -24980,7 +24980,7 @@ word_12354:	dc.w 0
 		dc.l TilesLZ
 		dc.w 0
 word_1235C:	dc.w 0
-		dc.l byte_2B938
+		dc.l ArtJaws
 		dc.w $99C0
 word_12364:	dc.w 9
 		dc.l TilesMZ
@@ -24995,22 +24995,22 @@ word_12364:	dc.w 9
 		dc.w $71C0
 		dc.l byte_28558
 		dc.w $7500
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2C9D0
+		dc.l ArtYardin
 		dc.w $8F60
-		dc.l byte_2CDB8
+		dc.l ArtBat
 		dc.w $9700
-		dc.l byte_2D0B4
+		dc.l ArtSplats
 		dc.w $9C80
 word_123A2:	dc.w 4
 		dc.l byte_280B0
 		dc.w $A260
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtVertSpring
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtHorizSpring
 		dc.w $A660
 		dc.l byte_28E6E
 		dc.w $5700
@@ -25019,23 +25019,23 @@ word_123C2:	dc.w $A
 		dc.w 0
 		dc.l byte_2827A
 		dc.w $68A0
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
 		dc.l byte_297B6
 		dc.w $9000
 		dc.l byte_29D4A
 		dc.w $9C00
-		dc.l byte_2C128
+		dc.l ArtMotobug
 		dc.w $9E00
 		dc.l byte_294DA
 		dc.w $A260
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtVertSpring
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtHorizSpring
 		dc.w $A660
 word_12406:	dc.w 3
 		dc.l byte_2905A
@@ -25049,37 +25049,37 @@ word_12406:	dc.w 3
 word_12420:	dc.w 4
 		dc.l TilesSYZ
 		dc.w 0
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2C9D0
+		dc.l ArtYardin
 		dc.w $8F60
-		dc.l byte_2BC04
+		dc.l ArtRoller
 		dc.w $9700
 word_12440:	dc.w 6
-		dc.l byte_29E56
+		dc.l ArtBumper
 		dc.w $7000
 		dc.l byte_2A104
 		dc.w $72C0
 		dc.l byte_29FC0
 		dc.w $7740
-		dc.l byte_2A022
+		dc.l ArtButton
 		dc.w $A1E0
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtVertSpring
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtHorizSpring
 		dc.w $A660
 word_1246C:	dc.w 0
 		dc.l TilesSBZ
 		dc.w 0
 word_12474:	dc.w 0
-		dc.l byte_2B938
+		dc.l ArtJaws
 		dc.w $99C0
 word_1247C:	dc.w 0
-		dc.l byte_2D2FC
+		dc.l Nem_TitleCards
 		dc.w $B000
 word_12484:	dc.w 2
 		dc.l byte_60000
@@ -25089,79 +25089,79 @@ word_12484:	dc.w 2
 		dc.l byte_60BB0
 		dc.w $93A0
 word_12498:	dc.w 0
-		dc.l byte_2EEBA
+		dc.l ArtSignpost
 		dc.w $D000
 word_124A0:	dc.w 0
 		dc.l ArtFlash
 		dc.w $A820
 word_124A8:	dc.w $B
-		dc.l byte_64A7C
+		dc.l ArtSS_BG2
 		dc.w 0
-		dc.l byte_63AEC
+		dc.l ArtSS_BG1
 		dc.w $A20
-		dc.l byte_63080
+		dc.l ArtSS_Blocks
 		dc.w $2840
-		dc.l byte_29E56
+		dc.l ArtBumper
 		dc.w $4760
-		dc.l byte_64F70
+		dc.l ArtSS_Goal
 		dc.w $4A20
-		dc.l byte_65982
+		dc.l ArtSS_UpDown
 		dc.w $4C60
-		dc.l byte_6505E
+		dc.l ArtSS_R
 		dc.w $5E00
-		dc.l byte_652DE
+		dc.l ArtSS_1up
 		dc.w $6E00
-		dc.l byte_653D4
+		dc.l ArtSS_Stars
 		dc.w $7E00
-		dc.l byte_65432
+		dc.l ArtSS_CandyWall
 		dc.w $8E00
-		dc.l byte_6512E
+		dc.l ArtSS_Skull
 		dc.w $9E00
-		dc.l byte_651FE
+		dc.l ArtSS_Magnet
 		dc.w $AE00
-		dc.l byte_65B76
+		dc.l ArtSS_Emerald
 		dc.w 0
-		dc.l byte_654C4
+		dc.l ArtSS_Zone1
 		dc.w 0
-		dc.l byte_65586
+		dc.l ArtSS_Zone2
 		dc.w 0
-		dc.l byte_65654
+		dc.l ArtSS_Zone3
 		dc.w 0
-		dc.l byte_65720
+		dc.l ArtSS_Zone4
 		dc.w 0
-		dc.l byte_657E8
+		dc.l ArtSS_Zone5
 		dc.w 0
-		dc.l byte_658B2
+		dc.l ArtSS_Zone6
 		dc.w 0
 word_1251C:	dc.w 1
-		dc.l byte_2F336
+		dc.l ArtPocky
 		dc.w $B000
-		dc.l byte_2F48E
+		dc.l ArtCucky
 		dc.w $B240
 word_1252A:	dc.w 1
-		dc.l byte_2F5EA
+		dc.l ArtPecky
 		dc.w $B000
-		dc.l byte_2F766
+		dc.l ArtRocky
 		dc.w $B240
 word_12538:	dc.w 1
-		dc.l byte_2F882
+		dc.l ArtPicky
 		dc.w $B000
-		dc.l byte_2F9B8
+		dc.l ArtFlicky
 		dc.w $B240
 word_12546:	dc.w 1
-		dc.l byte_2FAF2
+		dc.l ArtRicky
 		dc.w $B000
-		dc.l byte_2F766
+		dc.l ArtRocky
 		dc.w $B240
 word_12554:	dc.w 1
-		dc.l byte_2F882
+		dc.l ArtPicky
 		dc.w $B000
-		dc.l byte_2F48E
+		dc.l ArtCucky
 		dc.w $B240
 word_12562:	dc.w 1
-		dc.l byte_2F336
+		dc.l ArtPocky
 		dc.w $B000
-		dc.l byte_2F9B8
+		dc.l ArtFlicky
 		dc.w $B240
 		align	$8000					; Unnecessary alignment
 		dc.b $80
@@ -26989,7 +26989,7 @@ word_12562:	dc.w 1
 		dc.b 0
 		dc.b 0
 ArtSega:	incbin "screens/sega/Main.nem"
-byte_18A56:	incbin "unknown/18A56.eni"
+EniSega:	incbin "unknown/18A56.eni"
 byte_18A62:	incbin "unknown/18A62.unc"
 ArtTitleMain:	incbin "screens/title/Main.nem"
 ArtTitleSonic:	incbin "screens/title/Sonic.nem"
@@ -27022,38 +27022,38 @@ byte_2953C:	incbin "unsorted/slz girders.nem"
 byte_2961E:	incbin "unsorted/slz spiked platforms.nem"
 byte_297B6:	incbin "unsorted/slz misc platforms.nem"
 byte_29D4A:	incbin "unsorted/slz metal block.nem"
-byte_29E56:	incbin "unsorted/syz bumper.nem"
+ArtBumper:	incbin "unsorted/syz bumper.nem"
 byte_29FC0:	incbin "unsorted/syz small spiked ball.nem"
-byte_2A022:	incbin "unsorted/button.nem"
+ArtButton:	incbin "unsorted/button.nem"
 byte_2A104:	incbin "unsorted/swinging spiked ball.nem"
-byte_2A56A:	incbin "unsorted/crabmeat.nem"
-byte_2AA58:	incbin "unsorted/buzzkill.nem"
-byte_2B6D0:	incbin "unsorted/chopper.nem"
-byte_2B938:	incbin "unsorted/jaws.nem"
-byte_2BC04:	incbin "unsorted/roller.nem"
-byte_2C128:	incbin "unsorted/motobug.nem"
-byte_2C3B2:	incbin "unsorted/newtron.nem"
-byte_2C9D0:	incbin "unsorted/yadrin.nem"
-byte_2CDB8:	incbin "unsorted/batbrain.nem"
-byte_2D0B4:	incbin "unsorted/splats.nem"
-byte_2D2FC:	incbin "unsorted/titlecards.nem"
-byte_2D912:	incbin "unsorted/hud main.nem"
-byte_2DA08:	incbin "unsorted/hud lives.nem"
-byte_2DB0E:	incbin "unsorted/ring.nem"
-byte_2DC02:	incbin "unsorted/monitor.nem"
-byte_2E062:	incbin "unsorted/explosion.nem"
-byte_2E6C8:	incbin "unsorted/score points.nem"
-byte_2E77C:	incbin "unsorted/game over.nem"
-byte_2ECDC:	incbin "unsorted/spring v.nem"
-byte_2EDDE:	incbin "unsorted/spring h.nem"
-byte_2EEBA:	incbin "unsorted/end sign post.nem"
-byte_2F336:	incbin "levels/shared/Animals/pocky.nem"
-byte_2F48E:	incbin "levels/shared/Animals/cucky.nem"
-byte_2F5EA:	incbin "levels/shared/Animals/pecky.nem"
-byte_2F766:	incbin "levels/shared/Animals/rocky.nem"
-byte_2F882:	incbin "levels/shared/Animals/picky.nem"
-byte_2F9B8:	incbin "levels/shared/Animals/flicky.nem"
-byte_2FAF2:	incbin "levels/shared/Animals/ricky.nem"
+ArtCrabmeat:	incbin "unsorted/crabmeat.nem"
+ArtBuzzbomber:	incbin "unsorted/buzzkill.nem"
+ArtChopper:	incbin "unsorted/chopper.nem"
+ArtJaws:	incbin "unsorted/jaws.nem"
+ArtRoller:	incbin "unsorted/roller.nem"
+ArtMotobug:	incbin "unsorted/motobug.nem"
+ArtNewtron:	incbin "unsorted/newtron.nem"
+ArtYardin:	incbin "unsorted/yadrin.nem"
+ArtBat:		incbin "unsorted/batbrain.nem"
+ArtSplats:	incbin "unsorted/splats.nem"
+ArtTitleCard:	incbin "unsorted/titlecards.nem"
+ArtHUDMain:	incbin "unsorted/hud main.nem"
+ArtHUDLives:	incbin "unsorted/hud lives.nem"
+ArtRing:	incbin "unsorted/ring.nem"
+ArtMonitor:	incbin "unsorted/monitor.nem"
+ArtExplosion:	incbin "unsorted/explosion.nem"
+ArtPoints:	incbin "unsorted/score points.nem"
+ArtGameOver:	incbin "unsorted/game over.nem"
+ArtVertSpring:	incbin "unsorted/spring v.nem"
+ArtHorizSpring:	incbin "unsorted/spring h.nem"
+ArtSignpost:	incbin "unsorted/end sign post.nem"
+ArtPocky:	incbin "levels/shared/Animals/pocky.nem"
+ArtCucky:	incbin "levels/shared/Animals/cucky.nem"
+ArtPecky:	incbin "levels/shared/Animals/pecky.nem"
+ArtRocky:	incbin "levels/shared/Animals/rocky.nem"
+ArtPicky:	incbin "levels/shared/Animals/picky.nem"
+ArtFlicky:	incbin "levels/shared/Animals/flicky.nem"
+ArtRicky:	incbin "levels/shared/Animals/ricky.nem"
 		align	$8000					; Unnecessary alignment
 BlocksGHZ:	incbin "levels/GHZ/Blocks.unc"
 TilesGHZ_1:	incbin "levels/GHZ/Tiles1.nem"
@@ -27117,36 +27117,36 @@ byte_63074:	dc.b 1
 		dc.b $F0, $F, 0, $D9, $F0
 byte_6307A:	dc.b 1
 		dc.b $F0, $F, 0, $E9, $F0
-byte_63080:	incbin "screens/special stage/ss generic blocks.nem"
+ArtSS_Blocks:	incbin "screens/special stage/ss generic blocks.nem"
 byte_639B8:	incbin "unknown/639B8.eni"
-byte_63AEC:	incbin "screens/special stage/ss bg animals.nem"
+ArtSS_BG1:	incbin "screens/special stage/ss bg animals.nem"
 byte_6477C:	incbin "unknown/6477C.eni"
-byte_64A7C:	incbin "screens/special stage/ss bg misc.nem"
-byte_64F70:	incbin "screens/special stage/ss goal.nem"
-byte_6505E:	incbin "screens/special stage/ss r.nem"
-byte_6512E:	incbin "screens/special stage/ss skull.nem"
-byte_651FE:	incbin "screens/special stage/ss u.nem"
-byte_652DE:	incbin "screens/special stage/ss 1up.nem"
-byte_653D4:	incbin "screens/special stage/ss stars.nem"
-byte_65432:	incbin "screens/special stage/ss red white.nem"
-byte_654C4:	incbin "screens/special stage/ss zone1.nem"
-byte_65586:	incbin "screens/special stage/ss zone2.nem"
-byte_65654:	incbin "screens/special stage/ss zone3.nem"
-byte_65720:	incbin "screens/special stage/ss zone4.nem"
-byte_657E8:	incbin "screens/special stage/ss zone5.nem"
-byte_658B2:	incbin "screens/special stage/ss zone6.nem"
-byte_65982:	incbin "screens/special stage/ss up down.nem"
-byte_65B76:	incbin "screens/special stage/ss emerald.nem"
+ArtSS_BG2:	incbin "screens/special stage/ss bg misc.nem"
+ArtSS_Goal:	incbin "screens/special stage/ss goal.nem"
+ArtSS_R:	incbin "screens/special stage/ss r.nem"
+ArtSS_Skull:	incbin "screens/special stage/ss skull.nem"
+ArtSS_Magnet:	incbin "screens/special stage/ss u.nem"
+ArtSS_1up:	incbin "screens/special stage/ss 1up.nem"
+ArtSS_Stars:	incbin "screens/special stage/ss stars.nem"
+ArtSS_CandyWall:incbin "screens/special stage/ss red white.nem"
+ArtSS_Zone1:	incbin "screens/special stage/ss zone1.nem"
+ArtSS_Zone2:	incbin "screens/special stage/ss zone2.nem"
+ArtSS_Zone3:	incbin "screens/special stage/ss zone3.nem"
+ArtSS_Zone4:	incbin "screens/special stage/ss zone4.nem"
+ArtSS_Zone5:	incbin "screens/special stage/ss zone5.nem"
+ArtSS_Zone6:	incbin "screens/special stage/ss zone6.nem"
+ArtSS_UpDown:	incbin "screens/special stage/ss up down.nem"
+ArtSS_Emerald:	incbin "screens/special stage/ss emerald.nem"
 		align	$8000					; Unnecessary alignment
 byte_68000:	incbin "unknown/68000.dat"
 byte_68100:	incbin "unknown/68100.dat"
 byte_69100:	incbin "unknown/69100.dat"
-byte_6A100:	incbin "unknown/col 06A100.dat"
-byte_6A290:	incbin "unknown/col 06A290.dat"
-byte_6A358:	incbin "unknown/col 06A358.dat"
-byte_6A658:	incbin "unknown/col 06A658.dat"
-byte_6A84C:	incbin "unknown/col 06A84C.dat"
-byte_6A9DC:	incbin "unknown/col 06A9DC.dat"
+ColGHZ:		incbin "unknown/col 06A100.dat"
+ColLZ:		incbin "unknown/col 06A290.dat"
+ColMZ:		incbin "unknown/col 06A358.dat"
+ColSLZ:		incbin "unknown/col 06A658.dat"
+ColSYZ:		incbin "unknown/col 06A84C.dat"
+ColSBZ:		incbin "unknown/col 06A9DC.dat"
 byte_6AB08:	incbin "unknown/6AB08.dat"
 byte_6B018:	incbin "unknown/6B018.dat"
 byte_6B218:	incbin "unknown/6B218.dat"
@@ -27156,27 +27156,27 @@ byte_6BD98:	incbin "unknown/6BD98.dat"
 byte_6C398:	incbin "unknown/6C398.dat"
 byte_6C998:	incbin "unknown/6C998.dat"
 LayoutArray:	dc.w LayoutGHZ1FG-LayoutArray, LayoutGHZ1BG-LayoutArray, LayoutGHZ1Unk-LayoutArray
-		dc.w byte_6CE58-LayoutArray, byte_6CF1A-LayoutArray, byte_6CF3C-LayoutArray
-		dc.w byte_6CF40-LayoutArray, byte_6D062-LayoutArray, byte_6D084-LayoutArray
+		dc.w LayoutGHZ2FG-LayoutArray, LayoutGHZ2BG-LayoutArray, byte_6CF3C-LayoutArray
+		dc.w LayoutGHZ3FG-LayoutArray, LayoutGHZ3BG-LayoutArray, byte_6D084-LayoutArray
 		dc.w byte_6D088-LayoutArray, byte_6D088-LayoutArray, byte_6D088-LayoutArray
-		dc.w LayoutLZ1FG-LayoutArray, byte_6D16E-LayoutArray, byte_6D190-LayoutArray
-		dc.w byte_6D194-LayoutArray, byte_6D16E-LayoutArray, byte_6D216-LayoutArray
-		dc.w byte_6D21A-LayoutArray, byte_6D16E-LayoutArray, byte_6D31C-LayoutArray
+		dc.w LayoutLZ1FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D190-LayoutArray
+		dc.w LayoutLZ2FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D216-LayoutArray
+		dc.w LayoutLZ3FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D31C-LayoutArray
 		dc.w byte_6D320-LayoutArray, byte_6D320-LayoutArray, byte_6D320-LayoutArray
-		dc.w LayoutMZ1FG-LayoutArray, byte_6D3BC-LayoutArray, LayoutMZ1FG-LayoutArray
-		dc.w byte_6D47E-LayoutArray, byte_6D552-LayoutArray, byte_6D614-LayoutArray
-		dc.w byte_6D618-LayoutArray, byte_6D6FA-LayoutArray, byte_6D7DC-LayoutArray
+		dc.w LayoutMZ1FG-LayoutArray, LayoutMZ1BG-LayoutArray, LayoutMZ1FG-LayoutArray
+		dc.w LayoutMZ2FG-LayoutArray, LayoutMZ2BG-LayoutArray, byte_6D614-LayoutArray
+		dc.w LayoutMZ3FG-LayoutArray, LayoutMZ3BG-LayoutArray, byte_6D7DC-LayoutArray
 		dc.w byte_6D7E0-LayoutArray, byte_6D7E0-LayoutArray, byte_6D7E0-LayoutArray
-		dc.w LayoutSLZ1FG-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w byte_6D9A0-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w byte_6DAE2-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ1FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ2FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ3FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
 		dc.w byte_6DBE4-LayoutArray, byte_6DBE4-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w LayoutSYZ1FG-LayoutArray, byte_6DC9E-LayoutArray, byte_6DCD8-LayoutArray
-		dc.w byte_6DCDC-LayoutArray, byte_6DC9E-LayoutArray, byte_6DDDA-LayoutArray
-		dc.w byte_6DDDE-LayoutArray, byte_6DC9E-LayoutArray, byte_6DF30-LayoutArray
+		dc.w LayoutSYZ1FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DCD8-LayoutArray
+		dc.w LayoutSYZ2FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DDDA-LayoutArray
+		dc.w LayoutSYZ3FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DF30-LayoutArray
 		dc.w byte_6DF34-LayoutArray, byte_6DF34-LayoutArray, byte_6DF34-LayoutArray
-		dc.w LayoutSBZ1FG-LayoutArray, byte_6E13A-LayoutArray, byte_6E13A-LayoutArray
-		dc.w byte_6E13A-LayoutArray, byte_6E33C-LayoutArray, byte_6E33C-LayoutArray
+		dc.w LayoutSBZ1FG-LayoutArray, LayoutSBZ2FG-LayoutArray, LayoutSBZ2FG-LayoutArray
+		dc.w LayoutSBZ2FG-LayoutArray, LayoutSBZ2BG-LayoutArray, LayoutSBZ2BG-LayoutArray
 		dc.w byte_6E340-LayoutArray, byte_6E340-LayoutArray, byte_6E340-LayoutArray
 		dc.w byte_6E344-LayoutArray, byte_6E344-LayoutArray, byte_6E344-LayoutArray
 		dc.w LayoutEnding1FG-LayoutArray, byte_6E3CA-LayoutArray, byte_6E3CA-LayoutArray
@@ -27186,46 +27186,46 @@ LayoutArray:	dc.w LayoutGHZ1FG-LayoutArray, LayoutGHZ1BG-LayoutArray, LayoutGHZ1
 LayoutGHZ1FG:	incbin "levels/GHZ/Foreground 1.unc"
 LayoutGHZ1BG:	incbin "levels/GHZ/Background 1.unc"
 LayoutGHZ1Unk:	dc.b 0, 0, 0, 0
-byte_6CE58:	incbin "levels/GHZ/Foreground 2.unc"
-byte_6CF1A:	incbin "levels/GHZ/Background 2.unc"
+LayoutGHZ2FG:	incbin "levels/GHZ/Foreground 2.unc"
+LayoutGHZ2BG:	incbin "levels/GHZ/Background 2.unc"
 byte_6CF3C:	dc.b 0, 0, 0, 0
-byte_6CF40:	incbin "levels/GHZ/Foreground 3.unc"
-byte_6D062:	incbin "levels/GHZ/Background 3.unc"
+LayoutGHZ3FG:	incbin "levels/GHZ/Foreground 3.unc"
+LayoutGHZ3BG:	incbin "levels/GHZ/Background 3.unc"
 byte_6D084:	dc.b 0, 0, 0, 0
 byte_6D088:	dc.b 0, 0, 0, 0
 LayoutLZ1FG:	incbin "levels/LZ/Foreground 1.unc"
-byte_6D16E:	incbin "levels/LZ/Background.unc"
+LayoutLZBG:	incbin "levels/LZ/Background.unc"
 byte_6D190:	dc.b 0, 0, 0, 0
-byte_6D194:	incbin "levels/LZ/Foreground 2.unc"
+LayoutLZ2FG:	incbin "levels/LZ/Foreground 2.unc"
 byte_6D216:	dc.b 0, 0, 0, 0
-byte_6D21A:	incbin "levels/LZ/Foreground 3.unc"
+LayoutLZ3FG:	incbin "levels/LZ/Foreground 3.unc"
 byte_6D31C:	dc.b 0, 0, 0, 0
 byte_6D320:	dc.b 0, 0, 0, 0
 LayoutMZ1FG:	incbin "levels/MZ/Foreground 1.unc"
-byte_6D3BC:	incbin "levels/MZ/Background 1.unc"
-byte_6D47E:	incbin "levels/MZ/Foreground 2.unc"
-byte_6D552:	incbin "levels/MZ/Background 2.unc"
+LayoutMZ1BG:	incbin "levels/MZ/Background 1.unc"
+LayoutMZ2FG:	incbin "levels/MZ/Foreground 2.unc"
+LayoutMZ2BG:	incbin "levels/MZ/Background 2.unc"
 byte_6D614:	dc.b 0, 0, 0, 0
-byte_6D618:	incbin "levels/MZ/Foreground 3.unc"
-byte_6D6FA:	incbin "levels/MZ/Background 3.unc"
+LayoutMZ3FG:	incbin "levels/MZ/Foreground 3.unc"
+LayoutMZ3BG:	incbin "levels/MZ/Background 3.unc"
 byte_6D7DC:	dc.b 0, 0, 0, 0
 byte_6D7E0:	dc.b 0, 0, 0, 0
 LayoutSLZ1FG:	incbin "levels/SLZ/Foreground 1.unc"
-byte_6D926:	incbin "levels/SLZ/Background.unc"
-byte_6D9A0:	incbin "levels/SLZ/Foreground 2.unc"
-byte_6DAE2:	incbin "levels/SLZ/Foreground 3.unc"
+LayoutSLZBG:	incbin "levels/SLZ/Background.unc"
+LayoutSLZ2FG:	incbin "levels/SLZ/Foreground 2.unc"
+LayoutSLZ3FG:	incbin "levels/SLZ/Foreground 3.unc"
 byte_6DBE4:	dc.b 0, 0, 0, 0
 LayoutSYZ1FG:	incbin "levels/SYZ/Foreground 1.unc"
-byte_6DC9E:	incbin "levels/SYZ/Background.unc"
+LayoutSYZBG:	incbin "levels/SYZ/Background.unc"
 byte_6DCD8:	dc.b 0, 0, 0, 0
-byte_6DCDC:	incbin "levels/SYZ/Foreground 2.unc"
+LayoutSYZ2FG:	incbin "levels/SYZ/Foreground 2.unc"
 byte_6DDDA:	dc.b 0, 0, 0, 0
-byte_6DDDE:	incbin "levels/SYZ/Foreground 3.unc"
+LayoutSYZ3FG:	incbin "levels/SYZ/Foreground 3.unc"
 byte_6DF30:	dc.b 0, 0, 0, 0
 byte_6DF34:	dc.b 0, 0, 0, 0
 LayoutSBZ1FG:	incbin "levels/SBZ/Foreground 1.unc"
-byte_6E13A:	incbin "levels/SBZ/Foreground 2.unc"
-byte_6E33C:	incbin "levels/SBZ/Background 2.unc"
+LayoutSBZ2FG:	incbin "levels/SBZ/Foreground 2.unc"
+LayoutSBZ2BG:	incbin "levels/SBZ/Background 2.unc"
 byte_6E340:	dc.b 0, 0, 0, 0
 byte_6E344:	dc.b 0, 0, 0, 0
 LayoutEnding1FG:incbin "levels/Unknown/Foreground 1.unc"
@@ -27235,48 +27235,48 @@ byte_6E3D2:	dc.b 0, 0, 0, 0
 byte_6E3D6:	dc.b 0, 0, 0, 0
 		align	$8000					; Unnecessary alignment
 ObjectListArray:dc.w ObjListGHZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_70546-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_70B10-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListGHZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListGHZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListGHZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListLZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_7116A-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_71170-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListLZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListLZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListLZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListMZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_714A6-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_71AA6-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListMZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListMZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListMZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSLZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72328-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_723D0-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSLZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSLZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSLZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSYZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_728BC-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D00-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSYZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSYZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSYZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSBZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D12-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D18-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSBZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSBZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSBZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w $FFFF, 0, 0
 ObjListGHZ1:	incbin "levels/GHZ/Objects 1.unc"
-word_70546:	incbin "levels/GHZ/Objects 2.unc"
-word_70B10:	incbin "levels/GHZ/Objects 3.unc"
+ObjListGHZ2:	incbin "levels/GHZ/Objects 2.unc"
+ObjListGHZ3:	incbin "levels/GHZ/Objects 3.unc"
 ObjListLZ1:	incbin "levels/LZ/Objects 1.unc"
-word_7116A:	incbin "levels/LZ/Objects 2.unc"
-word_71170:	incbin "levels/LZ/Objects 3.unc"
+ObjListLZ2:	incbin "levels/LZ/Objects 2.unc"
+ObjListLZ3:	incbin "levels/LZ/Objects 3.unc"
 ObjListMZ1:	incbin "levels/MZ/Objects 1.unc"
-word_714A6:	incbin "levels/MZ/Objects 2.unc"
-word_71AA6:	incbin "levels/MZ/Objects 3.unc"
+ObjListMZ2:	incbin "levels/MZ/Objects 2.unc"
+ObjListMZ3:	incbin "levels/MZ/Objects 3.unc"
 ObjListSLZ1:	incbin "levels/SLZ/Objects 1.unc"
-word_72328:	incbin "levels/SLZ/Objects 2.unc"
-word_723D0:	incbin "levels/SLZ/Objects 3.unc"
+ObjListSLZ2:	incbin "levels/SLZ/Objects 2.unc"
+ObjListSLZ3:	incbin "levels/SLZ/Objects 3.unc"
 ObjListSYZ1:	incbin "levels/SYZ/Objects 1.unc"
-word_728BC:	incbin "levels/SYZ/Objects 2.unc"
-word_72D00:	incbin "levels/SYZ/Objects 3.unc"
+ObjListSYZ2:	incbin "levels/SYZ/Objects 2.unc"
+ObjListSYZ3:	incbin "levels/SYZ/Objects 3.unc"
 ObjListSBZ1:	incbin "levels/SBZ/Objects 1.unc"
-word_72D12:	incbin "levels/SBZ/Objects 2.unc"
-word_72D18:	incbin "levels/SBZ/Objects 3.unc"
+ObjListSBZ2:	incbin "levels/SBZ/Objects 2.unc"
+ObjListSBZ3:	incbin "levels/SBZ/Objects 3.unc"
 ObjListNull:	dc.w $FFFF, 0, 0
 		align	$4000					; Unnecessary alignment
 		; Sound driver stuff...
@@ -27311,7 +27311,7 @@ byte_74110:	dc.b $D, 1, 7, 4, 1, 1, 1, 4, 2, 1, 2, 4, 8, 1, 6, 4
 mSpeedTempoList:dc.b 7, $72, $73, $26, $15, 8, $FF, 5
 mMusicList:	dc.l mGHZ, mLZ, mMZ, mSLZ, mSYZ, mSBZ, mInvincibility
 		dc.l mExtraLife, mSS, mTitle, mEnding, mBoss, mFZ, mResults
-		dc.l mGameOver, mContinue, mCredits
+		dc.l mGameOver, mContinue, mCredits		; There's no pointer for the drowning music (since it wasn't even created yet) which is why the game crashes
 mSoundPrioList:	dcb.b $1F,$80	; $80 - $9F
 		dcb.b $30,$70	; $A0 - $CF
 		dcb.b $16,$80	; $D0 - $DF
@@ -29938,8 +29938,8 @@ word_FFF662:	ds.w 1
 		ds.b 1
 		ds.b 1
 word_FFF666:	ds.w 1
-word_FFF668:	ds.w 1
-word_FFF66A:	ds.w 1
+LevSel_Option:	ds.w 1
+SndTest_Num:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
