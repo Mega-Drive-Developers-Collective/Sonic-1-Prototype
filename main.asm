@@ -133,8 +133,12 @@ loc_28E:
 		move	#$2700,sr
 		bra.s	loc_306
 ; ---------------------------------------------------------------------------
-InitValues:	dc.l $8000, $3FFF, $100, $A00000, $A11100, $A11200, $C00000
-		dc.l $C00004
+InitValues:	dc.l $8000, $3FFF, $100
+		dc.l $A00000					; Z80 RAM
+		dc.l $A11100					; Z80 bus release
+		dc.l $A11200					; Z80 reset
+		dc.l $C00000					; VDP data port
+		dc.l $C00004					; VDP command port
 		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
 		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77
@@ -185,8 +189,8 @@ loc_36A:
 loc_376:
 		move.l	d7,(a6)+
 		dbf	d6,loc_376
-		bsr.w	sub_100A
-		bsr.w	LoadZ80
+		bsr.w	vdpInit
+		bsr.w	dacInit
 		bsr.w	padInit
 		move.b	#0,(GameMode).w
 
@@ -212,7 +216,7 @@ ScreensArray:
 ; ---------------------------------------------------------------------------
 
 ChecksumError:
-		bsr.w	sub_100A
+		bsr.w	vdpInit
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
 
@@ -236,8 +240,6 @@ AddressErr:
 
 IllegalInstr:
 		move.b	#6,(byte_FFFC00+$44).w
-
-loc_3E6:
 		addq.l	#2,2(sp)
 		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
@@ -259,8 +261,6 @@ TrapvInstr:
 
 PrivilegeViol:
 		move.b	#$E,(byte_FFFC00+$44).w
-
-loc_40A:
 		bra.s	ErrorNormal
 ; ---------------------------------------------------------------------------
 
@@ -291,15 +291,11 @@ ErrorAddress:
 		addq.w	#2,sp
 		move.l	(sp)+,(byte_FFFC00+$40).w
 		addq.w	#2,sp
-
-loc_440:
 		movem.l	d0-a7,(byte_FFFC00).w
 		bsr.w	ErrorPrint
 		move.l	2(sp),d0
 		bsr.w	ErrorPrintAddr
 		move.l	(byte_FFFC00+$40).w,d0
-
-loc_456:
 		bsr.w	ErrorPrintAddr
 		bra.s	loc_472
 ; ---------------------------------------------------------------------------
@@ -314,8 +310,6 @@ ErrorNormal:
 loc_472:
 		bsr.w	ErrorWaitInput
 		movem.l	(byte_FFFC00).w,d0-a7
-
-loc_47C:
 		move	#$2300,sr
 		rte	
 
@@ -324,32 +318,26 @@ loc_47C:
 
 ErrorPrint:
 		lea	($C00000).l,a6
-
-loc_488:
 		move.l	#$78000003,($C00004).l
 		lea	(ArtText).l,a0
 		move.w	#$27F,d1
 
-loc_49C:
+@loadart:
 		move.w	(a0)+,(a6)
-		dbf	d1,loc_49C
-
-loc_4A2:
+		dbf	d1,@loadart
 		moveq	#0,d0
 		move.b	(byte_FFFC00+$44).w,d0
 		move.w	ErrorMessages(pc,d0.w),d0
 		lea	ErrorMessages(pc,d0.w),a0
-
-loc_4B0:
 		move.l	#$46040003,($C00004).l
 		moveq	#$12,d1
 
-loc_4BC:
+@loadtext:
 		moveq	#0,d0
 		move.b	(a0)+,d0
 		addi.w	#$790,d0
 		move.w	d0,(a6)
-		dbf	d1,loc_4BC
+		dbf	d1,@loadtext
 		rts	
 
 ; ---------------------------------------------------------------------------
@@ -367,7 +355,7 @@ strPrivilegeViol:dc.b 'PRIVILEGE VIOLATION'
 strTrace:	dc.b 'TRACE              '
 strLineAEmu:	dc.b 'LINE 1010 EMULATOR '
 strLineFEmu:	dc.b 'LINE 1111 EMULATOR '
-		dc.b 0
+		even	
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -453,9 +441,9 @@ off_B6A:	dc.w nullsub_3-off_B6A, loc_B7E-off_B6A, sub_B90-off_B6A, sub_BAA-off_B
 
 loc_B7E:
 		bsr.w	sub_E78
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.w	locret_B8E
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(GlobalTimer).w
 
 locret_B8E:
 		rts	
@@ -467,9 +455,9 @@ sub_B90:
 		bsr.w	sub_E78
 		bsr.w	sub_43B6
 		bsr.w	sub_1438
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.w	locret_BA8
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(GlobalTimer).w
 
 locret_BA8:
 		rts	
@@ -534,7 +522,7 @@ loc_BC6:
 
 loc_C7A:
 		move.w	#0,($A11100).l
-		bsr.w	LoadTilesAsYouMove
+		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
 		bsr.w	loc_1454
@@ -547,9 +535,9 @@ loc_C7A:
 
 loc_CA8:
 		move.b	#0,(byte_FFF628).w
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.w	locret_CBA
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(GlobalTimer).w
 
 locret_CBA:
 		rts	
@@ -584,7 +572,7 @@ loc_CC8:
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
 		move.w	#0,($A11100).l
-		bsr.w	PalCycle_SS
+		bsr.w	sSpecial_PaletteCycle
 		tst.b	(unk_FFF767).w
 		beq.s	loc_D7A
 		lea	($C00004).l,a5
@@ -597,9 +585,9 @@ loc_CC8:
 		move.b	#0,(unk_FFF767).w
 
 loc_D7A:
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.w	locret_D86
-		subq.w	#1,(word_FFF614).w
+		subq.w	#1,(GlobalTimer).w
 
 locret_D86:
 		rts	
@@ -649,7 +637,7 @@ loc_D94:
 
 loc_E3A:
 		move.w	#0,($A11100).l
-		bsr.w	LoadTilesAsYouMove
+		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
 		bsr.w	sub_1438
@@ -814,7 +802,7 @@ sub_FDC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_100A:
+vdpInit:
 		lea	($C00004).l,a0
 		lea	($C00000).l,a1
 		lea	($1080).l,a2
@@ -823,8 +811,8 @@ sub_100A:
 loc_101E:
 		move.w	(a2)+,(a0)
 		dbf	d7,loc_101E
-		move.w	(word_1080+2).l,d0
-		move.w	d0,(word_FFF60C).w
+		move.w	(vdpInitRegs+2).l,d0
+		move.w	d0,(ModeReg2).w
 		moveq	#0,d0
 		move.l	#$C0000000,($C00004).l
 		move.w	#$3F,d7
@@ -851,7 +839,7 @@ loc_1070:
 		rts	
 
 ; ---------------------------------------------------------------------------
-word_1080:	dc.w $8004, $8134, $8230, $8328, $8407
+vdpInitRegs:	dc.w $8004, $8134, $8230, $8328, $8407
 		dc.w $857C, $8600, $8700, $8800, $8900
 		dc.w $8A00, $8B00, $8C81, $8D3F, $8E00
 		dc.w $8F02, $9001, $9100, $9200
@@ -906,7 +894,7 @@ loc_112C:
 ; =============== S U B R O U T I N E =======================================
 
 
-LoadZ80:
+dacInit:
 		nop	
 		move.w	#$100,($A11100).l
 		move.w	#$100,($A11200).l
@@ -965,13 +953,13 @@ PauseGame:
 		nop	
 		tst.b	(Lives).w
 		beq.s	loc_1206
-		tst.w	(word_FFF63A).w
+		tst.w	(PauseFlag).w
 		bne.s	loc_11CC
 		btst	#7,(padPress1).w
 		beq.s	locret_120C
 
 loc_11CC:
-		move.w	#-1,(word_FFF63A).w
+		move.w	#-1,(PauseFlag).w
 
 loc_11D2:
 		move.b	#$10,(VintRoutine).w
@@ -992,21 +980,21 @@ loc_11EE:
 		beq.s	loc_11D2
 
 loc_1206:
-		move.w	#0,(word_FFF63A).w
+		move.w	#0,(PauseFlag).w
 
 locret_120C:
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_120E:
-		move.w	#1,(word_FFF63A).w
+		move.w	#1,(PauseFlag).w
 		rts	
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1216:
+LoadPlaneMaps:
 		lea	($C00000).l,a6
 		move.l	#$800000,d4
 
@@ -1219,7 +1207,7 @@ loc_136A:
 
 LoadPLC:
 		movem.l	a1-a2,-(sp)
-		lea	(PLCArray).l,a1
+		lea	(plcArray).l,a1
 		add.w	d0,d0
 		move.w	(a1,d0.w),d0
 		lea	(a1,d0.w),a1
@@ -1251,7 +1239,7 @@ loc_13A2:
 
 LoadPLC2:
 		movem.l	a1-a2,-(sp)
-		lea	(PLCArray).l,a1
+		lea	(plcArray).l,a1
 		add.w	d0,d0
 		move.w	(a1,d0.w),d0
 		lea	(a1,d0.w),a1
@@ -1392,7 +1380,7 @@ loc_14D8:
 
 
 sub_14E2:
-		lea	(PLCArray).l,a1
+		lea	(plcArray).l,a1
 		add.w	d0,d0
 		move.w	(a1,d0.w),d0
 		lea	(a1,d0.w),a1
@@ -1747,27 +1735,27 @@ loc_172E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1732:
+PaletteCycle:
 		moveq	#0,d2
 		moveq	#0,d0
 		move.b	(level).w,d0
 		add.w	d0,d0
-		move.w	off_1744(pc,d0.w),d0
-		jmp	off_1744(pc,d0.w)
+		move.w	@levels(pc,d0.w),d0
+		jmp	@levels(pc,d0.w)
 
 ; ---------------------------------------------------------------------------
-off_1744:	dc.w loc_175A-off_1744, nullsub_4-off_1744, locret_17BA-off_1744, loc_17BC-off_1744
-		dc.w loc_17F8-off_1744, locret_1848-off_1744, locret_184A-off_1744
+@levels:	dc.w PalCycGHZ-@levels, PalCycLZ-@levels, PalCycMZ-@levels, PalCycSLZ-@levels
+		dc.w PalCycSYZ-@levels, PalCycSBZ-@levels, PalCycEnding-@levels
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1752:
+PalCycTitle:
 		lea	(word_184C).l,a0
 		bra.s	loc_1760
 ; ---------------------------------------------------------------------------
 
-loc_175A:
+PalCycGHZ:
 		lea	(word_186C).l,a0
 
 loc_1760:
@@ -1789,7 +1777,7 @@ locret_1786:
 ; =============== S U B R O U T I N E =======================================
 
 
-nullsub_4:
+PalCycLZ:
 		rts	
 
 ; ---------------------------------------------------------------------------
@@ -1812,11 +1800,11 @@ locret_17B8:
 		rts	
 ; ---------------------------------------------------------------------------
 
-locret_17BA:
+PalCycMZ:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_17BC:
+PalCycSLZ:
 		subq.w	#1,(word_FFF634).w
 		bpl.s	locret_17F6
 		move.w	#$F,(word_FFF634).w
@@ -1841,7 +1829,7 @@ locret_17F6:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_17F8:
+PalCycSYZ:
 		subq.w	#1,(word_FFF634).w
 		bpl.s	locret_1846
 		move.w	#5,(word_FFF634).w
@@ -1868,11 +1856,11 @@ locret_1846:
 		rts	
 ; ---------------------------------------------------------------------------
 
-locret_1848:
+PalCycSBZ:
 		rts	
 ; ---------------------------------------------------------------------------
 
-locret_184A:
+PalCycEnding:
 		rts	
 ; ---------------------------------------------------------------------------
 word_184C:	incbin "unknown/0184C.pal"
@@ -2285,7 +2273,7 @@ sSega:
 		move.w	#$8407,(a6)
 		move.w	#$8700,(a6)
 		move.w	#$8B00,(a6)
-		move.w	(word_FFF60C).w,d0
+		move.w	(ModeReg2).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 
@@ -2295,21 +2283,21 @@ loc_24BC:
 		lea	(ArtSega).l,a0
 		bsr.w	NemesisDec
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_18A56).l,a0
+		lea	(MapSega).l,a0
 		move.w	#0,d0
 		bsr.w	EnigmaDec
 		lea	((Chunks)&$FFFFFF).l,a1
 		move.l	#$461C0003,d0
 		moveq	#$B,d1
 		moveq	#3,d2
-		bsr.w	sub_1216
+		bsr.w	LoadPlaneMaps
 		moveq	#0,d0
 		bsr.w	PalLoadNormal
 		move.w	#$28,(word_FFF632).w
 		move.w	#0,(word_FFF662).w
 		move.w	#0,(word_FFF660).w
-		move.w	#$B4,(word_FFF614).w
-		move.w	(word_FFF60C).w,d0
+		move.w	#$B4,(GlobalTimer).w
+		move.w	(ModeReg2).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 
@@ -2317,7 +2305,7 @@ loc_2528:
 		move.b	#2,(VintRoutine).w
 		bsr.w	vsync
 		bsr.w	sub_1A3A
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.s	loc_2544
 		andi.b	#$80,(padPress1).w
 		beq.s	loc_2528
@@ -2339,7 +2327,7 @@ sTitle:
 		move.w	#$9200,(a6)
 		move.w	#$8B03,(a6)
 		move.w	#$8720,(a6)
-		move.w	(word_FFF60C).w,d0
+		move.w	(ModeReg2).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_10A6
@@ -2368,12 +2356,12 @@ loc_25D8:
 		move.l	#$42060003,d0
 		moveq	#$21,d1
 		moveq	#$15,d2
-		bsr.w	sub_1216
+		bsr.w	LoadPlaneMaps
 		move.w	#0,(DebugRoutine).w
 		move.w	#0,(DemoMode).w
 		move.w	#0,(level).w
 		bsr.w	LoadLevelBounds
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		move.l	#$40000000,($C00004).l
 		lea	(TilesGHZ_1).l,a0
 		bsr.w	NemesisDec
@@ -2381,9 +2369,9 @@ loc_25D8:
 		lea	(Blocks).w,a4
 		move.w	#$5FF,d0
 
-loc_262E:
+@loadblocks:
 		move.l	(a0)+,(a4)+
-		dbf	d0,loc_262E
+		dbf	d0,@loadblocks
 		lea	(ChunksGHZ).l,a0
 		lea	((Chunks)&$FFFFFF).l,a1
 		bsr.w	KosinskiDec
@@ -2393,20 +2381,20 @@ loc_262E:
 		lea	(unk_FFF708).w,a3
 		lea	((Layout+$40)).w,a4
 		move.w	#$6000,d2
-		bsr.w	LoadTilesFromStart2
+		bsr.w	mapLevelLoadFull2
 		moveq	#1,d0
 		bsr.w	palLoadFade
 		move.b	#$8A,d0
 		bsr.w	PlaySFX
 		move.b	#0,(word_FFFFFA).w
-		move.w	#$178,(word_FFF614).w
+		move.w	#$178,(GlobalTimer).w
 		move.b	#$E,(byte_FFD040).w
 		move.b	#$F,(byte_FFD080).w
 		move.b	#$F,(byte_FFD0C0).w
 		move.b	#2,(byte_FFD0C0+$1A).w
 		moveq	#0,d0
 		bsr.w	LoadPLC2
-		move.w	(word_FFF60C).w,d0
+		move.w	(ModeReg2).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_1950
@@ -2415,9 +2403,9 @@ loc_26AE:
 		move.b	#4,(VintRoutine).w
 		bsr.w	vsync
 		bsr.w	RunObjects
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		bsr.w	ProcessMaps
-		bsr.w	sub_1752
+		bsr.w	PalCycTitle
 		bsr.w	ProcessPLC
 		move.w	(ObjectsList+8).w,d0
 		addq.w	#2,d0
@@ -2429,7 +2417,7 @@ loc_26AE:
 ; ---------------------------------------------------------------------------
 
 loc_26E4:
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.w	loc_27F8
 		andi.b	#$80,(padPress1).w
 		beq.w	loc_26AE
@@ -2464,10 +2452,10 @@ loc_273C:
 		bne.s	loc_273C
 		andi.b	#$F0,(padPress1).w
 		beq.s	loc_273C
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSelOption).w,d0
 		cmpi.w	#$13,d0
 		bne.s	loc_2780
-		move.w	(word_FFF66A).w,d0
+		move.w	(LevSelSound).w,d0
 		addi.w	#$80,d0
 		cmpi.w	#$93,d0
 		bcs.s	loc_277A
@@ -2481,7 +2469,7 @@ loc_277A:
 
 loc_2780:
 		add.w	d0,d0
-		move.w	LevelSelectLlvels(pc,d0.w),d0
+		move.w	LevSelOrder(pc,d0.w),d0
 		bmi.s	loc_273C
 		cmpi.w	#$700,d0
 		bne.s	loc_2796
@@ -2509,19 +2497,23 @@ loc_27AA:
 		bsr.w	PlaySFX
 		rts	
 ; ---------------------------------------------------------------------------
-LevelSelectLlvels:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
-		dc.w $301, $302, $400, $401, $402, $500, $501, $8500, $700
-		dc.w $700, $8000
+LevSelOrder:	dc.w 0,    1,    2
+		dc.w $100, $101, $102
+		dc.w $200, $201, $202
+		dc.w $300, $301, $302
+		dc.w $400, $401, $402
+		dc.w $500, $501,$8500
+		dc.w $700, $700,$8000
 ; ---------------------------------------------------------------------------
 
 loc_27F8:
-		move.w	#$1E,(word_FFF614).w
+		move.w	#$1E,(GlobalTimer).w
 
 loc_27FE:
 		move.b	#4,(VintRoutine).w
 		bsr.w	vsync
-		bsr.w	sub_3DF6
-		bsr.w	sub_1732
+		bsr.w	LevelScroll
+		bsr.w	PaletteCycle
 		bsr.w	ProcessPLC
 		move.w	(ObjectsList+8).w,d0
 		addq.w	#2,d0
@@ -2533,7 +2525,7 @@ loc_27FE:
 ; ---------------------------------------------------------------------------
 
 loc_282C:
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		bne.w	loc_27FE
 		move.b	#$E0,d0
 		bsr.w	PlaySFX
@@ -2580,7 +2572,7 @@ loc_28B6:
 		move.b	(padHeld1).w,d1
 		andi.b	#3,d1
 		beq.s	loc_28F0
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSelOption).w,d0
 		btst	#0,d1
 		beq.s	loc_28D6
 		subq.w	#1,d0
@@ -2596,34 +2588,34 @@ loc_28D6:
 		moveq	#0,d0
 
 loc_28E6:
-		move.w	d0,(word_FFF668).w
+		move.w	d0,(LevSelOption).w
 		bsr.w	sub_292C
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_28F0:
-		cmpi.w	#$13,(word_FFF668).w
+		cmpi.w	#$13,(LevSelOption).w
 		bne.s	locret_292A
 		move.b	(padPress1).w,d1
 		andi.b	#$C,d1
 		beq.s	locret_292A
-		move.w	(word_FFF66A).w,d0
+		move.w	(LevSelSound).w,d0
 		btst	#2,d1
 		beq.s	loc_2912
 		subq.w	#1,d0
 		bcc.s	loc_2912
-		moveq	#$4F,d0
+		moveq	#79,d0
 
 loc_2912:
 		btst	#3,d1
 		beq.s	loc_2922
 		addq.w	#1,d0
-		cmpi.w	#$50,d0
+		cmpi.w	#80,d0
 		bcs.s	loc_2922
 		moveq	#0,d0
 
 loc_2922:
-		move.w	d0,(word_FFF66A).w
+		move.w	d0,(LevSelSound).w
 		bsr.w	sub_292C
 
 locret_292A:
@@ -2646,7 +2638,7 @@ loc_2944:
 		addi.l	#$800000,d4
 		dbf	d1,loc_2944
 		moveq	#0,d0
-		move.w	(word_FFF668).w,d0
+		move.w	(LevSelOption).w,d0
 		move.w	d0,d1
 		move.l	#$62100003,d4
 		lsl.w	#7,d0
@@ -2662,13 +2654,13 @@ loc_2944:
 		move.l	d4,4(a6)
 		bsr.w	sub_29CC
 		move.w	#$E680,d3
-		cmpi.w	#$13,(word_FFF668).w
+		cmpi.w	#$13,(LevSelOption).w
 		bne.s	loc_2996
 		move.w	#$C680,d3
 
 loc_2996:
 		move.l	#$6BB00003,($C00004).l
-		move.w	(word_FFF66A).w,d0
+		move.w	(LevSelSound).w,d0
 		addi.w	#$80,d0
 		move.b	d0,d2
 		lsr.b	#4,d0
@@ -2769,7 +2761,7 @@ sLevel:
 		move.b	#$E0,d0
 		bsr.w	PlaySFX
 		move.l	#$70000002,($C00004).l
-		lea	(byte_2D2FC).l,a0
+		lea	(ArtTitleCards).l,a0
 		bsr.w	NemesisDec
 		bsr.w	ClearPLC
 		moveq	#0,d0
@@ -2842,35 +2834,35 @@ loc_2C92:
 		moveq	#3,d0
 		bsr.w	palLoadFade
 		bsr.w	LoadLevelBounds
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		bsr.w	LoadLevelData
 		bsr.w	sub_31EE
-		bsr.w	LoadTilesFromStart
-		jsr	FloorLog_Unk
-		move.l	#byte_6A100,(unk_FFF796).w
+		bsr.w	mapLevelLoadFull
+		jsr	nullsub_2
+		move.l	#colGHZ,(Collision).w
 		cmpi.b	#1,(level).w
 		bne.s	loc_2CFA
-		move.l	#byte_6A290,(unk_FFF796).w
+		move.l	#colLZ,(Collision).w
 
 loc_2CFA:
 		cmpi.b	#2,(level).w
 		bne.s	loc_2D0A
-		move.l	#byte_6A358,(unk_FFF796).w
+		move.l	#colMZ,(Collision).w
 
 loc_2D0A:
 		cmpi.b	#3,(level).w
 		bne.s	loc_2D1A
-		move.l	#byte_6A658,(unk_FFF796).w
+		move.l	#colSLZ,(Collision).w
 
 loc_2D1A:
 		cmpi.b	#4,(level).w
 		bne.s	loc_2D2A
-		move.l	#byte_6A84C,(unk_FFF796).w
+		move.l	#colSYZ,(Collision).w
 
 loc_2D2A:
 		cmpi.b	#5,(level).w
 		bne.s	loc_2D3A
-		move.l	#byte_6A9DC,(unk_FFF796).w
+		move.l	#colSBZ,(Collision).w
 
 loc_2D3A:
 		move.b	#1,(ObjectsList).w
@@ -2896,7 +2888,7 @@ loc_2D54:
 		move.w	d0,(DebugRoutine).w
 		move.w	d0,(word_FFFE02).w
 		move.w	d0,(LevelFrames).w
-		bsr.w	sub_3360
+		bsr.w	OscillatingNumberInit
 		move.b	#1,(byte_FFFE1F).w
 		move.b	#1,(ExtraLifeFlags).w
 		move.b	#1,(byte_FFFE1E).w
@@ -2908,7 +2900,7 @@ loc_2D54:
 		movea.l	(a1,d0.w),a1
 		move.b	1(a1),(unk_FFF792).w
 		subq.b	#1,(unk_FFF792).w
-		move.w	#$708,(word_FFF614).w
+		move.w	#$708,(GlobalTimer).w
 		move.b	#8,(VintRoutine).w
 		bsr.w	vsync
 		move.w	#$202F,(word_FFF626).w
@@ -2933,16 +2925,16 @@ sLevelLoop:
 		bcc.s	loc_2E2E
 
 loc_2E2A:
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 
 loc_2E2E:
 		bsr.w	ProcessMaps
 		bsr.w	LoadObjects
-		bsr.w	sub_1732
+		bsr.w	PaletteCycle
 		bsr.w	ProcessPLC
-		bsr.w	sub_33B6
-		bsr.w	sub_344E
-		bsr.w	sub_34BC
+		bsr.w	OscillatingNumberDo
+		bsr.w	ChangeRingFrame
+		bsr.w	LoadSignpostArt
 		cmpi.b	#8,(GameMode).w
 		beq.s	loc_2E66
 		tst.w	(word_FFFE02).w
@@ -2955,7 +2947,7 @@ loc_2E2E:
 loc_2E66:
 		tst.w	(word_FFFE02).w
 		bne.s	loc_2E84
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.s	loc_2E84
 		cmpi.b	#8,(GameMode).w
 		beq.w	sLevelLoop
@@ -2969,7 +2961,7 @@ loc_2E84:
 		move.b	#0,(GameMode).w
 
 loc_2E92:
-		move.w	#$3C,(word_FFF614).w
+		move.w	#$3C,(GlobalTimer).w
 		move.w	#$3F,(word_FFF626).w
 
 loc_2E9E:
@@ -2985,7 +2977,7 @@ loc_2E9E:
 		bsr.w	sub_19F2
 
 loc_2EC8:
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		bne.s	loc_2E9E
 		rts	
 ; ---------------------------------------------------------------------------
@@ -3373,18 +3365,18 @@ byte_335C:	dc.b 0, 6, $60, $66
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3360:
+OscillatingNumberInit:
 		lea	(word_FFFE5E).w,a1
-		lea	(word_3374).l,a2
+		lea	(Oscillating_Data).l,a2
 		moveq	#$20,d1
 
-loc_336C:
+@loop:
 		move.w	(a2)+,(a1)+
-		dbf	d1,loc_336C
+		dbf	d1,@loop
 		rts	
 
 ; ---------------------------------------------------------------------------
-word_3374:	dc.w $7C, $80, 0, $80, 0, $80, 0, $80, 0, $80, 0, $80
+Oscillating_Data:dc.w $7C, $80, 0, $80, 0, $80, 0, $80, 0, $80, 0, $80
 		dc.w 0, $80, 0, $80, 0, $80, 0, $50F0, $11E, $2080, $B4
 		dc.w $3080, $10E, $5080, $1C2, $7080, $276, $80, 0, $80
 		dc.w 0
@@ -3392,11 +3384,11 @@ word_3374:	dc.w $7C, $80, 0, $80, 0, $80, 0, $80, 0, $80, 0, $80
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_33B6:
+OscillatingNumberDo:
 		cmpi.b	#6,(ObjectsList+$24).w
 		bcc.s	locret_340C
 		lea	(word_FFFE5E).w,a1
-		lea	(word_340E).l,a2
+		lea	(Oscillating_Data2).l,a2
 		move.w	(a1)+,d3
 		moveq	#$F,d1
 
@@ -3433,7 +3425,7 @@ locret_340C:
 		rts	
 
 ; ---------------------------------------------------------------------------
-word_340E:	dc.w 2, $10
+Oscillating_Data2:dc.w 2, $10
 		dc.w 2, $18
 		dc.w 2, $20
 		dc.w 2, $30
@@ -3453,7 +3445,7 @@ word_340E:	dc.w 2, $10
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_344E:
+ChangeRingFrame:
 		subq.b	#1,(byte_FFFEC0).w
 		bpl.s	loc_3464
 		move.b	#$B,(byte_FFFEC0).w
@@ -3461,11 +3453,11 @@ sub_344E:
 		andi.b	#7,(byte_FFFEC1).w
 
 loc_3464:
-		subq.b	#1,(byte_FFFEC2).w
+		subq.b	#1,(RingTimer).w
 		bpl.s	loc_347A
-		move.b	#7,(byte_FFFEC2).w
-		addq.b	#1,(byte_FFFEC3).w
-		andi.b	#3,(byte_FFFEC3).w
+		move.b	#7,(RingTimer).w
+		addq.b	#1,(RingFrame).w
+		andi.b	#3,(RingFrame).w
 
 loc_347A:
 		subq.b	#1,(byte_FFFEC4).w
@@ -3477,16 +3469,16 @@ loc_347A:
 		move.b	#0,(byte_FFFEC5).w
 
 loc_3498:
-		tst.b	(byte_FFFEC6).w
+		tst.b	(RingLossTimer).w
 		beq.s	locret_34BA
 		moveq	#0,d0
-		move.b	(byte_FFFEC6).w,d0
-		add.w	(word_FFFEC8).w,d0
-		move.w	d0,(word_FFFEC8).w
+		move.b	(RingLossTimer).w,d0
+		add.w	(RingLossAccumulator).w,d0
+		move.w	d0,(RingLossAccumulator).w
 		rol.w	#7,d0
 		andi.w	#3,d0
-		move.b	d0,(byte_FFFEC7).w
-		subq.b	#1,(byte_FFFEC6).w
+		move.b	d0,(RingLossFrame).w
+		subq.b	#1,(RingLossTimer).w
 
 locret_34BA:
 		rts	
@@ -3495,7 +3487,7 @@ locret_34BA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_34BC:
+LoadSignpostArt:
 		tst.w	(DebugRoutine).w
 		bne.w	locret_34FA
 		cmpi.w	#$202,(level).w
@@ -3525,7 +3517,7 @@ locret_34FA:
 
 sSpecial:
 		bsr.w	sub_19D2
-		move.w	(word_FFF60C).w,d0
+		move.w	(ModeReg2).w,d0
 		andi.b	#$BF,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_10A6
@@ -3543,35 +3535,35 @@ loc_3534:
 		move.w	#$8F02,(a5)
 		moveq	#$14,d0
 		bsr.w	sub_14E2
-		bsr.w	SS_BGLoad
+		bsr.w	ssLoadBG
 		lea	(ObjectsList).w,a1
 		moveq	#0,d0
 		move.w	#$7FF,d1
 
-loc_3554:
+sSpecial_ClearObjectRAM:
 		move.l	d0,(a1)+
-		dbf	d1,loc_3554
+		dbf	d1,sSpecial_ClearObjectRAM
 		lea	(unk_FFF700).w,a1
 		moveq	#0,d0
 		move.w	#$3F,d1
 
-loc_3564:
+sSpecial_ClearRAM:
 		move.l	d0,(a1)+
-		dbf	d1,loc_3564
+		dbf	d1,sSpecial_ClearRAM
 		lea	(byte_FFFE60).w,a1
 		moveq	#0,d0
 		move.w	#$27,d1
 
-loc_3574:
+sSpecial_ClearRAM2:
 		move.l	d0,(a1)+
-		dbf	d1,loc_3574
+		dbf	d1,sSpecial_ClearRAM2
 		lea	((Layout+$600)).w,a1
 		moveq	#0,d0
 		move.w	#$7F,d1
 
-loc_3584:
+sSpecial_ClrNemBuffer:
 		move.l	d0,(a1)+
-		dbf	d1,loc_3584
+		dbf	d1,sSpecial_ClrNemBuffer
 		moveq	#$A,d0
 		bsr.w	palLoadFade
 		jsr	sub_10B70
@@ -3585,7 +3577,7 @@ loc_3584:
 		move.w	#$8004,(a6)
 		move.w	#$8AAF,(word_FFF624).w
 		move.w	#$9011,(a6)
-		bsr.w	PalCycle_SS
+		bsr.w	sSpecial_PaletteCycle
 		clr.w	(unk_FFF780).w
 		move.w	#$40,(unk_FFF782).w
 		move.w	#$89,d0
@@ -3598,8 +3590,8 @@ loc_3584:
 		movea.l	(a1,d0.w),a1
 		move.b	1(a1),(unk_FFF792).w
 		subq.b	#1,(unk_FFF792).w
-		move.w	#$708,(word_FFF614).w
-		move.w	(word_FFF60C).w,d0
+		move.w	#$708,(GlobalTimer).w
+		move.w	(ModeReg2).w,d0
 		ori.b	#$40,d0
 		move.w	d0,($C00004).l
 		bsr.w	sub_1950
@@ -3613,10 +3605,10 @@ loc_3620:
 		bsr.w	RunObjects
 		bsr.w	ProcessMaps
 		jsr	sub_10872
-		bsr.w	SS_BGAnimate
+		bsr.w	sSpecial_BGAnimate
 		tst.w	(DemoMode).w
 		beq.s	loc_3656
-		tst.w	(word_FFF614).w
+		tst.w	(GlobalTimer).w
 		beq.s	loc_3662
 
 loc_3656:
@@ -3632,7 +3624,7 @@ loc_3662:
 ; =============== S U B R O U T I N E =======================================
 
 
-SS_BGLoad:
+ssLoadBG:
 		lea	((Chunks)&$FFFFFF).l,a1
 		lea	(byte_639B8).l,a0
 		move.w	#$4051,d0
@@ -3664,7 +3656,7 @@ loc_36B0:
 		movem.l	d0-d4,-(sp)
 		moveq	#7,d1
 		moveq	#7,d2
-		bsr.w	sub_1216
+		bsr.w	LoadPlaneMaps
 		movem.l	(sp)+,d0-d4
 
 loc_36C0:
@@ -3690,20 +3682,20 @@ loc_36EA:
 		move.l	#$40000003,d0
 		moveq	#$3F,d1
 		moveq	#$1F,d2
-		bsr.w	sub_1216
+		bsr.w	LoadPlaneMaps
 		lea	((Chunks)&$FFFFFF).l,a1
 		move.l	#$50000003,d0
 		moveq	#$3F,d1
 		moveq	#$3F,d2
-		bsr.w	sub_1216
+		bsr.w	LoadPlaneMaps
 		rts	
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-PalCycle_SS:
-		tst.w	(word_FFF63A).w
+sSpecial_PaletteCycle:
+		tst.w	(PauseFlag).w
 		bmi.s	locret_37B4
 		subq.w	#1,(unk_FFF79C).w
 		bpl.s	locret_37B4
@@ -3737,7 +3729,7 @@ loc_3760:
 		moveq	#0,d0
 		move.b	(a0)+,d0
 		bmi.s	loc_37B6
-		lea	(dword_3898).l,a1
+		lea	(Pal_sSpecialCycle1).l,a1
 		adda.w	d0,a1
 		lea	((Palette+$4E)).w,a2
 		move.l	(a1)+,(a2)+
@@ -3756,7 +3748,7 @@ loc_37B6:
 
 loc_37C2:
 		mulu.w	#$2A,d1
-		lea	(word_38E0).l,a1
+		lea	(Pal_sSpecialCycle2).l,a1
 		adda.w	d1,a1
 		andi.w	#$7F,d0
 		bclr	#0,d0
@@ -3795,16 +3787,16 @@ byte_380A:	dc.b 3, 0, 7, $92, 3, 0, 7, $90, 3, 0, 7, $8E, 3, 0, 7
 		dc.b $3C, $FF, 6, 6, $3C, 7, 4, 6, $30, 7, 2, 6, $24
 byte_388A:	dc.b $10, 1, $18, 0, $18, 1, $20, 0, $20, 1, $28, 0, $28
 		dc.b 1
-dword_3898:	dc.l $4000600, $6200624, $6640666, $6000820, $A640A68
+Pal_sSpecialCycle1:dc.l $4000600, $6200624, $6640666, $6000820, $A640A68
 		dc.l $AA60AAA, $8000C42, $E860ECA, $EEC0EEE, $4000420
 		dc.l $6200620, $8640666, $4200620, $8420842, $A860AAA
 		dc.l $6200842, $A640C86, $EA80EEE
-word_38E0:	incbin "unknown/038E0.pal"
+Pal_sSpecialCycle2:incbin "unknown/038E0.pal"
 
 ; =============== S U B R O U T I N E =======================================
 
 
-SS_BGAnimate:
+sSpecial_BGAnimate:
 		move.w	(unk_FFF7A0).w,d0
 		bne.s	loc_39C4
 		move.w	#0,(unk_FFF70C).w
@@ -3907,7 +3899,7 @@ LoadLevelBounds:
 		move.b	d0,(unk_FFF741).w
 		move.b	d0,(unk_FFF746).w
 		move.b	d0,(unk_FFF748).w
-		move.b	d0,(unk_FFF742).w
+		move.b	d0,(EventsRoutine).w
 		move.w	(level).w,d0
 		lsl.b	#6,d0
 		lsr.w	#4,d0
@@ -4004,7 +3996,7 @@ loc_3CA8:
 
 loc_3CB2:
 		move.w	d0,(unk_FFF704).w
-		bsr.w	sub_3D9A
+		bsr.w	initLevelBG
 		moveq	#0,d0
 		move.b	(level).w,d0
 		lsl.b	#2,d0
@@ -4070,7 +4062,7 @@ dword_3D6A:	dc.l $700100, $1000100
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3D9A:
+initLevelBG:
 		move.w	d0,(unk_FFF70C).w
 		move.w	d0,(unk_FFF714).w
 		swap	d1
@@ -4084,28 +4076,28 @@ sub_3D9A:
 		jmp	off_3DC0(pc,d2.w)
 
 ; ---------------------------------------------------------------------------
-off_3DC0:	dc.w loc_3DCC-off_3DC0, locret_3DD0-off_3DC0, nullsub_5-off_3DC0, sub_3DD4-off_3DC0
-		dc.w sub_3DE0-off_3DC0, nullsub_6-off_3DC0
+off_3DC0:	dc.w InitBGHZ-off_3DC0, initLevelLZ-off_3DC0, initLevelMZ-off_3DC0, initLevelSLZ-off_3DC0
+		dc.w initLevelSYZ-off_3DC0, initLevelSBZ-off_3DC0
 ; ---------------------------------------------------------------------------
 
-loc_3DCC:
-		bra.w	Deform_GHZ
+InitBGHZ:
+		bra.w	HScrollGHZ
 ; ---------------------------------------------------------------------------
 
-locret_3DD0:
+initLevelLZ:
 		rts	
 
 ; =============== S U B R O U T I N E =======================================
 
 
-nullsub_5:
+initLevelMZ:
 		rts	
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DD4:
+initLevelSLZ:
 		asr.l	#1,d0
 		addi.w	#$C0,d0
 		move.w	d0,(unk_FFF70C).w
@@ -4115,7 +4107,7 @@ sub_3DD4:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DE0:
+initLevelSYZ:
 		asl.l	#4,d0
 		move.l	d0,d2
 		asl.l	#1,d0
@@ -4129,26 +4121,26 @@ sub_3DE0:
 ; =============== S U B R O U T I N E =======================================
 
 
-nullsub_6:
+initLevelSBZ:
 		rts	
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DF6:
+LevelScroll:
 
 
 		tst.b	(unk_FFF744).w
 		bne.s	loc_3E18
 		tst.b	(unk_FFF740).w
 		bne.w	loc_4258
-		bsr.w	ScrollHoriz
+		bsr.w	camMoveHoriz
 
 loc_3E08:
 		tst.b	(unk_FFF741).w
 		bne.w	loc_4276
-		bsr.w	ScrollVertical
+		bsr.w	camMoveVerti
 
 loc_3E14:
 		bsr.w	LevelEvents
@@ -4163,15 +4155,15 @@ loc_3E18:
 		moveq	#0,d0
 		move.b	(level).w,d0
 		add.w	d0,d0
-		move.w	off_3E4C(pc,d0.w),d0
-		jmp	off_3E4C(pc,d0.w)
+		move.w	@scroll(pc,d0.w),d0
+		jmp	@scroll(pc,d0.w)
 
 ; ---------------------------------------------------------------------------
-off_3E4C:	dc.w Deform_GHZ-off_3E4C, Deform_LZ-off_3E4C, Deform_MZ-off_3E4C, Deform_SLZ-off_3E4C
-		dc.w Deform_SPZ-off_3E4C, Deform_CWZ-off_3E4C
+@scroll:	dc.w HScrollGHZ-@scroll, HScrollLZ-@scroll, HScrollMZ-@scroll, HScrollSLZ-@scroll
+		dc.w HScrollSYZ-@scroll, HScrollSBZ-@scroll
 ; ---------------------------------------------------------------------------
 
-Deform_GHZ:
+HScrollGHZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#5,d4
@@ -4242,7 +4234,7 @@ loc_3EF0:
 ; =============== S U B R O U T I N E =======================================
 
 
-Deform_LZ:
+HScrollLZ:
 		lea	(ScrollTable).w,a1
 		move.w	#$DF,d1
 		move.w	(unk_FFF700).w,d0
@@ -4261,7 +4253,7 @@ loc_3F1C:
 ; =============== S U B R O U T I N E =======================================
 
 
-Deform_MZ:
+HScrollMZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#6,d4
@@ -4299,7 +4291,7 @@ loc_3F74:
 
 ; ---------------------------------------------------------------------------
 
-Deform_SLZ:
+HScrollSLZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#7,d4
@@ -4401,7 +4393,7 @@ loc_404C:
 
 ; ---------------------------------------------------------------------------
 
-Deform_SPZ:
+HScrollSYZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#6,d4
@@ -4427,7 +4419,7 @@ loc_408A:
 		rts	
 ; ---------------------------------------------------------------------------
 
-Deform_CWZ:
+HScrollSBZ:
 		lea	(ScrollTable).w,a1
 		move.w	#$DF,d1
 		move.w	(unk_FFF700).w,d0
@@ -4445,9 +4437,9 @@ loc_40AC:
 ; =============== S U B R O U T I N E =======================================
 
 
-ScrollHoriz:
+camMoveHoriz:
 		move.w	(unk_FFF700).w,d4
-		bsr.s	ScrollHoriz2
+		bsr.s	sub_40E8
 		move.w	(unk_FFF700).w,d0
 		andi.w	#$10,d0
 		move.b	(unk_FFF74A).w,d1
@@ -4471,7 +4463,7 @@ locret_40E6:
 ; =============== S U B R O U T I N E =======================================
 
 
-ScrollHoriz2:
+sub_40E8:
 		move.w	(ObjectsList+8).w,d0
 		sub.w	(unk_FFF700).w,d0
 		subi.w	#$90,d0
@@ -4523,7 +4515,7 @@ loc_4146:
 ; =============== S U B R O U T I N E =======================================
 
 
-ScrollVertical:
+camMoveVerti:
 		moveq	#0,d1
 		move.w	(ObjectsList+$C).w,d0
 		sub.w	(unk_FFF704).w,d0
@@ -4658,7 +4650,7 @@ loc_4258:
 		sub.w	(unk_FFF700).w,d0
 		beq.s	loc_426E
 		bpl.s	loc_4268
-		moveq	#$FFFFFFFF,d1
+		moveq	#-1,d1
 
 loc_4268:
 		add.w	d1,(unk_FFF700).w
@@ -4676,7 +4668,7 @@ loc_4276:
 		sub.w	(unk_FFF704).w,d0
 		beq.s	loc_4290
 		bpl.s	loc_428A
-		moveq	#$FFFFFFFF,d1
+		moveq	#-1,d1
 
 loc_428A:
 		add.w	d1,(unk_FFF704).w
@@ -4685,7 +4677,7 @@ loc_428A:
 loc_4290:
 		move.w	d0,(unk_FFF73C).w
 		bra.w	loc_3E14
-; END OF FUNCTION CHUNK FOR sub_3DF6
+; END OF FUNCTION CHUNK FOR LevelScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -4842,7 +4834,7 @@ sub_43B6:
 ; =============== S U B R O U T I N E =======================================
 
 
-LoadTilesAsYouMove:
+mapLevelLoad:
 		lea	($C00004).l,a5
 		lea	($C00000).l,a6
 		lea	(unk_FFF756).w,a2
@@ -5277,13 +5269,13 @@ sub_476E:
 ; =============== S U B R O U T I N E =======================================
 
 
-LoadTilesFromStart:
+mapLevelLoadFull:
 		lea	($C00004).l,a5
 		lea	($C00000).l,a6
 		lea	(unk_FFF700).w,a3
 		lea	(Layout).w,a4
 		move.w	#$4000,d2
-		bsr.s	LoadTilesFromStart2
+		bsr.s	mapLevelLoadFull2
 		lea	(unk_FFF708).w,a3
 		lea	((Layout+$40)).w,a4
 		move.w	#$6000,d2
@@ -5292,7 +5284,7 @@ LoadTilesFromStart:
 ; =============== S U B R O U T I N E =======================================
 
 
-LoadTilesFromStart2:
+mapLevelLoadFull2:
 		moveq	#$FFFFFFF0,d4
 		moveq	#$F,d6
 
@@ -5345,9 +5337,9 @@ LoadLevelData:
 		lea	(Blocks).w,a4
 		move.w	#$5FF,d0
 
-loc_482A:
+@loadblocks:
 		move.l	(a0)+,(a4)+
-		dbf	d0,loc_482A
+		dbf	d0,@loadblocks
 		movea.l	(a2)+,a0
 		lea	((Chunks)&$FFFFFF).l,a1
 		bsr.w	KosinskiDec
@@ -5492,25 +5484,25 @@ locret_495C:
 		rts	
 
 ; ---------------------------------------------------------------------------
-off_495E:	dc.w loc_496C-off_495E, locret_496A-off_495E, loc_4A80-off_495E, loc_4B6A-off_495E
-		dc.w locret_496A-off_495E, locret_496A-off_495E
+off_495E:	dc.w EventsGHZ-off_495E, EventsNull-off_495E, EventsMZ-off_495E, EventsSLZ-off_495E
+		dc.w EventsNull-off_495E, EventsNull-off_495E
 ; ---------------------------------------------------------------------------
 
-locret_496A:
+EventsNull:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_496C:
+EventsGHZ:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
 		move.w	off_497C(pc,d0.w),d0
 		jmp	off_497C(pc,d0.w)
 ; ---------------------------------------------------------------------------
-off_497C:	dc.w loc_4982-off_497C, loc_4998-off_497C, loc_49CA-off_497C
+off_497C:	dc.w EventsGHZ1-off_497C, EventsGHZ2-off_497C, EventsGHZ3-off_497C
 ; ---------------------------------------------------------------------------
 
-loc_4982:
+EventsGHZ1:
 		move.w	#$300,(unk_FFF726).w
 		cmpi.w	#$1780,(unk_FFF700).w
 		bcs.s	locret_4996
@@ -5520,7 +5512,7 @@ locret_4996:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4998:
+EventsGHZ2:
 		move.w	#$300,(unk_FFF726).w
 		cmpi.w	#$ED0,(unk_FFF700).w
 		bcs.s	locret_49C8
@@ -5536,9 +5528,9 @@ locret_49C8:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_49CA:
+EventsGHZ3:
 		moveq	#0,d0
-		move.b	(unk_FFF742).w,d0
+		move.b	(EventsRoutine).w,d0
 		move.w	off_49D8(pc,d0.w),d0
 		jmp	off_49D8(pc,d0.w)
 ; ---------------------------------------------------------------------------
@@ -5570,14 +5562,14 @@ locret_4A24:
 
 loc_4A26:
 		move.w	#$300,(unk_FFF726).w
-		addq.b	#2,(unk_FFF742).w
+		addq.b	#2,(EventsRoutine).w
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_4A32:
 		cmpi.w	#$960,(unk_FFF700).w
 		bcc.s	loc_4A3E
-		subq.b	#2,(unk_FFF742).w
+		subq.b	#2,(EventsRoutine).w
 
 loc_4A3E:
 		cmpi.w	#$2960,(unk_FFF700).w
@@ -5592,7 +5584,7 @@ loc_4A5E:
 		move.w	#$8C,d0
 		bsr.w	PlayMusic
 		move.b	#1,(unk_FFF7AA).w
-		addq.b	#2,(unk_FFF742).w
+		addq.b	#2,(EventsRoutine).w
 		moveq	#$11,d0
 		bra.w	LoadPLC
 ; ---------------------------------------------------------------------------
@@ -5606,19 +5598,19 @@ loc_4A78:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4A80:
+EventsMZ:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
 		move.w	off_4A90(pc,d0.w),d0
 		jmp	off_4A90(pc,d0.w)
 ; ---------------------------------------------------------------------------
-off_4A90:	dc.w loc_4A96-off_4A90, loc_4B52-off_4A90, locret_4B68-off_4A90
+off_4A90:	dc.w EventsMZ1-off_4A90, EventsMZ2-off_4A90, EventsMZ3-off_4A90
 ; ---------------------------------------------------------------------------
 
-loc_4A96:
+EventsMZ1:
 		moveq	#0,d0
-		move.b	(unk_FFF742).w,d0
+		move.b	(EventsRoutine).w,d0
 
 loc_4A9C:
 		move.w	off_4AA4(pc,d0.w),d0
@@ -5637,7 +5629,7 @@ loc_4AAC:
 		move.w	#$340,(unk_FFF726).w
 		cmpi.w	#$340,(unk_FFF704).w
 		bcs.s	locret_4ADA
-		addq.b	#2,(unk_FFF742).w
+		addq.b	#2,(EventsRoutine).w
 
 locret_4ADA:
 		rts	
@@ -5648,7 +5640,7 @@ locret_4ADA:
 sub_4ADC:
 		cmpi.w	#$340,(unk_FFF704).w
 		bcc.s	loc_4AEA
-		subq.b	#2,(unk_FFF742).w
+		subq.b	#2,(EventsRoutine).w
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -5663,7 +5655,7 @@ loc_4AEA:
 		move.w	#$500,(unk_FFF726).w
 		cmpi.w	#$370,(unk_FFF704).w
 		bcs.s	locret_4B1E
-		addq.b	#2,(unk_FFF742).w
+		addq.b	#2,(EventsRoutine).w
 
 locret_4B1E:
 		rts	
@@ -5673,7 +5665,7 @@ locret_4B1E:
 loc_4B20:
 		cmpi.w	#$370,(unk_FFF704).w
 		bcc.s	loc_4B2E
-		subq.b	#2,(unk_FFF742).w
+		subq.b	#2,(EventsRoutine).w
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -5681,7 +5673,7 @@ loc_4B2E:
 		cmpi.w	#$500,(unk_FFF704).w
 		bcs.s	locret_4B40
 		move.w	#$500,(unk_FFF72C).w
-		addq.b	#2,(unk_FFF742).w
+		addq.b	#2,(EventsRoutine).w
 
 locret_4B40:
 		rts	
@@ -5696,7 +5688,7 @@ locret_4B50:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4B52:
+EventsMZ2:
 		move.w	#$520,(unk_FFF726).w
 		cmpi.w	#$1500,(unk_FFF700).w
 		bcs.s	locret_4B66
@@ -5706,21 +5698,21 @@ locret_4B66:
 		rts	
 ; ---------------------------------------------------------------------------
 
-locret_4B68:
+EventsMZ3:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4B6A:
+EventsSLZ:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
 		move.w	off_4B7A(pc,d0.w),d0
 		jmp	off_4B7A(pc,d0.w)
 ; ---------------------------------------------------------------------------
-off_4B7A:	dc.w locret_4B80-off_4B7A, locret_4B80-off_4B7A, locret_4B80-off_4B7A
+off_4B7A:	dc.w EventsSLZNull-off_4B7A, EventsSLZNull-off_4B7A, EventsSLZNull-off_4B7A
 ; ---------------------------------------------------------------------------
 
-locret_4B80:
+EventsSLZNull:
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -5780,7 +5772,7 @@ byte_4C06:	dc.b 8
 		dc.b $E0, $F, $80, $10, $F0
 		dc.b $C0, $F, $80, $10, $F0
 		dc.b $A0, $F, $80, $10, $F0
-		dc.b 0
+		even	
 byte_4C30:	dc.b 8
 		dc.b $80, $F, $80, 0, $F0
 		dc.b $60, $F, $80, 0, $F0
@@ -5790,7 +5782,7 @@ byte_4C30:	dc.b 8
 		dc.b $E0, $F, $80, 0, $F0
 		dc.b $C0, $F, $80, 0, $F0
 		dc.b $A0, $F, $80, 0, $F0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 Obj03:
@@ -5984,14 +5976,14 @@ loc_4E50:
 ObjBridge:
 		moveq	#0,d0
 		move.b	$24(a0),d0
-		move.w	off_4E64(pc,d0.w),d1
-		jmp	off_4E64(pc,d1.w)
+		move.w	ObjBridge_Index(pc,d0.w),d1
+		jmp	ObjBridge_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-off_4E64:	dc.w loc_4E70-off_4E64, loc_4F32-off_4E64, loc_50B2-off_4E64, loc_5452-off_4E64, loc_5452-off_4E64
-		dc.w loc_5458-off_4E64
+ObjBridge_Index:dc.w BridgeInit-ObjBridge_Index, ActionBridge-ObjBridge_Index, ActionBridge2-ObjBridge_Index, DisplayBridge2-ObjBridge_Index, DisplayBridge2-ObjBridge_Index
+		dc.w loc_5458-ObjBridge_Index
 ; ---------------------------------------------------------------------------
 
-loc_4E70:
+BridgeInit:
 		addq.b	#2,$24(a0)
 		move.l	#MapBridge,4(a0)
 		move.w	#$438E,2(a0)
@@ -6010,11 +6002,11 @@ loc_4E70:
 		lsl.w	#4,d0
 		sub.w	d0,d3
 		subq.b	#2,d1
-		bcs.s	loc_4F32
+		bcs.s	ActionBridge
 
-loc_4EB8:
+ObjBridge_MakeBridge:
 		bsr.w	ObjectLoad
-		bne.s	loc_4F32
+		bne.s	ActionBridge
 		addq.b	#1,$28(a0)
 		cmp.w	8(a0),d3
 		bne.s	loc_4EE6
@@ -6045,18 +6037,18 @@ loc_4EE6:
 		move.b	#3,$19(a1)
 		move.b	#8,$18(a1)
 		addi.w	#$10,d3
-		dbf	d1,loc_4EB8
+		dbf	d1,ObjBridge_MakeBridge
 
-loc_4F32:
+ActionBridge:
 		bsr.s	PtfmBridge
 		tst.b	$3E(a0)
-		beq.s	loc_4F42
+		beq.s	DisplayBridge
 		subq.b	#4,$3E(a0)
-		bsr.w	sub_514A
+		bsr.w	BendBridge
 
-loc_4F42:
+DisplayBridge:
 		bsr.w	ObjectDisplay
-		bra.w	loc_5406
+		bra.w	CheckDelete_Bridge
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -6201,15 +6193,15 @@ PtfmNormalHeight:
 
 ; ---------------------------------------------------------------------------
 
-loc_50B2:
-		bsr.s	sub_50BC
+ActionBridge2:
+		bsr.s	WalkOffBridge
 		bsr.w	ObjectDisplay
-		bra.w	loc_5406
+		bra.w	CheckDelete_Bridge
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_50BC:
+WalkOffBridge:
 		moveq	#0,d1
 		move.b	$28(a0),d1
 		lsl.w	#3,d1
@@ -6225,8 +6217,8 @@ sub_50BC:
 		addq.b	#4,$3E(a0)
 
 loc_50E0:
-		bsr.w	sub_514A
-		bsr.w	sub_511E
+		bsr.w	BendBridge
+		bsr.w	MovePlayerBridge
 
 locret_50E8:
 		rts	
@@ -6266,7 +6258,7 @@ locret_511C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_511E:
+MovePlayerBridge:
 		moveq	#0,d0
 		move.b	$3F(a0),d0
 		move.b	$29(a0,d0.w),d0
@@ -6286,11 +6278,11 @@ sub_511E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_514A:
+BendBridge:
 		move.b	$3E(a0),d0
 		bsr.w	GetSine
 		move.w	d0,d4
-		lea	(byte_5306).l,a4
+		lea	(Bridge_BendData2).l,a4
 		moveq	#0,d0
 		move.b	$28(a0),d0
 		lsl.w	#4,d0
@@ -6299,7 +6291,7 @@ sub_514A:
 		move.w	d3,d2
 		add.w	d0,d3
 		moveq	#0,d5
-		lea	(byte_51F6).l,a5
+		lea	(Bridge_BendData).l,a5
 		move.b	(a5,d3.w),d5
 		andi.w	#$F,d3
 		lsl.w	#4,d3
@@ -6356,7 +6348,7 @@ locret_51F4:
 		rts	
 
 ; ---------------------------------------------------------------------------
-byte_51F6:	dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2
+Bridge_BendData:dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2
 		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2
 		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2
 		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 4, 2
@@ -6373,7 +6365,7 @@ byte_51F6:	dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2
 		dc.b $A, 8, 6, 4, 2, 0, 0, 2, 4, 6, 8, $A, $C, $E, $10
 		dc.b $E, $C, $A, 8, 6, 4, 2, 0, 2, 4, 6, 8, $A, $C, $E
 		dc.b $10, $10, $E, $C, $A, 8, 6, 4, 2
-byte_5306:	dc.b $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Bridge_BendData2:dc.b $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 		dc.b $B5, $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 		dc.b $7E, $DB, $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 		dc.b 0, $61, $B5, $EC, $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -6396,7 +6388,7 @@ byte_5306:	dc.b $FF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 		dc.b $FE, $FF
 ; ---------------------------------------------------------------------------
 
-loc_5406:
+CheckDelete_Bridge:
 		move.w	8(a0),d0
 		andi.w	#$FF80,d0
 		move.w	(unk_FFF700).w,d1
@@ -6404,36 +6396,36 @@ loc_5406:
 		andi.w	#$FF80,d1
 		sub.w	d1,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_5426
+		bhi.w	DeleteAll_Bridge
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_5426:
+DeleteAll_Bridge:
 		moveq	#0,d2
 		lea	$28(a0),a2
 		move.b	(a2)+,d2
 		subq.b	#1,d2
-		bcs.s	loc_544C
+		bcs.s	DeleteBridge2
 
-loc_5432:
+DelLoop_Bridge:
 		moveq	#0,d0
 		move.b	(a2)+,d0
 		lsl.w	#6,d0
 		addi.l	#(ObjectsList)&$FFFFFF,d0
 		movea.l	d0,a1
 		cmp.w	a0,d0
-		beq.s	loc_5448
-		bsr.w	loc_878A
+		beq.s	Loop_Bridge
+		bsr.w	ObjectDelete2
 
-loc_5448:
-		dbf	d2,loc_5432
+Loop_Bridge:
+		dbf	d2,DelLoop_Bridge
 
-loc_544C:
+DeleteBridge2:
 		bsr.w	ObjectDelete
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_5452:
+DisplayBridge2:
 		bsr.w	ObjectDelete
 		rts	
 ; ---------------------------------------------------------------------------
@@ -6450,20 +6442,20 @@ byte_546A:	dc.b 2
 		dc.b 0, $C, 0, 6, $F0
 byte_5475:	dc.b 1
 		dc.b $FC, 4, 0, 8, $F8
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSwingPtfm:
 		moveq	#0,d0
 		move.b	$24(a0),d0
-		move.w	off_548A(pc,d0.w),d1
-		jmp	off_548A(pc,d1.w)
+		move.w	ObjSwingPtfm_Index(pc,d0.w),d1
+		jmp	ObjSwingPtfm_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-off_548A:	dc.w loc_5496-off_548A, loc_55C8-off_548A, loc_55E4-off_548A, loc_5716-off_548A, loc_5716-off_548A
-		dc.w loc_571C-off_548A
+ObjSwingPtfm_Index:dc.w ObjSwingPtfm_Init-ObjSwingPtfm_Index, loc_55C8-ObjSwingPtfm_Index, loc_55E4-ObjSwingPtfm_Index, loc_5716-ObjSwingPtfm_Index, loc_5716-ObjSwingPtfm_Index
+		dc.w loc_571C-ObjSwingPtfm_Index
 ; ---------------------------------------------------------------------------
 
-loc_5496:
+ObjSwingPtfm_Init:
 		addq.b	#2,$24(a0)
 		move.l	#MapSwingPtfm,4(a0)
 		move.w	#$4380,2(a0)
@@ -6474,14 +6466,14 @@ loc_5496:
 		move.w	$C(a0),$38(a0)
 		move.w	8(a0),$3A(a0)
 		cmpi.b	#3,(level).w
-		bne.s	loc_54F4
+		bne.s	ObjSwingPtfm_SetLength
 		move.l	#$573E,4(a0)
 		move.w	#$43DC,2(a0)
 		move.b	#$20,$18(a0)
 		move.b	#$10,$16(a0)
 		move.b	#$99,$20(a0)
 
-loc_54F4:
+ObjSwingPtfm_SetLength:
 		move.b	0(a0),d4
 		moveq	#0,d1
 		lea	$28(a0),a2
@@ -6495,11 +6487,11 @@ loc_54F4:
 		move.b	d3,$3C(a0)
 		subq.b	#8,d3
 		tst.b	$1A(a0)
-		beq.s	loc_5520
+		beq.s	ObjSwingPtfm_MakeChain
 		addq.b	#8,d3
 		subq.w	#1,d1
 
-loc_5520:
+ObjSwingPtfm_MakeChain:
 		bsr.w	ObjectLoad
 		bne.s	loc_5586
 		addq.b	#1,$28(a0)
@@ -6519,12 +6511,12 @@ loc_5520:
 		move.b	#1,$1A(a1)
 		move.b	d3,$3C(a1)
 		subi.b	#$10,d3
-		bcc.s	loc_5582
+		bcc.s	@loop_0
 		move.b	#2,$1A(a1)
 		bset	#6,2(a1)
 
-loc_5582:
-		dbf	d1,loc_5520
+@loop_0:
+		dbf	d1,ObjSwingPtfm_MakeChain
 
 loc_5586:
 		move.w	a0,d5
@@ -6688,7 +6680,7 @@ loc_56FE:
 		lsl.w	#6,d0
 		addi.l	#(ObjectsList)&$FFFFFF,d0
 		movea.l	d0,a1
-		bsr.w	loc_878A
+		bsr.w	ObjectDelete2
 		dbf	d2,loc_56FE
 		rts	
 ; ---------------------------------------------------------------------------
@@ -6709,7 +6701,7 @@ byte_5731:	dc.b 1
 		dc.b $F8, 5, 0, 0, $F8
 byte_5737:	dc.b 1
 		dc.b $F8, 5, 0, $A, $F8
-		dc.b 0
+		even	
 off_573E:	dc.w byte_5744-off_573E, byte_576D-off_573E, byte_5773-off_573E
 byte_5744:	dc.b 8
 		dc.b $F0, $F, 0, 4, $E0
@@ -6724,7 +6716,7 @@ byte_576D:	dc.b 1
 		dc.b $F8, 5, $40, 0, $F8
 byte_5773:	dc.b 1
 		dc.b $F8, 5, 0, 0, $F8
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSpikeLogs:
@@ -6841,7 +6833,7 @@ loc_58AC:
 		lsl.w	#6,d0
 		addi.l	#(ObjectsList)&$FFFFFF,d0
 		movea.l	d0,a1
-		bsr.w	loc_878A
+		bsr.w	ObjectDelete2
 		dbf	d2,loc_58AC
 
 loc_58C2:
@@ -7199,7 +7191,7 @@ MapPlatform3:	dc.w byte_5C74-MapPlatform3
 byte_5C74:	dc.b 2
 		dc.b $F8, $F, 0, $21, $E0
 		dc.b $F8, $F, 0, $21, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjRollingBall:
@@ -7215,7 +7207,7 @@ loc_5C98:
 		move.b	#$18,$16(a0)
 		move.b	#$C,$17(a0)
 		bsr.w	ObjectFall
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	locret_5CEC
 		add.w	d1,$C(a0)
@@ -7266,7 +7258,7 @@ loc_5D2C:
 		move.w	#$18,d3
 		move.w	8(a0),d4
 		bsr.w	sub_A2BC
-		jsr	sub_FE12
+		jsr	ObjSonic_AnglePosition
 		cmpi.w	#$20,8(a0)
 		bcc.s	loc_5D70
 		move.w	#$20,8(a0)
@@ -8085,7 +8077,7 @@ byte_67A4:	dc.b 4
 		dc.b $F4, $A, 1, $14, $E8
 		dc.b $F4, $A, 9, $14, 0
 		dc.b $F4, $A, 9, $B, $18
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjUnkSwitch:
@@ -8169,7 +8161,7 @@ byte_687A:	dc.b 4
 		dc.b 8, 5, 0, $5C, $F0
 		dc.b $E8, 7, 0, $54, 0
 		dc.b 8, 5, 0, $5C, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 Obj2A:
@@ -8360,7 +8352,7 @@ byte_6A45:	dc.b 3
 		dc.b $F0, 8, 0, $F0, $F4
 		dc.b $F8, 8, $10, $F0, $F4
 		dc.b 0, 9, 0, $F3, $F4
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjTitleSonic:
@@ -8722,7 +8714,7 @@ loc_6F46:
 		move.b	#5,$20(a0)
 		move.b	#$C,$18(a0)
 		bsr.w	ObjectFall
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	locret_6F94
 		add.w	d1,$C(a0)
@@ -8788,7 +8780,7 @@ loc_701C:
 		subq.w	#1,$30(a0)
 		bmi.s	loc_7032
 		bsr.w	ObjectMove
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		add.w	d1,$C(a0)
 		rts	
 ; ---------------------------------------------------------------------------
@@ -8840,7 +8832,7 @@ loc_70A6:
 		bne.s	loc_70C2
 		tst.w	$30(a0)
 		bne.s	loc_70D2
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	loc_70D6
 		add.w	d1,$C(a0)
@@ -9098,7 +9090,7 @@ loc_7418:
 		bsr.w	ObjectFall
 		tst.w	$12(a0)
 		bmi.s	loc_746E
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	loc_746E
 		add.w	d1,$C(a0)
@@ -9128,7 +9120,7 @@ loc_7472:
 		tst.w	$12(a0)
 		bmi.s	loc_749C
 		move.b	#0,$1A(a0)
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	loc_749C
 		add.w	d1,$C(a0)
@@ -9145,7 +9137,7 @@ loc_74A8:
 		addi.w	#$18,$12(a0)
 		tst.w	$12(a0)
 		bmi.s	loc_74CC
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	loc_74CC
 		add.w	d1,$C(a0)
@@ -9241,7 +9233,7 @@ loc_75C2:
 		move.b	#6,$20(a0)
 		move.b	#$15,$18(a0)
 		bsr.w	ObjectFall
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	locret_7614
 		add.w	d1,$C(a0)
@@ -9327,7 +9319,7 @@ loc_76D4:
 		subi.w	#$20,d3
 
 loc_76FA:
-		jsr	ObjHitFloor2
+		jsr	loc_105F4
 		cmpi.w	#$FFF8,d1
 		blt.s	loc_7728
 		cmpi.w	#$C,d1
@@ -9336,7 +9328,7 @@ loc_76FA:
 ; ---------------------------------------------------------------------------
 
 loc_770E:
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		add.w	d1,$C(a0)
 		move.b	d3,$26(a0)
 		bsr.w	sub_7742
@@ -9420,19 +9412,19 @@ loc_77D0:
 AniCrabmeat:	dc.w byte_77E4-AniCrabmeat, byte_77E8-AniCrabmeat, byte_77EC-AniCrabmeat, byte_77F0-AniCrabmeat
 		dc.w byte_77F6-AniCrabmeat, byte_77FC-AniCrabmeat, byte_7802-AniCrabmeat, byte_7806-AniCrabmeat
 byte_77E4:	dc.b $F, 0, $FF
-		dc.b 0
+		even	
 byte_77E8:	dc.b $F, 2, $FF
-		dc.b 0
+		even	
 byte_77EC:	dc.b $F, $22, $FF
-		dc.b 0
+		even	
 byte_77F0:	dc.b $F, 1, $21, 0, $FF
-		dc.b 0
+		even	
 byte_77F6:	dc.b $F, $21, 3, 2, $FF
-		dc.b 0
+		even	
 byte_77FC:	dc.b $F, 1, $23, $22, $FF
-		dc.b 0
+		even	
 byte_7802:	dc.b $F, 4, $FF
-		dc.b 0
+		even	
 byte_7806:	dc.b 1, 5, 6, $FF
 MapCrabmeat:	dc.w byte_7818-MapCrabmeat, byte_782D-MapCrabmeat, byte_7842-MapCrabmeat, byte_7857-MapCrabmeat
 		dc.w byte_786C-MapCrabmeat, byte_788B-MapCrabmeat, byte_7891-MapCrabmeat
@@ -9467,7 +9459,7 @@ byte_788B:	dc.b 1
 		dc.b $F8, 5, 0, $3C, $F8
 byte_7891:	dc.b 1
 		dc.b $F8, 5, 0, $40, $F8
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjBuzzbomber:
@@ -9821,7 +9813,7 @@ loc_7CC8:
 		bne.w	ObjectDelete
 
 loc_7CD0:
-		move.b	(byte_FFFEC3).w,$1A(a0)
+		move.b	(RingFrame).w,$1A(a0)
 		bsr.w	ObjectDisplay
 		move.w	$32(a0),d0
 		andi.w	#$FF80,d0
@@ -9923,7 +9915,7 @@ loc_7DA8:
 		move.b	#2,$19(a1)
 		move.b	#$47,$20(a1)
 		move.b	#8,$18(a1)
-		move.b	#$FF,(byte_FFFEC6).w
+		move.b	#$FF,(RingLossTimer).w
 		tst.w	d4
 		bmi.s	loc_7E1C
 		move.w	d4,d0
@@ -9955,7 +9947,7 @@ loc_7E2C:
 		jsr	(PlaySFX).l
 
 loc_7E48:
-		move.b	(byte_FFFEC7).w,$1A(a0)
+		move.b	(RingLossFrame).w,$1A(a0)
 		bsr.w	ObjectMove
 		addi.w	#$18,$12(a0)
 		bmi.s	loc_7E82
@@ -9963,7 +9955,7 @@ loc_7E48:
 		add.b	d7,d0
 		andi.b	#3,d0
 		bne.s	loc_7E82
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.s	loc_7E82
 		add.w	d1,$C(a0)
@@ -9973,7 +9965,7 @@ loc_7E48:
 		neg.w	$12(a0)
 
 loc_7E82:
-		tst.b	(byte_FFFEC6).w
+		tst.b	(RingLossTimer).w
 		beq.s	loc_7EBC
 		move.w	(unk_FFF72E).w,d0
 		addi.w	#$E0,d0
@@ -10022,7 +10014,7 @@ loc_7ED6:
 		move.b	#$C,$18(a0)
 
 loc_7F12:
-		move.b	(byte_FFFEC3).w,$1A(a0)
+		move.b	(RingFrame).w,$1A(a0)
 		bsr.w	ObjectDisplay
 		move.w	8(a0),d0
 		andi.w	#$FF80,d0
@@ -10162,7 +10154,7 @@ loc_80EA:
 
 loc_80FA:
 		bsr.w	ObjectFall
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		tst.w	d1
 		bpl.w	loc_81A4
 		add.w	d1,$C(a0)
@@ -10462,25 +10454,25 @@ AniMonitor:	dc.w byte_8436-AniMonitor, byte_843C-AniMonitor, byte_8448-AniMonito
 		dc.w byte_8460-AniMonitor, byte_846C-AniMonitor, byte_8478-AniMonitor, byte_8484-AniMonitor
 		dc.w byte_8490-AniMonitor, byte_849C-AniMonitor
 byte_8436:	dc.b 1, 0, 1, 2, $FF
-		dc.b 0
+		even	
 byte_843C:	dc.b 1, 0, 3, 3, 1, 3, 3, 2, 3, 3, $FF
-		dc.b 0
+		even	
 byte_8448:	dc.b 1, 0, 4, 4, 1, 4, 4, 2, 4, 4, $FF
-		dc.b 0
+		even	
 byte_8454:	dc.b 1, 0, 5, 5, 1, 5, 5, 2, 5, 5, $FF
-		dc.b 0
+		even	
 byte_8460:	dc.b 1, 0, 6, 6, 1, 6, 6, 2, 6, 6, $FF
-		dc.b 0
+		even	
 byte_846C:	dc.b 1, 0, 7, 7, 1, 7, 7, 2, 7, 7, $FF
-		dc.b 0
+		even	
 byte_8478:	dc.b 1, 0, 8, 8, 1, 8, 8, 2, 8, 8, $FF
-		dc.b 0
+		even	
 byte_8484:	dc.b 1, 0, 9, 9, 1, 9, 9, 2, 9, 9, $FF
-		dc.b 0
+		even	
 byte_8490:	dc.b 1, 0, $A, $A, 1, $A, $A, 2, $A, $A, $FF
-		dc.b 0
+		even	
 byte_849C:	dc.b 2, 0, 1, 2, $B, $FE, 1
-		dc.b 0
+		even	
 MapMonitor:	dc.w byte_84BC-MapMonitor, byte_84C2-MapMonitor, byte_84CD-MapMonitor, byte_84D8-MapMonitor
 		dc.w byte_84E3-MapMonitor, byte_84EE-MapMonitor, byte_84F9-MapMonitor, byte_8504-MapMonitor
 		dc.w byte_850F-MapMonitor, byte_851A-MapMonitor, byte_8525-MapMonitor, byte_8530-MapMonitor
@@ -10681,7 +10673,7 @@ locret_8786:
 ObjectDelete:
 		movea.l	a0,a1
 
-loc_878A:
+ObjectDelete2:
 		moveq	#0,d1
 		moveq	#$F,d0
 
@@ -11267,7 +11259,7 @@ AniChopper:	dc.w byte_8C42-AniChopper, byte_8C46-AniChopper, byte_8C4A-AniChoppe
 byte_8C42:	dc.b 7, 0, 1, $FF
 byte_8C46:	dc.b 3, 0, 1, $FF
 byte_8C4A:	dc.b 7, 0, $FF
-		dc.b 0
+		even	
 MapChopper:	dc.w byte_8C52-MapChopper, byte_8C58-MapChopper
 byte_8C52:	dc.b 1
 		dc.b $F0, $F, 0, 0, $F0
@@ -11337,7 +11329,7 @@ loc_8D02:
 		move.b	#$C,$18(a0)
 		bset	#0,$22(a0)
 		bsr.w	ObjectFall
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_8D54
 		add.w	d1,$C(a0)
@@ -11388,14 +11380,14 @@ loc_8DA2:
 		subi.w	#$18,d3
 
 loc_8DC8:
-		bsr.w	ObjHitFloor2
+		bsr.w	loc_105F4
 		cmpi.w	#$C,d1
 		bge.s	loc_8DDE
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_8DD4:
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		add.w	d1,$C(a0)
 		rts	
 ; ---------------------------------------------------------------------------
@@ -11422,7 +11414,7 @@ loc_8E10:
 		addi.w	#$18,$12(a0)
 		bmi.s	locret_8E44
 		move.b	#3,$1C(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_8E44
 		add.w	d1,$C(a0)
@@ -11443,7 +11435,8 @@ AniBurrobot:	dc.w byte_8E54-AniBurrobot, byte_8E58-AniBurrobot, byte_8E5C-AniBur
 byte_8E54:	dc.b 3, 0, 6, $FF
 byte_8E58:	dc.b 3, 0, 1, $FF
 byte_8E5C:	dc.b 3, 2, 3, $FF
-byte_8E60:	dc.b 3, 4, $FF, 0
+byte_8E60:	dc.b 3, 4, $FF
+		even	
 MapBurrobot:	dc.w byte_8E72-MapBurrobot, byte_8E7D-MapBurrobot, byte_8E88-MapBurrobot, byte_8E93-MapBurrobot
 		dc.w byte_8E9E-MapBurrobot, byte_8EA9-MapBurrobot, byte_8EB4-MapBurrobot
 byte_8E72:	dc.b 2
@@ -11718,7 +11711,7 @@ loc_90FC:
 		lsl.w	#6,d0
 		addi.w	#-$3000,d0
 		movea.w	d0,a1
-		bsr.w	loc_878A
+		bsr.w	ObjectDelete2
 		dbf	d2,loc_90FC
 		move.b	#0,$35(a0)
 
@@ -11920,7 +11913,7 @@ off_93DE:	dc.w loc_93FA-off_93DE, loc_9498-off_93DE, loc_94B0-off_93DE, loc_94CA
 byte_93EA:	dc.b 2, 4, 0
 		dc.b 4, $48, 1
 		dc.b 6, 4, 2
-		dc.b 0
+		even	
 byte_93F4:	dc.b 8, 0, 3
 		dc.b $A, 0, 2
 ; ---------------------------------------------------------------------------
@@ -12674,7 +12667,7 @@ byte_9C6F:	dc.b 5
 		dc.b $EC, $F, 0, $F, $F0
 byte_9C89:	dc.b 1
 		dc.b $EC, $F, 0, $2F, $F0
-		dc.b 0
+		even	
 Map45:		dc.w byte_9CA2-Map45, byte_9CB2-Map45, byte_9CC2-Map45, byte_9CC8-Map45
 		dc.w byte_9CD3-Map45, byte_9CE8-Map45, byte_9D07-Map45, byte_9D30-Map45
 		dc.w byte_9D30-Map45
@@ -12723,7 +12716,7 @@ byte_9D30:	dc.b 8
 		dc.b $F8, 5, 0, $41, $50
 		dc.b $F8, 5, 0, $41, $60
 		dc.b $F8, 5, 0, $41, $70
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSwitch:
@@ -12996,7 +12989,7 @@ loc_A01C:
 		btst	#1,$22(a0)
 		beq.s	loc_A05E
 		addi.w	#$18,$12(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.w	loc_A05C
 		add.w	d1,$C(a0)
@@ -13021,7 +13014,7 @@ loc_A05E:
 		bmi.s	loc_A078
 		moveq	#0,d3
 		move.b	$18(a0),d3
-		bsr.w	ObjHitWallRight
+		bsr.w	sub_106B2
 		tst.w	d1
 		bmi.s	loc_A08A
 		bra.s	loc_A0A0
@@ -13031,7 +13024,7 @@ loc_A078:
 		moveq	#0,d3
 		move.b	$18(a0),d3
 		not.w	d3
-		bsr.w	ObjHitWallLeft
+		bsr.w	sub_10844
 		tst.w	d1
 		bmi.s	loc_A08A
 		bra.s	loc_A0A0
@@ -13139,7 +13132,7 @@ loc_A172:
 		bne.s	loc_A1B8
 		bsr.w	ObjectMove
 		addi.w	#$18,$12(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.w	locret_A1B6
 		add.w	d1,$C(a0)
@@ -13184,7 +13177,7 @@ loc_A1DE:
 		move.w	d0,-(sp)
 		moveq	#0,d3
 		move.b	$18(a0),d3
-		bsr.w	ObjHitWallRight
+		bsr.w	sub_106B2
 		move.w	(sp)+,d0
 		tst.w	d1
 		bmi.w	locret_A29A
@@ -13201,7 +13194,7 @@ loc_A222:
 		moveq	#0,d3
 		move.b	$18(a0),d3
 		not.w	d3
-		bsr.w	ObjHitWallLeft
+		bsr.w	sub_10844
 		move.w	(sp)+,d0
 		tst.w	d1
 		bmi.s	locret_A29A
@@ -13221,7 +13214,7 @@ loc_A24C:
 		tst.b	$28(a0)
 		bmi.s	locret_A29A
 		move.w	d0,-(sp)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		move.w	(sp)+,d0
 		cmpi.w	#4,d1
 		ble.s	loc_A296
@@ -13250,7 +13243,7 @@ byte_A2A6:	dc.b 4
 		dc.b $F0, $F, 0, 8, $E0
 		dc.b $F0, $F, 0, 8, 0
 		dc.b $F0, $F, 0, 8, $20
-		dc.b 0
+		even	
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -13454,7 +13447,7 @@ loc_A458:
 		move.w	#0,$12(a1)
 
 loc_A46E:
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -13465,7 +13458,7 @@ loc_A472:
 		movea.l	a1,a0
 		bsr.w	loc_FD78
 		movea.l	(sp)+,a0
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -13487,7 +13480,7 @@ loc_A488:
 		bsr.w	loc_4FD4
 		move.b	#2,$25(a0)
 		bset	#3,$22(a0)
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -13911,7 +13904,7 @@ byte_A9A6:	dc.b 4
 		dc.b $F8, 5, 0, $32, $F0
 		dc.b $F8, 5, 0, $2E, 0
 		dc.b $F8, 5, 0, $10, $10
-		dc.b 0
+		even	
 byte_A9BC:	dc.b 2
 		dc.b 4, $C, 0, $53, $EC
 		dc.b $F4, 2, 0, $57, $C
@@ -13935,7 +13928,7 @@ byte_A9DD:	dc.b $D
 		dc.b $FC, 8, 0, $7C, $F4
 		dc.b 4, $C, 0, $7C, $EC
 		dc.b $C, 8, 0, $7C, $EC
-		dc.b 0
+		even	
 MapGameOver:	dc.w byte_AA24-MapGameOver, byte_AA2F-MapGameOver
 byte_AA24:	dc.b 2
 		dc.b $F8, $D, 0, 0, $B8
@@ -13985,7 +13978,7 @@ byte_AAD7:	dc.b 7
 		dc.b $FF, 4, $18, $6E, $F6
 		dc.b $F8, $D, $FF, $F8, $28
 		dc.b $F8, 1, 1, $70, $48
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSpikes:
@@ -14179,7 +14172,7 @@ byte_ACE6:	dc.b 6
 		dc.b $F0, 3, 0, 4, $38
 byte_AD05:	dc.b 1
 		dc.b $FC, $C, 0, 0, $F0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjPurpleRock:
@@ -14252,7 +14245,7 @@ MapPurpleRock:	dc.w byte_ADCC-MapPurpleRock
 byte_ADCC:	dc.b 2
 		dc.b $F0, $B, 0, 0, $E8
 		dc.b $F0, $B, 0, $C, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSmashWall:
@@ -14418,7 +14411,7 @@ byte_AFCA:	dc.b 8
 		dc.b $F0, 5, 0, 8, 0
 		dc.b 0, 5, 0, 8, 0
 		dc.b $10, 5, 0, 8, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjGHZBoss:
@@ -14878,7 +14871,7 @@ AniGHZBoss:	dc.w byte_B506-AniGHZBoss, byte_B50A-AniGHZBoss, byte_B50E-AniGHZBos
 		dc.w byte_B516-AniGHZBoss, byte_B522-AniGHZBoss, byte_B526-AniGHZBoss, byte_B52A-AniGHZBoss
 		dc.w byte_B52E-AniGHZBoss, byte_B532-AniGHZBoss
 byte_B506:	dc.b $F, 0, $FF
-		dc.b 0
+		even	
 byte_B50A:	dc.b 5, 1, 2, $FF
 byte_B50E:	dc.b 3, 1, 2, $FF
 byte_B512:	dc.b 1, 1, 2, $FF
@@ -14887,7 +14880,7 @@ byte_B516:	dc.b 3, 3, 4, 3, 4, 3, 4, 3, 4, $FD, 1
 byte_B522:	dc.b $1F, 5, 1, $FF
 byte_B526:	dc.b 3, 6, 1, $FF
 byte_B52A:	dc.b $F, $A, $FF
-		dc.b 0
+		even	
 byte_B52E:	dc.b 3, 8, 9, $FF
 byte_B532:	dc.b 1, 8, 9, $FF
 MapGHZBoss:	dc.w byte_B54C-MapGHZBoss, byte_B56B-MapGHZBoss, byte_B576-MapGHZBoss, byte_B581-MapGHZBoss
@@ -14932,7 +14925,7 @@ byte_B5D6:	dc.b 1
 byte_B5DC:	dc.b 1
 		dc.b 4, 5, 0, $31, $22
 byte_B5E2:	dc.b 0
-		dc.b 0
+		even	
 MapGHZBossBall:	dc.w byte_B5F8-MapGHZBossBall, byte_B5FE-MapGHZBossBall, byte_B604-MapGHZBossBall, byte_B60A-MapGHZBossBall
 		dc.w byte_B610-MapGHZBossBall, byte_B616-MapGHZBossBall, byte_B61C-MapGHZBossBall, byte_B622-MapGHZBossBall
 		dc.w byte_B628-MapGHZBossBall, byte_B62E-MapGHZBossBall
@@ -14957,7 +14950,7 @@ byte_B628:	dc.b 1
 byte_B62E:	dc.b 2
 		dc.b $F0, $B, 0, $23, $FC
 		dc.b 8, 4, 0, $2F, $EC
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjCapsule:
@@ -15145,7 +15138,7 @@ byte_B86F:	dc.b 2
 byte_B87A:	dc.b 1
 		dc.b $F0, 7, $20, $6D, $F8
 byte_B880:	dc.b 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjMotobug:
@@ -15169,7 +15162,7 @@ loc_B898:
 		move.b	#8,$17(a0)
 		move.b	#$C,$20(a0)
 		bsr.w	ObjectFall
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_B8F0
 		add.w	d1,$C(a0)
@@ -15238,7 +15231,7 @@ locret_B974:
 
 loc_B976:
 		bsr.w	ObjectMove
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		cmpi.w	#$FFF8,d1
 		blt.s	loc_B9C0
 		cmpi.w	#$C,d1
@@ -15278,7 +15271,7 @@ loc_B9E6:
 ; ---------------------------------------------------------------------------
 AniMotobug:	dc.w byte_B9F0-AniMotobug, byte_B9F4-AniMotobug, byte_B9FA-AniMotobug
 byte_B9F0:	dc.b $F, 2, $FF
-		dc.b 0
+		even	
 byte_B9F4:	dc.b 7, 0, 1, 0, 2, $FF
 byte_B9FA:	dc.b 1, 3, 6, 3, 6, 4, 6, 4, 6, 4, 6, 5, $FC, 0
 MapMotobug:	dc.w byte_BA16-MapMotobug, byte_BA2B-MapMotobug, byte_BA40-MapMotobug, byte_BA5A-MapMotobug
@@ -15306,7 +15299,7 @@ byte_BA60:	dc.b 1
 byte_BA66:	dc.b 1
 		dc.b $FA, 0, 0, $1C, $10
 byte_BA6C:	dc.b 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSpring:
@@ -15602,7 +15595,7 @@ loc_BDE4:
 
 loc_BDF2:
 		bsr.w	ObjectFall
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_BE36
 		add.w	d1,$C(a0)
@@ -15628,7 +15621,7 @@ loc_BE38:
 		bsr.w	ObjectMove
 
 loc_BE3C:
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		cmpi.w	#$FFF8,d1
 		blt.s	loc_BE52
 		cmpi.w	#$C,d1
@@ -15686,7 +15679,7 @@ loc_BEC6:
 AniNewtron:	dc.w byte_BED4-AniNewtron, byte_BED8-AniNewtron, byte_BEE0-AniNewtron, byte_BEE4-AniNewtron
 		dc.w byte_BEE8-AniNewtron
 byte_BED4:	dc.b $F, $A, $FF
-		dc.b 0
+		even	
 byte_BED8:	dc.b $13, 0, 1, 3, 4, 5, $FE, 1
 byte_BEE0:	dc.b 2, 6, 7, $FF
 byte_BEE4:	dc.b 2, 8, 9, $FF
@@ -15735,7 +15728,7 @@ byte_BF98:	dc.b 3
 		dc.b $F8, 1, 0, $50, $C
 		dc.b $FE, 4, $E0, $53, $14
 byte_BFA8:	dc.b 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjRoller:
@@ -15751,7 +15744,7 @@ loc_BFBE:
 		move.b	#$E,$16(a0)
 		move.b	#8,$17(a0)
 		bsr.w	ObjectFall
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_C00A
 		add.w	d1,$C(a0)
@@ -15805,7 +15798,7 @@ locret_C05E:
 
 loc_C060:
 		bsr.w	ObjectMove
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		cmpi.w	#$FFF8,d1
 		blt.s	loc_C07A
 		cmpi.w	#$C,d1
@@ -15828,7 +15821,7 @@ loc_C08E:
 		bsr.w	ObjectFall
 		tst.w	$12(a0)
 		bmi.s	locret_C0AE
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_C0AE
 		add.w	d1,$C(a0)
@@ -15846,11 +15839,11 @@ loc_C0B0:
 ; ---------------------------------------------------------------------------
 AniRoller:	dc.w byte_C0BA-AniRoller, byte_C0BE-AniRoller, byte_C0C4-AniRoller
 byte_C0BA:	dc.b $F, 0, $FF
-		dc.b 0
+		even	
 byte_C0BE:	dc.b $F, 1, 2, $FD, 2
-		dc.b 0
+		even	
 byte_C0C4:	dc.b 3, 2, 3, 4, $FF
-		dc.b 0
+		even	
 MapRoller:	dc.w byte_C0D4-MapRoller, byte_C0DF-MapRoller, byte_C0EA-MapRoller, byte_C0F0-MapRoller
 		dc.w byte_C0F6-MapRoller
 byte_C0D4:	dc.b 2
@@ -15923,7 +15916,7 @@ byte_C1A8:	dc.b 4
 		dc.b $F0, 5, 0, 0, $F8
 		dc.b 0, 5, 0, 0, $F8
 		dc.b $10, 5, 0, 0, $F8
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjLavaMaker:
@@ -16044,7 +16037,7 @@ locret_C33E:
 
 loc_C340:
 		bset	#1,$22(a0)
-		bsr.w	ObjHitCeiling
+		bsr.w	sub_10776
 		tst.w	d1
 		bpl.s	locret_C360
 		move.b	#8,$28(a0)
@@ -16057,7 +16050,7 @@ locret_C360:
 
 loc_C362:
 		bclr	#1,$22(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_C382
 		move.b	#8,$28(a0)
@@ -16071,7 +16064,7 @@ locret_C382:
 loc_C384:
 		bset	#0,$22(a0)
 		moveq	#$FFFFFFF8,d3
-		bsr.w	ObjHitWallLeft
+		bsr.w	sub_10844
 		tst.w	d1
 		bpl.s	locret_C3A6
 		move.b	#8,$28(a0)
@@ -16085,7 +16078,7 @@ locret_C3A6:
 loc_C3A8:
 		bclr	#0,$22(a0)
 		moveq	#8,d3
-		bsr.w	ObjHitWallRight
+		bsr.w	sub_106B2
 		tst.w	d1
 		bpl.s	locret_C3CA
 		move.b	#8,$28(a0)
@@ -16199,7 +16192,7 @@ loc_C4C6:
 loc_C4D2:
 		bsr.w	ObjectMove
 		addi.w	#$18,$12(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.w	locret_C50C
 		add.w	d1,$C(a0)
@@ -16351,9 +16344,9 @@ loc_C6A8:
 ; ---------------------------------------------------------------------------
 AniBumper:	dc.w byte_C6B6-AniBumper, byte_C6BA-AniBumper
 byte_C6B6:	dc.b $F, 0, $FF
-		dc.b 0
+		even	
 byte_C6BA:	dc.b 3, 1, 2, 1, 2, $FD, 0
-byte_C6C1:	dc.b 0
+		even	
 MapBumper:	dc.w byte_C6C8-MapBumper, byte_C6D3-MapBumper, byte_C6DE-MapBumper
 byte_C6C8:	dc.b 2
 		dc.b $F0, 7, 0, 0, $F0
@@ -16364,7 +16357,7 @@ byte_C6D3:	dc.b 2
 byte_C6DE:	dc.b 2
 		dc.b $F0, 7, 0, $E, $F0
 		dc.b $F0, 7, 8, $E, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSignpost:
@@ -16507,10 +16500,12 @@ word_C882:	dc.w $1388, $3E8, $1F4, $190, $12C, $12C, $C8, $C8, $64
 		dc.w $64, $64, $64, $32, $32, $32, $32, $A, $A, $A, $A
 		dc.w 0
 AniSignpost:	dc.w byte_C8B4-AniSignpost, byte_C8B8-AniSignpost, byte_C8BE-AniSignpost, byte_C8C4-AniSignpost
-byte_C8B4:	dc.b $F, 0, $FF, 0
+byte_C8B4:	dc.b $F, 0, $FF
+		even	
 byte_C8B8:	dc.b 1, 0, 1, 2, 3, $FF
 byte_C8BE:	dc.b 1, 4, 1, 2, 3, $FF
-byte_C8C4:	dc.b $F, 4, $FF, 0
+byte_C8C4:	dc.b $F, 4, $FF
+		even	
 MapSignpost:	dc.w byte_C8D2-MapSignpost, byte_C8E2-MapSignpost, byte_C8ED-MapSignpost, byte_C8F8-MapSignpost
 		dc.w byte_C903-MapSignpost
 byte_C8D2:	dc.b 3
@@ -16530,7 +16525,7 @@ byte_C903:	dc.b 3
 		dc.b $F0, $B, 0, $20, $E8
 		dc.b $F0, $B, 0, $2C, 0
 		dc.b $10, 1, 0, $38, $FC
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjLavafallMalker:
@@ -16970,7 +16965,7 @@ byte_CDD8:	dc.b 4
 		dc.b $E0, 5, 0, $18, $70
 		dc.b $10, 5, 0, $18, $80
 		dc.b $10, 5, 0, $18, $70
-		dc.b 0
+		even	
 AniLavaFallMaker:dc.w byte_CDFA-AniLavaFallMaker, byte_CE04-AniLavaFallMaker, byte_CE08-AniLavaFallMaker, byte_CE0C-AniLavaFallMaker
 		dc.w byte_CE14-AniLavaFallMaker, byte_CE18-AniLavaFallMaker
 byte_CDFA:	dc.b 2, 0, 1, 0, 1, 4, 5, 4, 5, $FC
@@ -16978,7 +16973,7 @@ byte_CE04:	dc.b 2, 2, 3, $FF
 byte_CE08:	dc.b 2, 6, 7, $FF
 byte_CE0C:	dc.b 2, 2, 3, 0, 1, 0, 1, $FC
 byte_CE14:	dc.b $F, $13, $FF
-		dc.b 0
+		even	
 byte_CE18:	dc.b 2, $11, $12, $FF
 AniLavaChase:	dc.w byte_CE1E-AniLavaChase
 byte_CE1E:	dc.b 9, 0, 1, 2, 3, $FF
@@ -17194,7 +17189,7 @@ byte_D1CA:	dc.b 8
 		dc.b 0, $F, $FF, $2A, $E0
 		dc.b $E0, $F, $FF, $2A, $C0
 		dc.b 0, $F, $FF, $2A, $C0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 Obj4F:
@@ -17246,7 +17241,7 @@ loc_D274:
 		tst.w	$12(a0)
 		bmi.s	loc_D2AE
 		move.b	#0,$1A(a0)
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	loc_D2AE
 		move.w	(a1),d0
@@ -17291,7 +17286,7 @@ sub_D2DA:
 		move.b	$18(a0),d3
 		tst.w	$10(a0)
 		bmi.s	loc_D2FE
-		bsr.w	ObjHitWallRight
+		bsr.w	sub_106B2
 		tst.w	d1
 		bpl.s	loc_D308
 
@@ -17302,7 +17297,7 @@ loc_D2FA:
 
 loc_D2FE:
 		not.w	d3
-		bsr.w	ObjHitWallLeft
+		bsr.w	sub_10844
 		tst.w	d1
 		bmi.s	loc_D2FA
 
@@ -17339,7 +17334,7 @@ loc_D338:
 		move.b	#8,$17(a0)
 		move.b	#$CC,$20(a0)
 		bsr.w	ObjectFall
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_D38A
 		add.w	d1,$C(a0)
@@ -17379,7 +17374,7 @@ locret_D3CE:
 
 loc_D3D0:
 		bsr.w	ObjectMove
-		bsr.w	ObjHitFloor
+		bsr.w	sub_105F0
 		cmpi.w	#$FFF8,d1
 		blt.s	loc_D3F0
 		cmpi.w	#$C,d1
@@ -17398,7 +17393,8 @@ loc_D3F0:
 		rts	
 ; ---------------------------------------------------------------------------
 AniYardin:	dc.w byte_D40C-AniYardin, byte_D410-AniYardin
-byte_D40C:	dc.b 7, 0, $FF, 0
+byte_D40C:	dc.b 7, 0, $FF
+		even	
 byte_D410:	dc.b 7, 0, 3, 1, 4, 0, 3, 2, 5, $FF
 MapYardin:	dc.w byte_D426-MapYardin, byte_D440-MapYardin, byte_D45A-MapYardin, byte_D474-MapYardin
 		dc.w byte_D48E-MapYardin, byte_D4A8-MapYardin
@@ -17610,7 +17606,7 @@ locret_D6BE:
 loc_D6C0:
 		moveq	#0,d3
 		move.b	$18(a0),d3
-		bsr.w	ObjHitWallRight
+		bsr.w	sub_106B2
 		tst.w	d1
 		bmi.s	loc_D6DA
 		addq.w	#1,8(a0)
@@ -17628,7 +17624,7 @@ byte_D6E4:	dc.b 1
 byte_D6EA:	dc.b 2
 		dc.b $F8, $F, 0, 8, $E0
 		dc.b $F8, $F, 0, 8, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjBasaran:
@@ -17748,7 +17744,7 @@ locret_D814:
 sub_D816:
 		bsr.w	ObjectMove
 		subi.w	#$18,$12(a0)
-		bsr.w	ObjHitCeiling
+		bsr.w	sub_10776
 		tst.w	d1
 		bpl.s	locret_D842
 		sub.w	d1,$C(a0)
@@ -17788,9 +17784,9 @@ loc_D862:
 ; ---------------------------------------------------------------------------
 AniBasaran:	dc.w byte_D87E-AniBasaran, byte_D882-AniBasaran, byte_D886-AniBasaran
 byte_D87E:	dc.b $F, 0, $FF
-		dc.b 0
+		even	
 byte_D882:	dc.b $F, 1, $FF
-		dc.b 0
+		even	
 byte_D886:	dc.b 3, 1, 2, 3, 2, $FF
 MapBasaran:	dc.w byte_D894-MapBasaran, byte_D89A-MapBasaran, byte_D8AA-MapBasaran, byte_D8BF-MapBasaran
 byte_D894:	dc.b 1
@@ -18171,7 +18167,7 @@ byte_DC63:	dc.b 3
 		dc.b $D, $F, 0, $81, $F0
 byte_DC73:	dc.b 1
 		dc.b $F0, $F, 0, $21, $F0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSpikedBalls:
@@ -18307,7 +18303,7 @@ loc_DDF0:
 		lsl.w	#6,d0
 		addi.l	#(ObjectsList)&$FFFFFF,d0
 		movea.l	d0,a1
-		bsr.w	loc_878A
+		bsr.w	ObjectDelete2
 		dbf	d2,loc_DDF0
 		rts	
 ; ---------------------------------------------------------------------------
@@ -18811,7 +18807,7 @@ MapCirclePtfm:	dc.w byte_E31C-MapCirclePtfm
 byte_E31C:	dc.b 2
 		dc.b $F8, 9, 0, $51, $E8
 		dc.b $F8, 9, 8, $51, 0
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjStaircasePtfm:
@@ -19142,7 +19138,7 @@ byte_E687:	dc.b 2
 byte_E692:	dc.b 2
 		dc.b $F0, $D, 0, $1E, $F0
 		dc.b 0, 9, 0, $26, $F8
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSeeSaw:
@@ -19248,7 +19244,7 @@ byte_E7FA:	dc.b 4
 		dc.b $E6, $A, 0, $23, $E8
 		dc.b $E6, $A, 8, $23, 0
 		dc.b $E6, $A, 8, $1D, $18
-		dc.b 0
+		even	
 ; ---------------------------------------------------------------------------
 
 ObjSonic:
@@ -19378,7 +19374,7 @@ sub_E96C:
 		bsr.w	sub_EE4C
 		bsr.w	sub_EDFA
 		bsr.w	ObjectMove
-		bsr.w	sub_FE12
+		bsr.w	ObjSonic_AnglePosition
 		bsr.w	sub_EFFA
 		rts	
 
@@ -19403,7 +19399,7 @@ loc_E9A8:
 		bsr.w	sub_EC62
 		bsr.w	sub_EDFA
 		bsr.w	ObjectMove
-		bsr.w	sub_FE12
+		bsr.w	ObjSonic_AnglePosition
 		bsr.w	sub_EFFA
 		rts	
 ; ---------------------------------------------------------------------------
@@ -19468,7 +19464,7 @@ loc_EA0C:
 ; ---------------------------------------------------------------------------
 
 loc_EA6E:
-		jsr	ObjHitFloor
+		jsr	sub_105F0
 		cmpi.w	#$C,d1
 		blt.s	loc_EAA0
 		cmpi.b	#3,$36(a0)
@@ -19565,7 +19561,7 @@ loc_EB42:
 		move.b	$26(a0),d0
 		add.b	d1,d0
 		move.w	d0,-(sp)
-		bsr.w	Sonic_WalkSpeed
+		bsr.w	sub_104CE
 		move.w	(sp)+,d0
 		tst.w	d1
 		bpl.s	locret_EB8E
@@ -19877,7 +19873,7 @@ locret_EDC8:
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		bne.s	locret_EDF8
-		bsr.w	Sonic_DontRunOnWalls
+		bsr.w	sub_106E0
 		tst.w	d1
 		bpl.s	locret_EDF8
 		move.w	#0,$14(a0)
@@ -20189,7 +20185,7 @@ sub_F04E:
 		beq.w	loc_F1BC
 
 loc_F07C:
-		bsr.w	Sonic_HitWall
+		bsr.w	sub_1081A
 		tst.w	d1
 		bpl.s	loc_F08E
 		sub.w	d1,8(a0)
@@ -20203,7 +20199,7 @@ loc_F08E:
 		move.w	#0,$10(a0)
 
 loc_F0A0:
-		bsr.w	Sonic_HitFloor
+		bsr.w	loc_10548
 		tst.w	d1
 		bpl.s	locret_F102
 		move.b	$12(a0),d0
@@ -20241,7 +20237,7 @@ locret_F102:
 ; ---------------------------------------------------------------------------
 
 loc_F104:
-		bsr.w	Sonic_HitWall
+		bsr.w	sub_1081A
 		tst.w	d1
 		bpl.s	loc_F11E
 		sub.w	d1,8(a0)
@@ -20251,7 +20247,7 @@ loc_F104:
 ; ---------------------------------------------------------------------------
 
 loc_F11E:
-		bsr.w	Sonic_DontRunOnWalls
+		bsr.w	sub_106E0
 		tst.w	d1
 		bpl.s	loc_F132
 		sub.w	d1,$C(a0)
@@ -20262,7 +20258,7 @@ loc_F11E:
 loc_F132:
 		tst.w	$12(a0)
 		bmi.s	locret_F15E
-		bsr.w	Sonic_HitFloor
+		bsr.w	loc_10548
 		tst.w	d1
 		bpl.s	locret_F15E
 		add.w	d1,$C(a0)
@@ -20277,7 +20273,7 @@ locret_F15E:
 ; ---------------------------------------------------------------------------
 
 loc_F160:
-		bsr.w	Sonic_HitWall
+		bsr.w	sub_1081A
 		tst.w	d1
 		bpl.s	loc_F172
 		sub.w	d1,8(a0)
@@ -20291,7 +20287,7 @@ loc_F172:
 		move.w	#0,$10(a0)
 
 loc_F184:
-		bsr.w	Sonic_DontRunOnWalls
+		bsr.w	sub_106E0
 		tst.w	d1
 		bpl.s	locret_F1BA
 		sub.w	d1,$C(a0)
@@ -20326,7 +20322,7 @@ loc_F1BC:
 ; ---------------------------------------------------------------------------
 
 loc_F1D6:
-		bsr.w	Sonic_DontRunOnWalls
+		bsr.w	sub_106E0
 		tst.w	d1
 		bpl.s	loc_F1EA
 		sub.w	d1,$C(a0)
@@ -20337,7 +20333,7 @@ loc_F1D6:
 loc_F1EA:
 		tst.w	$12(a0)
 		bmi.s	locret_F216
-		bsr.w	Sonic_HitFloor
+		bsr.w	loc_10548
 		tst.w	d1
 		bpl.s	locret_F216
 		add.w	d1,$C(a0)
@@ -20608,7 +20604,7 @@ loc_F4B4:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
 		move.b	(a1),d0
-		bmi.s	loc_F520
+		bmi.s	ObjSonic_AnimateCmd
 		move.b	$22(a0),d1
 		andi.b	#1,d1
 		andi.b	#$FC,1(a0)
@@ -20664,7 +20660,7 @@ locret_F51E:
 ; ---------------------------------------------------------------------------
 
 
-loc_F520:
+ObjSonic_AnimateCmd:
 		subq.b	#1,$1E(a0)
 		bpl.s	locret_F4EE
 		addq.b	#1,d0
@@ -20783,28 +20779,44 @@ byte_F65C:	dc.b $FE, $2E, $2F, $30, $31, $32, $FF, $FF
 byte_F664:	dc.b $FE, $2E, $2F, $32, $30, $31, $32, $FF
 byte_F66C:	dc.b $FD, $45, $46, $47, $48, $FF, $FF, $FF
 byte_F674:	dc.b $17, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2
-		dc.b 2, 3, 4, $FE, 2, 0
+		dc.b 2, 3, 4, $FE, 2
+		even	
 byte_F68A:	dc.b $1F, $3A, $3B, $FF
-byte_F68E:	dc.b $3F, 5, $FF, 0
-byte_F692:	dc.b $3F, $39, $FF, 0
-byte_F696:	dc.b $3F, $33, $FF, 0
-byte_F69A:	dc.b $3F, $34, $FF, 0
-byte_F69E:	dc.b $3F, $35, $FF, 0
-byte_F6A2:	dc.b $3F, $36, $FF, 0
+byte_F68E:	dc.b $3F, 5, $FF
+		even	
+byte_F692:	dc.b $3F, $39, $FF
+		even	
+byte_F696:	dc.b $3F, $33, $FF
+		even	
+byte_F69A:	dc.b $3F, $34, $FF
+		even	
+byte_F69E:	dc.b $3F, $35, $FF
+		even	
+byte_F6A2:	dc.b $3F, $36, $FF
+		even	
 byte_F6A6:	dc.b 7, $37, $38, $FF
 byte_F6AA:	dc.b 7, $3C, $3F, $FF
-byte_F6AE:	dc.b 7, $3C, $3D, $53, $3E, $54, $FF, 0
-byte_F6B6:	dc.b $2F, $40, $FD, 0
+byte_F6AE:	dc.b 7, $3C, $3D, $53, $3E, $54, $FF
+		even	
+byte_F6B6:	dc.b $2F, $40, $FD
+		even	
 byte_F6BA:	dc.b 4, $41, $42, $FF
 byte_F6BE:	dc.b $F, $43, $43, $43, $FE, 1
-byte_F6C4:	dc.b $F, $43, $44, $FE, 1, 0
-byte_F6CA:	dc.b $3F, $49, $FF, 0
-byte_F6CE:	dc.b $3F, $4A, $FF, 0
-byte_F6D2:	dc.b 3, $4B, $FF, 0
-byte_F6D6:	dc.b 3, $4C, $FF, 0
-byte_F6DA:	dc.b 3, $4D, $FF, 0
+byte_F6C4:	dc.b $F, $43, $44, $FE, 1
+		even	
+byte_F6CA:	dc.b $3F, $49, $FF
+		even	
+byte_F6CE:	dc.b $3F, $4A, $FF
+		even	
+byte_F6D2:	dc.b 3, $4B, $FF
+		even	
+byte_F6D6:	dc.b 3, $4C, $FF
+		even	
+byte_F6DA:	dc.b 3, $4D, $FF
+		even	
 byte_F6DE:	dc.b 3, $4E, $4F, $50, $51, $52, 0, $FE, 1, 0
-byte_F6E8:	dc.b 3, $55, $FF, 0
+byte_F6E8:	dc.b 3, $55, $FF
+		even	
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -20841,6 +20853,8 @@ loc_F730:
 		movem.l	d2-d6/a4-a6,(a3)
 		lea	$20(a3),a3
 		dbf	d0,loc_F730
+
+loc_F740:
 		dbf	d1,loc_F71A
 
 locret_F744:
@@ -21045,7 +21059,7 @@ byte_F9C6:	dc.b 4
 		dc.b $E8, $A, 8, $12, 0
 		dc.b 0, $A, $10, $12, $E8
 		dc.b 0, $A, $10, $1B, 0
-		dc.b 0
+		even	
 AniEntryRingBeta:dc.w byte_F9DE-AniEntryRingBeta
 byte_F9DE:	dc.b 5, 0, 1, 0, 1, 0, 7, 1, 7, 2, 7, 3, 7, 4, 7, 5, 7
 		dc.b 6, 7, $FC
@@ -21122,7 +21136,7 @@ byte_FB1C:	dc.b $FC, 0, 8, $26, $30
 		dc.b $C, 0, 8, $27, $48
 		dc.b 4, 0, $18, $26, $50
 		dc.b 4, 0, 8, $27, $58
-		dc.b 0
+		even	
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -21360,7 +21374,7 @@ loc_FD48:
 
 loc_FD68:
 		jsr	(PlaySFX).l
-		moveq	#$FFFFFFFF,d0
+		moveq	#-1,d0
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -21388,7 +21402,7 @@ loc_FDBA:
 		jsr	(PlaySFX).l
 
 loc_FDC0:
-		moveq	#$FFFFFFFF,d0
+		moveq	#-1,d0
 		rts	
 ; ---------------------------------------------------------------------------
 
@@ -21440,7 +21454,7 @@ loc_FE0C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_FE12:
+ObjSonic_AnglePosition:
 
 
 		btst	#3,$22(a0)
@@ -21459,7 +21473,7 @@ loc_FE26:
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		cmpi.b	#$40,d0
-		beq.w	loc_100B0
+		beq.w	ObjSonic_WalkVerticalL
 		cmpi.b	#$80,d0
 		beq.w	loc_10014
 		cmpi.b	#$C0,d0
@@ -21477,7 +21491,7 @@ loc_FE26:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	d1,-(sp)
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
@@ -21493,7 +21507,7 @@ loc_FE26:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	(sp)+,d0
 		bsr.w	sub_FF52
 		tst.w	d1
@@ -21542,7 +21556,7 @@ locret_FEE8:
 
 locret_FF0C:
 		rts	
-; END OF FUNCTION CHUNK FOR sub_FE12
+; END OF FUNCTION CHUNK FOR ObjSonic_AnglePosition
 ; ---------------------------------------------------------------------------
 		move.l	$C(a0),d3
 		move.w	$12(a0),d0
@@ -21687,7 +21701,7 @@ loc_10014:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	d1,-(sp)
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
@@ -21703,7 +21717,7 @@ loc_10014:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	(sp)+,d0
 		bsr.w	sub_FF52
 		tst.w	d1
@@ -21731,7 +21745,7 @@ loc_1009C:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_100B0:
+ObjSonic_WalkVerticalL:
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
 		moveq	#0,d0
@@ -21788,12 +21802,12 @@ loc_10138:
 		bclr	#5,$22(a0)
 		move.b	#1,$1D(a0)
 		rts	
-; END OF FUNCTION CHUNK FOR sub_FE12
+; END OF FUNCTION CHUNK FOR ObjSonic_AnglePosition
 
 ; =============== S U B R O U T I N E =======================================
 
 
-Floor_ChkTile:
+sub_1014C:
 		move.w	d2,d0
 		lsr.w	#1,d0
 		andi.w	#$380,d0
@@ -21850,8 +21864,8 @@ loc_101A2:
 ; =============== S U B R O U T I N E =======================================
 
 
-FindFloor:
-		bsr.s	Floor_ChkTile
+sub_101BE:
+		bsr.s	sub_1014C
 		move.w	(a1),d0
 		move.w	d0,d4
 		andi.w	#$7FF,d0
@@ -21861,14 +21875,14 @@ FindFloor:
 
 loc_101CE:
 		add.w	a3,d2
-		bsr.w	FindFloor2
+		bsr.w	sub_10264
 		sub.w	a3,d2
 		addi.w	#$10,d1
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_101DC:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_101CE
@@ -21921,7 +21935,7 @@ loc_1024A:
 
 loc_10256:
 		sub.w	a3,d2
-		bsr.w	FindFloor2
+		bsr.w	sub_10264
 		add.w	a3,d2
 		subi.w	#$10,d1
 		rts	
@@ -21930,8 +21944,8 @@ loc_10256:
 ; =============== S U B R O U T I N E =======================================
 
 
-FindFloor2:
-		bsr.w	Floor_ChkTile
+sub_10264:
+		bsr.w	sub_1014C
 		move.w	(a1),d0
 		move.w	d0,d4
 		andi.w	#$7FF,d0
@@ -21948,7 +21962,7 @@ loc_10276:
 ; ---------------------------------------------------------------------------
 
 loc_10284:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_10276
@@ -22004,7 +22018,7 @@ loc_102EC:
 
 
 FindWall:
-		bsr.w	Floor_ChkTile
+		bsr.w	sub_1014C
 		move.w	(a1),d0
 		move.w	d0,d4
 		andi.w	#$7FF,d0
@@ -22014,14 +22028,14 @@ FindWall:
 
 loc_1030E:
 		add.w	a3,d3
-		bsr.w	FindWall2
+		bsr.w	sub_103A4
 		sub.w	a3,d3
 		addi.w	#$10,d1
 		rts	
 ; ---------------------------------------------------------------------------
 
 loc_1031C:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_1030E
@@ -22074,7 +22088,7 @@ loc_1038A:
 
 loc_10396:
 		sub.w	a3,d3
-		bsr.w	FindWall2
+		bsr.w	sub_103A4
 		add.w	a3,d3
 		subi.w	#$10,d1
 		rts	
@@ -22083,8 +22097,8 @@ loc_10396:
 ; =============== S U B R O U T I N E =======================================
 
 
-FindWall2:
-		bsr.w	Floor_ChkTile
+sub_103A4:
+		bsr.w	sub_1014C
 		move.w	(a1),d0
 		move.w	d0,d4
 		andi.w	#$7FF,d0
@@ -22101,7 +22115,7 @@ loc_103B6:
 ; ---------------------------------------------------------------------------
 
 loc_103C4:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_103B6
@@ -22156,7 +22170,7 @@ loc_1042C:
 ; =============== S U B R O U T I N E =======================================
 
 
-FloorLog_Unk:
+nullsub_2:
 		rts	
 
 ; ---------------------------------------------------------------------------
@@ -22241,7 +22255,7 @@ loc_104C6:
 ; =============== S U B R O U T I N E =======================================
 
 
-Sonic_WalkSpeed:
+sub_104CE:
 
 
 		move.l	8(a0),d3
@@ -22287,11 +22301,11 @@ sub_10520:
 		cmpi.b	#$40,d0
 		beq.w	loc_107AE
 		cmpi.b	#$80,d0
-		beq.w	Sonic_DontRunOnWalls
+		beq.w	sub_106E0
 		cmpi.b	#$C0,d0
 		beq.w	loc_10628
 
-Sonic_HitFloor:
+loc_10548:
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
 		moveq	#0,d0
@@ -22305,7 +22319,7 @@ Sonic_HitFloor:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	d1,-(sp)
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
@@ -22320,7 +22334,7 @@ Sonic_HitFloor:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	(sp)+,d0
 		move.b	#0,d2
 
@@ -22349,7 +22363,7 @@ loc_105C8:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$E,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.b	#0,d2
 
 loc_105E2:
@@ -22360,15 +22374,15 @@ loc_105E2:
 
 locret_105EE:
 		rts	
-; END OF FUNCTION CHUNK FOR Sonic_WalkSpeed
+; END OF FUNCTION CHUNK FOR sub_104CE
 
 ; =============== S U B R O U T I N E =======================================
 
 
-ObjHitFloor:
+sub_105F0:
 		move.w	8(a0),d3
 
-ObjHitFloor2:
+loc_105F4:
 		move.w	$C(a0),d2
 		moveq	#0,d0
 		move.b	$16(a0),d0
@@ -22379,7 +22393,7 @@ ObjHitFloor2:
 		movea.w	#$10,a3
 		move.w	#0,d6
 		moveq	#$D,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.b	(unk_FFF768).w,d3
 		btst	#0,d3
 		beq.s	locret_10626
@@ -22443,12 +22457,12 @@ loc_10694:
 		bsr.w	FindWall
 		move.b	#$C0,d2
 		bra.w	loc_105E2
-; END OF FUNCTION CHUNK FOR Sonic_WalkSpeed
+; END OF FUNCTION CHUNK FOR sub_104CE
 
 ; =============== S U B R O U T I N E =======================================
 
 
-ObjHitWallRight:
+sub_106B2:
 		add.w	8(a0),d3
 		move.w	$C(a0),d2
 		lea	(unk_FFF768).w,a4
@@ -22469,7 +22483,7 @@ locret_106DE:
 ; =============== S U B R O U T I N E =======================================
 
 
-Sonic_DontRunOnWalls:
+sub_106E0:
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
 		moveq	#0,d0
@@ -22484,7 +22498,7 @@ Sonic_DontRunOnWalls:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$E,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	d1,-(sp)
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
@@ -22500,7 +22514,7 @@ Sonic_DontRunOnWalls:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$E,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.w	(sp)+,d0
 		move.b	#$80,d2
 		bra.w	loc_105A8
@@ -22516,15 +22530,15 @@ loc_10754:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$E,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.b	#$80,d2
 		bra.w	loc_105E2
-; END OF FUNCTION CHUNK FOR Sonic_WalkSpeed
+; END OF FUNCTION CHUNK FOR sub_104CE
 
 ; =============== S U B R O U T I N E =======================================
 
 
-ObjHitCeiling:
+sub_10776:
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
 		moveq	#0,d0
@@ -22536,7 +22550,7 @@ ObjHitCeiling:
 		movea.w	#$FFF0,a3
 		move.w	#$1000,d6
 		moveq	#$E,d5
-		bsr.w	FindFloor
+		bsr.w	sub_101BE
 		move.b	(unk_FFF768).w,d3
 		btst	#0,d3
 		beq.s	locret_107AC
@@ -22588,7 +22602,7 @@ loc_107AE:
 ; =============== S U B R O U T I N E =======================================
 
 
-Sonic_HitWall:
+sub_1081A:
 		move.w	$C(a0),d2
 		move.w	8(a0),d3
 
@@ -22603,12 +22617,12 @@ loc_10822:
 		bsr.w	FindWall
 		move.b	#$40,d2
 		bra.w	loc_105E2
-; END OF FUNCTION CHUNK FOR Sonic_WalkSpeed
+; END OF FUNCTION CHUNK FOR sub_104CE
 
 ; =============== S U B R O U T I N E =======================================
 
 
-ObjHitWallLeft:
+sub_10844:
 		add.w	8(a0),d3
 		move.w	$C(a0),d2
 		lea	(unk_FFF768).w,a4
@@ -22631,7 +22645,7 @@ locret_10870:
 
 sub_10872:
 		bsr.w	sub_109AE
-		bsr.w	SS_AniItems
+		bsr.w	loc_10AE2
 		move.w	d5,-(sp)
 		lea	(byte_FF8000).w,a1
 		move.b	(unk_FFF780).w,d0
@@ -22762,14 +22776,14 @@ loc_109C2:
 		move.w	d0,(a1)
 		addq.w	#8,a1
 		dbf	d1,loc_109C2
-		subq.b	#1,(byte_FFFEC2).w
+		subq.b	#1,(RingTimer).w
 		bpl.s	loc_109E0
-		move.b	#7,(byte_FFFEC2).w
-		addq.b	#1,(byte_FFFEC3).w
-		andi.b	#3,(byte_FFFEC3).w
+		move.b	#7,(RingTimer).w
+		addq.b	#1,(RingFrame).w
+		andi.b	#3,(RingFrame).w
 
 loc_109E0:
-		move.b	(byte_FFFEC3).w,1(a1)
+		move.b	(RingFrame).w,1(a1)
 		addq.w	#8,a1
 		addq.w	#8,a1
 		subq.b	#1,(byte_FFFEC4).w
@@ -22843,7 +22857,7 @@ locret_10AE0:
 
 ; ---------------------------------------------------------------------------
 
-SS_AniItems:
+loc_10AE2:
 		lea	((byte_FF4400)&$FFFFFF).l,a0
 		move.w	#$1F,d7
 
@@ -23663,7 +23677,7 @@ loc_11286:
 
 
 sub_1128C:
-		tst.w	(word_FFF63A).w
+		tst.w	(PauseFlag).w
 		bmi.s	locret_112A8
 		lea	($C00000).l,a6
 		moveq	#0,d0
@@ -24078,7 +24092,7 @@ loc_116A6:
 loc_116BA:
 		tst.b	(byte_FFFE1E).w
 		beq.s	loc_1170E
-		tst.w	(word_FFF63A).w
+		tst.w	(PauseFlag).w
 		bmi.s	loc_1170E
 		lea	(dword_FFFE26).w,a1
 		addq.b	#1,-(a1)
@@ -24906,38 +24920,38 @@ LevelDataArray:	dc.l ($4<<24)|TilesGHZ_2, ($5<<24)|BlocksGHZ, ChunksGHZ
 		dc.b 0, $85, 8, 8
 		dc.l ($E<<24)|TilesSBZ, ($F<<24)|BlocksSBZ, ChunksSBZ
 		dc.b 0, $86, 9, 9
-PLCArray:	dc.w word_122A0-PLCArray, word_122C0-PLCArray, word_122D4-PLCArray, word_122DC-PLCArray
-		dc.w word_122E4-PLCArray, word_1232E-PLCArray, word_12354-PLCArray, word_1235C-PLCArray
-		dc.w word_12364-PLCArray, word_123A2-PLCArray, word_123C2-PLCArray, word_12406-PLCArray
-		dc.w word_12420-PLCArray, word_12440-PLCArray, word_1246C-PLCArray, word_12474-PLCArray
-		dc.w word_1247C-PLCArray, word_12484-PLCArray, word_12498-PLCArray, word_124A0-PLCArray
-		dc.w word_124A8-PLCArray, word_1251C-PLCArray, word_1252A-PLCArray, word_12538-PLCArray
-		dc.w word_12546-PLCArray, word_12554-PLCArray, word_12562-PLCArray
+plcArray:	dc.w word_122A0-plcArray, word_122C0-plcArray, word_122D4-plcArray, plcGameOver-plcArray
+		dc.w plcGHZ1-plcArray, plzGHZ2-plcArray, plcLZ1-plcArray, plcLZ2-plcArray, plcMZ1-plcArray
+		dc.w plcMZ2-plcArray, plzSLZ1-plcArray, plcSLZ2-plcArray, plzSYZ1-plcArray, plcSYZ2-plcArray
+		dc.w plcSBZ1-plcArray, plcSBZ2-plcArray, plcTitleCards-plcArray, word_12484-plcArray
+		dc.w plcSignPosts-plcArray, plcFlash-plcArray, word_124A8-plcArray, word_1251C-plcArray
+		dc.w word_1252A-plcArray, word_12538-plcArray, word_12546-plcArray, word_12554-plcArray
+		dc.w word_12562-plcArray
 word_122A0:	dc.w 4
 		dc.l ArtSmoke
 		dc.w $F400
-		dc.l byte_2D912
+		dc.l ArtHUD
 		dc.w $D940
-		dc.l byte_2DA08
+		dc.l ArtLives
 		dc.w $FA80
-		dc.l byte_2DB0E
+		dc.l ArtRings
 		dc.w $F640
 		dc.l byte_2E6C8
 		dc.w $F2E0
 word_122C0:	dc.w 2
-		dc.l byte_2DC02
+		dc.l ArtMonitors
 		dc.w $D000
 		dc.l ArtShield
 		dc.w $A820
 		dc.l ArtInvinStars
 		dc.w $AB80
 word_122D4:	dc.w 0
-		dc.l byte_2E062
+		dc.l ArtExplosions
 		dc.w $B400
-word_122DC:	dc.w 0
-		dc.l byte_2E77C
+plcGameOver:	dc.w 0
+		dc.l ArtGameOver
 		dc.w $B000
-word_122E4:	dc.w $B
+plcGHZ1:	dc.w $B
 		dc.l TilesGHZ_1
 		dc.w 0
 		dc.l TilesGHZ_2
@@ -24946,26 +24960,26 @@ word_122E4:	dc.w $B
 		dc.w $6B00
 		dc.l ArtPurpleRock
 		dc.w $7A00
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2B6D0
+		dc.l ArtChopper
 		dc.w $8F60
-		dc.l byte_2C3B2
+		dc.l ArtNewtron
 		dc.w $9360
-		dc.l byte_2C128
+		dc.l ArtMotobug
 		dc.w $9E00
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtSpringHoriz
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtSpringVerti
 		dc.w $A660
-word_1232E:	dc.w 5
+plzGHZ2:	dc.w 5
 		dc.l byte_2744A
 		dc.w $7000
-		dc.l byte_27564
+		dc.l ArtBridge
 		dc.w $71C0
 		dc.l ArtSpikeLogs
 		dc.w $7300
@@ -24975,13 +24989,13 @@ word_1232E:	dc.w 5
 		dc.w $A1E0
 		dc.l ArtWall
 		dc.w $6980
-word_12354:	dc.w 0
+plcLZ1:		dc.w 0
 		dc.l TilesLZ
 		dc.w 0
-word_1235C:	dc.w 0
-		dc.l byte_2B938
+plcLZ2:		dc.w 0
+		dc.l ArtJaws
 		dc.w $99C0
-word_12364:	dc.w 9
+plcMZ1:		dc.w 9
 		dc.l TilesMZ
 		dc.w 0
 		dc.l ArtChainPtfm
@@ -24994,91 +25008,91 @@ word_12364:	dc.w 9
 		dc.w $71C0
 		dc.l byte_28558
 		dc.w $7500
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2C9D0
+		dc.l ArtYardin
 		dc.w $8F60
-		dc.l byte_2CDB8
+		dc.l ArtBasaran
 		dc.w $9700
-		dc.l byte_2D0B4
+		dc.l ArtSplats
 		dc.w $9C80
-word_123A2:	dc.w 4
-		dc.l byte_280B0
+plcMZ2:		dc.w 4
+		dc.l ArtButtonMZ
 		dc.w $A260
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtSpringHoriz
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtSpringVerti
 		dc.w $A660
 		dc.l byte_28E6E
 		dc.w $5700
-word_123C2:	dc.w $A
+plzSLZ1:	dc.w $A
 		dc.l TilesSLZ
 		dc.w 0
 		dc.l byte_2827A
 		dc.w $68A0
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
 		dc.l byte_297B6
 		dc.w $9000
 		dc.l byte_29D4A
 		dc.w $9C00
-		dc.l byte_2C128
+		dc.l ArtMotobug
 		dc.w $9E00
 		dc.l byte_294DA
 		dc.w $A260
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtSpringHoriz
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtSpringVerti
 		dc.w $A660
-word_12406:	dc.w 3
-		dc.l byte_2905A
+plcSLZ2:	dc.w 3
+		dc.l ArtSeesaw
 		dc.w $6E80
-		dc.l byte_29296
+		dc.l ArtFan
 		dc.w $7400
 		dc.l byte_2953C
 		dc.w $7980
 		dc.l byte_2961E
 		dc.w $7B80
-word_12420:	dc.w 4
+plzSYZ1:	dc.w 4
 		dc.l TilesSYZ
 		dc.w 0
-		dc.l byte_2A56A
+		dc.l ArtCrabmeat
 		dc.w $8000
-		dc.l byte_2AA58
+		dc.l ArtBuzzbomber
 		dc.w $8880
-		dc.l byte_2C9D0
+		dc.l ArtYardin
 		dc.w $8F60
 		dc.l byte_2BC04
 		dc.w $9700
-word_12440:	dc.w 6
-		dc.l byte_29E56
+plcSYZ2:	dc.w 6
+		dc.l ArtBumper
 		dc.w $7000
 		dc.l byte_2A104
 		dc.w $72C0
 		dc.l byte_29FC0
 		dc.w $7740
-		dc.l byte_2A022
+		dc.l ArtButton
 		dc.w $A1E0
 		dc.l ArtSpikes
 		dc.w $A360
-		dc.l byte_2ECDC
+		dc.l ArtSpringHoriz
 		dc.w $A460
-		dc.l byte_2EDDE
+		dc.l ArtSpringVerti
 		dc.w $A660
-word_1246C:	dc.w 0
+plcSBZ1:	dc.w 0
 		dc.l TilesSBZ
 		dc.w 0
-word_12474:	dc.w 0
-		dc.l byte_2B938
+plcSBZ2:	dc.w 0
+		dc.l ArtJaws
 		dc.w $99C0
-word_1247C:	dc.w 0
-		dc.l byte_2D2FC
+plcTitleCards:	dc.w 0
+		dc.l ArtTitleCards
 		dc.w $B000
 word_12484:	dc.w 2
 		dc.l byte_60000
@@ -25087,80 +25101,80 @@ word_12484:	dc.w 2
 		dc.w $8D80
 		dc.l byte_60BB0
 		dc.w $93A0
-word_12498:	dc.w 0
-		dc.l byte_2EEBA
+plcSignPosts:	dc.w 0
+		dc.l ArtSignPost
 		dc.w $D000
-word_124A0:	dc.w 0
+plcFlash:	dc.w 0
 		dc.l ArtFlash
 		dc.w $A820
 word_124A8:	dc.w $B
 		dc.l byte_64A7C
 		dc.w 0
-		dc.l byte_63AEC
+		dc.l ArtSpecialAnimals
 		dc.w $A20
-		dc.l byte_63080
+		dc.l ArtSpecialBlocks
 		dc.w $2840
-		dc.l byte_29E56
+		dc.l ArtBumper
 		dc.w $4760
-		dc.l byte_64F70
+		dc.l ArtSpecialGoal
 		dc.w $4A20
-		dc.l byte_65982
+		dc.l ArtSpecialUpDown
 		dc.w $4C60
-		dc.l byte_6505E
+		dc.l ArtSpecialR
 		dc.w $5E00
-		dc.l byte_652DE
+		dc.l ArtSpecial1up
 		dc.w $6E00
-		dc.l byte_653D4
+		dc.l ArtSpecialStars
 		dc.w $7E00
 		dc.l byte_65432
 		dc.w $8E00
-		dc.l byte_6512E
+		dc.l ArtSpecialSkull
 		dc.w $9E00
-		dc.l byte_651FE
+		dc.l ArtSpecialU
 		dc.w $AE00
-		dc.l byte_65B76
+		dc.l ArtSpecialEmerald
 		dc.w 0
-		dc.l byte_654C4
+		dc.l ArtSpecialZone1
 		dc.w 0
-		dc.l byte_65586
+		dc.l ArtSpecialZone2
 		dc.w 0
-		dc.l byte_65654
+		dc.l ArtSpecialZone3
 		dc.w 0
-		dc.l byte_65720
+		dc.l ArtSpecialZone4
 		dc.w 0
-		dc.l byte_657E8
+		dc.l ArtSpecialZone5
 		dc.w 0
-		dc.l byte_658B2
+		dc.l ArtSpecialZone6
 		dc.w 0
 word_1251C:	dc.w 1
-		dc.l byte_2F336
+		dc.l ArtAnimalPocky
 		dc.w $B000
-		dc.l byte_2F48E
+		dc.l ArtAnimalCucky
 		dc.w $B240
 word_1252A:	dc.w 1
-		dc.l byte_2F5EA
+		dc.l ArtAnimalPecky
 		dc.w $B000
-		dc.l byte_2F766
+		dc.l ArtAnimalRocky
 		dc.w $B240
 word_12538:	dc.w 1
-		dc.l byte_2F882
+		dc.l ArtAnimalPicky
 		dc.w $B000
-		dc.l byte_2F9B8
+		dc.l ArtAnimalFlicky
 		dc.w $B240
 word_12546:	dc.w 1
-		dc.l byte_2FAF2
+		dc.l ArtAnimalRicky
 		dc.w $B000
-		dc.l byte_2F766
+		dc.l ArtAnimalRocky
 		dc.w $B240
 word_12554:	dc.w 1
-		dc.l byte_2F882
+		dc.l ArtAnimalPicky
 		dc.w $B000
-		dc.l byte_2F48E
+		dc.l ArtAnimalCucky
 		dc.w $B240
 word_12562:	dc.w 1
-		dc.l byte_2F336
+		dc.l ArtAnimalPocky
 		dc.w $B000
-		dc.l byte_2F9B8
+		dc.l ArtAnimalFlicky
 		dc.w $B240
 		align	$8000					; Unnecessary alignment
 		dc.b $80
@@ -26988,20 +27002,21 @@ word_12562:	dc.w 1
 		dc.b 0
 		dc.b 0
 ArtSega:	incbin "screens/sega/Main.nem"
-byte_18A56:	incbin "unknown/18A56.eni"
+MapSega:	incbin "unknown/18A56.eni"
 byte_18A62:	incbin "unknown/18A62.unc"
 ArtTitleMain:	incbin "screens/title/Main.nem"
 ArtTitleSonic:	incbin "screens/title/Sonic.nem"
 		include "levels/shared/Sonic/sprite.map"
 		include "levels/shared/Sonic/dynamic.map"
 ArtSonic:	incbin "levels/shared/Sonic/Art.unc"
+byte_1C8EF:
 ArtSmoke:	incbin "unsorted/smoke.nem"
 ArtShield:	incbin "levels/shared/Shield/Shield.nem"
 ArtInvinStars:	incbin "levels/shared/Shield/Stars.nem"
 ArtFlash:	incbin "unsorted/flash.nem"
 byte_27400:	incbin "unsorted/ghz flower stalk.nem"
 byte_2744A:	incbin "unsorted/ghz swing.nem"
-byte_27564:	incbin "levels/GHZ/Bridge/Art.nem"
+ArtBridge:	incbin "levels/GHZ/Bridge/Art.nem"
 byte_27698:	incbin "unsorted/ghz checkered ball.nem"
 ArtSpikes:	incbin "levels/shared/Spikes/Art.nem"
 ArtSpikeLogs:	incbin "levels/GHZ/SpikeLogs/Art.nem"
@@ -27009,50 +27024,50 @@ ArtPurpleRock:	incbin "levels/GHZ/PurpleRock/Art.nem"
 ArtSmashWall:	incbin "levels/GHZ/SmashWall/Art.nem"
 ArtWall:	incbin "levels/GHZ/Wall/Art.nem"
 ArtChainPtfm:	incbin "levels/MZ/ChainPtfm/Art.nem"
-byte_280B0:	incbin "unsorted/mz button.nem"
+ArtButtonMZ:	incbin "unsorted/mz button.nem"
 byte_2816E:	incbin "unsorted/mz piston.nem"
 byte_2827A:	incbin "unsorted/mz fire ball.nem"
 byte_28558:	incbin "unsorted/mz lava.nem"
 byte_28E6E:	incbin "unsorted/mz pushable block.nem"
-byte_2905A:	incbin "unsorted/slz seesaw.nem"
-byte_29296:	incbin "unsorted/slz fan.nem"
+ArtSeesaw:	incbin "unsorted/slz seesaw.nem"
+ArtFan:		incbin "unsorted/slz fan.nem"
 byte_294DA:	incbin "unsorted/slz platform.nem"
 byte_2953C:	incbin "unsorted/slz girders.nem"
 byte_2961E:	incbin "unsorted/slz spiked platforms.nem"
 byte_297B6:	incbin "unsorted/slz misc platforms.nem"
 byte_29D4A:	incbin "unsorted/slz metal block.nem"
-byte_29E56:	incbin "unsorted/syz bumper.nem"
+ArtBumper:	incbin "unsorted/syz bumper.nem"
 byte_29FC0:	incbin "unsorted/syz small spiked ball.nem"
-byte_2A022:	incbin "unsorted/button.nem"
+ArtButton:	incbin "unsorted/button.nem"
 byte_2A104:	incbin "unsorted/swinging spiked ball.nem"
-byte_2A56A:	incbin "unsorted/crabmeat.nem"
-byte_2AA58:	incbin "unsorted/buzzkill.nem"
-byte_2B6D0:	incbin "unsorted/chopper.nem"
-byte_2B938:	incbin "unsorted/jaws.nem"
+ArtCrabmeat:	incbin "unsorted/crabmeat.nem"
+ArtBuzzbomber:	incbin "unsorted/buzzkill.nem"
+ArtChopper:	incbin "unsorted/chopper.nem"
+ArtJaws:	incbin "unsorted/jaws.nem"
 byte_2BC04:	incbin "unsorted/roller.nem"
-byte_2C128:	incbin "unsorted/motobug.nem"
-byte_2C3B2:	incbin "unsorted/newtron.nem"
-byte_2C9D0:	incbin "unsorted/yadrin.nem"
-byte_2CDB8:	incbin "unsorted/batbrain.nem"
-byte_2D0B4:	incbin "unsorted/splats.nem"
-byte_2D2FC:	incbin "unsorted/titlecards.nem"
-byte_2D912:	incbin "unsorted/hud main.nem"
-byte_2DA08:	incbin "unsorted/hud lives.nem"
-byte_2DB0E:	incbin "unsorted/ring.nem"
-byte_2DC02:	incbin "unsorted/monitor.nem"
-byte_2E062:	incbin "unsorted/explosion.nem"
+ArtMotobug:	incbin "unsorted/motobug.nem"
+ArtNewtron:	incbin "unsorted/newtron.nem"
+ArtYardin:	incbin "unsorted/yadrin.nem"
+ArtBasaran:	incbin "unsorted/batbrain.nem"
+ArtSplats:	incbin "unsorted/splats.nem"
+ArtTitleCards:	incbin "unsorted/titlecards.nem"
+ArtHUD:		incbin "unsorted/hud main.nem"
+ArtLives:	incbin "unsorted/hud lives.nem"
+ArtRings:	incbin "unsorted/ring.nem"
+ArtMonitors:	incbin "unsorted/monitor.nem"
+ArtExplosions:	incbin "unsorted/explosion.nem"
 byte_2E6C8:	incbin "unsorted/score points.nem"
-byte_2E77C:	incbin "unsorted/game over.nem"
-byte_2ECDC:	incbin "unsorted/spring v.nem"
-byte_2EDDE:	incbin "unsorted/spring h.nem"
-byte_2EEBA:	incbin "unsorted/end sign post.nem"
-byte_2F336:	incbin "levels/shared/Animals/pocky.nem"
-byte_2F48E:	incbin "levels/shared/Animals/cucky.nem"
-byte_2F5EA:	incbin "levels/shared/Animals/pecky.nem"
-byte_2F766:	incbin "levels/shared/Animals/rocky.nem"
-byte_2F882:	incbin "levels/shared/Animals/picky.nem"
-byte_2F9B8:	incbin "levels/shared/Animals/flicky.nem"
-byte_2FAF2:	incbin "levels/shared/Animals/ricky.nem"
+ArtGameOver:	incbin "unsorted/game over.nem"
+ArtSpringHoriz:	incbin "unsorted/spring v.nem"
+ArtSpringVerti:	incbin "unsorted/spring h.nem"
+ArtSignPost:	incbin "unsorted/end sign post.nem"
+ArtAnimalPocky:	incbin "levels/shared/Animals/pocky.nem"
+ArtAnimalCucky:	incbin "levels/shared/Animals/cucky.nem"
+ArtAnimalPecky:	incbin "levels/shared/Animals/pecky.nem"
+ArtAnimalRocky:	incbin "levels/shared/Animals/rocky.nem"
+ArtAnimalPicky:	incbin "levels/shared/Animals/picky.nem"
+ArtAnimalFlicky:incbin "levels/shared/Animals/flicky.nem"
+ArtAnimalRicky:	incbin "levels/shared/Animals/ricky.nem"
 		align	$8000					; Unnecessary alignment
 BlocksGHZ:	incbin "levels/GHZ/Blocks.unc"
 TilesGHZ_1:	incbin "levels/GHZ/Tiles1.nem"
@@ -27116,36 +27131,36 @@ byte_63074:	dc.b 1
 		dc.b $F0, $F, 0, $D9, $F0
 byte_6307A:	dc.b 1
 		dc.b $F0, $F, 0, $E9, $F0
-byte_63080:	incbin "screens/special stage/ss generic blocks.nem"
+ArtSpecialBlocks:incbin "screens/special stage/ss generic blocks.nem"
 byte_639B8:	incbin "unknown/639B8.eni"
-byte_63AEC:	incbin "screens/special stage/ss bg animals.nem"
+ArtSpecialAnimals:incbin "screens/special stage/ss bg animals.nem"
 byte_6477C:	incbin "unknown/6477C.eni"
 byte_64A7C:	incbin "screens/special stage/ss bg misc.nem"
-byte_64F70:	incbin "screens/special stage/ss goal.nem"
-byte_6505E:	incbin "screens/special stage/ss r.nem"
-byte_6512E:	incbin "screens/special stage/ss skull.nem"
-byte_651FE:	incbin "screens/special stage/ss u.nem"
-byte_652DE:	incbin "screens/special stage/ss 1up.nem"
-byte_653D4:	incbin "screens/special stage/ss stars.nem"
+ArtSpecialGoal:	incbin "screens/special stage/ss goal.nem"
+ArtSpecialR:	incbin "screens/special stage/ss r.nem"
+ArtSpecialSkull:incbin "screens/special stage/ss skull.nem"
+ArtSpecialU:	incbin "screens/special stage/ss u.nem"
+ArtSpecial1up:	incbin "screens/special stage/ss 1up.nem"
+ArtSpecialStars:incbin "screens/special stage/ss stars.nem"
 byte_65432:	incbin "screens/special stage/ss red white.nem"
-byte_654C4:	incbin "screens/special stage/ss zone1.nem"
-byte_65586:	incbin "screens/special stage/ss zone2.nem"
-byte_65654:	incbin "screens/special stage/ss zone3.nem"
-byte_65720:	incbin "screens/special stage/ss zone4.nem"
-byte_657E8:	incbin "screens/special stage/ss zone5.nem"
-byte_658B2:	incbin "screens/special stage/ss zone6.nem"
-byte_65982:	incbin "screens/special stage/ss up down.nem"
-byte_65B76:	incbin "screens/special stage/ss emerald.nem"
+ArtSpecialZone1:incbin "screens/special stage/ss zone1.nem"
+ArtSpecialZone2:incbin "screens/special stage/ss zone2.nem"
+ArtSpecialZone3:incbin "screens/special stage/ss zone3.nem"
+ArtSpecialZone4:incbin "screens/special stage/ss zone4.nem"
+ArtSpecialZone5:incbin "screens/special stage/ss zone5.nem"
+ArtSpecialZone6:incbin "screens/special stage/ss zone6.nem"
+ArtSpecialUpDown:incbin "screens/special stage/ss up down.nem"
+ArtSpecialEmerald:incbin "screens/special stage/ss emerald.nem"
 		align	$8000					; Unnecessary alignment
 byte_68000:	incbin "unknown/68000.dat"
 byte_68100:	incbin "unknown/68100.dat"
 byte_69100:	incbin "unknown/69100.dat"
-byte_6A100:	incbin "unknown/col 06A100.dat"
-byte_6A290:	incbin "unknown/col 06A290.dat"
-byte_6A358:	incbin "unknown/col 06A358.dat"
-byte_6A658:	incbin "unknown/col 06A658.dat"
-byte_6A84C:	incbin "unknown/col 06A84C.dat"
-byte_6A9DC:	incbin "unknown/col 06A9DC.dat"
+colGHZ:		incbin "unknown/col 06A100.dat"
+colLZ:		incbin "unknown/col 06A290.dat"
+colMZ:		incbin "unknown/col 06A358.dat"
+colSLZ:		incbin "unknown/col 06A658.dat"
+colSYZ:		incbin "unknown/col 06A84C.dat"
+colSBZ:		incbin "unknown/col 06A9DC.dat"
 byte_6AB08:	incbin "unknown/6AB08.dat"
 byte_6B018:	incbin "unknown/6B018.dat"
 byte_6B218:	incbin "unknown/6B218.dat"
@@ -27155,127 +27170,127 @@ byte_6BD98:	incbin "unknown/6BD98.dat"
 byte_6C398:	incbin "unknown/6C398.dat"
 byte_6C998:	incbin "unknown/6C998.dat"
 LayoutArray:	dc.w LayoutGHZ1FG-LayoutArray, LayoutGHZ1BG-LayoutArray, LayoutGHZ1Unk-LayoutArray
-		dc.w byte_6CE58-LayoutArray, byte_6CF1A-LayoutArray, byte_6CF3C-LayoutArray
-		dc.w byte_6CF40-LayoutArray, byte_6D062-LayoutArray, byte_6D084-LayoutArray
+		dc.w LayoutGHZ2FG-LayoutArray, LayoutGHZ2BG-LayoutArray, byte_6CF3C-LayoutArray
+		dc.w LayoutGHZ3FG-LayoutArray, LayoutGHZ3BG-LayoutArray, byte_6D084-LayoutArray
 		dc.w byte_6D088-LayoutArray, byte_6D088-LayoutArray, byte_6D088-LayoutArray
-		dc.w LayoutLZ1FG-LayoutArray, byte_6D16E-LayoutArray, byte_6D190-LayoutArray
-		dc.w byte_6D194-LayoutArray, byte_6D16E-LayoutArray, byte_6D216-LayoutArray
-		dc.w byte_6D21A-LayoutArray, byte_6D16E-LayoutArray, byte_6D31C-LayoutArray
+		dc.w LayoutLZ1FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D190-LayoutArray
+		dc.w LayoutLZ2FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D216-LayoutArray
+		dc.w LayoutLZ3FG-LayoutArray, LayoutLZBG-LayoutArray, byte_6D31C-LayoutArray
 		dc.w byte_6D320-LayoutArray, byte_6D320-LayoutArray, byte_6D320-LayoutArray
-		dc.w LayoutMZ1FG-LayoutArray, byte_6D3BC-LayoutArray, LayoutMZ1FG-LayoutArray
-		dc.w byte_6D47E-LayoutArray, byte_6D552-LayoutArray, byte_6D614-LayoutArray
-		dc.w byte_6D618-LayoutArray, byte_6D6FA-LayoutArray, byte_6D7DC-LayoutArray
+		dc.w LayoutMZ1FG-LayoutArray, LayoutMZ1BG-LayoutArray, LayoutMZ1FG-LayoutArray
+		dc.w LayoutMZ2FG-LayoutArray, LayoutMZ2BG-LayoutArray, byte_6D614-LayoutArray
+		dc.w LayoutMZ3FG-LayoutArray, LayoutMZ3BG-LayoutArray, byte_6D7DC-LayoutArray
 		dc.w byte_6D7E0-LayoutArray, byte_6D7E0-LayoutArray, byte_6D7E0-LayoutArray
-		dc.w LayoutSLZ1FG-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w byte_6D9A0-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w byte_6DAE2-LayoutArray, byte_6D926-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ1FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ2FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
+		dc.w LayoutSLZ3FG-LayoutArray, LayoutSLZBG-LayoutArray, byte_6DBE4-LayoutArray
 		dc.w byte_6DBE4-LayoutArray, byte_6DBE4-LayoutArray, byte_6DBE4-LayoutArray
-		dc.w LayoutSYZ1FG-LayoutArray, byte_6DC9E-LayoutArray, byte_6DCD8-LayoutArray
-		dc.w byte_6DCDC-LayoutArray, byte_6DC9E-LayoutArray, byte_6DDDA-LayoutArray
-		dc.w byte_6DDDE-LayoutArray, byte_6DC9E-LayoutArray, byte_6DF30-LayoutArray
+		dc.w LayoutSYZ1FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DCD8-LayoutArray
+		dc.w LayoutSYZ2FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DDDA-LayoutArray
+		dc.w LayoutSYZ3FG-LayoutArray, LayoutSYZBG-LayoutArray, byte_6DF30-LayoutArray
 		dc.w byte_6DF34-LayoutArray, byte_6DF34-LayoutArray, byte_6DF34-LayoutArray
-		dc.w LayoutSBZ1FG-LayoutArray, byte_6E13A-LayoutArray, byte_6E13A-LayoutArray
-		dc.w byte_6E13A-LayoutArray, byte_6E33C-LayoutArray, byte_6E33C-LayoutArray
+		dc.w LayoutSBZ1FG-LayoutArray, LayoutSBZ2FG-LayoutArray, LayoutSBZ2FG-LayoutArray
+		dc.w LayoutSBZ2FG-LayoutArray, LayoutSBZ2BG-LayoutArray, LayoutSBZ2BG-LayoutArray
 		dc.w byte_6E340-LayoutArray, byte_6E340-LayoutArray, byte_6E340-LayoutArray
 		dc.w byte_6E344-LayoutArray, byte_6E344-LayoutArray, byte_6E344-LayoutArray
-		dc.w LayoutEnding1FG-LayoutArray, byte_6E3CA-LayoutArray, byte_6E3CA-LayoutArray
+		dc.w LayoutEnding1FG-LayoutArray, LayoutEnding1BG-LayoutArray, LayoutEnding1BG-LayoutArray
 		dc.w byte_6E3CE-LayoutArray, byte_6E3CE-LayoutArray, byte_6E3CE-LayoutArray
 		dc.w byte_6E3D2-LayoutArray, byte_6E3D2-LayoutArray, byte_6E3D2-LayoutArray
 		dc.w byte_6E3D6-LayoutArray, byte_6E3D6-LayoutArray, byte_6E3D6-LayoutArray
 LayoutGHZ1FG:	incbin "levels/GHZ/Foreground 1.unc"
 LayoutGHZ1BG:	incbin "levels/GHZ/Background 1.unc"
 LayoutGHZ1Unk:	dc.b 0, 0, 0, 0
-byte_6CE58:	incbin "levels/GHZ/Foreground 2.unc"
-byte_6CF1A:	incbin "levels/GHZ/Background 2.unc"
+LayoutGHZ2FG:	incbin "levels/GHZ/Foreground 2.unc"
+LayoutGHZ2BG:	incbin "levels/GHZ/Background 2.unc"
 byte_6CF3C:	dc.b 0, 0, 0, 0
-byte_6CF40:	incbin "levels/GHZ/Foreground 3.unc"
-byte_6D062:	incbin "levels/GHZ/Background 3.unc"
+LayoutGHZ3FG:	incbin "levels/GHZ/Foreground 3.unc"
+LayoutGHZ3BG:	incbin "levels/GHZ/Background 3.unc"
 byte_6D084:	dc.b 0, 0, 0, 0
 byte_6D088:	dc.b 0, 0, 0, 0
 LayoutLZ1FG:	incbin "levels/LZ/Foreground 1.unc"
-byte_6D16E:	incbin "levels/LZ/Background.unc"
+LayoutLZBG:	incbin "levels/LZ/Background.unc"
 byte_6D190:	dc.b 0, 0, 0, 0
-byte_6D194:	incbin "levels/LZ/Foreground 2.unc"
+LayoutLZ2FG:	incbin "levels/LZ/Foreground 2.unc"
 byte_6D216:	dc.b 0, 0, 0, 0
-byte_6D21A:	incbin "levels/LZ/Foreground 3.unc"
+LayoutLZ3FG:	incbin "levels/LZ/Foreground 3.unc"
 byte_6D31C:	dc.b 0, 0, 0, 0
 byte_6D320:	dc.b 0, 0, 0, 0
 LayoutMZ1FG:	incbin "levels/MZ/Foreground 1.unc"
-byte_6D3BC:	incbin "levels/MZ/Background 1.unc"
-byte_6D47E:	incbin "levels/MZ/Foreground 2.unc"
-byte_6D552:	incbin "levels/MZ/Background 2.unc"
+LayoutMZ1BG:	incbin "levels/MZ/Background 1.unc"
+LayoutMZ2FG:	incbin "levels/MZ/Foreground 2.unc"
+LayoutMZ2BG:	incbin "levels/MZ/Background 2.unc"
 byte_6D614:	dc.b 0, 0, 0, 0
-byte_6D618:	incbin "levels/MZ/Foreground 3.unc"
-byte_6D6FA:	incbin "levels/MZ/Background 3.unc"
+LayoutMZ3FG:	incbin "levels/MZ/Foreground 3.unc"
+LayoutMZ3BG:	incbin "levels/MZ/Background 3.unc"
 byte_6D7DC:	dc.b 0, 0, 0, 0
 byte_6D7E0:	dc.b 0, 0, 0, 0
 LayoutSLZ1FG:	incbin "levels/SLZ/Foreground 1.unc"
-byte_6D926:	incbin "levels/SLZ/Background.unc"
-byte_6D9A0:	incbin "levels/SLZ/Foreground 2.unc"
-byte_6DAE2:	incbin "levels/SLZ/Foreground 3.unc"
+LayoutSLZBG:	incbin "levels/SLZ/Background.unc"
+LayoutSLZ2FG:	incbin "levels/SLZ/Foreground 2.unc"
+LayoutSLZ3FG:	incbin "levels/SLZ/Foreground 3.unc"
 byte_6DBE4:	dc.b 0, 0, 0, 0
 LayoutSYZ1FG:	incbin "levels/SYZ/Foreground 1.unc"
-byte_6DC9E:	incbin "levels/SYZ/Background.unc"
+LayoutSYZBG:	incbin "levels/SYZ/Background.unc"
 byte_6DCD8:	dc.b 0, 0, 0, 0
-byte_6DCDC:	incbin "levels/SYZ/Foreground 2.unc"
+LayoutSYZ2FG:	incbin "levels/SYZ/Foreground 2.unc"
 byte_6DDDA:	dc.b 0, 0, 0, 0
-byte_6DDDE:	incbin "levels/SYZ/Foreground 3.unc"
+LayoutSYZ3FG:	incbin "levels/SYZ/Foreground 3.unc"
 byte_6DF30:	dc.b 0, 0, 0, 0
 byte_6DF34:	dc.b 0, 0, 0, 0
 LayoutSBZ1FG:	incbin "levels/SBZ/Foreground 1.unc"
-byte_6E13A:	incbin "levels/SBZ/Foreground 2.unc"
-byte_6E33C:	incbin "levels/SBZ/Background 2.unc"
+LayoutSBZ2FG:	incbin "levels/SBZ/Foreground 2.unc"
+LayoutSBZ2BG:	incbin "levels/SBZ/Background 2.unc"
 byte_6E340:	dc.b 0, 0, 0, 0
 byte_6E344:	dc.b 0, 0, 0, 0
 LayoutEnding1FG:incbin "levels/Unknown/Foreground 1.unc"
-byte_6E3CA:	dc.b 0, 0, 0, 0
+LayoutEnding1BG:dc.b 0, 0, 0, 0
 byte_6E3CE:	dc.b 0, 0, 0, 0
 byte_6E3D2:	dc.b 0, 0, 0, 0
 byte_6E3D6:	dc.b 0, 0, 0, 0
 		align	$8000					; Unnecessary alignment
 ObjectListArray:dc.w ObjListGHZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_70546-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_70B10-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListGHZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListGHZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListGHZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListLZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_7116A-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_71170-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListLZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListLZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListLZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListMZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_714A6-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_71AA6-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListMZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListMZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListMZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSLZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72328-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_723D0-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSLZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSLZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSLZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSYZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_728BC-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D00-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSYZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSYZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSYZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSBZ1-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D12-ObjectListArray, ObjListNull-ObjectListArray
-		dc.w word_72D18-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSBZ2-ObjectListArray, ObjListNull-ObjectListArray
+		dc.w ObjListSBZ3-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w ObjListSBZ1-ObjectListArray, ObjListNull-ObjectListArray
 		dc.w $FFFF, 0, 0
 ObjListGHZ1:	incbin "levels/GHZ/Objects 1.unc"
-word_70546:	incbin "levels/GHZ/Objects 2.unc"
-word_70B10:	incbin "levels/GHZ/Objects 3.unc"
+ObjListGHZ2:	incbin "levels/GHZ/Objects 2.unc"
+ObjListGHZ3:	incbin "levels/GHZ/Objects 3.unc"
 ObjListLZ1:	incbin "levels/LZ/Objects 1.unc"
-word_7116A:	incbin "levels/LZ/Objects 2.unc"
-word_71170:	incbin "levels/LZ/Objects 3.unc"
+ObjListLZ2:	incbin "levels/LZ/Objects 2.unc"
+ObjListLZ3:	incbin "levels/LZ/Objects 3.unc"
 ObjListMZ1:	incbin "levels/MZ/Objects 1.unc"
-word_714A6:	incbin "levels/MZ/Objects 2.unc"
-word_71AA6:	incbin "levels/MZ/Objects 3.unc"
+ObjListMZ2:	incbin "levels/MZ/Objects 2.unc"
+ObjListMZ3:	incbin "levels/MZ/Objects 3.unc"
 ObjListSLZ1:	incbin "levels/SLZ/Objects 1.unc"
-word_72328:	incbin "levels/SLZ/Objects 2.unc"
-word_723D0:	incbin "levels/SLZ/Objects 3.unc"
+ObjListSLZ2:	incbin "levels/SLZ/Objects 2.unc"
+ObjListSLZ3:	incbin "levels/SLZ/Objects 3.unc"
 ObjListSYZ1:	incbin "levels/SYZ/Objects 1.unc"
-word_728BC:	incbin "levels/SYZ/Objects 2.unc"
-word_72D00:	incbin "levels/SYZ/Objects 3.unc"
+ObjListSYZ2:	incbin "levels/SYZ/Objects 2.unc"
+ObjListSYZ3:	incbin "levels/SYZ/Objects 3.unc"
 ObjListSBZ1:	incbin "levels/SBZ/Objects 1.unc"
-word_72D12:	incbin "levels/SBZ/Objects 2.unc"
-word_72D18:	incbin "levels/SBZ/Objects 3.unc"
+ObjListSBZ2:	incbin "levels/SBZ/Objects 2.unc"
+ObjListSBZ3:	incbin "levels/SBZ/Objects 3.unc"
 ObjListNull:	dc.w $FFFF, 0, 0
 		align	$4000					; Unnecessary alignment
 mSoundPriorities:dc.l mSoundPrioList
@@ -29464,7 +29479,7 @@ locret_754C0:
 
 
 sub_754C2:
-		move.w	(word_340E+$2E).w,d0
+		move.w	(Oscillating_Data2+$2E).w,d0
 		addq.w	#8,(a0)+
 		addq.w	#2,(a4)+
 		bra.s	loc_75534
@@ -29869,14 +29884,14 @@ padHeld2:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF60C:	ds.b 2
+ModeReg2:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF614:	ds.b 2
+GlobalTimer:	ds.b 2
 dword_FFF616:	ds.b 4
 dword_FFF61A:	ds.b 4
 word_FFF61E:	ds.b 2
@@ -29897,7 +29912,7 @@ byte_FFF62C:	ds.b 1
 word_FFF632:	ds.b 2
 word_FFF634:	ds.b 2
 RandomSeed:	ds.b 4
-word_FFF63A:	ds.b 2
+PauseFlag:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29936,8 +29951,8 @@ word_FFF662:	ds.b 2
 		ds.b 1
 		ds.b 1
 word_FFF666:	ds.b 2
-word_FFF668:	ds.b 2
-word_FFF66A:	ds.b 2
+LevSelOption:	ds.b 2
+LevSelSound:	ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -30057,7 +30072,7 @@ unk_FFF73E:	ds.b 1
 		ds.b 1
 unk_FFF740:	ds.b 1
 unk_FFF741:	ds.b 1
-unk_FFF742:	ds.b 1
+EventsRoutine:	ds.b 1
 		ds.b 1
 unk_FFF744:	ds.b 1
 		ds.b 1
@@ -30141,10 +30156,7 @@ unk_FFF792:	ds.b 1
 		ds.b 1
 unk_FFF794:	ds.b 1
 		ds.b 1
-unk_FFF796:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
+Collision:	ds.b 4
 unk_FFF79A:	ds.b 1
 		ds.b 1
 unk_FFF79C:	ds.b 1
@@ -30428,13 +30440,13 @@ word_FFFE96:	ds.b 2
 		ds.b 1
 byte_FFFEC0:	ds.b 1
 byte_FFFEC1:	ds.b 1
-byte_FFFEC2:	ds.b 1
-byte_FFFEC3:	ds.b 1
+RingTimer:	ds.b 1
+RingFrame:	ds.b 1
 byte_FFFEC4:	ds.b 1
 byte_FFFEC5:	ds.b 1
-byte_FFFEC6:	ds.b 1
-byte_FFFEC7:	ds.b 1
-word_FFFEC8:	ds.b 2
+RingLossTimer:	ds.b 1
+RingLossFrame:	ds.b 1
+RingLossAccumulator:ds.b 2
 		ds.b 1
 		ds.b 1
 		ds.b 1
