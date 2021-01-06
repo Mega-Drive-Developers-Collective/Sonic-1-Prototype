@@ -14,18 +14,18 @@
 01AA8
 
 # disassemble standard palette data
-01B3C screens/sega/main.pal
-01BBC screens/title/main.pal
-01C3C screens/title/level select.pal
-01CBC levels/shared/Sonic/sonic.pal
-01CDC levels/GHZ/main.pal
-01D3C levels/LZ/main.pal
-01D9C levels/GHZ/night.pal
-01E1C levels/MZ/main.pal
-01E7C levels/SLZ/main.pal
-01EDC levels/SYZ/main.pal
-01F3C levels/SBZ/main.pal
-01F9C screens/Special Stage/main.pal
+01B3C screens/sega/Main.pal
+01BBC screens/title/Main.pal
+01C3C screens/title/Level Select.pal
+01CBC levels/shared/Sonic/Sonic.pal
+01CDC levels/GHZ/Main.pal
+01D3C levels/LZ/Main.pal
+01D9C levels/GHZ/Night.pal
+01E1C levels/MZ/Main.pal
+01E7C levels/SLZ/Main.pal
+01EDC levels/SYZ/Main.pal
+01F3C levels/SBZ/Main.pal
+01F9C screens/special stage/Main.pal
 0201C
 
 # disassemble misc stuff
@@ -95,7 +95,7 @@
 2E77C levels/shared/GameOver/Art.nem
 2ECDC levels/shared/Springs/Art Horizontal.nem
 2EDDE levels/shared/Springs/Art Vertical.nem
-2EEBA levels/shared/SignPost/Art.nem
+2EEBA levels/shared/Signpost/Art.nem
 2F336 levels/shared/Animals/Pocky.nem
 2F48E levels/shared/Animals/Cucky.nem
 2F5EA levels/shared/Animals/Pecky.nem
@@ -141,26 +141,26 @@
 63000
 
 # disassemble art and map data
-63080 screens/Special Stage/Art Blocks.nem
+63080 screens/special stage/Art Blocks.nem
 639B8 unknown/639B8.eni
-63AEC screens/Special Stage/Art Animals.nem
+63AEC screens/special stage/Art Animals.nem
 6477C unknown/6477C.eni
-64A7C screens/Special Stage/ss bg misc.nem
-64F70 screens/Special Stage/Art Goal.nem
-6505E screens/Special Stage/Art R Block.nem
-6512E screens/Special Stage/Art Skull.nem
-651FE screens/Special Stage/Art U Block.nem
-652DE screens/Special Stage/Art 1up.nem
-653D4 screens/Special Stage/Art Stars.nem
-65432 screens/Special Stage/ss red white.nem
-654C4 screens/Special Stage/Art Zone 1.nem
-65586 screens/Special Stage/Art Zone 2.nem
-65654 screens/Special Stage/Art Zone 3.nem
-65720 screens/Special Stage/Art Zone 4.nem
-657E8 screens/Special Stage/Art Zone 5.nem
-658B2 screens/Special Stage/Art Zone 6.nem
-65982 screens/Special Stage/Art Up Down.nem
-65B76 screens/Special Stage/Art Emerald.nem
+64A7C screens/special stage/ss bg misc.nem
+64F70 screens/special stage/Art Goal.nem
+6505E screens/special stage/Art R Block.nem
+6512E screens/special stage/Art Skull.nem
+651FE screens/special stage/Art U Block.nem
+652DE screens/special stage/Art 1up.nem
+653D4 screens/special stage/Art Stars.nem
+65432 screens/special stage/ss red white.nem
+654C4 screens/special stage/Art Zone 1.nem
+65586 screens/special stage/Art Zone 2.nem
+65654 screens/special stage/Art Zone 3.nem
+65720 screens/special stage/Art Zone 4.nem
+657E8 screens/special stage/Art Zone 5.nem
+658B2 screens/special stage/Art Zone 6.nem
+65982 screens/special stage/Art Up Down.nem
+65B76 screens/special stage/Art Emerald.nem
 65BE6
 
 # disassemble misc data
@@ -170,12 +170,12 @@
 6A100
 
 # disassemble collision data
-6A100 unknown/col 06A100.dat
-6A290 unknown/col 06A290.dat
-6A358 unknown/col 06A358.dat
-6A658 unknown/col 06A658.dat
-6A84C unknown/col 06A84C.dat
-6A9DC unknown/col 06A9DC.dat
+6A100 levels/GHZ/Collision.dat
+6A290 levels/LZ/Collision.dat
+6A358 levels/MZ/Collision.dat
+6A658 levels/SLZ/Collision.dat
+6A84C levels/SYZ/Collision.dat
+6A9DC levels/SBZ/Collision.dat
 6AB08
 
 # disassemble misc data
@@ -230,7 +230,7 @@
 6E13A levels/SBZ/Foreground 2.unc
 6E33C levels/SBZ/Background 2.unc
 6E340
-6E348 levels/Unknown/Foreground 1.unc
+6E348 levels/Ending/Foreground 1.unc
 6E3CA
 
 # disassemble object lists

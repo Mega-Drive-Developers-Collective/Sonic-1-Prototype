@@ -1977,29 +1977,29 @@ PaletteLoadTable:dc.l palSegaBG
 		dc.w $FB00, $1F
 		dc.l palGHZNight
 		dc.w $FB00, $1F
-palSegaBG:	incbin "screens/sega/main.pal"
+palSegaBG:	incbin "screens/sega/Main.pal"
 		even
-palTitle:	incbin "screens/title/main.pal"
+palTitle:	incbin "screens/title/Main.pal"
 		even
-palLevelSel:	incbin "screens/title/level select.pal"
+palLevelSel:	incbin "screens/title/Level Select.pal"
 		even
-palSonic:	incbin "levels/shared/Sonic/sonic.pal"
+palSonic:	incbin "levels/shared/Sonic/Sonic.pal"
 		even
-palGHZ:		incbin "levels/GHZ/main.pal"
+palGHZ:		incbin "levels/GHZ/Main.pal"
 		even
-palLZ:		incbin "levels/LZ/main.pal"
+palLZ:		incbin "levels/LZ/Main.pal"
 		even
 palGHZNight:	incbin "levels/GHZ/night.pal"
 		even
-palMZ:		incbin "levels/MZ/main.pal"
+palMZ:		incbin "levels/MZ/Main.pal"
 		even
-palSLZ:		incbin "levels/SLZ/main.pal"
+palSLZ:		incbin "levels/SLZ/Main.pal"
 		even
-palSYZ:		incbin "levels/SYZ/main.pal"
+palSYZ:		incbin "levels/SYZ/Main.pal"
 		even
-palSBZ:		incbin "levels/SBZ/main.pal"
+palSBZ:		incbin "levels/SBZ/Main.pal"
 		even
-palSpecial:	incbin "screens/Special Stage/main.pal"
+palSpecial:	incbin "screens/special stage/Main.pal"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -25466,45 +25466,45 @@ byte_63074:	dc.b 1
 
 byte_6307A:	dc.b 1
 		dc.b $F0, $F, 0, $E9, $F0
-ArtSpecialBlocks:incbin "screens/Special Stage/Art Blocks.nem"
+ArtSpecialBlocks:incbin "screens/special stage/Art Blocks.nem"
 		even
 byte_639B8:	incbin "unknown/639B8.eni"
 		even
-ArtSpecialAnimals:incbin "screens/Special Stage/Art Animals.nem"
+ArtSpecialAnimals:incbin "screens/special stage/Art Animals.nem"
 		even
 byte_6477C:	incbin "unknown/6477C.eni"
 		even
-byte_64A7C:	incbin "screens/Special Stage/ss bg misc.nem"
+byte_64A7C:	incbin "screens/special stage/ss bg misc.nem"
 		even
-ArtSpecialGoal:	incbin "screens/Special Stage/Art Goal.nem"
+ArtSpecialGoal:	incbin "screens/special stage/Art Goal.nem"
 		even
-ArtSpecialR:	incbin "screens/Special Stage/Art R Block.nem"
+ArtSpecialR:	incbin "screens/special stage/Art R Block.nem"
 		even
-ArtSpecialSkull:incbin "screens/Special Stage/Art Skull.nem"
+ArtSpecialSkull:incbin "screens/special stage/Art Skull.nem"
 		even
-ArtSpecialU:	incbin "screens/Special Stage/Art U Block.nem"
+ArtSpecialU:	incbin "screens/special stage/Art U Block.nem"
 		even
-ArtSpecial1up:	incbin "screens/Special Stage/Art 1up.nem"
+ArtSpecial1up:	incbin "screens/special stage/Art 1up.nem"
 		even
-ArtSpecialStars:incbin "screens/Special Stage/Art Stars.nem"
+ArtSpecialStars:incbin "screens/special stage/Art Stars.nem"
 		even
-byte_65432:	incbin "screens/Special Stage/ss red white.nem"
+byte_65432:	incbin "screens/special stage/ss red white.nem"
 		even
-ArtSpecialZone1:incbin "screens/Special Stage/Art Zone 1.nem"
+ArtSpecialZone1:incbin "screens/special stage/Art Zone 1.nem"
 		even
-ArtSpecialZone2:incbin "screens/Special Stage/Art Zone 2.nem"
+ArtSpecialZone2:incbin "screens/special stage/Art Zone 2.nem"
 		even
-ArtSpecialZone3:incbin "screens/Special Stage/Art Zone 3.nem"
+ArtSpecialZone3:incbin "screens/special stage/Art Zone 3.nem"
 		even
-ArtSpecialZone4:incbin "screens/Special Stage/Art Zone 4.nem"
+ArtSpecialZone4:incbin "screens/special stage/Art Zone 4.nem"
 		even
-ArtSpecialZone5:incbin "screens/Special Stage/Art Zone 5.nem"
+ArtSpecialZone5:incbin "screens/special stage/Art Zone 5.nem"
 		even
-ArtSpecialZone6:incbin "screens/Special Stage/Art Zone 6.nem"
+ArtSpecialZone6:incbin "screens/special stage/Art Zone 6.nem"
 		even
-ArtSpecialUpDown:incbin "screens/Special Stage/Art Up Down.nem"
+ArtSpecialUpDown:incbin "screens/special stage/Art Up Down.nem"
 		even
-ArtSpecialEmerald:incbin "screens/Special Stage/Art Emerald.nem"
+ArtSpecialEmerald:incbin "screens/special stage/Art Emerald.nem"
 		even
 		align	$8000					; Unnecessary alignment
 byte_68000:	incbin "unknown/68000.dat"
@@ -25513,17 +25513,17 @@ byte_68100:	incbin "unknown/68100.dat"
 		even
 byte_69100:	incbin "unknown/69100.dat"
 		even
-colGHZ:		incbin "unknown/col 06A100.dat"
+colGHZ:		incbin "levels/GHZ/Collision.dat"
 		even
-colLZ:		incbin "unknown/col 06A290.dat"
+colLZ:		incbin "levels/LZ/Collision.dat"
 		even
-colMZ:		incbin "unknown/col 06A358.dat"
+colMZ:		incbin "levels/MZ/Collision.dat"
 		even
-colSLZ:		incbin "unknown/col 06A658.dat"
+colSLZ:		incbin "levels/SLZ/Collision.dat"
 		even
-colSYZ:		incbin "unknown/col 06A84C.dat"
+colSYZ:		incbin "levels/SYZ/Collision.dat"
 		even
-colSBZ:		incbin "unknown/col 06A9DC.dat"
+colSBZ:		incbin "levels/SBZ/Collision.dat"
 		even
 byte_6AB08:	incbin "unknown/6AB08.dat"
 		even
