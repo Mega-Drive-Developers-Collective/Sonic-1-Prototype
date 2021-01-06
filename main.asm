@@ -523,7 +523,7 @@ loc_BC6:
 
 loc_C7A:
 		move.w	#0,($A11100).l
-		bsr.w	sub_43E2
+		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
 		bsr.w	loc_1454
@@ -638,7 +638,7 @@ loc_D94:
 
 loc_E3A:
 		move.w	#0,($A11100).l
-		bsr.w	sub_43E2
+		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
 		bsr.w	sub_1438
@@ -2383,7 +2383,7 @@ loc_25D8:
 		move.w	#0,(DemoMode).w
 		move.w	#0,(level).w
 		bsr.w	LoadLevelBounds
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		move.l	#$40000000,($C00004).l
 		lea	(TilesGHZ_1).l,a0
 		bsr.w	NemesisDec
@@ -2425,7 +2425,7 @@ loc_26AE:
 		move.b	#4,(VintRoutine).w
 		bsr.w	vsync
 		bsr.w	RunObjects
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		bsr.w	ProcessMaps
 		bsr.w	PalCycTitle
 		bsr.w	ProcessPLC
@@ -2534,7 +2534,7 @@ loc_27F8:
 loc_27FE:
 		move.b	#4,(VintRoutine).w
 		bsr.w	vsync
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		bsr.w	PaletteCycle
 		bsr.w	ProcessPLC
 		move.w	(ObjectsList+8).w,d0
@@ -2857,10 +2857,10 @@ loc_2C92:
 		moveq	#3,d0
 		bsr.w	palLoadFade
 		bsr.w	LoadLevelBounds
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 		bsr.w	LoadLevelData
 		bsr.w	sub_31EE
-		bsr.w	sub_478A
+		bsr.w	mapLevelLoadFull
 		jsr	nullsub_2
 		move.l	#colGHZ,(Collision).w
 		cmpi.b	#1,(level).w
@@ -2948,7 +2948,7 @@ sLevelLoop:
 		bcc.s	loc_2E2E
 
 loc_2E2A:
-		bsr.w	sub_3DF6
+		bsr.w	LevelScroll
 
 loc_2E2E:
 		bsr.w	ProcessMaps
@@ -3558,7 +3558,7 @@ loc_3534:
 		move.w	#$8F02,(a5)
 		moveq	#$14,d0
 		bsr.w	sub_14E2
-		bsr.w	sub_366A
+		bsr.w	ssLoadBG
 		lea	(ObjectsList).w,a1
 		moveq	#0,d0
 		move.w	#$7FF,d1
@@ -3647,7 +3647,7 @@ loc_3662:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_366A:
+ssLoadBG:
 		lea	((Chunks)&$FFFFFF).l,a1
 		lea	(byte_639B8).l,a0
 		move.w	#$4051,d0
@@ -4020,7 +4020,7 @@ loc_3CA8:
 
 loc_3CB2:
 		move.w	d0,(unk_FFF704).w
-		bsr.w	sub_3D9A
+		bsr.w	initLevelBG
 		moveq	#0,d0
 		move.b	(level).w,d0
 		lsl.b	#2,d0
@@ -4086,7 +4086,7 @@ dword_3D6A:	dc.l $700100, $1000100
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3D9A:
+initLevelBG:
 		move.w	d0,(unk_FFF70C).w
 		move.w	d0,(unk_FFF714).w
 		swap	d1
@@ -4100,28 +4100,28 @@ sub_3D9A:
 		jmp	off_3DC0(pc,d2.w)
 
 ; ---------------------------------------------------------------------------
-off_3DC0:	dc.w loc_3DCC-off_3DC0, locret_3DD0-off_3DC0, nullsub_5-off_3DC0, sub_3DD4-off_3DC0
-		dc.w sub_3DE0-off_3DC0, nullsub_6-off_3DC0
+off_3DC0:	dc.w InitBGHZ-off_3DC0, initLevelLZ-off_3DC0, initLevelMZ-off_3DC0, initLevelSLZ-off_3DC0
+		dc.w initLevelSYZ-off_3DC0, initLevelSBZ-off_3DC0
 ; ---------------------------------------------------------------------------
 
-loc_3DCC:
-		bra.w	loc_3E58
+InitBGHZ:
+		bra.w	HScrollGHZ
 ; ---------------------------------------------------------------------------
 
-locret_3DD0:
+initLevelLZ:
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 
-nullsub_5:
+initLevelMZ:
 		rts
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DD4:
+initLevelSLZ:
 		asr.l	#1,d0
 		addi.w	#$C0,d0
 		move.w	d0,(unk_FFF70C).w
@@ -4131,7 +4131,7 @@ sub_3DD4:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DE0:
+initLevelSYZ:
 		asl.l	#4,d0
 		move.l	d0,d2
 		asl.l	#1,d0
@@ -4145,26 +4145,26 @@ sub_3DE0:
 ; =============== S U B R O U T I N E =======================================
 
 
-nullsub_6:
+initLevelSBZ:
 		rts
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DF6:
+LevelScroll:
 
 
 		tst.b	(unk_FFF744).w
 		bne.s	loc_3E18
 		tst.b	(unk_FFF740).w
 		bne.w	loc_4258
-		bsr.w	sub_40B4
+		bsr.w	camMoveHoriz
 
 loc_3E08:
 		tst.b	(unk_FFF741).w
 		bne.w	loc_4276
-		bsr.w	sub_414C
+		bsr.w	camMoveVerti
 
 loc_3E14:
 		bsr.w	LevelEvents
@@ -4179,15 +4179,15 @@ loc_3E18:
 		moveq	#0,d0
 		move.b	(level).w,d0
 		add.w	d0,d0
-		move.w	off_3E4C(pc,d0.w),d0
-		jmp	off_3E4C(pc,d0.w)
+		move.w	@scroll(pc,d0.w),d0
+		jmp	@scroll(pc,d0.w)
 
 ; ---------------------------------------------------------------------------
-off_3E4C:	dc.w loc_3E58-off_3E4C, sub_3F02-off_3E4C, sub_3F24-off_3E4C, loc_3F7C-off_3E4C, loc_4054-off_3E4C
-		dc.w loc_4092-off_3E4C
+@scroll:	dc.w HScrollGHZ-@scroll, HScrollLZ-@scroll, HScrollMZ-@scroll, HScrollSLZ-@scroll
+		dc.w HScrollSYZ-@scroll, HScrollSBZ-@scroll
 ; ---------------------------------------------------------------------------
 
-loc_3E58:
+HScrollGHZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#5,d4
@@ -4258,7 +4258,7 @@ loc_3EF0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3F02:
+HScrollLZ:
 		lea	(ScrollTable).w,a1
 		move.w	#$DF,d1
 		move.w	(unk_FFF700).w,d0
@@ -4277,7 +4277,7 @@ loc_3F1C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3F24:
+HScrollMZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#6,d4
@@ -4315,7 +4315,7 @@ loc_3F74:
 
 ; ---------------------------------------------------------------------------
 
-loc_3F7C:
+HScrollSLZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#7,d4
@@ -4417,7 +4417,7 @@ loc_404C:
 
 ; ---------------------------------------------------------------------------
 
-loc_4054:
+HScrollSYZ:
 		move.w	(unk_FFF73A).w,d4
 		ext.l	d4
 		asl.l	#6,d4
@@ -4443,7 +4443,7 @@ loc_408A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4092:
+HScrollSBZ:
 		lea	(ScrollTable).w,a1
 		move.w	#$DF,d1
 		move.w	(unk_FFF700).w,d0
@@ -4461,7 +4461,7 @@ loc_40AC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_40B4:
+camMoveHoriz:
 		move.w	(unk_FFF700).w,d4
 		bsr.s	sub_40E8
 		move.w	(unk_FFF700).w,d0
@@ -4539,7 +4539,7 @@ loc_4146:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_414C:
+camMoveVerti:
 		moveq	#0,d1
 		move.w	(ObjectsList+$C).w,d0
 		sub.w	(unk_FFF704).w,d0
@@ -4701,7 +4701,7 @@ loc_428A:
 loc_4290:
 		move.w	d0,(unk_FFF73C).w
 		bra.w	loc_3E14
-; END OF FUNCTION CHUNK FOR sub_3DF6
+; END OF FUNCTION CHUNK FOR LevelScroll
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -4858,7 +4858,7 @@ sub_43B6:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_43E2:
+mapLevelLoad:
 		lea	($C00004).l,a5
 		lea	($C00000).l,a6
 		lea	(unk_FFF756).w,a2
@@ -5293,7 +5293,7 @@ sub_476E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_478A:
+mapLevelLoadFull:
 		lea	($C00004).l,a5
 		lea	($C00000).l,a6
 		lea	(unk_FFF700).w,a3
