@@ -23,7 +23,6 @@
 ; Segment type: Pure code
 ; segment "ROM"
 ROM		section org(0)
-			opt ae-		; temporary!!!
 
 align		macro pos
 		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
@@ -45,8 +44,8 @@ off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l ErrorTrap, ErrorTrap
 		dc.b 'SEGA MEGA DRIVE '				; Console name
 		dc.b '(C)SEGA 1989.JAN'				; Copyright/release date
-		dc.b '                                                '; Domestic name
-		dc.b '                                                '; International name
+		dc.b '                                                '; Domestic name (none)
+		dc.b '                                                '; International name (none)
 		dc.b 'GM 00000000-00'				; Serial code
 Checksum:	dc.w 0
 		dc.b 'J               '				; I/O support
@@ -1069,7 +1068,7 @@ sub_1280:
 		lsr.w	d7,d1
 		cmpi.b	#$FC,d1
 		bcc.s	loc_12CC
-		andi.w	#$FF,d1
+		andi.w	#-1,d1
 		add.w	d1,d1
 		move.b	(a1,d1.w),d0
 		ext.w	d0
@@ -3088,10 +3087,10 @@ word_2F48:	dc.w $158, $90
 		dc.w $138, $A8
 		dc.w $140, $A8
 ; ---------------------------------------------------------------------------
-		lea	((Layout+$600)).w,a0
+		lea	((Layout+$600)).w,a0	; ???
 		move.w	(word_FFF64C).w,d2
 		move.w	#$9100,d3
-		move.w	#$FF,d7
+		move.w	#-1,d7
 
 loc_3028:
 		move.w	d2,d0
@@ -3262,7 +3261,7 @@ loc_3170:
 		dbf	d1,loc_3170
 
 locret_3176:
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3882,7 +3881,7 @@ loc_3A4C:
 		move.b	(a2)+,d3
 		move.w	(unk_FFF70C).w,d2
 		neg.w	d2
-		andi.w	#$FF,d2
+		andi.w	#-1,d2
 		lsl.w	#2,d2
 
 loc_3A68:
@@ -5350,7 +5349,7 @@ LoadLevelData:
 		bsr.w	LoadLayout
 		move.w	(a2)+,d0
 		move.w	(a2),d0
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		bsr.w	palLoadFade
 		movea.l	(sp)+,a2
 		addq.w	#4,a2
@@ -8745,7 +8744,7 @@ loc_6FB6:
 		subq.w	#1,$30(a0)
 		bpl.s	loc_6FE6
 		addq.b	#2,$25(a0)
-		move.w	#$FF,$30(a0)
+		move.w	#-1,$30(a0)
 		move.w	#$40,$10(a0)
 		move.b	#1,$1C(a0)
 		bchg	#0,$22(a0)
@@ -11360,7 +11359,7 @@ loc_8D78:
 		subq.w	#1,$30(a0)
 		bpl.s	locret_8DA0
 		addq.b	#2,$25(a0)
-		move.w	#$FF,$30(a0)
+		move.w	#-1,$30(a0)
 		move.w	#$80,$10(a0)
 		move.b	#1,$1C(a0)
 		bchg	#0,$22(a0)
@@ -11424,7 +11423,7 @@ loc_8E10:
 		add.w	d1,$C(a0)
 		move.w	#0,$12(a0)
 		move.b	#1,$1C(a0)
-		move.w	#$FF,$30(a0)
+		move.w	#-1,$30(a0)
 		subq.b	#2,$25(a0)
 
 locret_8E44:
@@ -22023,7 +22022,7 @@ loc_1030E:
 loc_1031C:
 		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		beq.s	loc_1030E
 		lea	(byte_68000).l,a2
 		move.b	(a2,d0.w),(a4)
@@ -22103,7 +22102,7 @@ loc_103B6:
 loc_103C4:
 		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		beq.s	loc_103B6
 		lea	(byte_68000).l,a2
 		move.b	(a2,d0.w),(a4)
@@ -22162,7 +22161,7 @@ nullsub_2:
 ; ---------------------------------------------------------------------------
 		lea	(byte_68100).l,a1
 		lea	(byte_68100).l,a2
-		move.w	#$FF,d3
+		move.w	#-1,d3
 
 loc_1044E:
 		moveq	#$10,d5
@@ -24664,7 +24663,7 @@ loc_11EF6:
 		move.b	#1,(byte_FFFE0A).w
 		addq.b	#1,(byte_FFFE0B).w
 		bne.s	loc_11F0E
-		move.b	#$FF,(byte_FFFE0B).w
+		move.b	#-1,(byte_FFFE0B).w
 
 loc_11F0E:
 		move.b	(padHeld1).w,d4
