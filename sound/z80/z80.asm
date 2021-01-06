@@ -217,28 +217,30 @@ DACList:        dw dacKick
                 dw 0
                 dw 0
                 dw 0
-                dw 1400h
+                db 0
+                db 14h
                 dw dacSnare
                 dw (dacSnare_End-dacSnare)
                 dw 0
                 dw 0
                 dw 0
-                dw 100h
+                db 0
+                db 1
                 dw dacTimpani
                 dw (dacTimpani_End-dacTimpani)
                 dw 0
                 dw 0
                 dw 0
-                dw 1B00h
+                db 0
+TimpaniPitch:   db 1Bh
 dacKick:	incbin "sound/Z80/Kick.dac"
 dacKick_End:	even
 dacSnare:       incbin "sound/Z80/Snare.dac"
 dacSnare_End:	even
 dacTimpani:     incbin "sound/Z80/Timpani.dac"
 dacTimpani_End:	even
+EndOfDriver:
+		inform 0,"The timpani pitch byte is %s", "$A00000+\$TimpaniPitch"
+		inform 0,"Remember to set that in loc_74328."
 
 		z80prog
-; end of 'ROM'
-
-
-                end

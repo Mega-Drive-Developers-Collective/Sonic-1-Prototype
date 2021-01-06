@@ -1,6 +1,2 @@
-
-SN 68k version 2.53
-
-
-Assembly completed.
-0 error(s) from 9554 lines in 0.2 seconds
+The timpani pitch byte is $A00000+183
+Remember to set that in loc_74328.
