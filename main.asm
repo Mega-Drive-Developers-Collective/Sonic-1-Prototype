@@ -1989,7 +1989,7 @@ palGHZ:		incbin "levels/GHZ/Main.pal"
 		even
 palLZ:		incbin "levels/LZ/Main.pal"
 		even
-palGHZNight:	incbin "levels/GHZ/night.pal"
+palGHZNight:	incbin "levels/GHZ/Night.pal"
 		even
 palMZ:		incbin "levels/MZ/Main.pal"
 		even
@@ -15197,7 +15197,6 @@ loc_B8FA:
 		jsr	off_B94E(pc,d1.w)
 		lea	(AniMotobug).l,a1
 		bsr.w	AnimateSprite
-;   ADDITIONAL PARENT FUNCTION sub_608E
 
 ObjectChkDespawn:
 		move.w	8(a0),d0
@@ -20091,7 +20090,6 @@ loc_EE54:
 locret_EE6C:
 		rts
 ; ---------------------------------------------------------------------------
-;   ADDITIONAL PARENT FUNCTION sub_EE4C
 
 loc_EE6E:
 		btst	#2,$22(a0)
@@ -25344,7 +25342,7 @@ ArtSpringHoriz:	incbin "levels/shared/Springs/Art Horizontal.nem"
 		even
 ArtSpringVerti:	incbin "levels/shared/Springs/Art Vertical.nem"
 		even
-ArtSignPost:	incbin "levels/shared/SignPost/Art.nem"
+ArtSignPost:	incbin "levels/shared/Signpost/Art.nem"
 		even
 ArtAnimalPocky:	incbin "levels/shared/Animals/Pocky.nem"
 		even
@@ -25660,7 +25658,7 @@ LayoutSBZ2BG:	incbin "levels/SBZ/Background 2.unc"
 byte_6E340:	dc.b 0, 0, 0, 0
 
 byte_6E344:	dc.b 0, 0, 0, 0
-LayoutEnding1FG:incbin "levels/Unknown/Foreground 1.unc"
+LayoutEnding1FG:incbin "levels/Ending/Foreground 1.unc"
 		even
 
 LayoutEnding1BG:dc.b 0, 0, 0, 0
@@ -27004,7 +27002,6 @@ loc_74CE6:
 		dbf	d3,loc_74CE4
 		rts
 ; ---------------------------------------------------------------------------
-;   ADDITIONAL PARENT FUNCTION sub_74C3C
 
 loc_74CFE:
 		moveq	#$2B,d0
@@ -28238,7 +28235,7 @@ byte_FF3380:	ds.b $C80
 
 byte_FF4000:	ds.b 8
 
-byte_FF4008:	ds.b 4
+byte_FF4008:	ds.l 1
 
 byte_FF400C:	ds.b $22
 
@@ -28330,7 +28327,7 @@ padHeld2:	ds.b 1
 		ds.b 1
 		ds.b 1
 
-ModeReg2:	ds.b 2
+ModeReg2:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -28338,21 +28335,21 @@ ModeReg2:	ds.b 2
 		ds.b 1
 		ds.b 1
 
-GlobalTimer:	ds.b 2
+GlobalTimer:	ds.w 1
 
-dword_FFF616:	ds.b 4
+dword_FFF616:	ds.l 1
 
-dword_FFF61A:	ds.b 4
+dword_FFF61A:	ds.l 1
 
-word_FFF61E:	ds.b 2
+word_FFF61E:	ds.w 1
 
-word_FFF620:	ds.b 2
+word_FFF620:	ds.w 1
 
-word_FFF622:	ds.b 2
+word_FFF622:	ds.w 1
 
-word_FFF624:	ds.b 2
+word_FFF624:	ds.w 1
 
-word_FFF626:	ds.b 2
+word_FFF626:	ds.w 1
 
 byte_FFF628:	ds.b 1
 
@@ -28368,41 +28365,13 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 		ds.b 1
 
-word_FFF632:	ds.b 2
+word_FFF632:	ds.w 1
 
-word_FFF634:	ds.b 2
+word_FFF634:	ds.w 1
 
-RandomSeed:	ds.b 4
+RandomSeed:	ds.l 1
 
-PauseFlag:	ds.b 2
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-
-word_FFF644:	ds.b 2
-		ds.b 1
-		ds.b 1
-
-word_FFF648:	ds.b 2
-		ds.b 1
-		ds.b 1
-
-word_FFF64C:	ds.b 2
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
+PauseFlag:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -28412,17 +28381,45 @@ word_FFF64C:	ds.b 2
 		ds.b 1
 		ds.b 1
 
-word_FFF660:	ds.b 2
-
-word_FFF662:	ds.b 2
+word_FFF644:	ds.w 1
 		ds.b 1
 		ds.b 1
 
-word_FFF666:	ds.b 2
+word_FFF648:	ds.w 1
+		ds.b 1
+		ds.b 1
 
-LevSelOption:	ds.b 2
+word_FFF64C:	ds.w 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
+		ds.b 1
 
-LevSelSound:	ds.b 2
+word_FFF660:	ds.w 1
+
+word_FFF662:	ds.w 1
+		ds.b 1
+		ds.b 1
+
+word_FFF666:	ds.w 1
+
+LevSelOption:	ds.w 1
+
+LevSelSound:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -28690,7 +28687,7 @@ unk_FFF792:	ds.b 1
 unk_FFF794:	ds.b 1
 		ds.b 1
 
-Collision:	ds.b 4
+Collision:	ds.l 1
 
 unk_FFF79A:	ds.b 1
 		ds.b 1
@@ -28827,16 +28824,16 @@ PaletteTarget:	ds.b $80
 byte_FFFC00:	ds.b $100
 		ds.b $100					; stack data!
 
-StackPointer:	ds.b 2
+StackPointer:	ds.w 1
 
-word_FFFE02:	ds.b 2
+word_FFFE02:	ds.w 1
 
-LevelFrames:	ds.b 2
+LevelFrames:	ds.w 1
 
 byte_FFFE06:	ds.b 1
 		ds.b 1
 
-DebugRoutine:	ds.b 2
+DebugRoutine:	ds.w 1
 
 byte_FFFE0A:	ds.b 1
 
@@ -28848,7 +28845,7 @@ unk_FFFE0C:	ds.b 1
 
 byte_FFFE0F:	ds.b 1
 
-level:		ds.b 2
+level:		ds.w 1
 
 Lives:		ds.b 1
 		ds.b 1
@@ -28870,11 +28867,11 @@ byte_FFFE1E:	ds.b 1
 
 byte_FFFE1F:	ds.b 1
 
-Rings:		ds.b 2
+Rings:		ds.w 1
 
-dword_FFFE22:	ds.b 4
+dword_FFFE22:	ds.l 1
 
-dword_FFFE26:	ds.b 4
+dword_FFFE26:	ds.l 1
 		ds.b 1
 		ds.b 1
 
@@ -28923,9 +28920,9 @@ unk_FFFE50:	ds.b 1
 		ds.b 1
 		ds.b 1
 
-word_FFFE54:	ds.b 2
+word_FFFE54:	ds.w 1
 
-word_FFFE56:	ds.b 2
+word_FFFE56:	ds.w 1
 
 byte_FFFE58:	ds.b 1
 		ds.b 1
@@ -28934,7 +28931,7 @@ byte_FFFE58:	ds.b 1
 		ds.b 1
 		ds.b 1
 
-word_FFFE5E:	ds.b 2
+word_FFFE5E:	ds.w 1
 
 byte_FFFE60:	ds.b 1
 		ds.b 1
@@ -28989,22 +28986,22 @@ byte_FFFE84:	ds.b 1
 byte_FFFE88:	ds.b 1
 		ds.b 1
 
-word_FFFE8A:	ds.b 2
+word_FFFE8A:	ds.w 1
 
 byte_FFFE8C:	ds.b 1
 		ds.b 1
 
-word_FFFE8E:	ds.b 2
+word_FFFE8E:	ds.w 1
 
 byte_FFFE90:	ds.b 1
 		ds.b 1
 
-word_FFFE92:	ds.b 2
+word_FFFE92:	ds.w 1
 
 byte_FFFE94:	ds.b 1
 		ds.b 1
 
-word_FFFE96:	ds.b 2
+word_FFFE96:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29062,7 +29059,7 @@ RingLossTimer:	ds.b 1
 
 RingLossFrame:	ds.b 1
 
-RingLossAccumulator:ds.b 2
+RingLossAccumulator:ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29342,7 +29339,7 @@ RingLossAccumulator:ds.b 2
 		ds.b 1
 		ds.b 1
 
-word_FFFFE0:	ds.b 2
+word_FFFFE0:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29350,7 +29347,7 @@ word_FFFFE0:	ds.b 2
 		ds.b 1
 		ds.b 1
 
-word_FFFFE8:	ds.b 2
+word_FFFFE8:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29358,9 +29355,9 @@ word_FFFFE8:	ds.b 2
 		ds.b 1
 		ds.b 1
 
-DemoMode:	ds.b 2
+DemoMode:	ds.w 1
 
-DemoNum:	ds.b 2
+DemoNum:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -29369,7 +29366,7 @@ DemoNum:	ds.b 2
 ConsoleRegion:	ds.b 1
 		ds.b 1
 
-word_FFFFFA:	ds.b 2
+word_FFFFFA:	ds.w 1
 
 ChecksumStr:	ds.b 3
 ; end of 'RAM'
