@@ -905,7 +905,7 @@ loc_112C:
 
 ; =============== S U B R O U T I N E =======================================
 
-; ??? - what does $A01FF8 do?
+  		      	      	      		; ??? - what does $A01FF8 do?
 LoadZ80:
 		nop	                        ; no operation...
 		move.w	#$100,($A11100).l	; stop the Z80
@@ -920,7 +920,7 @@ LoadZ80:
 		moveq	#0,d0			; clear d0
 		lea	($A01FF8).l,a1		; move $A01FF8 (?) into a1
 		move.b	d0,(a1)+		; clear that part of Z80 memory
-		move.b	#$80,(a1)+		; move $80 to it
+		move.b	#$80,(a1)+		; move $80 to a1
 		move.b	#7,(a1)+		; then 7
 		move.b	#$80,(a1)+		; then $80 again
 		move.b	d0,(a1)+		; then move d0 to a1
@@ -955,15 +955,16 @@ PlaySFX:
 		rts	
 
 ; ---------------------------------------------------------------------------
+
 PlayUnk:
 		move.b	d0,(SoundMemory+$C).w
-		rts	
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 
-PauseGame:
-		nop	
+	PauseGame:
+		nop
 		tst.b	(Lives).w
 		beq.s	loc_1206
 		tst.w	(Pause_flag).w
@@ -980,7 +981,7 @@ loc_11D2:
 		btst	#6,(padPress1).w
 		beq.s	loc_11EE
 		move.b	#4,(GameMode).w
-		nop	
+		nop
 		bra.s	loc_1206
 ; ---------------------------------------------------------------------------
 
@@ -996,12 +997,12 @@ loc_1206:
 		move.w	#0,(Pause_flag).w
 
 locret_120C:
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_120E:
 		move.w	#1,(Pause_flag).w
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1020,7 +1021,7 @@ loc_1228:
 		dbf	d3,loc_1228
 		add.l	d4,d0
 		dbf	d2,loc_1222
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1055,7 +1056,7 @@ loc_1260:
 		move.w	#$10,d6
 		bsr.s	sub_1280
 		movem.l	(sp)+,d0-a1/a3-a5
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1136,7 +1137,7 @@ sub_12F8:
 		subq.w	#1,a5
 		move.w	a5,d4
 		bne.s	loc_12C2
-		rts	
+		rts
 
 ; ---------------------------------------------------------------------------
 		eor.l	d4,d2
@@ -1144,7 +1145,7 @@ sub_12F8:
 		subq.w	#1,a5
 		move.w	a5,d4
 		bne.s	loc_12C2
-		rts	
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1154,7 +1155,7 @@ sub_130E:
 		subq.w	#1,a5
 		move.w	a5,d4
 		bne.s	loc_12C2
-		rts	
+		rts
 
 ; ---------------------------------------------------------------------------
 		eor.l	d4,d2
@@ -1162,7 +1163,7 @@ sub_130E:
 		subq.w	#1,a5
 		move.w	a5,d4
 		bne.s	loc_12C2
-		rts	
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1171,9 +1172,9 @@ sub_1324:
 		move.b	(a0)+,d0
 
 loc_1326:
-		cmpi.b	#$FF,d0
+		cmpi.b	#-1,d0
 		bne.s	loc_132E
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_132E:
@@ -1244,7 +1245,7 @@ loc_139A:
 
 loc_13A2:
 		movem.l	(sp)+,a1-a2
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1268,7 +1269,7 @@ loc_13C6:
 
 loc_13CE:
 		movem.l	(sp)+,a1-a2
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1281,7 +1282,7 @@ ClearPLC:
 loc_13DA:
 		clr.l	(a2)+
 		dbf	d0,loc_13DA
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1317,7 +1318,7 @@ loc_1404:
 		move.l	d6,(unk_FFF6F4).w
 
 locret_1436:
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1376,7 +1377,7 @@ loc_14B8:
 		move.l	d6,(unk_FFF6F4).w
 
 locret_14D0:
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 ShiftPLC:
@@ -1386,7 +1387,7 @@ ShiftPLC:
 loc_14D8:
 		move.l	6(a0),(a0)+
 		dbf	d0,loc_14D8
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1410,7 +1411,7 @@ loc_14F4:
 		move.l	d0,($C00004).l
 		bsr.w	NemesisDec
 		dbf	d1,loc_14F4
-		rts	
+		rts
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1748,7 +1749,7 @@ loc_172E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1732:
+Load_PalCycles:
 		moveq	#0,d2
 		moveq	#0,d0
 		move.b	(level).w,d0
@@ -1794,7 +1795,7 @@ nullsub_4:
 		rts	
 
 ; ---------------------------------------------------------------------------
-		subq.w	#1,(PalCyc_WaitTimer).w
+		subq.w	#1,(PalCyc_WaitTimer).w		; unused palette cycle
 		bpl.s	locret_17B8
 		move.w	#5,(PalCyc_WaitTimer).w
 		move.w	(PalCyc_Offset).w,d0
@@ -2171,7 +2172,7 @@ RandomNumber:
 
 
 GetSine:
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		add.w	d0,d0
 		addi.w	#$80,d0
 		move.w	SineTable(pc,d0.w),d1
@@ -2471,7 +2472,7 @@ loc_273C:
 		move.w	(SndTest_Num).w,d0
 		addi.w	#$80,d0
 		cmpi.w	#$93,d0		; is the music ID 93+
-		bcs.s	loc_277A	; if not, branch
+		bcs.s	loc_277A	; if lower, branch
 		cmpi.w	#$A0,d0		; is it before sound effects?
 		bcs.s	loc_273C	; if so, go back to the loop
 
@@ -2510,9 +2511,14 @@ loc_27AA:
 		bsr.w	PlaySFX
 		rts	
 ; ---------------------------------------------------------------------------
-LevSel_LevelOrder:dc.w 0, 1, 2, $100, $101, $102, $200, $201, $202, $300
-		dc.w $301, $302, $400, $401, $402, $500, $501, $8500, $700
-		dc.w $700, $8000
+LevSel_LevelOrder:
+		  dc.w 0, 1, 2			; GHZ 1 - 3
+		  dc.w $100, $101, $102		; LZ 1 - 3
+		  dc.w $200, $201, $202		; MZ 1 - 3
+		  dc.w $300, $301, $302		; SLZ 1 - 3
+		  dc.w $400, $401, $402         ; SYZ 1 - 3
+		  dc.w $500, $501, $8500, $700	; SBZ 1 - 2, null and ???
+		  dc.w $700, $8000		; SS and sound test
 ; ---------------------------------------------------------------------------
 
 loc_27F8:
@@ -2522,7 +2528,7 @@ loc_27FE:
 		move.b	#4,(VintRoutine).w
 		bsr.w	vsync
 		bsr.w	sub_3DF6
-		bsr.w	sub_1732
+		bsr.w	Load_PalCycles
 		bsr.w	ProcessPLC
 		move.w	(ObjectsList+8).w,d0
 		addq.w	#2,d0
@@ -2763,7 +2769,9 @@ LevelSelectText:dc.b $17, $22, $15, $15, $1E, $FF, $18, $19, $1C, $1C
 		dc.b $1E, $14, $FF, $23, $15, $1C, $15, $13, $24, $FF
 		dc.b $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 		dc.b $FF
+		even
 MusicList:	dc.b $81, $82, $83, $84, $85, $86
+		even
 ; ---------------------------------------------------------------------------
 
 sLevel:
@@ -2848,30 +2856,30 @@ loc_2C92:
 		bsr.w	sub_31EE
 		bsr.w	sub_478A
 		jsr	nullsub_2
-		move.l	#ColGHZ,(unk_FFF796).w  ; load Green Hill's collision
+		move.l	#ColGHZ,(Collision_Address).w  ; load Green Hill's collision
 		cmpi.b	#1,(level).w		; are you in LZ?
 		bne.s	loc_2CFA                ; if not, go onto the next condition
-		move.l	#ColLZ,(unk_FFF796).w   ; load Labyrinth's collision
+		move.l	#ColLZ,(Collision_Address).w   ; load Labyrinth's collision
 
 loc_2CFA:
 		cmpi.b	#2,(level).w		; are you in MZ?
 		bne.s	loc_2D0A                ; if not, go onto the next condition
-		move.l	#ColMZ,(unk_FFF796).w   ; load Marbles's collision
+		move.l	#ColMZ,(Collision_Address).w   ; load Marbles's collision
 
 loc_2D0A:
 		cmpi.b	#3,(level).w		; are you in SLZ?
 		bne.s	loc_2D1A                ; if not, go onto the next condition
-		move.l	#ColSLZ,(unk_FFF796).w  ; load Star Lights's collision
+		move.l	#ColSLZ,(Collision_Address).w  ; load Star Lights's collision
 
 loc_2D1A:
 		cmpi.b	#4,(level).w		; are you in SYZ
 		bne.s	loc_2D2A                ; if not, go onto the next condition
-		move.l	#ColSYZ,(unk_FFF796).w  ; load Sparkling/Spring Yard's collision
+		move.l	#ColSYZ,(Collision_Address).w  ; load Sparkling/Spring Yard's collision
 
 loc_2D2A:
 		cmpi.b	#5,(level).w		; are you in SBZ?
 		bne.s	loc_2D3A                ; if not, continue loading
-		move.l	#ColSBZ,(unk_FFF796).w  ; load Scrap Brain's collision
+		move.l	#ColSBZ,(Collision_Address).w  ; load Scrap Brain's collision
 
 loc_2D3A:
 		move.b	#1,(ObjectsList).w
@@ -2939,7 +2947,7 @@ loc_2E2A:
 loc_2E2E:
 		bsr.w	ProcessMaps
 		bsr.w	LoadObjects
-		bsr.w	sub_1732
+		bsr.w	Load_PalCycles
 		bsr.w	ProcessPLC
 		bsr.w	sub_33B6
 		bsr.w	sub_344E
@@ -3141,7 +3149,7 @@ DemoRecord:
 		cmp.b	(a1),d0
 		bne.s	loc_30A2
 		addq.b	#1,1(a1)
-		cmpi.b	#$FF,1(a1)
+		cmpi.b	#-1,1(a1)
 		beq.s	loc_30A2
 		rts	
 ; ---------------------------------------------------------------------------
@@ -3235,7 +3243,7 @@ off_3100:	dc.l byte_614C6, byte_614C6, byte_614C6, byte_61434, byte_61578
 		dc.b 0
 		dc.b 0
 ; ---------------------------------------------------------------------------
-		cmpi.b	#6,(level).w
+		cmpi.b	#6,(level).w	; ???
 		bne.s	locret_3176
 		bsr.w	sub_3178
 		lea	((byte_FF0900)&$FFFFFF).l,a1
@@ -3335,7 +3343,7 @@ nullsub_1:
 		rts	
 
 ; ---------------------------------------------------------------------------
-		move.l	#$5E000002,($C00004).l
+		move.l	#$5E000002,($C00004).l		; ???
 		lea	(ArtText).l,a0
 		move.w	#$9F,d1
 		bsr.s	sub_3326
@@ -3352,7 +3360,7 @@ sub_3326:
 		rts	
 
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0
+		moveq	#0,d0			; ???
 		move.b	(a0)+,d0
 		ror.w	#1,d0
 		lsr.b	#3,d0
@@ -4332,22 +4340,9 @@ loc_3FCE:
 		move.w	(a2)+,d0
 
 loc_3FD0:
+	 	rept 16
 		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
+		endr
 		dbf	d1,loc_3FCE
 		rts	
 
@@ -4513,7 +4508,7 @@ loc_412C:
 ; ---------------------------------------------------------------------------
 		tst.w	d0
 		bpl.s	loc_4146
-		move.w	#$FFFE,d0
+		move.w	#-2,d0
 		bra.s	loc_412C
 ; ---------------------------------------------------------------------------
 
@@ -5186,7 +5181,7 @@ loc_46C0:
 ; ---------------------------------------------------------------------------
 		rts	
 ; ---------------------------------------------------------------------------
-		move.l	d0,(a5)
+		move.l	d0,(a5)		; ???
 		move.w	#$2000,d5
 		move.w	(a1)+,d4
 		add.w	d5,d4
@@ -5368,7 +5363,7 @@ locret_485A:
 		rts	
 
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0
+		moveq	#0,d0			; ???
 		move.b	(Lives).w,d1
 		cmpi.b	#2,d1
 		bcs.s	loc_4876
@@ -5493,7 +5488,7 @@ locret_495C:
 		rts	
 
 ; ---------------------------------------------------------------------------
-off_495E:	dc.w loc_496C-off_495E, locret_496A-off_495E, loc_4A80-off_495E, loc_4B6A-off_495E
+off_495E:	dc.w GHZ_Events-off_495E, locret_496A-off_495E, MZ_Events-off_495E, SLZ_Events-off_495E
 		dc.w locret_496A-off_495E, locret_496A-off_495E
 ; ---------------------------------------------------------------------------
 
@@ -5501,7 +5496,7 @@ locret_496A:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_496C:
+GHZ_Events:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
@@ -5607,7 +5602,7 @@ loc_4A78:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4A80:
+MZ_Events:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
@@ -5711,7 +5706,7 @@ locret_4B68:
 		rts	
 ; ---------------------------------------------------------------------------
 
-loc_4B6A:
+SLZ_Events:
 		moveq	#0,d0
 		move.b	(level+1).w,d0
 		add.w	d0,d0
@@ -9924,7 +9919,7 @@ loc_7DA8:
 		move.b	#2,$19(a1)
 		move.b	#$47,$20(a1)
 		move.b	#8,$18(a1)
-		move.b	#$FF,(RingLoss_Timer).w
+		move.b	#-1,(RingLoss_Timer).w
 		tst.w	d4
 		bmi.s	loc_7E1C
 		move.w	d4,d0
@@ -17638,7 +17633,8 @@ ObjBasaran:
 		move.w	off_D704(pc,d0.w),d1
 		jmp	off_D704(pc,d1.w)
 ; ---------------------------------------------------------------------------
-off_D704:	dc.w loc_D708-off_D704, loc_D738-off_D704
+off_D704:	dc.w loc_D708-off_D704
+		dc.w loc_D738-off_D704
 ; ---------------------------------------------------------------------------
 
 loc_D708:
@@ -17660,7 +17656,10 @@ loc_D738:
 		bsr.w	AnimateSprite
 		bra.w	ObjectChkDespawn
 ; ---------------------------------------------------------------------------
-off_D754:	dc.w loc_D75C-off_D754, sub_D798-off_D754, sub_D7DA-off_D754, sub_D816-off_D754
+off_D754:	dc.w loc_D75C-off_D754
+		dc.w sub_D798-off_D754
+		dc.w sub_D7DA-off_D754
+		dc.w sub_D816-off_D754
 ; ---------------------------------------------------------------------------
 
 loc_D75C:
@@ -17785,7 +17784,7 @@ loc_D862:
 		bsr.w	ObjectDisplay
 		tst.b	1(a0)
 		bpl.w	ObjectDelete
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 AniBasaran:	dc.w byte_D87E-AniBasaran, byte_D882-AniBasaran, byte_D886-AniBasaran
 byte_D87E:	dc.b $F, 0, $FF
@@ -21869,9 +21868,9 @@ loc_101CE:
 ; ---------------------------------------------------------------------------
 
 loc_101DC:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		beq.s	loc_101CE
 		lea	(byte_68000).l,a2
 		move.b	(a2,d0.w),(a4)
@@ -21949,9 +21948,9 @@ loc_10276:
 ; ---------------------------------------------------------------------------
 
 loc_10284:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
-		andi.w	#$FF,d0
+		andi.w	#-1,d0
 		beq.s	loc_10276
 		lea	(byte_68000).l,a2
 		move.b	(a2,d0.w),(a4)
@@ -22022,7 +22021,7 @@ loc_1030E:
 ; ---------------------------------------------------------------------------
 
 loc_1031C:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_1030E
@@ -22102,7 +22101,7 @@ loc_103B6:
 ; ---------------------------------------------------------------------------
 
 loc_103C4:
-		movea.l	(unk_FFF796).w,a2
+		movea.l	(Collision_Address).w,a2
 		move.b	(a2,d0.w),d0
 		andi.w	#$FF,d0
 		beq.s	loc_103B6
@@ -27486,10 +27485,10 @@ loc_74328:
 		move.b	#$83,($A01FFF).l
 
 locret_74346:
-		rts	
+		rts
 
 ; ---------------------------------------------------------------------------
-byte_74348:	dc.b $12, $15, $1C, $1D, $FF, $FF, $FF, $FF
+byte_74348:	dc.b $12, $15, $1C, $1D, -1, -1, -1, -1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -27750,7 +27749,7 @@ loc_74518:
 ; ---------------------------------------------------------------------------
 
 locret_7452A:
-		rts	
+		rts			; nulled off index ???
 ; ---------------------------------------------------------------------------
 		bra.s	loc_74556
 ; ---------------------------------------------------------------------------
@@ -27758,7 +27757,7 @@ locret_7452A:
 ; ---------------------------------------------------------------------------
 		bra.s	loc_7454C
 ; ---------------------------------------------------------------------------
-		btst	#1,(a5)
+		btst	#1,(a5)		; seems to be a duplicate of above but the table has an entry removed
 		bne.s	locret_74544
 		moveq	#0,d0
 		move.b	$1F(a5),d0
@@ -27929,26 +27928,26 @@ loc_746B2:
 		moveq	#0,d7
 		move.b	9(a6),d7
 		move.b	#$80,9(a6)
-		cmpi.b	#$80,d7
-		beq.s	locret_746FC
-		bcs.w	loc_74CFE
-		cmpi.b	#$9F,d7
-		bls.w	loc_74730
-		cmpi.b	#$A0,d7
-		bcs.w	locret_746FC
-		cmpi.b	#$CF,d7
-		bls.w	loc_74920
-		cmpi.b	#$D0,d7
-		bcs.w	locret_746FC
-		cmpi.b	#$D7,d7
-		bcs.w	loc_74A4C
-		cmpi.b	#$E0,d7
-		bcs.s	loc_7471C
-		cmpi.b	#$E5,d7
-		bls.s	loc_746FE
+		cmpi.b	#$80,d7		; is sound id $80?
+		beq.s	locret_746FC	; if so, don't play anything
+		bcs.w	loc_74CFE	; if it's negative, play effects (not sure why this is here...)
+		cmpi.b	#$9F,d7		; is the sound id after all music tracks?
+		bls.w	loc_74730	; if it's lower then play music
+		cmpi.b	#$A0,d7		; is the sound id after all music tracks but before sound effects? (redundant)
+		bcs.w	locret_746FC	; if so, don't play anything
+		cmpi.b	#$CF,d7         ; is the sound id a sound effect?
+		bls.w	loc_74920	; play if it's lower than the last sound effect id
+		cmpi.b	#$D0,d7         ; is it after all sound effects but before special sound effects? (redundant)
+		bcs.w	locret_746FC	; if so, don't play anything
+		cmpi.b	#$D7,d7		; is the sound id a special sound effect?
+		bcs.w	loc_74A4C	; if so, play special sound effect
+		cmpi.b	#$E0,d7		; is the sound id before effects?
+		bcs.s	loc_7471C	; not sure what the routine does
+		cmpi.b	#$E5,d7		; is the sound id an effect?
+		bls.s	loc_746FE	; if so, play one
 
 locret_746FC:
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_746FE:
@@ -27972,11 +27971,11 @@ loc_74708:
 loc_7471C:
 		addi.b	#$B1,d7
 		move.b	d7,($A01FFF).l
-		nop	
+		nop
 		nop	
 		nop	
 		clr.b	(a0)+
-		rts	
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_74730:
@@ -29129,7 +29128,7 @@ loc_7518E:
 ; ---------------------------------------------------------------------------
 		bra.w	loc_7568C
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0			; random code in pointers (???)
+		moveq	#0,d0			; random code in a pointer (???)
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
 		jmp	loc_75214(pc,d0.w)
@@ -30143,7 +30142,7 @@ unk_FFF792:	ds.b 1
 		ds.b 1
 unk_FFF794:	ds.b 1
 		ds.b 1
-unk_FFF796:	ds.b 1
+Collision_Address:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
