@@ -5512,7 +5512,7 @@ byte_4C06:	dc.b 8
 		dc.b $E0, $F, $80, $10, $F0
 		dc.b $C0, $F, $80, $10, $F0
 		dc.b $A0, $F, $80, $10, $F0
-		dc.b 0
+		even
 
 byte_4C30:	dc.b 8
 		dc.b $80, $F, $80, 0, $F0
@@ -5523,7 +5523,7 @@ byte_4C30:	dc.b 8
 		dc.b $E0, $F, $80, 0, $F0
 		dc.b $C0, $F, $80, 0, $F0
 		dc.b $A0, $F, $80, 0, $F0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 Obj03:
@@ -6188,7 +6188,7 @@ byte_546A:	dc.b 2
 
 byte_5475:	dc.b 1
 		dc.b $FC, 4, 0, 8, $F8
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSwingPtfm:
@@ -6446,7 +6446,7 @@ byte_5731:	dc.b 1
 
 byte_5737:	dc.b 1
 		dc.b $F8, 5, 0, $A, $F8
-		dc.b 0
+		even
 
 off_573E:	dc.w byte_5744-off_573E, byte_576D-off_573E, byte_5773-off_573E
 
@@ -6465,7 +6465,7 @@ byte_576D:	dc.b 1
 
 byte_5773:	dc.b 1
 		dc.b $F8, 5, 0, 0, $F8
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSpikeLogs:
@@ -6953,7 +6953,7 @@ MapPlatform3:	dc.w byte_5C74-MapPlatform3
 byte_5C74:	dc.b 2
 		dc.b $F8, $F, 0, $21, $E0
 		dc.b $F8, $F, 0, $21, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjRollingBall:
@@ -7855,7 +7855,7 @@ byte_67A4:	dc.b 4
 		dc.b $F4, $A, 1, $14, $E8
 		dc.b $F4, $A, 9, $14, 0
 		dc.b $F4, $A, 9, $B, $18
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjUnkSwitch:
@@ -7939,7 +7939,7 @@ byte_687A:	dc.b 4
 		dc.b 8, 5, 0, $5C, $F0
 		dc.b $E8, 7, 0, $54, 0
 		dc.b 8, 5, 0, $5C, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 Obj2A:
@@ -8128,7 +8128,7 @@ byte_6A45:	dc.b 3
 		dc.b $F0, 8, 0, $F0, $F4
 		dc.b $F8, 8, $10, $F0, $F4
 		dc.b 0, 9, 0, $F3, $F4
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjTitleSonic:
@@ -9254,25 +9254,25 @@ AniCrabmeat:	dc.w byte_77E4-AniCrabmeat, byte_77E8-AniCrabmeat, byte_77EC-AniCra
 		dc.w byte_77F6-AniCrabmeat, byte_77FC-AniCrabmeat, byte_7802-AniCrabmeat, byte_7806-AniCrabmeat
 
 byte_77E4:	dc.b $F, 0, $FF
-		dc.b 0
+		even
 
 byte_77E8:	dc.b $F, 2, $FF
-		dc.b 0
+		even
 
 byte_77EC:	dc.b $F, $22, $FF
-		dc.b 0
+		even
 
 byte_77F0:	dc.b $F, 1, $21, 0, $FF
-		dc.b 0
+		even
 
 byte_77F6:	dc.b $F, $21, 3, 2, $FF
-		dc.b 0
+		even
 
 byte_77FC:	dc.b $F, 1, $23, $22, $FF
-		dc.b 0
+		even
 
 byte_7802:	dc.b $F, 4, $FF
-		dc.b 0
+		even
 
 byte_7806:	dc.b 1, 5, 6, $FF
 
@@ -9316,7 +9316,7 @@ byte_788B:	dc.b 1
 
 byte_7891:	dc.b 1
 		dc.b $F8, 5, 0, $40, $F8
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjBuzzbomber:
@@ -10343,34 +10343,34 @@ AniMonitor:	dc.w byte_8436-AniMonitor, byte_843C-AniMonitor, byte_8448-AniMonito
 		dc.w byte_8490-AniMonitor, byte_849C-AniMonitor
 
 byte_8436:	dc.b 1, 0, 1, 2, $FF
-		dc.b 0
+		even
 
 byte_843C:	dc.b 1, 0, 3, 3, 1, 3, 3, 2, 3, 3, $FF
-		dc.b 0
+		even
 
 byte_8448:	dc.b 1, 0, 4, 4, 1, 4, 4, 2, 4, 4, $FF
-		dc.b 0
+		even
 
 byte_8454:	dc.b 1, 0, 5, 5, 1, 5, 5, 2, 5, 5, $FF
-		dc.b 0
+		even
 
 byte_8460:	dc.b 1, 0, 6, 6, 1, 6, 6, 2, 6, 6, $FF
-		dc.b 0
+		even
 
 byte_846C:	dc.b 1, 0, 7, 7, 1, 7, 7, 2, 7, 7, $FF
-		dc.b 0
+		even
 
 byte_8478:	dc.b 1, 0, 8, 8, 1, 8, 8, 2, 8, 8, $FF
-		dc.b 0
+		even
 
 byte_8484:	dc.b 1, 0, 9, 9, 1, 9, 9, 2, 9, 9, $FF
-		dc.b 0
+		even
 
 byte_8490:	dc.b 1, 0, $A, $A, 1, $A, $A, 2, $A, $A, $FF
-		dc.b 0
+		even
 
 byte_849C:	dc.b 2, 0, 1, 2, $B, $FE, 1
-		dc.b 0
+		even
 
 MapMonitor:	dc.w byte_84BC-MapMonitor, byte_84C2-MapMonitor, byte_84CD-MapMonitor, byte_84D8-MapMonitor
 		dc.w byte_84E3-MapMonitor, byte_84EE-MapMonitor, byte_84F9-MapMonitor, byte_8504-MapMonitor
@@ -11125,7 +11125,7 @@ byte_8C42:	dc.b 7, 0, 1, $FF
 byte_8C46:	dc.b 3, 0, 1, $FF
 
 byte_8C4A:	dc.b 7, 0, $FF
-		dc.b 0
+		even
 
 MapChopper:	dc.w byte_8C52-MapChopper, byte_8C58-MapChopper
 
@@ -11319,7 +11319,8 @@ byte_8E58:	dc.b 3, 0, 1, $FF
 
 byte_8E5C:	dc.b 3, 2, 3, $FF
 
-byte_8E60:	dc.b 3, 4, $FF, 0
+byte_8E60:	dc.b 3, 4, $FF
+		even
 
 MapBurrobot:	dc.w byte_8E72-MapBurrobot, byte_8E7D-MapBurrobot, byte_8E88-MapBurrobot, byte_8E93-MapBurrobot
 		dc.w byte_8E9E-MapBurrobot, byte_8EA9-MapBurrobot, byte_8EB4-MapBurrobot
@@ -11820,7 +11821,7 @@ off_93DE:	dc.w loc_93FA-off_93DE, loc_9498-off_93DE, loc_94B0-off_93DE, loc_94CA
 byte_93EA:	dc.b 2, 4, 0
 		dc.b 4, $48, 1
 		dc.b 6, 4, 2
-		dc.b 0
+		even
 
 byte_93F4:	dc.b 8, 0, 3
 		dc.b $A, 0, 2
@@ -12593,7 +12594,7 @@ byte_9C6F:	dc.b 5
 
 byte_9C89:	dc.b 1
 		dc.b $EC, $F, 0, $2F, $F0
-		dc.b 0
+		even
 
 Map45:		dc.w byte_9CA2-Map45, byte_9CB2-Map45, byte_9CC2-Map45, byte_9CC8-Map45
 		dc.w byte_9CD3-Map45, byte_9CE8-Map45, byte_9D07-Map45, byte_9D30-Map45
@@ -12651,7 +12652,7 @@ byte_9D30:	dc.b 8
 		dc.b $F8, 5, 0, $41, $50
 		dc.b $F8, 5, 0, $41, $60
 		dc.b $F8, 5, 0, $41, $70
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSwitch:
@@ -13179,7 +13180,7 @@ byte_A2A6:	dc.b 4
 		dc.b $F0, $F, 0, 8, $E0
 		dc.b $F0, $F, 0, 8, 0
 		dc.b $F0, $F, 0, 8, $20
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 sub_A2BC:
@@ -13374,7 +13375,7 @@ loc_A458:
 		move.w	#0,$12(a1)
 
 loc_A46E:
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -13385,7 +13386,7 @@ loc_A472:
 		movea.l	a1,a0
 		bsr.w	loc_FD78
 		movea.l	(sp)+,a0
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -13407,7 +13408,7 @@ loc_A488:
 		bsr.w	loc_4FD4
 		move.b	#2,$25(a0)
 		bset	#3,$22(a0)
-		moveq	#$FFFFFFFF,d4
+		moveq	#-1,d4
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -13845,7 +13846,7 @@ byte_A9A6:	dc.b 4
 		dc.b $F8, 5, 0, $32, $F0
 		dc.b $F8, 5, 0, $2E, 0
 		dc.b $F8, 5, 0, $10, $10
-		dc.b 0
+		even
 
 byte_A9BC:	dc.b 2
 		dc.b 4, $C, 0, $53, $EC
@@ -13873,7 +13874,7 @@ byte_A9DD:	dc.b $D
 		dc.b $FC, 8, 0, $7C, $F4
 		dc.b 4, $C, 0, $7C, $EC
 		dc.b $C, 8, 0, $7C, $EC
-		dc.b 0
+		even
 
 MapGameOver:	dc.w byte_AA24-MapGameOver, byte_AA2F-MapGameOver
 
@@ -13933,7 +13934,7 @@ byte_AAD7:	dc.b 7
 		dc.b $FF, 4, $18, $6E, $F6
 		dc.b $F8, $D, $FF, $F8, $28
 		dc.b $F8, 1, 1, $70, $48
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSpikes:
@@ -14131,7 +14132,7 @@ byte_ACE6:	dc.b 6
 
 byte_AD05:	dc.b 1
 		dc.b $FC, $C, 0, 0, $F0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjPurpleRock:
@@ -14208,7 +14209,7 @@ MapPurpleRock:	dc.w byte_ADCC-MapPurpleRock
 byte_ADCC:	dc.b 2
 		dc.b $F0, $B, 0, 0, $E8
 		dc.b $F0, $B, 0, $C, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSmashWall:
@@ -14378,7 +14379,7 @@ byte_AFCA:	dc.b 8
 		dc.b $F0, 5, 0, 8, 0
 		dc.b 0, 5, 0, 8, 0
 		dc.b $10, 5, 0, 8, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjGHZBoss:
@@ -14836,7 +14837,7 @@ AniGHZBoss:	dc.w byte_B506-AniGHZBoss, byte_B50A-AniGHZBoss, byte_B50E-AniGHZBos
 		dc.w byte_B52E-AniGHZBoss, byte_B532-AniGHZBoss
 
 byte_B506:	dc.b $F, 0, $FF
-		dc.b 0
+		even
 
 byte_B50A:	dc.b 5, 1, 2, $FF
 
@@ -14852,7 +14853,7 @@ byte_B522:	dc.b $1F, 5, 1, $FF
 byte_B526:	dc.b 3, 6, 1, $FF
 
 byte_B52A:	dc.b $F, $A, $FF
-		dc.b 0
+		even
 
 byte_B52E:	dc.b 3, 8, 9, $FF
 
@@ -14911,7 +14912,7 @@ byte_B5DC:	dc.b 1
 		dc.b 4, 5, 0, $31, $22
 
 byte_B5E2:	dc.b 0
-		dc.b 0
+		even
 
 MapGHZBossBall:	dc.w byte_B5F8-MapGHZBossBall, byte_B5FE-MapGHZBossBall, byte_B604-MapGHZBossBall, byte_B60A-MapGHZBossBall
 		dc.w byte_B610-MapGHZBossBall, byte_B616-MapGHZBossBall, byte_B61C-MapGHZBossBall, byte_B622-MapGHZBossBall
@@ -14947,7 +14948,7 @@ byte_B628:	dc.b 1
 byte_B62E:	dc.b 2
 		dc.b $F0, $B, 0, $23, $FC
 		dc.b 8, 4, 0, $2F, $EC
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjCapsule:
@@ -15147,7 +15148,7 @@ byte_B87A:	dc.b 1
 		dc.b $F0, 7, $20, $6D, $F8
 
 byte_B880:	dc.b 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjMotobug:
@@ -15283,7 +15284,7 @@ loc_B9E6:
 AniMotobug:	dc.w byte_B9F0-AniMotobug, byte_B9F4-AniMotobug, byte_B9FA-AniMotobug
 
 byte_B9F0:	dc.b $F, 2, $FF
-		dc.b 0
+		even
 
 byte_B9F4:	dc.b 7, 0, 1, 0, 2, $FF
 
@@ -15321,7 +15322,7 @@ byte_BA66:	dc.b 1
 		dc.b $FA, 0, 0, $1C, $10
 
 byte_BA6C:	dc.b 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSpring:
@@ -15705,7 +15706,7 @@ AniNewtron:	dc.w byte_BED4-AniNewtron, byte_BED8-AniNewtron, byte_BEE0-AniNewtro
 		dc.w byte_BEE8-AniNewtron
 
 byte_BED4:	dc.b $F, $A, $FF
-		dc.b 0
+		even
 
 byte_BED8:	dc.b $13, 0, 1, 3, 4, 5, $FE, 1
 
@@ -15770,7 +15771,7 @@ byte_BF98:	dc.b 3
 		dc.b $FE, 4, $E0, $53, $14
 
 byte_BFA8:	dc.b 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjRoller:
@@ -15885,13 +15886,13 @@ loc_C0B0:
 AniRoller:	dc.w byte_C0BA-AniRoller, byte_C0BE-AniRoller, byte_C0C4-AniRoller
 
 byte_C0BA:	dc.b $F, 0, $FF
-		dc.b 0
+		even
 
 byte_C0BE:	dc.b $F, 1, 2, $FD, 2
-		dc.b 0
+		even
 
 byte_C0C4:	dc.b 3, 2, 3, 4, $FF
-		dc.b 0
+		even
 
 MapRoller:	dc.w byte_C0D4-MapRoller, byte_C0DF-MapRoller, byte_C0EA-MapRoller, byte_C0F0-MapRoller
 		dc.w byte_C0F6-MapRoller
@@ -15975,7 +15976,7 @@ byte_C1A8:	dc.b 4
 		dc.b $F0, 5, 0, 0, $F8
 		dc.b 0, 5, 0, 0, $F8
 		dc.b $10, 5, 0, 0, $F8
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjLavaMaker:
@@ -16425,11 +16426,10 @@ loc_C6A8:
 AniBumper:	dc.w byte_C6B6-AniBumper, byte_C6BA-AniBumper
 
 byte_C6B6:	dc.b $F, 0, $FF
-		dc.b 0
+		even
 
 byte_C6BA:	dc.b 3, 1, 2, 1, 2, $FD, 0
-
-byte_C6C1:	dc.b 0
+		even
 
 MapBumper:	dc.w byte_C6C8-MapBumper, byte_C6D3-MapBumper, byte_C6DE-MapBumper
 
@@ -16444,7 +16444,7 @@ byte_C6D3:	dc.b 2
 byte_C6DE:	dc.b 2
 		dc.b $F0, 7, 0, $E, $F0
 		dc.b $F0, 7, 8, $E, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSignpost:
@@ -16589,13 +16589,15 @@ word_C882:	dc.w $1388, $3E8, $1F4, $190, $12C, $12C, $C8, $C8, $64
 
 AniSignpost:	dc.w byte_C8B4-AniSignpost, byte_C8B8-AniSignpost, byte_C8BE-AniSignpost, byte_C8C4-AniSignpost
 
-byte_C8B4:	dc.b $F, 0, $FF, 0
+byte_C8B4:	dc.b $F, 0, $FF
+		even
 
 byte_C8B8:	dc.b 1, 0, 1, 2, 3, $FF
 
 byte_C8BE:	dc.b 1, 4, 1, 2, 3, $FF
 
-byte_C8C4:	dc.b $F, 4, $FF, 0
+byte_C8C4:	dc.b $F, 4, $FF
+		even
 
 MapSignpost:	dc.w byte_C8D2-MapSignpost, byte_C8E2-MapSignpost, byte_C8ED-MapSignpost, byte_C8F8-MapSignpost
 		dc.w byte_C903-MapSignpost
@@ -16621,7 +16623,7 @@ byte_C903:	dc.b 3
 		dc.b $F0, $B, 0, $20, $E8
 		dc.b $F0, $B, 0, $2C, 0
 		dc.b $10, 1, 0, $38, $FC
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjLavafallMalker:
@@ -17060,7 +17062,7 @@ byte_CDD8:	dc.b 4
 		dc.b $E0, 5, 0, $18, $70
 		dc.b $10, 5, 0, $18, $80
 		dc.b $10, 5, 0, $18, $70
-		dc.b 0
+		even
 
 AniLavaFallMaker:dc.w byte_CDFA-AniLavaFallMaker, byte_CE04-AniLavaFallMaker, byte_CE08-AniLavaFallMaker, byte_CE0C-AniLavaFallMaker
 		dc.w byte_CE14-AniLavaFallMaker, byte_CE18-AniLavaFallMaker
@@ -17074,7 +17076,7 @@ byte_CE08:	dc.b 2, 6, 7, $FF
 byte_CE0C:	dc.b 2, 2, 3, 0, 1, 0, 1, $FC
 
 byte_CE14:	dc.b $F, $13, $FF
-		dc.b 0
+		even
 
 byte_CE18:	dc.b 2, $11, $12, $FF
 
@@ -17325,7 +17327,7 @@ byte_D1CA:	dc.b 8
 		dc.b 0, $F, $FF, $2A, $E0
 		dc.b $E0, $F, $FF, $2A, $C0
 		dc.b 0, $F, $FF, $2A, $C0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 Obj4F:
@@ -17534,7 +17536,8 @@ loc_D3F0:
 
 AniYardin:	dc.w byte_D40C-AniYardin, byte_D410-AniYardin
 
-byte_D40C:	dc.b 7, 0, $FF, 0
+byte_D40C:	dc.b 7, 0, $FF
+		even
 
 byte_D410:	dc.b 7, 0, 3, 1, 4, 0, 3, 2, 5, $FF
 
@@ -17780,7 +17783,7 @@ byte_D6E4:	dc.b 1
 byte_D6EA:	dc.b 2
 		dc.b $F8, $F, 0, 8, $E0
 		dc.b $F8, $F, 0, 8, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjBasaran:
@@ -17932,10 +17935,10 @@ loc_D862:
 AniBasaran:	dc.w byte_D87E-AniBasaran, byte_D882-AniBasaran, byte_D886-AniBasaran
 
 byte_D87E:	dc.b $F, 0, $FF
-		dc.b 0
+		even
 
 byte_D882:	dc.b $F, 1, $FF
-		dc.b 0
+		even
 
 byte_D886:	dc.b 3, 1, 2, 3, 2, $FF
 
@@ -18332,7 +18335,7 @@ byte_DC63:	dc.b 3
 
 byte_DC73:	dc.b 1
 		dc.b $F0, $F, 0, $21, $F0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSpikedBalls:
@@ -18978,7 +18981,7 @@ MapCirclePtfm:	dc.w byte_E31C-MapCirclePtfm
 byte_E31C:	dc.b 2
 		dc.b $F8, 9, 0, $51, $E8
 		dc.b $F8, 9, 8, $51, 0
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjStaircasePtfm:
@@ -19321,7 +19324,7 @@ byte_E687:	dc.b 2
 byte_E692:	dc.b 2
 		dc.b $F0, $D, 0, $1E, $F0
 		dc.b 0, 9, 0, $26, $F8
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSeeSaw:
@@ -19430,7 +19433,7 @@ byte_E7FA:	dc.b 4
 		dc.b $E6, $A, 0, $23, $E8
 		dc.b $E6, $A, 8, $23, 0
 		dc.b $E6, $A, 8, $1D, $18
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSonic:
@@ -20708,7 +20711,7 @@ loc_F4B4:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
 		move.b	(a1),d0
-		bmi.s	loc_F520
+		bmi.s	ObjSonic_AnimateCmd
 		move.b	$22(a0),d1
 		andi.b	#1,d1
 		andi.b	#$FC,1(a0)
@@ -20759,7 +20762,7 @@ locret_F51E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_F520:
+ObjSonic_AnimateCmd:
 		subq.b	#1,$1E(a0)
 		bpl.s	locret_F4EE
 		addq.b	#1,d0
@@ -20884,49 +20887,65 @@ byte_F664:	dc.b $FE, $2E, $2F, $32, $30, $31, $32, $FF
 byte_F66C:	dc.b $FD, $45, $46, $47, $48, $FF, $FF, $FF
 
 byte_F674:	dc.b $17, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2
-		dc.b 2, 3, 4, $FE, 2, 0
+		dc.b 2, 3, 4, $FE, 2
+		even
 
 byte_F68A:	dc.b $1F, $3A, $3B, $FF
 
-byte_F68E:	dc.b $3F, 5, $FF, 0
+byte_F68E:	dc.b $3F, 5, $FF
+		even
 
-byte_F692:	dc.b $3F, $39, $FF, 0
+byte_F692:	dc.b $3F, $39, $FF
+		even
 
-byte_F696:	dc.b $3F, $33, $FF, 0
+byte_F696:	dc.b $3F, $33, $FF
+		even
 
-byte_F69A:	dc.b $3F, $34, $FF, 0
+byte_F69A:	dc.b $3F, $34, $FF
+		even
 
-byte_F69E:	dc.b $3F, $35, $FF, 0
+byte_F69E:	dc.b $3F, $35, $FF
+		even
 
-byte_F6A2:	dc.b $3F, $36, $FF, 0
+byte_F6A2:	dc.b $3F, $36, $FF
+		even
 
 byte_F6A6:	dc.b 7, $37, $38, $FF
 
 byte_F6AA:	dc.b 7, $3C, $3F, $FF
 
-byte_F6AE:	dc.b 7, $3C, $3D, $53, $3E, $54, $FF, 0
+byte_F6AE:	dc.b 7, $3C, $3D, $53, $3E, $54, $FF
+		even
 
-byte_F6B6:	dc.b $2F, $40, $FD, 0
+byte_F6B6:	dc.b $2F, $40, $FD
+		even
 
 byte_F6BA:	dc.b 4, $41, $42, $FF
 
 byte_F6BE:	dc.b $F, $43, $43, $43, $FE, 1
 
-byte_F6C4:	dc.b $F, $43, $44, $FE, 1, 0
+byte_F6C4:	dc.b $F, $43, $44, $FE, 1
+		even
 
-byte_F6CA:	dc.b $3F, $49, $FF, 0
+byte_F6CA:	dc.b $3F, $49, $FF
+		even
 
-byte_F6CE:	dc.b $3F, $4A, $FF, 0
+byte_F6CE:	dc.b $3F, $4A, $FF
+		even
 
-byte_F6D2:	dc.b 3, $4B, $FF, 0
+byte_F6D2:	dc.b 3, $4B, $FF
+		even
 
-byte_F6D6:	dc.b 3, $4C, $FF, 0
+byte_F6D6:	dc.b 3, $4C, $FF
+		even
 
-byte_F6DA:	dc.b 3, $4D, $FF, 0
+byte_F6DA:	dc.b 3, $4D, $FF
+		even
 
 byte_F6DE:	dc.b 3, $4E, $4F, $50, $51, $52, 0, $FE, 1, 0
 
-byte_F6E8:	dc.b 3, $55, $FF, 0
+byte_F6E8:	dc.b 3, $55, $FF
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSonic_DynTiles:
@@ -20961,6 +20980,8 @@ loc_F730:
 		movem.l	d2-d6/a4-a6,(a3)
 		lea	$20(a3),a3
 		dbf	d0,loc_F730
+
+loc_F740:
 		dbf	d1,loc_F71A
 
 locret_F744:
@@ -21182,7 +21203,7 @@ byte_F9C6:	dc.b 4
 		dc.b $E8, $A, 8, $12, 0
 		dc.b 0, $A, $10, $12, $E8
 		dc.b 0, $A, $10, $1B, 0
-		dc.b 0
+		even
 
 AniEntryRingBeta:dc.w byte_F9DE-AniEntryRingBeta
 
@@ -21270,7 +21291,7 @@ byte_FB1C:	dc.b $FC, 0, 8, $26, $30
 		dc.b $C, 0, 8, $27, $48
 		dc.b 4, 0, $18, $26, $50
 		dc.b 4, 0, 8, $27, $58
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 TouchObjects:
@@ -21506,7 +21527,7 @@ loc_FD48:
 
 loc_FD68:
 		jsr	(PlaySFX).l
-		moveq	#$FFFFFFFF,d0
+		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -21534,7 +21555,7 @@ loc_FDBA:
 		jsr	(PlaySFX).l
 
 loc_FDC0:
-		moveq	#$FFFFFFFF,d0
+		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -25205,1830 +25226,8 @@ word_12562:	dc.w 1
 		dc.l ArtAnimalFlicky
 		dc.w $B240
 		align	$8000					; Unnecessary alignment
-		dc.b $80
-		dc.b $C0
-		dc.b $80
-		dc.b 3
-		dc.b 2
-		dc.b $14
-		dc.b 6
-		dc.b $24					; $
-		dc.b $A
-		dc.b $35					; 5
-		dc.b $17
-		dc.b $45					; E
-		dc.b $16
-		dc.b $55					; U
-		dc.b $18
-		dc.b $66					; f
-		dc.b $3A					; :
-		dc.b $72					; r
-		dc.b 0
-		dc.b $85
-		dc.b 4
-		dc.b 7
-		dc.b $15
-		dc.b $19
-		dc.b $26					; &
-		dc.b $37					; 7
-		dc.b $37					; 7
-		dc.b $79					; y
-		dc.b $47					; G
-		dc.b $76					; v
-		dc.b $86
-		dc.b 4
-		dc.b 8
-		dc.b $15
-		dc.b $1A
-		dc.b $26					; &
-		dc.b $38					; 8
-		dc.b $37					; 7
-		dc.b $7A					; z
-		dc.b $47					; G
-		dc.b $77					; w
-		dc.b $87
-		dc.b 4
-		dc.b 9
-		dc.b $16
-		dc.b $36					; 6
-		dc.b $26					; &
-		dc.b $39					; 9
-		dc.b $37					; 7
-		dc.b $7B					; {
-		dc.b $47					; G
-		dc.b $78					; x
-		dc.b $FF
-		dc.b 0
-		dc.b 0
-		dc.b $FF
-		dc.b $A0
-		dc.b 0
-		dc.b 3
-		dc.b $76					; v
-		dc.b $67					; g
-		dc.b $5B					; [
-		dc.b $A7
-		dc.b $B3
-		dc.b $E3
-		dc.b $36					; 6
-		dc.b $CE
-		dc.b $1E
-		dc.b $CE
-		dc.b $B7
-		dc.b $4E					; N
-		dc.b $DD
-		dc.b $AD
-		dc.b $9B
-		dc.b $3F					; ?
-		dc.b $4E					; N
-		dc.b 7
-		dc.b $4E					; N
-		dc.b $CF
-		dc.b $7F					; 
-		dc.b $35					; 5
-		dc.b $D9
-		dc.b $9D
-		dc.b $6E					; n
-		dc.b $9D
-		dc.b $64					; d
-		dc.b $59					; Y
-		dc.b $4E					; N
-		dc.b $D9
-		dc.b $59					; Y
-		dc.b $67					; g
-		dc.b $59					; Y
-		dc.b $C7
-		dc.b $65					; e
-		dc.b $FE
-		dc.b $56					; V
-		dc.b $EC
-		dc.b $CE
-		dc.b $B7
-		dc.b $4E					; N
-		dc.b $B2
-		dc.b $6E					; n
-		dc.b $9E
-		dc.b $B7
-		dc.b $4E					; N
-		dc.b $B3
-		dc.b $87
-		dc.b $5B					; [
-		dc.b $A7
-		dc.b $6E					; n
-		dc.b $D8
-		dc.b $CD
-		dc.b $9F
-		dc.b $F
-		dc.b $87
-		dc.b $4F					; O
-		dc.b $77					; w
-		dc.b $4F					; O
-		dc.b $D6
-		dc.b $59					; Y
-		dc.b $D7
-		dc.b $96
-		dc.b $7B					; {
-		dc.b $65					; e
-		dc.b $BF
-		dc.b $AB
-		dc.b $7F					; 
-		dc.b $25					; %
-		dc.b $FC
-		dc.b $B7
-		dc.b $64					; d
-		dc.b $EB
-		dc.b $38					; 8
-		dc.b $75					; u
-		dc.b $BA
-		dc.b $76					; v
-		dc.b $ED
-		dc.b $5D					; ]
-		dc.b $99
-		dc.b $D6
-		dc.b $E9
-		dc.b $F1
-		dc.b $9A
-		dc.b $F3
-		dc.b $7D					; }
-		dc.b $D3
-		dc.b $89
-		dc.b $D6
-		dc.b $E9
-		dc.b $DB
-		dc.b $B3
-		dc.b $7F					; 
-		dc.b $95
-		dc.b $79					; y
-		dc.b $E9
-		dc.b $D9
-		dc.b $E9
-		dc.b $D9
-		dc.b $F0
-		dc.b $E1
-		dc.b $6C					; l
-		dc.b $DB
-		dc.b $B3
-		dc.b $3A					; :
-		dc.b $DD
-		dc.b $38					; 8
-		dc.b $9D
-		dc.b $6E					; n
-		dc.b $9D
-		dc.b $3A					; :
-		dc.b $DD
-		dc.b $38					; 8
-		dc.b $9D
-		dc.b $6E					; n
-		dc.b $9D
-		dc.b $BB
-		dc.b $57					; W
-		dc.b $66					; f
-		dc.b $75					; u
-		dc.b $BA
-		dc.b $71					; q
-		dc.b $3A					; :
-		dc.b $DE
-		dc.b $FE
-		dc.b $6B					; k
-		dc.b $38					; 8
-		dc.b $75					; u
-		dc.b $BA
-		dc.b $76					; v
-		dc.b $ED
-		dc.b $5D					; ]
-		dc.b $99
-		dc.b $D6
-		dc.b $E9
-		dc.b $C2
-		dc.b $B7
-		dc.b $B6
-		dc.b $E5
-		dc.b $66					; f
-		dc.b $B2
-		dc.b $BF
-		dc.b $AB
-		dc.b $7D					; }
-		dc.b $D3
-		dc.b $95
-		dc.b $BA
-		dc.b $7A					; z
-		dc.b $DD
-		dc.b $39					; 9
-		dc.b $5B					; [
-		dc.b $A7
-		dc.b $5F					; _
-		dc.b $D5
-		dc.b $AE
-		dc.b $CC
-		dc.b $EB
-		dc.b $74					; t
-		dc.b $F8
-		dc.b $C8
-		dc.b $63					; c
-		dc.b $29					; )
-		dc.b $D6
-		dc.b $E9
-		dc.b $DB
-		dc.b $B3
-		dc.b $7F					; 
-		dc.b $56					; V
-		dc.b $FB
-		dc.b $A7
-		dc.b 0
-		dc.b $AD
-		dc.b $D3
-		dc.b $AF
-		dc.b $EA
-		dc.b $B7
-		dc.b $F9
-		dc.b $6B					; k
-		dc.b $B1
-		dc.b $5E					; ^
-		dc.b $6F					; o
-		dc.b $E4
-		dc.b $BF
-		dc.b $65					; e
-		dc.b $FE
-		dc.b $55					; U
-		dc.b $FE
-		dc.b $5A					; Z
-		dc.b $EC
-		dc.b $57					; W
-		dc.b $9B
-		dc.b $F9
-		dc.b 6
-		dc.b $CF
-		dc.b $5D					; ]
-		dc.b $99
-		dc.b $D6
-		dc.b $E9
-		dc.b $F1
-		dc.b $9B
-		dc.b $6F					; o
-		dc.b $67					; g
-		dc.b $29					; )
-		dc.b $D6
-		dc.b $E9
-		dc.b $DB
-		dc.b $B3
-		dc.b $66					; f
-		dc.b $B2
-		dc.b $15
-		dc.b $BD
-		dc.b $B7
-		dc.b $A
-		dc.b $CD
-		dc.b $66					; f
-		dc.b $BC
-		dc.b $DD
-		dc.b $D9
-		dc.b $C0
-		dc.b $2E					; .
-		dc.b $EC
-		dc.b $F7
-		dc.b $F3
-		dc.b $6F					; o
-		dc.b $37					; 7
-		dc.b $76					; v
-		dc.b $70					; p
-		dc.b $59					; Y
-		dc.b $30					; 0
-		dc.b $EB
-		dc.b $29					; )
-		dc.b $EB
-		dc.b $CD
-		dc.b $65					; e
-		dc.b $B7
-		dc.b $BB
-		dc.b $B3
-		dc.b $D3
-		dc.b $B3
-		dc.b $E1
-		dc.b $FA
-		dc.b $7B					; {
-		dc.b $3B					; ;
-		dc.b $3D					; =
-		dc.b $9D
-		dc.b $9D
-		dc.b $65					; e
-		dc.b $B7
-		dc.b $59					; Y
-		dc.b 0
-		dc.b $E
-		dc.b $CB
-		dc.b $FC
-		dc.b $AB
-		dc.b $35					; 5
-		dc.b $9A
-		dc.b $74					; t
-		dc.b $F8
-		dc.b $7C					; |
-		dc.b $3A					; :
-		dc.b $7C					; |
-		dc.b $38					; 8
-		dc.b $5F					; _
-		dc.b $35					; 5
-		dc.b $95
-		dc.b $9A
-		dc.b $CD
-		dc.b $38					; 8
-		dc.b $E3
-		dc.b $D9
-		dc.b $C7
-		dc.b $1E
-		dc.b $B3
-		dc.b $59					; Y
-		dc.b $6E					; n
-		dc.b $CC
-		dc.b $EB
-		dc.b $74					; t
-		dc.b $E0
-		dc.b 9
-		dc.b $D6
-		dc.b $E9
-		dc.b $DB
-		dc.b $B3
-		dc.b $7F					; 
-		dc.b $56					; V
-		dc.b $FB
-		dc.b $A7
-		dc.b $A
-		dc.b $DD
-		dc.b $3D					; =
-		dc.b $79					; y
-		dc.b $1B
-		dc.b $3D					; =
-		dc.b $79					; y
-		dc.b $A7
-		dc.b $59					; Y
-		dc.b $4E					; N
-		dc.b $17
-		dc.b $CE
-		dc.b $32					; 2
-		dc.b $CE
-		dc.b $9D
-		dc.b $65					; e
-		dc.b $3D					; =
-		dc.b $79					; y
-		dc.b $4E					; N
-		dc.b $BF
-		dc.b $AB
-		dc.b $7D					; }
-		dc.b $D3
-		dc.b $95
-		dc.b $BA
-		dc.b $7A					; z
-		dc.b $DD
-		dc.b $38					; 8
-		dc.b $2C					; ,
-		dc.b $D6
-		dc.b $5B					; [
-		dc.b $B3
-		dc.b $3A					; :
-		dc.b $DD
-		dc.b $3E					; >
-		dc.b $32					; 2
-		dc.b $9D
-		dc.b $79					; y
-		dc.b $AF
-		dc.b $29					; )
-		dc.b $D6
-		dc.b $70					; p
-		dc.b $EB
-		dc.b $74					; t
-		dc.b $ED
-		dc.b $D9
-		dc.b $BF
-		dc.b $CA
-		dc.b $B3
-		dc.b $59					; Y
-		dc.b 0
-		dc.b $2B					; +
-		dc.b $7A					; z
-		dc.b $CD
-		dc.b $64					; d
-		dc.b 0
-		dc.b $4E					; N
-		dc.b $B7
-		dc.b $4E					; N
-		dc.b $DD
-		dc.b $9B
-		dc.b $35					; 5
-		dc.b $90
-		dc.b $4E					; N
-		dc.b $9D
-		dc.b $3A					; :
-		dc.b $71					; q
-		dc.b $9D
-		dc.b $3A					; :
-		dc.b $7B					; {
-		dc.b $BA
-		dc.b $7C					; |
-		dc.b $3D					; =
-		dc.b $F3
-		dc.b $59					; Y
-		dc.b $B
-		dc.b $B9
-		dc.b $77					; w
-		dc.b $4E					; N
-		dc.b $9D
-		dc.b $3D					; =
-		dc.b $DE
-		dc.b $D9
-		dc.b $59					; Y
-		dc.b $6C					; l
-		dc.b $D6
-		dc.b $44					; D
-		dc.b $E9
-		dc.b $D3
-		dc.b $A7
-		dc.b $67					; g
-		dc.b $4E					; N
-		dc.b $9E
-		dc.b $9D
-		dc.b $3A					; :
-		dc.b $76					; v
-		dc.b $74					; t
-		dc.b $E9
-		dc.b $D3
-		dc.b $8B
-		dc.b $35					; 5
-		dc.b $95
-		dc.b $9A
-		dc.b $C8
-		dc.b $9D
-		dc.b $3A					; :
-		dc.b $74					; t
-		dc.b $F7
-		dc.b $7B					; {
-		dc.b $3D					; =
-		dc.b $38					; 8
-		dc.b $5F					; _
-		dc.b $7A					; z
-		dc.b $FF
-		dc.b $2A					; *
-		dc.b $F3
-		dc.b $D3
-		dc.b $B3
-		dc.b $D3
-		dc.b $B3
-		dc.b $D3
-		dc.b $B3
-		dc.b $D3
-		dc.b $B3
-		dc.b $F5
-		dc.b $E5
-		dc.b $7F					; 
-		dc.b $96
-		dc.b $B7
-		dc.b 0
-		dc.b $B6
-		dc.b $F6
-		dc.b $DE
-		dc.b $DB
-		dc.b $80
-		dc.b $5F					; _
-		dc.b $26					; &
-		dc.b $32					; 2
-		dc.b $14
-		dc.b $F8
-		dc.b $CD
-		dc.b $B3
-		dc.b $6C					; l
-		dc.b $DB
-		dc.b $36					; 6
-		dc.b $CD
-		dc.b $B3
-		dc.b $67					; g
-		dc.b $5F					; _
-		dc.b $D5
-		dc.b $5F					; _
-		dc.b $E1
-		dc.b 0
-		dc.b 5
-		dc.b $FF
-		dc.b $1F
-		dc.b $E8
-		dc.b $80
-		dc.b 2
-		dc.b $FC
-		dc.b $E
-		dc.b $3F					; ?
-		dc.b 2
-		dc.b 0
-		dc.b $B
-		dc.b $FE
-		dc.b $3F					; ?
-		dc.b $D1
-		dc.b 0
-		dc.b 5
-		dc.b $FE
-		dc.b $15
-		dc.b $FF
-		dc.b $10
-		dc.b $3F					; ?
-		dc.b 2
-		dc.b 7
-		dc.b $E8
-		dc.b $6F					; o
-		dc.b $FB
-		dc.b $10
-		dc.b 0
-		dc.b $17
-		dc.b $EC
-		dc.b $6F					; o
-		dc.b $FA
-		dc.b $10
-		dc.b $FC
-		dc.b 8
-		dc.b 7
-		dc.b $5F					; _
-		dc.b $F4
-		dc.b 0
-		dc.b $6C					; l
-		dc.b $96
-		dc.b $74					; t
-		dc.b $F6
-		dc.b $C8
-		dc.b $18
-		dc.b $FE
-		dc.b $AB
-		dc.b $7F					; 
-		dc.b $54					; T
-		dc.b $A
-		dc.b $EC
-		dc.b $CE
-		dc.b $B7
-		dc.b $4E					; N
-		dc.b $B2
-		dc.b $2F					; /
-		dc.b $34					; 4
-		dc.b $FD
-		dc.b $6F					; o
-		dc.b $6D					; m
-		dc.b $EC
-		dc.b $FD
-		dc.b $3A					; :
-		dc.b $7B					; {
-		dc.b $BA
-		dc.b $70					; p
-		dc.b $2C					; ,
-		dc.b $E9
-		dc.b $F0
-		dc.b $E9
-		dc.b $EF
-		dc.b $E6
-		dc.b $EE
-		dc.b $9F
-		dc.b $E
-		dc.b $9C
-		dc.b $B
-		dc.b $3A					; :
-		dc.b $7B					; {
-		dc.b $BA
-		dc.b $7B					; {
-		dc.b $67					; g
-		dc.b $AE
-		dc.b $CC
-		dc.b $F8
-		dc.b $76					; v
-		dc.b $F3
-		dc.b $4E					; N
-		dc.b 5
-		dc.b $B3
-		dc.b $6F					; o
-		dc.b $FA
-		dc.b $9F
-		dc.b $F5
-		dc.b 0
-		dc.b $3B					; ;
-		dc.b $E
-		dc.b $DE
-		dc.b $59					; Y
-		dc.b $EC
-		dc.b $E0
-		dc.b $5F					; _
-		dc.b $2D					; -
-		dc.b $90
-		dc.b 0
-		dc.b $1B
-		dc.b $2D					; -
-		dc.b $90
-		dc.b 0
-		dc.b $1B
-		dc.b $2D					; -
-		dc.b $90
-		dc.b $2E					; .
-		dc.b $F6
-		dc.b $76					; v
-		dc.b $F2
-		dc.b $CE
-		dc.b $76					; v
-		dc.b 0
-		dc.b $3F					; ?
-		dc.b $EA
-		dc.b $7F					; 
-		dc.b $D6
-		dc.b $D9
-		dc.b 2
-		dc.b $CF
-		dc.b $5E					; ^
-		dc.b $59					; Y
-		dc.b $F0
-		dc.b $ED
-		dc.b $D8
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 2
-		dc.b $BF
-		dc.b $E8
-		dc.b 0
-		dc.b 7
-		dc.b $FD
-		dc.b 0
-		dc.b 0
-		dc.b $1B
-		dc.b $BB
-		dc.b $42					; B
-		dc.b $E1
-		dc.b $45					; E
-		dc.b $A3
-		dc.b $1A
-		dc.b $B6
-		dc.b $B1
-		dc.b $16
-		dc.b $85
-		dc.b $C2
-		dc.b $86
-		dc.b $EF
-		dc.b $6D					; m
-		dc.b $5A					; Z
-		dc.b $3A					; :
-		dc.b $80
-		dc.b $3A					; :
-		dc.b $86
-		dc.b $8B
-		dc.b $FA
-		dc.b $AE
-		dc.b $ED
-		dc.b $B
-		dc.b $85
-		dc.b $B
-		dc.b $42					; B
-		dc.b $D2
-		dc.b $86
-		dc.b $D2
-		dc.b $D3
-		dc.b $42					; B
-		dc.b $D6
-		dc.b $3B					; ;
-		dc.b $AF
-		dc.b $F3
-		dc.b $37					; 7
-		dc.b $76					; v
-		dc.b $85
-		dc.b $C2
-		dc.b $85
-		dc.b $A3
-		dc.b $85
-		dc.b $15
-		dc.b $C2
-		dc.b $85
-		dc.b $AC
-		dc.b $42					; B
-		dc.b $E1
-		dc.b $43					; C
-		dc.b $77					; w
-		dc.b $C6
-		dc.b $AD
-		dc.b $18
-		dc.b $8C
-		dc.b $42					; B
-		dc.b $8B
-		dc.b $C2
-		dc.b $8E
-		dc.b $B4
-		dc.b $D0
-		dc.b $BD
-		dc.b $34					; 4
-		dc.b $5B					; [
-		dc.b $4D					; M
-		dc.b $FD
-		dc.b $6B					; k
-		dc.b $FA
-		dc.b $2F					; /
-		dc.b $E9
-		dc.b $BB
-		dc.b $A8
-		dc.b $5A					; Z
-		dc.b $C4
-		dc.b $2E					; .
-		dc.b $14
-		dc.b $37					; 7
-		dc.b $7A					; z
-		dc.b $EE
-		dc.b $D0
-		dc.b $B8
-		dc.b $51					; Q
-		dc.b $8D
-		dc.b $57					; W
-		dc.b $AB
-		dc.b $F0
-		dc.b $A0
-		dc.b $50					; P
-		dc.b $B8
-		dc.b $50					; P
-		dc.b $DD
-		dc.b $DB
-		dc.b $FC
-		dc.b $CB
-		dc.b $D7
-		dc.b $50					; P
-		dc.b $D1
-		dc.b $50					; P
-		dc.b $D1
-		dc.b $88
-		dc.b $B
-		dc.b $6A					; j
-		dc.b $DD
-		dc.b $DA
-		dc.b $17
-		dc.b $A
-		dc.b 5
-		dc.b $B
-		dc.b $85
-		dc.b $A
-		dc.b $17
-		dc.b $A
-		dc.b 5
-		dc.b $B
-		dc.b $85
-		dc.b $D
-		dc.b $DE
-		dc.b $BB
-		dc.b $B4
-		dc.b $2E					; .
-		dc.b $14
-		dc.b $A
-		dc.b $17
-		dc.b $17
-		dc.b $F5
-		dc.b $5A					; Z
-		dc.b $C4
-		dc.b $2E					; .
-		dc.b $14
-		dc.b $37					; 7
-		dc.b $7A					; z
-		dc.b $EE
-		dc.b $D0
-		dc.b $B8
-		dc.b $50					; P
-		dc.b $15
-		dc.b $C5
-		dc.b $B8
-		dc.b $2B					; +
-		dc.b $55					; U
-		dc.b $A5
-		dc.b $FD
-		dc.b $6B					; k
-		dc.b $F0
-		dc.b $A0
-		dc.b $AE
-		dc.b $14
-		dc.b $57					; W
-		dc.b $A
-		dc.b $A
-		dc.b $E1
-		dc.b $42					; B
-		dc.b $FE
-		dc.b $B5
-		dc.b $77					; w
-		dc.b $68					; h
-		dc.b $5C					; \
-		dc.b $28					; (
-		dc.b $C6
-		dc.b $83
-		dc.b $1A
-		dc.b $50					; P
-		dc.b $B8
-		dc.b $50					; P
-		dc.b $DD
-		dc.b $DB
-		dc.b $FA
-		dc.b $D7
-		dc.b $E1
-		dc.b $40					; @
-		dc.b 5
-		dc.b $70					; p
-		dc.b $A1
-		dc.b $7F					; 
-		dc.b $59					; Y
-		dc.b $BF
-		dc.b $CD
-		dc.b $5D					; ]
-		dc.b $CA
-		dc.b $F5
-		dc.b $7F					; 
-		dc.b $45					; E
-		dc.b $FB
-		dc.b $AF
-		dc.b $F3
-		dc.b $2F					; /
-		dc.b $F3
-		dc.b $57					; W
-		dc.b $72					; r
-		dc.b $BD
-		dc.b $5F					; _
-		dc.b $D0
-		dc.b $36					; 6
-		dc.b $BA
-		dc.b $EE
-		dc.b $D0
-		dc.b $B8
-		dc.b $51					; Q
-		dc.b $8D
-		dc.b $5B					; [
-		dc.b $8B
-		dc.b $41					; A
-		dc.b $50					; P
-		dc.b $B8
-		dc.b $50					; P
-		dc.b $DD
-		dc.b $DB
-		dc.b $55					; U
-		dc.b $A0
-		dc.b $AE
-		dc.b $2D					; -
-		dc.b $C0
-		dc.b $56					; V
-		dc.b $AB
-		dc.b $55					; U
-		dc.b $EA
-		dc.b $F0
-		dc.b $D0
-		dc.b 1
-		dc.b $78					; x
-		dc.b $68					; h
-		dc.b $BF
-		dc.b $AB
-		dc.b $7A					; z
-		dc.b $BC
-		dc.b $34					; 4
-		dc.b 2
-		dc.b $D1
-		dc.b $88
-		dc.b $5A					; Z
-		dc.b $51					; Q
-		dc.b $5E					; ^
-		dc.b $AB
-		dc.b $4D					; M
-		dc.b $C5
-		dc.b $E1
-		dc.b $A2
-		dc.b $A1
-		dc.b $A3
-		dc.b $11
-		dc.b $D4
-		dc.b $5A					; Z
-		dc.b $1A
-		dc.b $2D					; -
-		dc.b $D
-		dc.b $B
-		dc.b $4D					; M
-		dc.b $C2
-		dc.b $D0
-		dc.b 0
-		dc.b $77					; w
-		dc.b $5F					; _
-		dc.b $E6
-		dc.b $5A					; Z
-		dc.b $AD
-		dc.b $54					; T
-		dc.b $28					; (
-		dc.b $C4
-		dc.b $62					; b
-		dc.b $14
-		dc.b $62					; b
-		dc.b 2
-		dc.b $FA
-		dc.b $AD
-		dc.b $2D					; -
-		dc.b $56					; V
-		dc.b $AA
-		dc.b 8
-		dc.b $22					; "
-		dc.b $D0
-		dc.b $41					; A
-		dc.b $15
-		dc.b $AA
-		dc.b $D3
-		dc.b $77					; w
-		dc.b $68					; h
-		dc.b $5C					; \
-		dc.b $28					; (
-		dc.b 0
-		dc.b $50					; P
-		dc.b $B8
-		dc.b $50					; P
-		dc.b $DD
-		dc.b $DB
-		dc.b $FA
-		dc.b $D7
-		dc.b $E1
-		dc.b $40					; @
-		dc.b $57					; W
-		dc.b $A
-		dc.b $2B					; +
-		dc.b $D0
-		dc.b $DA
-		dc.b $EB
-		dc.b $D5
-		dc.b $42					; B
-		dc.b $D2
-		dc.b $80
-		dc.b $BE
-		dc.b $B1
-		dc.b $A6
-		dc.b $85
-		dc.b $B
-		dc.b $4A					; J
-		dc.b $2B					; +
-		dc.b $D2
-		dc.b $85
-		dc.b $FD
-		dc.b $6B					; k
-		dc.b $F0
-		dc.b $A0
-		dc.b $AE
-		dc.b $14
-		dc.b $57					; W
-		dc.b $A
-		dc.b 1
-		dc.b $6A					; j
-		dc.b $B4
-		dc.b $DD
-		dc.b $DA
-		dc.b $17
-		dc.b $A
-		dc.b $31					; 1
-		dc.b $A5
-		dc.b $B
-		dc.b $D5
-		dc.b $7A					; z
-		dc.b $50					; P
-		dc.b $B5
-		dc.b $88
-		dc.b $5C					; \
-		dc.b $28					; (
-		dc.b $6E					; n
-		dc.b $ED
-		dc.b $FE
-		dc.b $65					; e
-		dc.b $AA
-		dc.b $D0
-		dc.b 1
-		dc.b $5C					; \
-		dc.b $56					; V
-		dc.b $AB
-		dc.b $40					; @
-		dc.b 2
-		dc.b $85
-		dc.b $C2
-		dc.b $86
-		dc.b $EE
-		dc.b $DA
-		dc.b $AD
-		dc.b 2
-		dc.b $85
-		dc.b $A
-		dc.b $14
-		dc.b $D
-		dc.b $A
-		dc.b $14
-		dc.b $5E					; ^
-		dc.b $14
-		dc.b $62					; b
-		dc.b $2F					; /
-		dc.b $AA
-		dc.b $D0
-		dc.b $5E					; ^
-		dc.b $B
-		dc.b $C2
-		dc.b $85
-		dc.b $A
-		dc.b $2F					; /
-		dc.b $16
-		dc.b $D2
-		dc.b $D3
-		dc.b $6A					; j
-		dc.b $B4
-		dc.b $28					; (
-		dc.b $50					; P
-		dc.b $A1
-		dc.b $43					; C
-		dc.b $42					; B
-		dc.b $85
-		dc.b $15
-		dc.b $A
-		dc.b $14
-		dc.b $34					; 4
-		dc.b $28					; (
-		dc.b $50					; P
-		dc.b $A0
-		dc.b $5A					; Z
-		dc.b $AD
-		dc.b $2D					; -
-		dc.b $56					; V
-		dc.b $85
-		dc.b $A
-		dc.b $14
-		dc.b $28					; (
-		dc.b $BC
-		dc.b $5A					; Z
-		dc.b $2A					; *
-		dc.b 2
-		dc.b $FC
-		dc.b $57					; W
-		dc.b $F9
-		dc.b $97
-		dc.b $AE
-		dc.b $A1
-		dc.b $A2
-		dc.b $A1
-		dc.b $A2
-		dc.b $A1
-		dc.b $A2
-		dc.b $A1
-		dc.b $A3
-		dc.b $AF
-		dc.b $4B					; K
-		dc.b $FC
-		dc.b $D5
-		dc.b $C0
-		dc.b 5
-		dc.b $B8
-		dc.b $B7
-		dc.b $16
-		dc.b $E0
-		dc.b 2
-		dc.b $FA
-		dc.b $31					; 1
-		dc.b $A0
-		dc.b $A8
-		dc.b $C6
-		dc.b $AD
-		dc.b $AB
-		dc.b $6A					; j
-		dc.b $DA
-		dc.b $B6
-		dc.b $AD
-		dc.b $AB
-		dc.b $42					; B
-		dc.b $FE
-		dc.b $B2
-		dc.b $FF
-		dc.b $10
-		dc.b 0
-		dc.b $2F					; /
-		dc.b $F9
-		dc.b $7F					; 
-		dc.b $48					; H
-		dc.b 0
-		dc.b $17
-		dc.b $E0
-		dc.b $B1
-		dc.b $F8
-		dc.b $20
-		dc.b 0
-		dc.b $5F					; _
-		dc.b $F2
-		dc.b $FE
-		dc.b $90
-		dc.b 0
-		dc.b $2F					; /
-		dc.b $F1
-		dc.b $2F					; /
-		dc.b $F9
-		dc.b 1
-		dc.b $F8
-		dc.b $20
-		dc.b $3F					; ?
-		dc.b $45					; E
-		dc.b $7F					; 
-		dc.b $D9
-		dc.b 0
-		dc.b 0
-		dc.b $BF
-		dc.b $65					; e
-		dc.b $7F					; 
-		dc.b $D1
-		dc.b 7
-		dc.b $E0
-		dc.b $80
-		dc.b $3A					; :
-		dc.b $FF
-		dc.b $A0
-		dc.b 3
-		dc.b $68					; h
-		dc.b $B4
-		dc.b $28					; (
-		dc.b $B6
-		dc.b $80
-		dc.b $C7
-		dc.b $F5
-		dc.b $9B
-		dc.b $FA
-		dc.b $C0
-		dc.b $57					; W
-		dc.b $76					; v
-		dc.b $85
-		dc.b $C2
-		dc.b $85
-		dc.b $A1
-		dc.b $7A					; z
-		dc.b $A8
-		dc.b $EB
-		dc.b $8B
-		dc.b $71					; q
-		dc.b $68					; h
-		dc.b $EA
-		dc.b $14
-		dc.b $5E					; ^
-		dc.b $14
-		dc.b 1
-		dc.b $68					; h
-		dc.b $51					; Q
-		dc.b $88
-		dc.b $51					; Q
-		dc.b $7F					; 
-		dc.b $57					; W
-		dc.b $85
-		dc.b $18
-		dc.b $85
-		dc.b 0
-		dc.b $5A					; Z
-		dc.b $14
-		dc.b $5E					; ^
-		dc.b $14
-		dc.b $5B					; [
-		dc.b $5D					; ]
-		dc.b $77					; w
-		dc.b $68					; h
-		dc.b $C4
-		dc.b $37					; 7
-		dc.b $AA
-		dc.b $80
-		dc.b $2D					; -
-		dc.b $AB
-		dc.b $7F					; 
-		dc.b $D8
-		dc.b $FF
-		dc.b $B0
-		dc.b 1
-		dc.b $DC
-		dc.b $86
-		dc.b $F4
-		dc.b $D1
-		dc.b $68					; h
-		dc.b 2
-		dc.b $FA
-		dc.b $6D					; m
-		dc.b 0
-		dc.b 0
-		dc.b $DA
-		dc.b $6D					; m
-		dc.b 0
-		dc.b 0
-		dc.b $DA
-		dc.b $6D					; m
-		dc.b 1
-		dc.b $78					; x
-		dc.b $B4
-		dc.b $37					; 7
-		dc.b $A6
-		dc.b $83
-		dc.b $B8
-		dc.b 1
-		dc.b $FF
-		dc.b $63					; c
-		dc.b $FE
-		dc.b $D6
-		dc.b $D0
-		dc.b $16
-		dc.b $8A
-		dc.b $F4
-		dc.b $D1
-		dc.b $88
-		dc.b $6E					; n
-		dc.b $E0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b $15
-		dc.b $FF
-		dc.b $40					; @
-		dc.b 0
-		dc.b $3F					; ?
-		dc.b $E8
-		dc.b 0
-		dc.b 0
-		dc.b $DE
-		dc.b $1A
-		dc.b $57					; W
-		dc.b $2A					; *
-		dc.b $6D					; m
-		dc.b $38					; 8
-		dc.b $DA
-		dc.b $DB
-		dc.b $62					; b
-		dc.b $6D					; m
-		dc.b $2B					; +
-		dc.b $95
-		dc.b $2D					; -
-		dc.b $E2
-		dc.b $DB
-		dc.b $5A					; Z
-		dc.b $7A					; z
-		dc.b $90
-		dc.b $3A					; :
-		dc.b $96
-		dc.b $9B
-		dc.b $FB
-		dc.b $AF
-		dc.b $D
-		dc.b $2B					; +
-		dc.b $95
-		dc.b $2B					; +
-		dc.b $61					; a
-		dc.b $6C					; l
-		dc.b $A5
-		dc.b $B6
-		dc.b $5B					; [
-		dc.b $34					; 4
-		dc.b $AD
-		dc.b $B1
-		dc.b $E1
-		dc.b $7F					; 
-		dc.b $9D
-		dc.b $BC
-		dc.b $34					; 4
-		dc.b $AE
-		dc.b $54					; T
-		dc.b $AD
-		dc.b $8E
-		dc.b $54					; T
-		dc.b $D7
-		dc.b $2A					; *
-		dc.b $56					; V
-		dc.b $D8
-		dc.b $95
-		dc.b $CA
-		dc.b $96
-		dc.b $F1
-		dc.b $8D
-		dc.b $AD
-		dc.b $38					; 8
-		dc.b $9C
-		dc.b $4A					; J
-		dc.b $9B
-		dc.b $CA
-		dc.b $9E
-		dc.b $B6
-		dc.b $69					; i
-		dc.b $5E					; ^
-		dc.b $DA
-		dc.b $6D					; m
-		dc.b $B3
-		dc.b $7F					; 
-		dc.b $5E					; ^
-		dc.b $FE
-		dc.b $CB
-		dc.b $FB
-		dc.b $6F					; o
-		dc.b $A
-		dc.b $56					; V
-		dc.b $D8
-		dc.b $95
-		dc.b $CA
-		dc.b $96
-		dc.b $F1
-		dc.b $5E					; ^
-		dc.b $1A
-		dc.b $57					; W
-		dc.b $2A					; *
-		dc.b $71					; q
-		dc.b $B5
-		dc.b $7B					; {
-		dc.b $BF
-		dc.b $2A					; *
-		dc.b $45					; E
-		dc.b $2B					; +
-		dc.b $95
-		dc.b $2D					; -
-		dc.b $E1
-		dc.b $BF
-		dc.b $CE
-		dc.b $BD
-		dc.b $F5
-		dc.b $2D					; -
-		dc.b $35					; 5
-		dc.b $2D					; -
-		dc.b $38					; 8
-		dc.b $90
-		dc.b $B6
-		dc.b $D6
-		dc.b $F0
-		dc.b $D2
-		dc.b $B9
-		dc.b $52					; R
-		dc.b $29					; )
-		dc.b $5C					; \
-		dc.b $A9
-		dc.b $52					; R
-		dc.b $B9
-		dc.b $52					; R
-		dc.b $29					; )
-		dc.b $5C					; \
-		dc.b $A9
-		dc.b $6F					; o
-		dc.b $15
-		dc.b $E1
-		dc.b $A5
-		dc.b $72					; r
-		dc.b $A4
-		dc.b $52					; R
-		dc.b $B9
-		dc.b $BF
-		dc.b $BA
-		dc.b $DB
-		dc.b $12
-		dc.b $B9
-		dc.b $52					; R
-		dc.b $DE
-		dc.b $2B					; +
-		dc.b $C3
-		dc.b $4A					; J
-		dc.b $E5
-		dc.b $48					; H
-		dc.b $57					; W
-		dc.b $36					; 6
-		dc.b $E4
-		dc.b $AD
-		dc.b $AB
-		dc.b $65					; e
-		dc.b $FD
-		dc.b $7B					; {
-		dc.b $F2
-		dc.b $A4
-		dc.b $AE
-		dc.b $54					; T
-		dc.b $D7
-		dc.b $2A					; *
-		dc.b $4A					; J
-		dc.b $E5
-		dc.b $4A					; J
-		dc.b $FE
-		dc.b $BD
-		dc.b $78					; x
-		dc.b $69					; i
-		dc.b $5C					; \
-		dc.b $A9
-		dc.b $C6
-		dc.b $C1
-		dc.b $8D
-		dc.b $94
-		dc.b $AE
-		dc.b $54					; T
-		dc.b $B7
-		dc.b $86
-		dc.b $FE
-		dc.b $BD
-		dc.b $F9
-		dc.b $52					; R
-		dc.b 1
-		dc.b $5C					; \
-		dc.b $A9
-		dc.b $5F					; _
-		dc.b $D7
-		dc.b $6F					; o
-		dc.b $F3
-		dc.b $D7
-		dc.b $82
-		dc.b $BD
-		dc.b $DF
-		dc.b $D9
-		dc.b $7F					; 
-		dc.b $B
-		dc.b $FC
-		dc.b $EB
-		dc.b $FC
-		dc.b $F5
-		dc.b $E0
-		dc.b $AF
-		dc.b $77					; w
-		dc.b $F6
-		dc.b $D
-		dc.b $B7
-		dc.b $5E					; ^
-		dc.b $1A
-		dc.b $57					; W
-		dc.b $2A					; *
-		dc.b $71					; q
-		dc.b $B5
-		dc.b $B9
-		dc.b $B4
-		dc.b $95
-		dc.b $2B					; +
-		dc.b $95
-		dc.b $2D					; -
-		dc.b $E1
-		dc.b $B6
-		dc.b $AD
-		dc.b $82
-		dc.b $B9
-		dc.b $B7
-		dc.b $21					; !
-		dc.b $5B					; [
-		dc.b $56					; V
-		dc.b $D5
-		dc.b $EE
-		dc.b $F2
-		dc.b $D2
-		dc.b 1
-		dc.b $79					; y
-		dc.b $69					; i
-		dc.b $BF
-		dc.b $BB
-		dc.b $7B					; {
-		dc.b $BC
-		dc.b $B4
-		dc.b $82
-		dc.b $D8
-		dc.b $C4
-		dc.b $AD
-		dc.b $94
-		dc.b $D7
-		dc.b $BA
-		dc.b $D9
-		dc.b $B9
-		dc.b $BC
-		dc.b $B4
-		dc.b $D4
-		dc.b $B4
-		dc.b $E2
-		dc.b $7A					; z
-		dc.b $9B
-		dc.b $4B					; K
-		dc.b $4D					; M
-		dc.b $A5
-		dc.b $A5
-		dc.b $6C					; l
-		dc.b $DC
-		dc.b $AD
-		dc.b $80
-		dc.b 3
-		dc.b $C2
-		dc.b $FF
-		dc.b $3A					; :
-		dc.b $DA
-		dc.b $B6
-		dc.b $A9
-		dc.b $53					; S
-		dc.b $89
-		dc.b $C4
-		dc.b $A9
-		dc.b $C4
-		dc.b $85
-		dc.b $F6
-		dc.b $AD
-		dc.b $96
-		dc.b $D5
-		dc.b $B5
-		dc.b $49					; I
-		dc.b $24					; $
-		dc.b $DA
-		dc.b $49					; I
-		dc.b $26					; &
-		dc.b $B6
-		dc.b $AD
-		dc.b $9B
-		dc.b $C3
-		dc.b $4A					; J
-		dc.b $E5
-		dc.b $48					; H
-		dc.b 2
-		dc.b $95
-		dc.b $CA
-		dc.b $96
-		dc.b $F0
-		dc.b $DF
-		dc.b $D7
-		dc.b $BF
-		dc.b $2A					; *
-		dc.b $42					; B
-		dc.b $B9
-		dc.b $53					; S
-		dc.b $5E					; ^
-		dc.b $C6
-		dc.b $DB
-		dc.b $AF
-		dc.b $75					; u
-		dc.b $2B					; +
-		dc.b $65					; e
-		dc.b $21					; !
-		dc.b $7D					; }
-		dc.b $B1
-		dc.b $B3
-		dc.b $4A					; J
-		dc.b $95
-		dc.b $B2
-		dc.b $9A
-		dc.b $F6
-		dc.b $A5
-		dc.b $7F					; 
-		dc.b $5E					; ^
-		dc.b $FC
-		dc.b $A9
-		dc.b $2B					; +
-		dc.b $95
-		dc.b $35					; 5
-		dc.b $CA
-		dc.b $90
-		dc.b $5B					; [
-		dc.b $56					; V
-		dc.b $CD
-		dc.b $E1
-		dc.b $A5
-		dc.b $72					; r
-		dc.b $A7
-		dc.b $1B
-		dc.b $29					; )
-		dc.b $5E					; ^
-		dc.b $EB
-		dc.b $DA
-		dc.b $95
-		dc.b $B6
-		dc.b $25					; %
-		dc.b $72					; r
-		dc.b $A5
-		dc.b $BC
-		dc.b $37					; 7
-		dc.b $F9
-		dc.b $D6
-		dc.b $D5
-		dc.b $B0
-		dc.b 1
-		dc.b $5C					; \
-		dc.b $D6
-		dc.b $D5
-		dc.b $B0
-		dc.b 0
-		dc.b $A5
-		dc.b $72					; r
-		dc.b $A5
-		dc.b $BC
-		dc.b $36					; 6
-		dc.b $D5
-		dc.b $B0
-		dc.b $29					; )
-		dc.b $52					; R
-		dc.b $A5
-		dc.b $48					; H
-		dc.b $D2
-		dc.b $A5
-		dc.b $4D					; M
-		dc.b $E5
-		dc.b $4E					; N
-		dc.b $26					; &
-		dc.b $FB
-		dc.b $56					; V
-		dc.b $C1
-		dc.b $79					; y
-		dc.b $2F					; /
-		dc.b $2A					; *
-		dc.b $54					; T
-		dc.b $A9
-		dc.b $BC
-		dc.b $DB
-		dc.b $65					; e
-		dc.b $B3
-		dc.b $6D					; m
-		dc.b $5B					; [
-		dc.b $A
-		dc.b $54					; T
-		dc.b $A9
-		dc.b $52					; R
-		dc.b $D2
-		dc.b $A5
-		dc.b $4D					; M
-		dc.b $4A					; J
-		dc.b $95
-		dc.b $2D					; -
-		dc.b $2A					; *
-		dc.b $54					; T
-		dc.b $A9
-		dc.b $16
-		dc.b $D5
-		dc.b $B2
-		dc.b $DA
-		dc.b $B6
-		dc.b $14
-		dc.b $A9
-		dc.b $52					; R
-		dc.b $A6
-		dc.b $F3
-		dc.b $69					; i
-		dc.b $A9
-		dc.b $B
-		dc.b $F3
-		dc.b $5F					; _
-		dc.b $E7
-		dc.b $5E					; ^
-		dc.b $FA
-		dc.b $96
-		dc.b $9A
-		dc.b $96
-		dc.b $9A
-		dc.b $96
-		dc.b $9A
-		dc.b $96
-		dc.b $9E
-		dc.b $BD
-		dc.b $AF
-		dc.b $F3
-		dc.b $D7
-		dc.b $20
-		dc.b $16
-		dc.b $E6
-		dc.b $DC
-		dc.b $DB
-		dc.b $90
-		dc.b $B
-		dc.b $EC
-		dc.b $63					; c
-		dc.b $60					; `
-		dc.b $A9
-		dc.b $C6
-		dc.b $D6
-		dc.b $DA
-		dc.b $DB
-		dc.b $5B					; [
-		dc.b $6B					; k
-		dc.b $6D					; m
-		dc.b $6D					; m
-		dc.b $AD
-		dc.b $2B					; +
-		dc.b $FA
-		dc.b $EB
-		dc.b $FC
-		dc.b $60					; `
-		dc.b 0
-		dc.b $BF
-		dc.b $E7
-		dc.b $FD
-		dc.b $30					; 0
-		dc.b 0
-		dc.b $5F					; _
-		dc.b $83
-		dc.b $C7
-		dc.b $E0
-		dc.b $C0
-		dc.b 1
-		dc.b $7F					; 
-		dc.b $CF
-		dc.b $FA
-		dc.b $60					; `
-		dc.b 0
-		dc.b $BF
-		dc.b $C6
-		dc.b $BF
-		dc.b $E6
-		dc.b 7
-		dc.b $E0
-		dc.b $C0
-		dc.b $FD
-		dc.b $1D
-		dc.b $FF
-		dc.b $66					; f
-		dc.b 0
-		dc.b 2
-		dc.b $FD
-		dc.b $9D
-		dc.b $FF
-		dc.b $46					; F
-		dc.b $1F
-		dc.b $83
-		dc.b 0
-		dc.b $EB
-		dc.b $FE
-		dc.b $80
-		dc.b $D
-		dc.b $B1
-		dc.b $69					; i
-		dc.b $53					; S
-		dc.b $6D					; m
-		dc.b $80
-		dc.b $C7
-		dc.b $F5
-		dc.b $DB
-		dc.b $FA
-		dc.b $E0
-		dc.b $57					; W
-		dc.b $86
-		dc.b $95
-		dc.b $CA
-		dc.b $95
-		dc.b $B0
-		dc.b $BD
-		dc.b $D4
-		dc.b $F5
-		dc.b $CD
-		dc.b $B9
-		dc.b $B4
-		dc.b $F5
-		dc.b $2A					; *
-		dc.b $6F					; o
-		dc.b $2A					; *
-		dc.b $40					; @
-		dc.b $B4
-		dc.b $A9
-		dc.b $C4
-		dc.b $A9
-		dc.b $BF
-		dc.b $BB
-		dc.b $CA
-		dc.b $9C
-		dc.b $4A					; J
-		dc.b $90
-		dc.b $2D					; -
-		dc.b $2A					; *
-		dc.b $6F					; o
-		dc.b $2A					; *
-		dc.b $6D					; m
-		dc.b $B7
-		dc.b $5E					; ^
-		dc.b $1A
-		dc.b $71					; q
-		dc.b $2D					; -
-		dc.b $EE
-		dc.b $A4
-		dc.b $B
-		dc.b $6D					; m
-		dc.b $6F					; o
-		dc.b $FB
-		dc.b $9F
-		dc.b $F7
-		dc.b 0
-		dc.b $3C					; <
-		dc.b $12
-		dc.b $DE
-		dc.b $DA
-		dc.b $6D					; m
-		dc.b $20
-		dc.b $5F					; _
-		dc.b $66					; f
-		dc.b $D8
-		dc.b 0
-		dc.b 6
-		dc.b $D9
-		dc.b $B6
-		dc.b 0
-		dc.b 1
-		dc.b $B6
-		dc.b $6D					; m
-		dc.b $80
-		dc.b $BC
-		dc.b $DA
-		dc.b $5B					; [
-		dc.b $DB
-		dc.b $49					; I
-		dc.b $E0
-		dc.b 0
-		dc.b $FF
-		dc.b $B9
-		dc.b $FF
-		dc.b $7B					; {
-		dc.b $6C					; l
-		dc.b 5
-		dc.b $A6
-		dc.b $BD
-		dc.b $B4
-		dc.b $E2
-		dc.b $5B					; [
-		dc.b $C0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 5
-		dc.b 0
-		dc.b 0
+		incbin "unknown/18000.dat"
+		even
 ArtSega:	incbin "screens/sega/Main.nem"
 		even
 MapSega:	incbin "unknown/18A56.eni"
@@ -27043,6 +25242,8 @@ ArtTitleSonic:	incbin "screens/title/Sonic.nem"
 		include "levels/shared/Sonic/dynamic.map"
 ArtSonic:	incbin "levels/shared/Sonic/Art.unc"
 		even
+
+byte_1C8EF:
 ArtSmoke:	incbin "unsorted/smoke.nem"
 		even
 ArtShield:	incbin "levels/shared/Shield/Shield.nem"

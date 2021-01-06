@@ -37,6 +37,7 @@
 039B2
 
 # disassemble art and map data
+18000 unknown/18000.dat
 18720 screens/sega/Main.nem
 18A56 unknown/18A56.eni
 18A62 unknown/18A62.unc
