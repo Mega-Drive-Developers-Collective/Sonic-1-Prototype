@@ -1,0 +1,7 @@
+AniBuzzbomber:	dc.w byte_7AD8-AniBuzzbomber, byte_7ADC-AniBuzzbomber, byte_7AE0-AniBuzzbomber
+
+byte_7AD8:	dc.b 1, 0, 1, $FF
+
+byte_7ADC:	dc.b 1, 2, 3, $FF
+
+byte_7AE0:	dc.b 1, 4, 5, $FF

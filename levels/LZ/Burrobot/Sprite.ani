@@ -1,0 +1,9 @@
+AniBurrobot:	dc.w byte_8E54-AniBurrobot, byte_8E58-AniBurrobot, byte_8E5C-AniBurrobot, byte_8E60-AniBurrobot
+
+byte_8E54:	dc.b 3, 0, 6, $FF
+
+byte_8E58:	dc.b 3, 0, 1, $FF
+
+byte_8E5C:	dc.b 3, 2, 3, $FF
+
+byte_8E60:	dc.b 3, 4, $FF

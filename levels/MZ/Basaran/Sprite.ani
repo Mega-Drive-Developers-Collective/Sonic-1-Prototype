@@ -1,0 +1,9 @@
+AniBasaran:	dc.w byte_D87E-AniBasaran, byte_D882-AniBasaran, byte_D886-AniBasaran
+
+byte_D87E:	dc.b $F, 0, $FF
+		even
+
+byte_D882:	dc.b $F, 1, $FF
+		even
+
+byte_D886:	dc.b 3, 1, 2, 3, 2, $FF

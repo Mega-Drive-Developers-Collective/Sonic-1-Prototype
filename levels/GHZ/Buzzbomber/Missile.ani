@@ -1,0 +1,5 @@
+AniBuzzMissile:	dc.w byte_7AE8-AniBuzzMissile, byte_7AEC-AniBuzzMissile
+
+byte_7AE8:	dc.b 7, 0, 1, $FC
+
+byte_7AEC:	dc.b 1, 2, 3, $FF

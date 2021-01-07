@@ -1,0 +1,27 @@
+AniGHZBoss:	dc.w byte_B506-AniGHZBoss, byte_B50A-AniGHZBoss, byte_B50E-AniGHZBoss
+		dc.w byte_B512-AniGHZBoss, byte_B516-AniGHZBoss, byte_B522-AniGHZBoss
+		dc.w byte_B526-AniGHZBoss, byte_B52A-AniGHZBoss, byte_B52E-AniGHZBoss
+		dc.w byte_B532-AniGHZBoss
+
+byte_B506:	dc.b $F, 0, $FF
+		even
+
+byte_B50A:	dc.b 5, 1, 2, $FF
+
+byte_B50E:	dc.b 3, 1, 2, $FF
+
+byte_B512:	dc.b 1, 1, 2, $FF
+
+byte_B516:	dc.b 3, 3, 4, 3, 4, 3, 4, 3, 4, $FD, 1
+		dc.b 0
+
+byte_B522:	dc.b $1F, 5, 1, $FF
+
+byte_B526:	dc.b 3, 6, 1, $FF
+
+byte_B52A:	dc.b $F, $A, $FF
+		even
+
+byte_B52E:	dc.b 3, 8, 9, $FF
+
+byte_B532:	dc.b 1, 8, 9, $FF

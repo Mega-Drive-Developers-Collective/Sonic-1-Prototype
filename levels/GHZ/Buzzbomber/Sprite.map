@@ -1,0 +1,54 @@
+MapBuzzbomber:	dc.w byte_7AFC-MapBuzzbomber, byte_7B1B-MapBuzzbomber, byte_7B3A-MapBuzzbomber
+		dc.w byte_7B5E-MapBuzzbomber, byte_7B82-MapBuzzbomber
+		dc.w byte_7BA1-MapBuzzbomber
+
+byte_7AFC:	dc.b 6
+		dc.b $F4, 9, 0, 0, $E8
+		dc.b $F4, 9, 0, $F, 0
+		dc.b 4, 8, 0, $15, $E8
+		dc.b 4, 4, 0, $18, 0
+		dc.b $F1, 8, 0, $1A, $EC
+		dc.b $F1, 4, 0, $1D, 4
+
+byte_7B1B:	dc.b 6
+		dc.b $F4, 9, 0, 0, $E8
+		dc.b $F4, 9, 0, $F, 0
+		dc.b 4, 8, 0, $15, $E8
+		dc.b 4, 4, 0, $18, 0
+		dc.b $F4, 8, 0, $1F, $EC
+		dc.b $F4, 4, 0, $22, 4
+
+byte_7B3A:	dc.b 7
+
+byte_7B3B:	dc.b 4, 0, 0, $30, $C
+		dc.b $F4, 9, 0, 0, $E8
+		dc.b $F4, 9, 0, $F, 0
+		dc.b 4, 8, 0, $15, $E8
+		dc.b 4, 4, 0, $18, 0
+		dc.b $F1, 8, 0, $1A, $EC
+		dc.b $F1, 4, 0, $1D, 4
+
+byte_7B5E:	dc.b 7
+		dc.b 4, 4, 0, $31, $C
+		dc.b $F4, 9, 0, 0, $E8
+		dc.b $F4, 9, 0, $F, 0
+		dc.b 4, 8, 0, $15, $E8
+		dc.b 4, 4, 0, $18, 0
+		dc.b $F4, 8, 0, $1F, $EC
+		dc.b $F4, 4, 0, $22, 4
+
+byte_7B82:	dc.b 6
+		dc.b $F4, $D, 0, 0, $EC
+		dc.b 4, $C, 0, 8, $EC
+		dc.b 4, 0, 0, $C, $C
+		dc.b $C, 4, 0, $D, $F4
+		dc.b $F1, 8, 0, $1A, $EC
+		dc.b $F1, 4, 0, $1D, 4
+
+byte_7BA1:	dc.b 4
+		dc.b $F4, $D, 0, 0, $EC
+		dc.b 4, $C, 0, 8, $EC
+		dc.b 4, 0, 0, $C, $C
+		dc.b $C, 4, 0, $D, $F4
+		dc.b $F4, 8, 0, $1F, $EC
+		dc.b $F4, 4, 0, $22, 4

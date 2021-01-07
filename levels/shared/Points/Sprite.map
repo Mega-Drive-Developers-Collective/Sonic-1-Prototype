@@ -1,0 +1,13 @@
+MapPoints:	dc.w byte_7592-MapPoints, byte_7598-MapPoints, byte_759E-MapPoints, byte_75A4-MapPoints
+
+byte_7592:	dc.b 1
+		dc.b $FC, 4, 0, 0, $F8
+
+byte_7598:	dc.b 1
+		dc.b $FC, 4, 0, 2, $F8
+
+byte_759E:	dc.b 1
+		dc.b $FC, 4, 0, 4, $F8
+
+byte_75A4:	dc.b 1
+		dc.b $FC, 8, 0, 6, $F4

@@ -1,0 +1,3 @@
+AniCapsule:	dc.w byte_B80E-AniCapsule, byte_B80E-AniCapsule
+
+byte_B80E:	dc.b 2, 1, 3, $FF

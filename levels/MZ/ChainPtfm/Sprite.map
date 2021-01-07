@@ -1,0 +1,71 @@
+MapChainPtfm:	dc.w byte_9B9A-MapChainPtfm, byte_9BB4-MapChainPtfm, byte_9BCE-MapChainPtfm
+		dc.w byte_9BD4-MapChainPtfm, byte_9BDF-MapChainPtfm, byte_9BF4-MapChainPtfm
+		dc.w byte_9C13-MapChainPtfm, byte_9C3C-MapChainPtfm, byte_9C3C-MapChainPtfm
+		dc.w byte_9C6F-MapChainPtfm, byte_9C89-MapChainPtfm
+
+byte_9B9A:	dc.b 5
+		dc.b $F4, 6, 0, 0, $C8
+		dc.b $F4, $A, 0, 6, $D8
+		dc.b $EC, $F, 0, $F, $F0
+		dc.b $F4, $A, 8, 6, $10
+		dc.b $F4, 6, 8, 0, $28
+
+byte_9BB4:	dc.b 5
+		dc.b $F0, 3, $12, $1F, $D4
+		dc.b $F0, 3, $12, $1F, $E8
+		dc.b $F0, 3, $12, $1F, $FC
+		dc.b $F0, 3, $12, $1F, $10
+		dc.b $F0, 3, $12, $1F, $24
+
+byte_9BCE:	dc.b 1
+		dc.b $DC, $F, $10, $F, $F0
+
+byte_9BD4:	dc.b 2
+		dc.b 0, 1, 0, $3F, $FC
+		dc.b $10, 1, 0, $3F, $FC
+
+byte_9BDF:	dc.b 4
+		dc.b $E0, 1, 0, $3F, $FC
+		dc.b $F0, 1, 0, $3F, $FC
+		dc.b 0, 1, 0, $3F, $FC
+		dc.b $10, 1, 0, $3F, $FC
+
+byte_9BF4:	dc.b 6
+		dc.b $C0, 1, 0, $3F, $FC
+		dc.b $D0, 1, 0, $3F, $FC
+		dc.b $E0, 1, 0, $3F, $FC
+		dc.b $F0, 1, 0, $3F, $FC
+		dc.b 0, 1, 0, $3F, $FC
+		dc.b $10, 1, 0, $3F, $FC
+
+byte_9C13:	dc.b 8
+		dc.b $A0, 1, 0, $3F, $FC
+		dc.b $B0, 1, 0, $3F, $FC
+		dc.b $C0, 1, 0, $3F, $FC
+		dc.b $D0, 1, 0, $3F, $FC
+		dc.b $E0, 1, 0, $3F, $FC
+		dc.b $F0, 1, 0, $3F, $FC
+		dc.b 0, 1, 0, $3F, $FC
+		dc.b $10, 1, 0, $3F, $FC
+
+byte_9C3C:	dc.b $A
+		dc.b $80, 1, 0, $3F, $FC
+		dc.b $90, 1, 0, $3F, $FC
+		dc.b $A0, 1, 0, $3F, $FC
+		dc.b $B0, 1, 0, $3F, $FC
+		dc.b $C0, 1, 0, $3F, $FC
+		dc.b $D0, 1, 0, $3F, $FC
+		dc.b $E0, 1, 0, $3F, $FC
+		dc.b $F0, 1, 0, $3F, $FC
+		dc.b 0, 1, 0, $3F, $FC
+		dc.b $10, 1, 0, $3F, $FC
+
+byte_9C6F:	dc.b 5
+		dc.b $F4, 6, 0, 0, $D0
+		dc.b $F4, $A, 0, 6, $E0
+		dc.b $F4, $A, 8, 6, 8
+		dc.b $F4, 6, 8, 0, $20
+		dc.b $EC, $F, 0, $F, $F0
+
+byte_9C89:	dc.b 1
+		dc.b $EC, $F, 0, $2F, $F0

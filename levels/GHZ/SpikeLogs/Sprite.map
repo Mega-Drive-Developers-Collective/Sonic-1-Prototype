@@ -1,0 +1,25 @@
+MapSpikeLogs:	dc.w byte_58E0-MapSpikeLogs, byte_58E6-MapSpikeLogs, byte_58EC-MapSpikeLogs
+		dc.w byte_58F2-MapSpikeLogs, byte_58F8-MapSpikeLogs, byte_58FE-MapSpikeLogs
+		dc.w byte_5905+1-MapSpikeLogs, byte_5904-MapSpikeLogs
+
+byte_58E0:	dc.b 1
+		dc.b $F0, 1, 0, 0, $FC
+
+byte_58E6:	dc.b 1
+		dc.b $F5, 5, 0, 2, $F8
+
+byte_58EC:	dc.b 1
+		dc.b $F8, 5, 0, 6, $F8
+
+byte_58F2:	dc.b 1
+		dc.b $FB, 5, 0, $A, $F8
+
+byte_58F8:	dc.b 1
+		dc.b 0, 1, 0, $E, $FC
+
+byte_58FE:	dc.b 1
+		dc.b 4, 0, 0, $10, $FD
+
+byte_5904:	dc.b 1
+
+byte_5905:	dc.b $F4, 0, 0, $11, $FD

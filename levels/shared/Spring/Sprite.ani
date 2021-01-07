@@ -1,0 +1,5 @@
+AniSpring:	dc.w byte_BCB2-AniSpring, byte_BCBE-AniSpring
+
+byte_BCB2:	dc.b 0, 1, 0, 0, 2, 2, 2, 2, 2, 2, 0, $FC
+
+byte_BCBE:	dc.b 0, 4, 3, 3, 5, 5, 5, 5, 5, 5, 3, $FC

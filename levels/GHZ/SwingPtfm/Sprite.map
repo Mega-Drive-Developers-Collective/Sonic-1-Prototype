@@ -1,0 +1,11 @@
+MapSwingPtfm:	dc.w byte_5726-MapSwingPtfm, byte_5731-MapSwingPtfm, byte_5737-MapSwingPtfm
+
+byte_5726:	dc.b 2
+		dc.b $F8, 9, 0, 4, $E8
+		dc.b $F8, 9, 0, 4, 0
+
+byte_5731:	dc.b 1
+		dc.b $F8, 5, 0, 0, $F8
+
+byte_5737:	dc.b 1
+		dc.b $F8, 5, 0, $A, $F8

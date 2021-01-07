@@ -1,0 +1,6 @@
+AniBumper:	dc.w byte_C6B6-AniBumper, byte_C6BA-AniBumper
+
+byte_C6B6:	dc.b $F, 0, $FF
+		even
+
+byte_C6BA:	dc.b 3, 1, 2, 1, 2, $FD, 0

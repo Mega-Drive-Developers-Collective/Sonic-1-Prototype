@@ -883,7 +883,14 @@ loc_1156:
 		move.w	#0,($A11100).l
 		rts
 ; ---------------------------------------------------------------------------
-		dc.b 3, 0, 0, $14, 0, 0, 0, 0
+		dc.b 3
+		dc.b 0
+		dc.b 0
+		dc.b $14
+		dc.b 0
+		dc.b 0
+		dc.b 0
+		dc.b 0
 ; ---------------------------------------------------------------------------
 
 PlayMusic:
@@ -5494,35 +5501,7 @@ loc_4BEC:
 		bsr.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-Map02:		dc.w byte_4BFA-Map02, byte_4C00-Map02, byte_4C06-Map02, byte_4C30-Map02
-
-byte_4BFA:	dc.b 1
-		dc.b $F0, $F, $80, 0, $F0
-
-byte_4C00:	dc.b 1
-		dc.b $F0, $F, $80, $10, $F0
-
-byte_4C06:	dc.b 8
-		dc.b $80, $F, $80, $10, $F0
-		dc.b $60, $F, $80, $10, $F0
-		dc.b $40, $F, $80, $10, $F0
-		dc.b $20, $F, $80, $10, $F0
-		dc.b 0, $F, $80, $10, $F0
-		dc.b $E0, $F, $80, $10, $F0
-		dc.b $C0, $F, $80, $10, $F0
-		dc.b $A0, $F, $80, $10, $F0
-		even
-
-byte_4C30:	dc.b 8
-		dc.b $80, $F, $80, 0, $F0
-		dc.b $60, $F, $80, 0, $F0
-		dc.b $40, $F, $80, 0, $F0
-		dc.b $20, $F, $80, 0, $F0
-		dc.b 0, $F, $80, 0, $F0
-		dc.b $E0, $F, $80, 0, $F0
-		dc.b $C0, $F, $80, 0, $F0
-		dc.b $A0, $F, $80, 0, $F0
+		include "unknown/Map02.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -5631,59 +5610,8 @@ loc_4D68:
 		bsr.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-Map05:		dc.w byte_4D8E-Map05, byte_4D94-Map05, byte_4D9A-Map05, byte_4DA0-Map05, byte_4DA6-Map05
-		dc.w byte_4DAC-Map05, byte_4DB2-Map05, byte_4DB8-Map05, byte_4DBE-Map05, byte_4DC4-Map05
-		dc.w byte_4DCA-Map05, byte_4DD0-Map05, byte_4DD6-Map05, byte_4DDC-Map05, byte_4DE2-Map05
-		dc.w byte_4DE8-Map05
-
-byte_4D8E:	dc.b 1
-		dc.b 0, 0, 0, 0, 0
-
-byte_4D94:	dc.b 1
-		dc.b 0, 0, 0, 1, 0
-
-byte_4D9A:	dc.b 1
-		dc.b 0, 0, 0, 2, 0
-
-byte_4DA0:	dc.b 1
-		dc.b 0, 0, 0, 3, 0
-
-byte_4DA6:	dc.b 1
-		dc.b 0, 0, 0, 4, 0
-
-byte_4DAC:	dc.b 1
-		dc.b 0, 0, 0, 5, 0
-
-byte_4DB2:	dc.b 1
-		dc.b 0, 0, 0, 6, 0
-
-byte_4DB8:	dc.b 1
-		dc.b 0, 0, 0, 7, 0
-
-byte_4DBE:	dc.b 1
-		dc.b 0, 0, 0, 8, 0
-
-byte_4DC4:	dc.b 1
-		dc.b 0, 0, 0, 9, 0
-
-byte_4DCA:	dc.b 1
-		dc.b 0, 0, 0, $A, 0
-
-byte_4DD0:	dc.b 1
-		dc.b 0, 0, 0, $B, 0
-
-byte_4DD6:	dc.b 1
-		dc.b 0, 0, 0, $C, 0
-
-byte_4DDC:	dc.b 1
-		dc.b 0, 0, 0, $D, 0
-
-byte_4DE2:	dc.b 1
-		dc.b 0, 0, 0, $E, 0
-
-byte_4DE8:	dc.b 1
-		dc.b 0, 0, 0, $F, 0
+		include "unknown/Map05.map"
+		even
 ; ---------------------------------------------------------------------------
 
 Ojb06:
@@ -6176,18 +6104,7 @@ loc_5458:
 		bsr.w	ObjectDisplay
 		rts
 ; ---------------------------------------------------------------------------
-
-MapBridge:	dc.w byte_5464-MapBridge, byte_546A-MapBridge, byte_5475-MapBridge
-
-byte_5464:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
-
-byte_546A:	dc.b 2
-		dc.b $F8, 4, 0, 4, $F0
-		dc.b 0, $C, 0, 6, $F0
-
-byte_5475:	dc.b 1
-		dc.b $FC, 4, 0, 8, $F8
+		include "levels/GHZ/Bridge/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -6434,37 +6351,9 @@ loc_5716:
 loc_571C:
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-MapSwingPtfm:	dc.w byte_5726-MapSwingPtfm, byte_5731-MapSwingPtfm, byte_5737-MapSwingPtfm
-
-byte_5726:	dc.b 2
-		dc.b $F8, 9, 0, 4, $E8
-		dc.b $F8, 9, 0, 4, 0
-
-byte_5731:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
-
-byte_5737:	dc.b 1
-		dc.b $F8, 5, 0, $A, $F8
+		include "levels/GHZ/SwingPtfm/Sprite.map"
 		even
-
-off_573E:	dc.w byte_5744-off_573E, byte_576D-off_573E, byte_5773-off_573E
-
-byte_5744:	dc.b 8
-		dc.b $F0, $F, 0, 4, $E0
-		dc.b $F0, $F, 8, 4, 0
-		dc.b $F0, 5, 0, $14, $D0
-		dc.b $F0, 5, 8, $14, $20
-		dc.b $10, 4, 0, $18, $E0
-		dc.b $10, 4, 8, $18, $10
-		dc.b $10, 1, 0, $1A, $F8
-		dc.b $10, 1, 8, $1A, 0
-
-byte_576D:	dc.b 1
-		dc.b $F8, 5, $40, 0, $F8
-
-byte_5773:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
+		include "unknown/0573E.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -6592,31 +6481,8 @@ loc_58C8:
 		bsr.w	sub_5860
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-MapSpikeLogs:	dc.w byte_58E0-MapSpikeLogs, byte_58E6-MapSpikeLogs, byte_58EC-MapSpikeLogs, byte_58F2-MapSpikeLogs
-		dc.w byte_58F8-MapSpikeLogs, byte_58FE-MapSpikeLogs, byte_5905+1-MapSpikeLogs, byte_5904-MapSpikeLogs
-
-byte_58E0:	dc.b 1
-		dc.b $F0, 1, 0, 0, $FC
-
-byte_58E6:	dc.b 1
-		dc.b $F5, 5, 0, 2, $F8
-
-byte_58EC:	dc.b 1
-		dc.b $F8, 5, 0, 6, $F8
-
-byte_58F2:	dc.b 1
-		dc.b $FB, 5, 0, $A, $F8
-
-byte_58F8:	dc.b 1
-		dc.b 0, 1, 0, $E, $FC
-
-byte_58FE:	dc.b 1
-		dc.b 4, 0, 0, $10, $FD
-
-byte_5904:	dc.b 1
-
-byte_5905:	dc.b $F4, 0, 0, $11, $FD
+		include "levels/GHZ/SpikeLogs/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjPlatform:
@@ -6902,57 +6768,10 @@ loc_5BB0:
 loc_5BCE:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-off_5BD2:	dc.w byte_5BD6-off_5BD2, byte_5BE1-off_5BD2
-
-byte_5BD6:	dc.b 2
-		dc.b $F4, $B, 0, $3C, $E8
-		dc.b $F4, $B, 0, $48, 0
-
-byte_5BE1:	dc.b $A
-		dc.b $F4, $F, 0, $CA, $E0
-		dc.b 4, $F, 0, $DA, $E0
-		dc.b $24, $F, 0, $DA, $E0
-		dc.b $44, $F, 0, $DA, $E0
-		dc.b $64, $F, 0, $DA, $E0
-		dc.b $F4, $F, 8, $CA, 0
-		dc.b 4, $F, 8, $DA, 0
-		dc.b $24, $F, 8, $DA, 0
-		dc.b $44, $F, 8, $DA, 0
-		dc.b $64, $F, 8, $DA, 0
-
-MapPlatform1:	dc.w byte_5C18-MapPlatform1, byte_5C2D-MapPlatform1
-
-byte_5C18:	dc.b 4
-		dc.b $F4, $B, 0, $3B, $E0
-		dc.b $F4, 7, 0, $3F, $F8
-		dc.b $F4, 7, 0, $3F, 8
-		dc.b $F4, 3, 0, $47, $18
-
-byte_5C2D:	dc.b $A
-		dc.b $F4, $F, 0, $C5, $E0
-		dc.b 4, $F, 0, $D5, $E0
-		dc.b $24, $F, 0, $D5, $E0
-		dc.b $44, $F, 0, $D5, $E0
-		dc.b $64, $F, 0, $D5, $E0
-		dc.b $F4, $F, 8, $C5, 0
-		dc.b 4, $F, 8, $D5, 0
-		dc.b $24, $F, 8, $D5, 0
-		dc.b $44, $F, 8, $D5, 0
-		dc.b $64, $F, 8, $D5, 0
-
-MapPlatform2:	dc.w byte_5C62-MapPlatform2
-
-byte_5C62:	dc.b 3
-		dc.b $F6, $B, 0, $49, $E0
-		dc.b $F6, 7, 0, $51, $F8
-		dc.b $F6, $B, 0, $55, 8
-
-MapPlatform3:	dc.w byte_5C74-MapPlatform3
-
-byte_5C74:	dc.b 2
-		dc.b $F8, $F, 0, $21, $E0
-		dc.b $F8, $F, 0, $21, 0
+		include "unknown/05BD2.map"
+		include "levels/shared/Platform/1.map"
+		include "levels/shared/Platform/2.map"
+		include "levels/shared/Platform/3.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -7147,34 +6966,8 @@ sub_5E50:
 		move.w	d0,$12(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapRollingBall:	dc.w byte_5E82-MapRollingBall, byte_5EA1-MapRollingBall, byte_5EB6-MapRollingBall, byte_5ECB-MapRollingBall
-
-byte_5E82:	dc.b 6
-		dc.b $F0, 4, 0, $24, $F0
-		dc.b $F8, 4, $10, $24, $F0
-		dc.b $E8, $A, 0, 0, $E8
-		dc.b $E8, $A, 8, 0, 0
-		dc.b 0, $A, $10, 0, $E8
-		dc.b 0, $A, $18, 0, 0
-
-byte_5EA1:	dc.b 4
-		dc.b $E8, $A, 0, 9, $E8
-		dc.b $E8, $A, 8, 9, 0
-		dc.b 0, $A, $10, 9, $E8
-		dc.b 0, $A, $18, 9, 0
-
-byte_5EB6:	dc.b 4
-		dc.b $E8, $A, 0, $12, $E8
-		dc.b $E8, $A, 0, $1B, 0
-		dc.b 0, $A, $18, $1B, $E8
-		dc.b 0, $A, $18, $12, 0
-
-byte_5ECB:	dc.b 4
-		dc.b $E8, $A, 8, $1B, $E8
-		dc.b $E8, $A, 8, $12, 0
-		dc.b 0, $A, $10, $12, $E8
-		dc.b 0, $A, $10, $1B, 0
+		include "levels/GHZ/RollingBall/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjCollapsePtfm:
@@ -7487,224 +7280,10 @@ ObjCollapsePtfm_Slope:dc.b $20, $20, $20, $20, $20, $20, $20, $20, $21, $21
 		dc.b $27, $27, $28, $28, $29, $29, $2A, $2A, $2B, $2B
 		dc.b $2C, $2C, $2D, $2D, $2E, $2E, $2F, $2F, $30, $30
 		dc.b $30, $30, $30, $30, $30, $30, $30, $30
-
-off_6256:	dc.w byte_625E-off_6256, byte_62AF-off_6256, byte_6300-off_6256, byte_637E-off_6256
-
-byte_625E:	dc.b $10
-		dc.b $C8, $E, 0, $60, $10
-		dc.b $D0, $D, 0, $6C, $F0
-		dc.b $E0, $D, 0, $74, $10
-		dc.b $E0, $D, 0, $7C, $F0
-		dc.b $D8, 6, 0, $84, $E0
-		dc.b $D8, 6, 0, $8A, $D0
-		dc.b $F0, $D, 0, $90, $10
-		dc.b $F0, $D, 0, $9C, $F0
-		dc.b $F0, 5, 0, $A4, $E0
-		dc.b $F0, 5, 0, $A8, $D0
-		dc.b 0, $D, 0, $94, $10
-		dc.b 0, 5, 0, $AC, 0
-		dc.b 0, $D, 0, $B0, $E0
-		dc.b 0, 5, 0, $B8, $D0
-		dc.b $10, $D, 0, $B0, $10
-		dc.b $10, 5, 0, $BC, 0
-
-byte_62AF:	dc.b $10
-		dc.b $C8, $E, 0, $60, $10
-		dc.b $D0, $D, 0, $6C, $F0
-		dc.b $E0, $D, 0, $74, $10
-		dc.b $E0, $D, 0, $7C, $F0
-		dc.b $D8, 6, 0, $84, $E0
-		dc.b $D8, 6, 0, $C0, $D0
-		dc.b $F0, $D, 0, $90, $10
-		dc.b $F0, $D, 0, $9C, $F0
-		dc.b $F0, 5, 0, $A4, $E0
-		dc.b $F0, 5, 0, $C6, $D0
-		dc.b 0, $D, 0, $94, $10
-		dc.b 0, 5, 0, $AC, 0
-		dc.b 0, $D, 0, $B0, $E0
-		dc.b 0, 5, 0, $BC, $D0
-		dc.b $10, $D, 0, $B0, $10
-		dc.b $10, 5, 0, $BC, 0
-
-byte_6300:	dc.b $19
-		dc.b $C8, 6, 0, $66, $20
-		dc.b $C8, 6, 0, $60, $10
-		dc.b $D0, 5, 0, $70, 0
-		dc.b $D0, 5, 0, $6C, $F0
-		dc.b $E0, 5, 0, $78, $20
-		dc.b $E0, 5, 0, $74, $10
-		dc.b $E0, 5, 0, $80, 0
-		dc.b $E0, 5, 0, $7C, $F0
-		dc.b $D8, 6, 0, $84, $E0
-		dc.b $D8, 6, 0, $8A, $D0
-		dc.b $F0, 5, 0, $94, $20
-		dc.b $F0, 5, 0, $90, $10
-		dc.b $F0, 5, 0, $A0, 0
-		dc.b $F0, 5, 0, $9C, $F0
-		dc.b $F0, 5, 0, $A4, $E0
-		dc.b $F0, 5, 0, $A8, $D0
-		dc.b 0, 5, 0, $94, $20
-		dc.b 0, 5, 0, $94, $10
-		dc.b 0, 5, 0, $AC, 0
-		dc.b 0, 5, 0, $B0, $F0
-		dc.b 0, 5, 0, $B0, $E0
-		dc.b 0, 5, 0, $B8, $D0
-		dc.b $10, 5, 0, $B0, $20
-		dc.b $10, 5, 0, $B0, $10
-		dc.b $10, 5, 0, $BC, 0
-
-byte_637E:	dc.b $19
-		dc.b $C8, 6, 0, $66, $20
-		dc.b $C8, 6, 0, $60, $10
-		dc.b $D0, 5, 0, $70, 0
-		dc.b $D0, 5, 0, $6C, $F0
-		dc.b $E0, 5, 0, $78, $20
-		dc.b $E0, 5, 0, $74, $10
-		dc.b $E0, 5, 0, $80, 0
-		dc.b $E0, 5, 0, $7C, $F0
-		dc.b $D8, 6, 0, $84, $E0
-		dc.b $D8, 6, 0, $C0, $D0
-		dc.b $F0, 5, 0, $94, $20
-		dc.b $F0, 5, 0, $90, $10
-		dc.b $F0, 5, 0, $A0, 0
-		dc.b $F0, 5, 0, $9C, $F0
-		dc.b $F0, 5, 0, $A4, $E0
-		dc.b $F0, 5, 0, $C6, $D0
-		dc.b 0, 5, 0, $94, $20
-		dc.b 0, 5, 0, $94, $10
-		dc.b 0, 5, 0, $AC, 0
-		dc.b 0, 5, 0, $B0, $F0
-		dc.b 0, 5, 0, $B0, $E0
-		dc.b 0, 5, 0, $BC, $D0
-		dc.b $10, 5, 0, $B0, $20
-		dc.b $10, 5, 0, $B0, $10
-		dc.b $10, 5, 0, $BC, 0
-
-MapCollapsePtfm:dc.w byte_6404-MapCollapsePtfm, byte_6455-MapCollapsePtfm, byte_64A6-MapCollapsePtfm, byte_6524-MapCollapsePtfm
-
-byte_6404:	dc.b $10
-		dc.b $C8, $E, 0, $57, $10
-		dc.b $D0, $D, 0, $63, $F0
-		dc.b $E0, $D, 0, $6B, $10
-		dc.b $E0, $D, 0, $73, $F0
-		dc.b $D8, 6, 0, $7B, $E0
-		dc.b $D8, 6, 0, $81, $D0
-		dc.b $F0, $D, 0, $87, $10
-		dc.b $F0, $D, 0, $8F, $F0
-		dc.b $F0, 5, 0, $97, $E0
-		dc.b $F0, 5, 0, $9B, $D0
-		dc.b 0, $D, 0, $9F, $10
-		dc.b 0, 5, 0, $A7, 0
-		dc.b 0, $D, 0, $AB, $E0
-		dc.b 0, 5, 0, $B3, $D0
-		dc.b $10, $D, 0, $AB, $10
-		dc.b $10, 5, 0, $B7, 0
-
-byte_6455:	dc.b $10
-		dc.b $C8, $E, 0, $57, $10
-		dc.b $D0, $D, 0, $63, $F0
-		dc.b $E0, $D, 0, $6B, $10
-		dc.b $E0, $D, 0, $73, $F0
-		dc.b $D8, 6, 0, $7B, $E0
-		dc.b $D8, 6, 0, $BB, $D0
-		dc.b $F0, $D, 0, $87, $10
-		dc.b $F0, $D, 0, $8F, $F0
-		dc.b $F0, 5, 0, $97, $E0
-		dc.b $F0, 5, 0, $C1, $D0
-		dc.b 0, $D, 0, $9F, $10
-		dc.b 0, 5, 0, $A7, 0
-		dc.b 0, $D, 0, $AB, $E0
-		dc.b 0, 5, 0, $B7, $D0
-		dc.b $10, $D, 0, $AB, $10
-		dc.b $10, 5, 0, $B7, 0
-
-byte_64A6:	dc.b $19
-		dc.b $C8, 6, 0, $5D, $20
-		dc.b $C8, 6, 0, $57, $10
-		dc.b $D0, 5, 0, $67, 0
-		dc.b $D0, 5, 0, $63, $F0
-		dc.b $E0, 5, 0, $6F, $20
-		dc.b $E0, 5, 0, $6B, $10
-		dc.b $E0, 5, 0, $77, 0
-		dc.b $E0, 5, 0, $73, $F0
-		dc.b $D8, 6, 0, $7B, $E0
-		dc.b $D8, 6, 0, $81, $D0
-		dc.b $F0, 5, 0, $8B, $20
-		dc.b $F0, 5, 0, $87, $10
-		dc.b $F0, 5, 0, $93, 0
-		dc.b $F0, 5, 0, $8F, $F0
-		dc.b $F0, 5, 0, $97, $E0
-		dc.b $F0, 5, 0, $9B, $D0
-		dc.b 0, 5, 0, $8B, $20
-		dc.b 0, 5, 0, $8B, $10
-		dc.b 0, 5, 0, $A7, 0
-		dc.b 0, 5, 0, $AB, $F0
-		dc.b 0, 5, 0, $AB, $E0
-		dc.b 0, 5, 0, $B3, $D0
-		dc.b $10, 5, 0, $AB, $20
-		dc.b $10, 5, 0, $AB, $10
-		dc.b $10, 5, 0, $B7, 0
-
-byte_6524:	dc.b $19
-		dc.b $C8, 6, 0, $5D, $20
-		dc.b $C8, 6, 0, $57, $10
-		dc.b $D0, 5, 0, $67, 0
-		dc.b $D0, 5, 0, $63, $F0
-		dc.b $E0, 5, 0, $6F, $20
-		dc.b $E0, 5, 0, $6B, $10
-		dc.b $E0, 5, 0, $77, 0
-		dc.b $E0, 5, 0, $73, $F0
-		dc.b $D8, 6, 0, $7B, $E0
-		dc.b $D8, 6, 0, $BB, $D0
-		dc.b $F0, 5, 0, $8B, $20
-		dc.b $F0, 5, 0, $87, $10
-		dc.b $F0, 5, 0, $93, 0
-		dc.b $F0, 5, 0, $8F, $F0
-		dc.b $F0, 5, 0, $97, $E0
-		dc.b $F0, 5, 0, $C1, $D0
-		dc.b 0, 5, 0, $8B, $20
-		dc.b 0, 5, 0, $8B, $10
-		dc.b 0, 5, 0, $A7, 0
-		dc.b 0, 5, 0, $AB, $F0
-		dc.b 0, 5, 0, $AB, $E0
-		dc.b 0, 5, 0, $B7, $D0
-		dc.b $10, 5, 0, $AB, $20
-		dc.b $10, 5, 0, $AB, $10
-		dc.b $10, 5, 0, $B7, 0
-
-MapCollapseFloor:dc.w byte_65AA-MapCollapseFloor, byte_65BF-MapCollapseFloor, byte_65E8-MapCollapseFloor, byte_65FD-MapCollapseFloor
-
-byte_65AA:	dc.b 4
-		dc.b $F8, $D, 0, 0, $E0
-		dc.b 8, $D, 0, 0, $E0
-		dc.b $F8, $D, 0, 0, 0
-		dc.b 8, $D, 0, 0, 0
-
-byte_65BF:	dc.b 8
-		dc.b $F8, 5, 0, 0, $E0
-		dc.b $F8, 5, 0, 0, $F0
-		dc.b $F8, 5, 0, 0, 0
-		dc.b $F8, 5, 0, 0, $10
-		dc.b 8, 5, 0, 0, $E0
-		dc.b 8, 5, 0, 0, $F0
-		dc.b 8, 5, 0, 0, 0
-		dc.b 8, 5, 0, 0, $10
-
-byte_65E8:	dc.b 4
-		dc.b $F8, $D, 0, 0, $E0
-		dc.b 8, $D, 0, 8, $E0
-		dc.b $F8, $D, 0, 0, 0
-		dc.b 8, $D, 0, 8, 0
-
-byte_65FD:	dc.b 8
-		dc.b $F8, 5, 0, 0, $E0
-		dc.b $F8, 5, 0, 4, $F0
-		dc.b $F8, 5, 0, 0, 0
-		dc.b $F8, 5, 0, 4, $10
-		dc.b 8, 5, 0, 8, $E0
-		dc.b 8, 5, 0, $C, $F0
-		dc.b 8, 5, 0, 8, 0
-		dc.b 8, 5, 0, $C, $10
+		include "unknown/06526.map"
+		include "levels/GHZ/CollapsePtfm/Sprite.map"
+		include "levels/GHZ/CollapseFloor/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 Obj1B:
@@ -7847,14 +7426,7 @@ ObjScenery_Types:dc.l MapScenery
 		dc.l MapBridge
 		dc.w $438E
 		dc.b 1, $10, 1, 0
-
-MapScenery:	dc.w byte_67A4-MapScenery
-
-byte_67A4:	dc.b 4
-		dc.b $F4, $A, 1, $B, $D0
-		dc.b $F4, $A, 1, $14, $E8
-		dc.b $F4, $A, 9, $14, 0
-		dc.b $F4, $A, 9, $B, $18
+		include "levels/shared/Scenery/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -7931,14 +7503,7 @@ loc_6874:
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
-
-MapUnkSwitch:	dc.w byte_687A-MapUnkSwitch
-
-byte_687A:	dc.b 4
-		dc.b $E8, 7, 0, $54, $F0
-		dc.b 8, 5, 0, $5C, $F0
-		dc.b $E8, 7, 0, $54, 0
-		dc.b 8, 5, 0, $5C, 0
+		include "unsorted/Uknown Switch.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -8115,19 +7680,7 @@ loc_6A28:
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
-
-Map2A:		dc.w byte_6A30-Map2A, byte_6A45-Map2A
-
-byte_6A30:	dc.b 4
-		dc.b $F0, 8, 0, $EA, $F4
-		dc.b $F8, 8, $10, $EA, $F4
-		dc.b 0, 8, 0, $EA, $F4
-		dc.b 8, 8, 0, $ED, $F4
-
-byte_6A45:	dc.b 3
-		dc.b $F0, 8, 0, $F0, $F4
-		dc.b $F8, 8, $10, $F0, $F4
-		dc.b 0, 9, 0, $F3, $F4
+		include "unknown/Map2A.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -8212,14 +7765,9 @@ loc_6B1A:
 		lea	(AniTitleText).l,a1
 		bra.w	AnimateSprite
 ; ---------------------------------------------------------------------------
-
-AniTitleSonic:	dc.w byte_6B26-AniTitleSonic
-
-byte_6B26:	dc.b 7, 0, 1, 2, 3, 4, 5, 6, 7, $FE, 2, 0
-
-AniTitleText:	dc.w byte_6B34-AniTitleText
-
-byte_6B34:	dc.b $1F, 0, 1, $FF
+		include "screens/title/TitleSonic/Sprite.ani"
+		include "screens/title/TitleText/Sprite.ani"
+		even
 ; ---------------------------------------------------------------------------
 
 AnimateSprite:
@@ -8295,196 +7843,9 @@ loc_6BCC:
 locret_6BDA:
 		rts
 ; ---------------------------------------------------------------------------
-
-MapTitleText:	dc.w byte_6BE3-MapTitleText, byte_6BE2-MapTitleText, byte_6C01-MapTitleText
-
-byte_6BE2:	dc.b 6
-
-byte_6BE3:	dc.b 0, $C, 0, $F0, 0
-		dc.b 0, 0, 0, $F3, $20
-		dc.b 0, 0, 0, $F3, $30
-		dc.b 0, $C, 0, $F4, $38
-		dc.b 0, 8, 0, $F8, $60
-		dc.b 0, 8, 0, $FB, $78
-
-byte_6C01:	dc.b $1E
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $B8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $D8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-		dc.b $F8, $F, 0, 0, $80
-
-MapTitleSonic:	dc.w byte_6CA8-MapTitleSonic, byte_6CDB-MapTitleSonic, byte_6D27-MapTitleSonic, byte_6D7D-MapTitleSonic, byte_6DBF-MapTitleSonic
-		dc.w byte_6DF7-MapTitleSonic, byte_6E57-MapTitleSonic, byte_6EC1-MapTitleSonic
-
-byte_6CA8:	dc.b $A
-		dc.b 8, 8, 0, 0, 8
-		dc.b $10, $F, 0, 3, 8
-		dc.b $10, $F, 0, $13, $28
-		dc.b $30, $E, 0, $23, 8
-		dc.b $30, $E, 0, $2F, $28
-		dc.b $48, $D, 0, $3B, 0
-		dc.b $48, 9, 0, $43, $20
-		dc.b $48, 0, 0, $49, $38
-		dc.b $58, $C, 0, $4A, 8
-		dc.b $58, 0, 0, $4E, $28
-
-byte_6CDB:	dc.b $F
-		dc.b $48, $E, 1, $BD, $20
-		dc.b $38, 5, 1, $C9, $38
-		dc.b $40, 0, 1, $CD, $30
-		dc.b $48, 0, 1, $CE, $40
-		dc.b $60, 0, 1, $CF, $20
-		dc.b $10, $E, 0, $4F, 8
-		dc.b $10, $E, 0, $5B, $28
-		dc.b $18, 1, 0, $67, $48
-		dc.b $28, 2, 0, $69, 0
-		dc.b $28, $F, 0, $6C, 8
-		dc.b $28, $F, 0, $7C, $28
-		dc.b $30, 2, 0, $8C, $48
-		dc.b $48, $E, 0, $8F, $10
-		dc.b $48, 9, 0, $9B, $30
-		dc.b $58, 4, 0, $A1, $30
-
-byte_6D27:	dc.b $11
-		dc.b $38, $E, 1, $BD, $28
-		dc.b $28, 5, 1, $C9, $40
-		dc.b $30, 0, 1, $CD, $38
-		dc.b $38, 0, 1, $CE, $48
-		dc.b $50, 0, 1, $CF, $28
-		dc.b $20, $F, 1, $A9, 8
-		dc.b $20, 3, 1, $B9, $28
-		dc.b $10, $E, 0, $4F, 8
-		dc.b $10, $E, 0, $5B, $28
-		dc.b $18, 1, 0, $67, $48
-		dc.b $28, 2, 0, $69, 0
-		dc.b $28, $F, 0, $6C, 8
-		dc.b $28, $F, 0, $7C, $28
-		dc.b $30, 2, 0, $8C, $48
-		dc.b $48, $E, 0, $8F, $10
-		dc.b $48, 9, 0, $9B, $30
-		dc.b $58, 4, 0, $A1, $30
-
-byte_6D7D:	dc.b $D
-		dc.b $10, $F, 0, $A3, 8
-		dc.b 8, 8, 0, $B3, $28
-		dc.b $10, $F, 0, $B6, $28
-		dc.b $18, 0, 0, $C6, $48
-		dc.b $20, 6, 0, $C7, $48
-		dc.b $38, 0, 0, $CD, $48
-		dc.b $30, $D, 0, $CE, 8
-		dc.b $30, $E, 0, $D6, $28
-		dc.b $40, $B, 0, $E2, $10
-		dc.b $48, 8, 0, $EE, $28
-		dc.b $50, 1, 0, $F1, 8
-		dc.b $50, 4, 0, $F3, $28
-		dc.b $58, 0, 0, $F5, $28
-
-byte_6DBF:	dc.b $B
-		dc.b 8, $F, 0, $F6, $10
-		dc.b 8, $B, 1, 6, $30
-		dc.b $10, 6, 1, $12, $48
-		dc.b $28, $E, 1, $18, $18
-		dc.b $28, $E, 1, $24, $38
-		dc.b $28, 1, 1, $30, $10
-		dc.b $40, $E, 1, $32, $10
-		dc.b $40, 6, 1, $3E, $30
-		dc.b $40, 4, 1, $44, $40
-		dc.b $48, 0, 1, $46, $40
-		dc.b $58, 8, 1, $47, $18
-
-byte_6DF7:	dc.b $13
-		dc.b $28, $E, 1, $E4, $38
-		dc.b $18, 5, 1, $F0, $48
-		dc.b $40, 8, 1, $F4, $38
-		dc.b $48, 4, 1, $F7, $38
-		dc.b $10, $F, 1, $4A, $10
-		dc.b 8, 4, 1, $5A, $20
-		dc.b 0, $B, 1, $5C, $30
-		dc.b 8, 0, 1, $68, $48
-		dc.b $18, 0, 1, $69, $48
-		dc.b $18, 5, 1, $6A, 0
-		dc.b $28, 2, 1, $6E, 8
-		dc.b $30, $F, 1, $71, $10
-		dc.b $20, $D, 1, $81, $30
-		dc.b $20, 1, 1, $89, $50
-		dc.b $30, 8, 1, $8B, $30
-		dc.b $38, $E, 1, $8E, $30
-		dc.b $50, $D, 1, $9A, 8
-		dc.b $50, $C, 1, $A2, $28
-		dc.b $58, 8, 1, $A6, $28
-
-byte_6E57:	dc.b $15
-		dc.b $28, $E, 1, $E4, $38
-		dc.b $18, 5, 1, $F0, $48
-		dc.b $40, 8, 1, $F4, $38
-		dc.b $48, 4, 1, $F7, $38
-		dc.b $18, $F, 1, $D0, 8
-		dc.b $18, 3, 1, $E0, $28
-		dc.b $10, $F, 1, $4A, $10
-		dc.b 8, 4, 1, $5A, $20
-		dc.b 0, $B, 1, $5C, $30
-		dc.b 8, 0, 1, $68, $48
-		dc.b $18, 0, 1, $69, $48
-		dc.b $18, 5, 1, $6A, 0
-		dc.b $28, 2, 1, $6E, 8
-		dc.b $30, $F, 1, $71, $10
-		dc.b $20, $D, 1, $81, $30
-		dc.b $20, 1, 1, $89, $50
-		dc.b $30, 8, 1, $8B, $30
-		dc.b $38, $E, 1, $8E, $30
-		dc.b $50, $D, 1, $9A, 8
-		dc.b $50, $C, 1, $A2, $28
-		dc.b $58, 8, 1, $A6, $28
-
-byte_6EC1:	dc.b $16
-		dc.b $18, 4, 1, $F9, $38
-		dc.b $20, 0, 1, $FB, $38
-		dc.b $28, 8, 1, $FC, $30
-		dc.b $30, 1, 1, $FF, $30
-		dc.b $30, $B, 2, 1, $38
-		dc.b $18, $F, 1, $D0, 8
-		dc.b $18, 3, 1, $E0, $28
-		dc.b $10, $F, 1, $4A, $10
-		dc.b 8, 4, 1, $5A, $20
-		dc.b 0, $B, 1, $5C, $30
-		dc.b 8, 0, 1, $68, $48
-		dc.b $18, 0, 1, $69, $48
-		dc.b $18, 5, 1, $6A, 0
-		dc.b $28, 2, 1, $6E, 8
-		dc.b $30, $F, 1, $71, $10
-		dc.b $20, $D, 1, $81, $30
-		dc.b $20, 1, 1, $89, $50
-		dc.b $30, 8, 1, $8B, $30
-		dc.b $38, $E, 1, $8E, $30
-		dc.b $50, $D, 1, $9A, 8
-		dc.b $50, $C, 1, $A2, $28
-		dc.b $58, 8, 1, $A6, $28
+		include "screens/title/TitleText/Sprite.map"
+		include "screens/title/TitleSonic/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjBallhog:
@@ -8757,85 +8118,13 @@ loc_7204:
 		move.w	#$C4,d0
 		jmp	(PlaySFX).l
 ; ---------------------------------------------------------------------------
-
-AniBallhog:	dc.w byte_724A-AniBallhog, byte_724E-AniBallhog, byte_7254-AniBallhog
-
-byte_724A:	dc.b $F, 0, $FF
-		dc.b 0
-
-byte_724E:	dc.b $B, 1, 0, $21, 0, $FF
-
-byte_7254:	dc.b $14, 0, 2, 0, $FE, 1
-
-MapBallhog:	dc.w byte_7260-MapBallhog, byte_7275-MapBallhog, byte_7285-MapBallhog
-
-byte_7260:	dc.b 4
-		dc.b $ED, 7, 0, 0, $F0
-		dc.b $ED, 7, 8, 0, 0
-		dc.b $D, 4, 0, 8, $F0
-		dc.b $D, 4, 8, 8, 0
-
-byte_7275:	dc.b 3
-		dc.b $EC, 7, 0, 0, $EE
-		dc.b $EC, 7, 8, 0, $FE
-		dc.b $C, $C, 0, $A, $EE
-
-byte_7285:	dc.b 4
-		dc.b $ED, 7, 0, $E, $F0
-		dc.b $ED, 7, 8, $E, 0
-		dc.b $D, 4, 0, $16, $F0
-		dc.b $D, 4, 8, $16, 0
-
-MapCannonball:	dc.w byte_729C-MapCannonball
-
-byte_729C:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
-
-MapCannonballExplode:dc.w byte_72AA-MapCannonballExplode, byte_72B0-MapCannonballExplode, byte_72B6-MapCannonballExplode, byte_72BC-MapCannonballExplode
-
-byte_72AA:	dc.b 1
-		dc.b $F4, $A, 0, 0, $F4
-
-byte_72B0:	dc.b 1
-		dc.b $F4, $A, 0, 9, $F4
-
-byte_72B6:	dc.b 1
-		dc.b $F4, $A, 0, $12, $F4
-
-byte_72BC:	dc.b 1
-		dc.b $F4, $A, 0, $1B, $F4
-
-MapExplode:	dc.w byte_72CC-MapExplode, byte_72D2-MapExplode, byte_72D8-MapExplode, byte_72DE-MapExplode, byte_72F3-MapExplode
-
-byte_72CC:	dc.b 1
-		dc.b $F8, 9, 0, 0, $F4
-
-byte_72D2:	dc.b 1
-		dc.b $F0, $F, 0, 6, $F0
-
-byte_72D8:	dc.b 1
-		dc.b $F0, $F, 0, $16, $F0
-
-byte_72DE:	dc.b 4
-		dc.b $EC, $A, 0, $26, $EC
-		dc.b $EC, 5, 0, $2F, 4
-		dc.b 4, 5, $18, $2F, $EC
-		dc.b $FC, $A, $18, $26, $FC
-
-byte_72F3:	dc.b 4
-		dc.b $EC, $A, 0, $33, $EC
-		dc.b $EC, 5, 0, $3C, 4
-		dc.b 4, 5, $18, $3C, $EC
-		dc.b $FC, $A, $18, $33, $FC
-
-MapBombExplode:	dc.w byte_72CC-MapBombExplode, byte_7312-MapBombExplode, byte_7318-MapBombExplode, byte_72DE-MapBombExplode
-		dc.w byte_72F3-MapBombExplode
-
-byte_7312:	dc.b 1
-		dc.b $F0, $F, 0, $40, $F0
-
-byte_7318:	dc.b 1
-		dc.b $F0, $F, 0, $50, $F0
+		include "levels/GHZ/BallHog/Sprite.ani"
+		include "levels/GHZ/BallHog/Sprite.map"
+		include "levels/GHZ/BallHog/Cannonball.map"
+		include "levels/GHZ/BallHog/CannonballExplode.map"
+		include "levels/shared/Explosion/Sprite.map"
+		include "levels/shared/Explosion/Bomb.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjAnimals:
@@ -9006,53 +8295,11 @@ loc_752E:
 		addi.w	#$18,$12(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapAnimals1:	dc.w byte_754E-MapAnimals1, byte_7554-MapAnimals1, byte_7548-MapAnimals1
-
-byte_7548:	dc.b 1
-		dc.b $F4, 6, 0, 0, $F8
-
-byte_754E:	dc.b 1
-		dc.b $F4, 6, 0, 6, $F8
-
-byte_7554:	dc.b 1
-		dc.b $F4, 6, 0, $C, $F8
-
-MapAnimals2:	dc.w byte_7566-MapAnimals2, byte_756C-MapAnimals2, byte_7560-MapAnimals2
-
-byte_7560:	dc.b 1
-		dc.b $F4, 6, 0, 0, $F8
-
-byte_7566:	dc.b 1
-		dc.b $FC, 5, 0, 6, $F8
-
-byte_756C:	dc.b 1
-		dc.b $FC, 5, 0, $A, $F8
-
-MapAnimals3:	dc.w byte_757E-MapAnimals3, byte_7584-MapAnimals3, byte_7578-MapAnimals3
-
-byte_7578:	dc.b 1
-		dc.b $F4, 6, 0, 0, $F8
-
-byte_757E:	dc.b 1
-		dc.b $FC, 9, 0, 6, $F4
-
-byte_7584:	dc.b 1
-		dc.b $FC, 9, 0, $C, $F4
-
-MapPoints:	dc.w byte_7592-MapPoints, byte_7598-MapPoints, byte_759E-MapPoints, byte_75A4-MapPoints
-
-byte_7592:	dc.b 1
-		dc.b $FC, 4, 0, 0, $F8
-
-byte_7598:	dc.b 1
-		dc.b $FC, 4, 0, 2, $F8
-
-byte_759E:	dc.b 1
-		dc.b $FC, 4, 0, 4, $F8
-
-byte_75A4:	dc.b 1
-		dc.b $FC, 8, 0, 6, $F4
+		include "levels/shared/Animals/1.map"
+		include "levels/shared/Animals/2.map"
+		include "levels/shared/Animals/3.map"
+		include "levels/shared/Points/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjCrabmeat:
@@ -9249,73 +8496,8 @@ loc_77AE:
 loc_77D0:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniCrabmeat:	dc.w byte_77E4-AniCrabmeat, byte_77E8-AniCrabmeat, byte_77EC-AniCrabmeat, byte_77F0-AniCrabmeat
-		dc.w byte_77F6-AniCrabmeat, byte_77FC-AniCrabmeat, byte_7802-AniCrabmeat, byte_7806-AniCrabmeat
-
-byte_77E4:	dc.b $F, 0, $FF
-		even
-
-byte_77E8:	dc.b $F, 2, $FF
-		even
-
-byte_77EC:	dc.b $F, $22, $FF
-		even
-
-byte_77F0:	dc.b $F, 1, $21, 0, $FF
-		even
-
-byte_77F6:	dc.b $F, $21, 3, 2, $FF
-		even
-
-byte_77FC:	dc.b $F, 1, $23, $22, $FF
-		even
-
-byte_7802:	dc.b $F, 4, $FF
-		even
-
-byte_7806:	dc.b 1, 5, 6, $FF
-
-MapCrabmeat:	dc.w byte_7818-MapCrabmeat, byte_782D-MapCrabmeat, byte_7842-MapCrabmeat, byte_7857-MapCrabmeat
-		dc.w byte_786C-MapCrabmeat, byte_788B-MapCrabmeat, byte_7891-MapCrabmeat
-
-byte_7818:	dc.b 4
-		dc.b $F0, 9, 0, 0, $E8
-		dc.b $F0, 9, 8, 0, 0
-		dc.b 0, 5, 0, 6, $F0
-		dc.b 0, 5, 8, 6, 0
-
-byte_782D:	dc.b 4
-		dc.b $F0, 9, 0, $A, $E8
-		dc.b $F0, 9, 0, $10, 0
-		dc.b 0, 5, 0, $16, $F0
-		dc.b 0, 9, 0, $1A, 0
-
-byte_7842:	dc.b 4
-		dc.b $EC, 9, 0, 0, $E8
-		dc.b $EC, 9, 8, 0, 0
-		dc.b $FC, 5, 8, 6, 0
-		dc.b $FC, 6, 0, $20, $F0
-
-byte_7857:	dc.b 4
-		dc.b $EC, 9, 0, $A, $E8
-		dc.b $EC, 9, 0, $10, 0
-		dc.b $FC, 9, 0, $26, 0
-		dc.b $FC, 6, 0, $2C, $F0
-
-byte_786C:	dc.b 6
-		dc.b $F0, 4, 0, $32, $F0
-		dc.b $F0, 4, 8, $32, 0
-		dc.b $F8, 9, 0, $34, $E8
-		dc.b $F8, 9, 8, $34, 0
-		dc.b 8, 4, 0, $3A, $F0
-		dc.b 8, 4, 8, $3A, 0
-
-byte_788B:	dc.b 1
-		dc.b $F8, 5, 0, $3C, $F8
-
-byte_7891:	dc.b 1
-		dc.b $F8, 5, 0, $40, $F8
+		include "levels/GHZ/Crabmeat/Sprite.ani"
+		include "levels/GHZ/Crabmeat/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -9512,88 +8694,11 @@ loc_7AC2:
 		bsr.w	ObjectDisplay
 		rts
 ; ---------------------------------------------------------------------------
-
-AniBuzzbomber:	dc.w byte_7AD8-AniBuzzbomber, byte_7ADC-AniBuzzbomber, byte_7AE0-AniBuzzbomber
-
-byte_7AD8:	dc.b 1, 0, 1, $FF
-
-byte_7ADC:	dc.b 1, 2, 3, $FF
-
-byte_7AE0:	dc.b 1, 4, 5, $FF
-
-AniBuzzMissile:	dc.w byte_7AE8-AniBuzzMissile, byte_7AEC-AniBuzzMissile
-
-byte_7AE8:	dc.b 7, 0, 1, $FC
-
-byte_7AEC:	dc.b 1, 2, 3, $FF
-
-MapBuzzbomber:	dc.w byte_7AFC-MapBuzzbomber, byte_7B1B-MapBuzzbomber, byte_7B3A-MapBuzzbomber, byte_7B5E-MapBuzzbomber
-		dc.w byte_7B82-MapBuzzbomber, byte_7BA1-MapBuzzbomber
-
-byte_7AFC:	dc.b 6
-		dc.b $F4, 9, 0, 0, $E8
-		dc.b $F4, 9, 0, $F, 0
-		dc.b 4, 8, 0, $15, $E8
-		dc.b 4, 4, 0, $18, 0
-		dc.b $F1, 8, 0, $1A, $EC
-		dc.b $F1, 4, 0, $1D, 4
-
-byte_7B1B:	dc.b 6
-		dc.b $F4, 9, 0, 0, $E8
-		dc.b $F4, 9, 0, $F, 0
-		dc.b 4, 8, 0, $15, $E8
-		dc.b 4, 4, 0, $18, 0
-		dc.b $F4, 8, 0, $1F, $EC
-		dc.b $F4, 4, 0, $22, 4
-
-byte_7B3A:	dc.b 7
-
-byte_7B3B:	dc.b 4, 0, 0, $30, $C
-		dc.b $F4, 9, 0, 0, $E8
-		dc.b $F4, 9, 0, $F, 0
-		dc.b 4, 8, 0, $15, $E8
-		dc.b 4, 4, 0, $18, 0
-		dc.b $F1, 8, 0, $1A, $EC
-		dc.b $F1, 4, 0, $1D, 4
-
-byte_7B5E:	dc.b 7
-		dc.b 4, 4, 0, $31, $C
-		dc.b $F4, 9, 0, 0, $E8
-		dc.b $F4, 9, 0, $F, 0
-		dc.b 4, 8, 0, $15, $E8
-		dc.b 4, 4, 0, $18, 0
-		dc.b $F4, 8, 0, $1F, $EC
-		dc.b $F4, 4, 0, $22, 4
-
-byte_7B82:	dc.b 6
-		dc.b $F4, $D, 0, 0, $EC
-		dc.b 4, $C, 0, 8, $EC
-		dc.b 4, 0, 0, $C, $C
-		dc.b $C, 4, 0, $D, $F4
-		dc.b $F1, 8, 0, $1A, $EC
-		dc.b $F1, 4, 0, $1D, 4
-
-byte_7BA1:	dc.b 4
-		dc.b $F4, $D, 0, 0, $EC
-		dc.b 4, $C, 0, 8, $EC
-		dc.b 4, 0, 0, $C, $C
-		dc.b $C, 4, 0, $D, $F4
-		dc.b $F4, 8, 0, $1F, $EC
-		dc.b $F4, 4, 0, $22, 4
-
-MapBuzzMissile:	dc.w byte_7BC8-MapBuzzMissile, byte_7BCE-MapBuzzMissile, byte_7BD4-MapBuzzMissile, byte_7BDA-MapBuzzMissile
-
-byte_7BC8:	dc.b 1
-		dc.b $F8, 5, 0, $24, $F8
-
-byte_7BCE:	dc.b 1
-		dc.b $F8, 5, 0, $28, $F8
-
-byte_7BD4:	dc.b 1
-		dc.b $F8, 5, 0, $2C, $F8
-
-byte_7BDA:	dc.b 1
-		dc.b $F8, 5, 0, $33, $F8
+		include "levels/GHZ/Buzzbomber/Sprite.ani"
+		include "levels/GHZ/Buzzbomber/Missile.ani"
+		include "levels/GHZ/Buzzbomber/Sprite.map"
+		include "levels/GHZ/Buzzbomber/Missile.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjRing:
@@ -9784,6 +8889,8 @@ loc_7DA8:
 		move.w	8(a0),8(a1)
 		move.w	$C(a0),$C(a1)
 		move.l	#MapRing,4(a1)
+
+loc_7DD2:
 		move.w	#$27B2,2(a1)
 		move.b	#4,1(a1)
 		move.b	#2,$19(a1)
@@ -9913,77 +9020,10 @@ loc_7F4C:
 		bsr.w	LoadPLC
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniRing:	dc.w byte_7F5E-AniRing
-
-byte_7F5E:	dc.b 5, 4, 5, 6, 7, $FC
-
-MapRing:	dc.w byte_7F74-MapRing, byte_7F7A-MapRing, byte_7F80-MapRing, byte_7F86-MapRing
-		dc.w byte_7F8C-MapRing, byte_7F92-MapRing, byte_7F98-MapRing, byte_7F9E-MapRing
-
-byte_7F74:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
-
-byte_7F7A:	dc.b 1
-		dc.b $F8, 5, 0, 4, $F8
-
-byte_7F80:	dc.b 1
-		dc.b $F8, 1, 0, 8, $FC
-
-byte_7F86:	dc.b 1
-		dc.b $F8, 5, 8, 4, $F8
-
-byte_7F8C:	dc.b 1
-		dc.b $F8, 5, 0, $A, $F8
-
-byte_7F92:	dc.b 1
-		dc.b $F8, 5, $18, $A, $F8
-
-byte_7F98:	dc.b 1
-		dc.b $F8, 5, 8, $A, $F8
-
-byte_7F9E:	dc.b 1
-		dc.b $F8, 5, $10, $A, $F8
-
-Map4B:		dc.w byte_7FAC-Map4B, byte_7FDF-Map4B, byte_8008-Map4B, byte_801D-Map4B
-
-byte_7FAC:	dc.b $A
-		dc.b $E0, 8, 0, 0, $E8
-		dc.b $E0, 8, 0, 3, 0
-		dc.b $E8, $C, 0, 6, $E0
-		dc.b $E8, $C, 0, $A, 0
-		dc.b $F0, 7, 0, $E, $E0
-		dc.b $F0, 7, 0, $16, $10
-		dc.b $10, $C, 0, $1E, $E0
-		dc.b $10, $C, 0, $22, 0
-		dc.b $18, 8, 0, $26, $E8
-		dc.b $18, 8, 0, $29, 0
-
-byte_7FDF:	dc.b 8
-		dc.b $E0, $C, 0, $2C, $F0
-		dc.b $E8, 8, 0, $30, $E8
-		dc.b $E8, 9, 0, $33, 0
-		dc.b $F0, 7, 0, $39, $E8
-		dc.b $F8, 5, 0, $41, 8
-		dc.b 8, 9, 0, $45, 0
-		dc.b $10, 8, 0, $4B, $E8
-		dc.b $18, $C, 0, $4E, $F0
-
-byte_8008:	dc.b 4
-		dc.b $E0, 7, 0, $52, $F4
-		dc.b $E0, 3, 8, $52, 4
-		dc.b 0, 7, 0, $5A, $F4
-		dc.b 0, 3, 8, $5A, 4
-
-byte_801D:	dc.b 8
-		dc.b $E0, $C, 8, $2C, $F0
-		dc.b $E8, 8, 8, $30, 0
-		dc.b $E8, 9, 8, $33, $E8
-		dc.b $F0, 7, 8, $39, 8
-		dc.b $F8, 5, 8, $41, $E8
-		dc.b 8, 9, 8, $45, $E8
-		dc.b $10, 8, 8, $4B, 0
-		dc.b $18, $C, 8, $4E, $F0
+		include "levels/shared/Ring/Sprite.ani"
+		include "levels/shared/Ring/Sprite.map"
+		include "unknown/Map4B.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjMonitor:
@@ -10337,803 +9377,12 @@ loc_8404:
 		moveq	#$FFFFFFFF,d1
 		rts
 ; ---------------------------------------------------------------------------
-
-AniMonitor:	dc.w byte_8436-AniMonitor, byte_843C-AniMonitor, byte_8448-AniMonitor, byte_8454-AniMonitor
-		dc.w byte_8460-AniMonitor, byte_846C-AniMonitor, byte_8478-AniMonitor, byte_8484-AniMonitor
-		dc.w byte_8490-AniMonitor, byte_849C-AniMonitor
-
-byte_8436:	dc.b 1, 0, 1, 2, $FF
+		include "levels/shared/Monitor/Sprite.ani"
+		include "levels/shared/Monitor/Sprite.map"
+		include "levels/GHZ/Chopper/Sprite.ani"
 		even
-
-byte_843C:	dc.b 1, 0, 3, 3, 1, 3, 3, 2, 3, 3, $FF
+		include "levels/GHZ/Chopper/Sprite.map"
 		even
-
-byte_8448:	dc.b 1, 0, 4, 4, 1, 4, 4, 2, 4, 4, $FF
-		even
-
-byte_8454:	dc.b 1, 0, 5, 5, 1, 5, 5, 2, 5, 5, $FF
-		even
-
-byte_8460:	dc.b 1, 0, 6, 6, 1, 6, 6, 2, 6, 6, $FF
-		even
-
-byte_846C:	dc.b 1, 0, 7, 7, 1, 7, 7, 2, 7, 7, $FF
-		even
-
-byte_8478:	dc.b 1, 0, 8, 8, 1, 8, 8, 2, 8, 8, $FF
-		even
-
-byte_8484:	dc.b 1, 0, 9, 9, 1, 9, 9, 2, 9, 9, $FF
-		even
-
-byte_8490:	dc.b 1, 0, $A, $A, 1, $A, $A, 2, $A, $A, $FF
-		even
-
-byte_849C:	dc.b 2, 0, 1, 2, $B, $FE, 1
-		even
-
-MapMonitor:	dc.w byte_84BC-MapMonitor, byte_84C2-MapMonitor, byte_84CD-MapMonitor, byte_84D8-MapMonitor
-		dc.w byte_84E3-MapMonitor, byte_84EE-MapMonitor, byte_84F9-MapMonitor, byte_8504-MapMonitor
-		dc.w byte_850F-MapMonitor, byte_851A-MapMonitor, byte_8525-MapMonitor, byte_8530-MapMonitor
-
-byte_84BC:	dc.b 1
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84C2:	dc.b 2
-		dc.b $F5, 5, 0, $10, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84CD:	dc.b 2
-		dc.b $F5, 5, 0, $14, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84D8:	dc.b 2
-		dc.b $F5, 5, 0, $18, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84E3:	dc.b 2
-		dc.b $F5, 5, 0, $1C, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84EE:	dc.b 2
-		dc.b $F5, 5, 0, $24, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_84F9:	dc.b 2
-		dc.b $F5, 5, 0, $28, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_8504:	dc.b 2
-		dc.b $F5, 5, 0, $2C, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_850F:	dc.b 2
-		dc.b $F5, 5, 0, $30, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_851A:	dc.b 2
-		dc.b $F5, 5, 0, $34, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_8525:	dc.b 2
-		dc.b $F5, 5, 0, $20, $F8
-		dc.b $EF, $F, 0, 0, $F0
-
-byte_8530:	dc.b 1
-		dc.b $FF, $D, 0, $38, $F0
-; ---------------------------------------------------------------------------
-
-RunObjects:
-		lea	(ObjectsList).w,a0
-		moveq	#$7F,d7
-		moveq	#0,d0
-		cmpi.b	#6,(ObjectsList+$24).w
-		bcc.s	loc_8560
-; ---------------------------------------------------------------------------
-
-sub_8546:
-		move.b	(a0),d0
-		beq.s	loc_8556
-		add.w	d0,d0
-		add.w	d0,d0
-		movea.l	loc_857A+2(pc,d0.w),a1
-		jsr	(a1)
-		moveq	#0,d0
-
-loc_8556:
-		lea	$40(a0),a0
-		dbf	d7,sub_8546
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8560:
-		moveq	#$1F,d7
-		bsr.s	sub_8546
-		moveq	#$5F,d7
-
-loc_8566:
-		moveq	#0,d0
-		move.b	(a0),d0
-		beq.s	loc_8576
-		tst.b	1(a0)
-		bpl.s	loc_8576
-		bsr.w	ObjectDisplay
-
-loc_8576:
-		lea	$40(a0),a0
-
-loc_857A:
-		dbf	d7,loc_8566
-		rts
-; ---------------------------------------------------------------------------
-
-AllObjects:	dc.l ObjSonic, Obj02, Obj03, Obj04, Obj05, Ojb06, Obj07
-		dc.l ObjectFall, ObjSonicSpecial, ObjectFall, ObjectFall
-		dc.l ObjectFall, ObjSignpost, ObjTitleSonic, OibjTitleText
-		dc.l ObjAniTest, ObjBridge, ObjSceneryLamp, ObjLavaMaker
-		dc.l ObjLavaball, ObjSwingPtfm, ObjectFall, ObjSpikeLogs
-		dc.l ObjPlatform, ObjRollingBall, ObjCollapsePtfm, Obj1B
-		dc.l ObjScenery, ObjUnkSwitch, ObjBallhog, ObjCrabmeat
-		dc.l ObjCannonball, ObjHUD, ObjBuzzbomber, ObjBuzzMissile
-		dc.l ObjCannonballExplode, ObjRing, ObjMonitor, ObjExplode
-		dc.l ObjAnimals, ObjPoints, Obj2A, ObjChopper, ObjJaws
-		dc.l ObjBurrobot, ObjMonitorItem, ObjMZPlatforms, ObjGlassBlock
-		dc.l ObjChainPtfm, ObjSwitch, ObjPushBlock, ObjTitleCard
-		dc.l ObjFloorLavaball, ObjSpikes, ObjRingLoss, ObjShield
-		dc.l ObjGameOver, ObjLevelResults, ObjPurpleRock, ObjSmashWall
-		dc.l ObjGHZBoss, ObjCapsule, ObjBombExplode, ObjMotobug
-		dc.l ObjSpring, ObjNewtron, ObjRoller, ObjWall, Obj45
-		dc.l ObjMZBlocks, ObjBumper, ObjGHZBossBall, ObjWaterfallSnd
-		dc.l ObjEntryRingBeta, Obj4B, ObjLavafallMalker, ObjLavafall
-		dc.l ObjLavaChase, Obj4F, ObjYardin, ObjSmashBlock, ObjMovingPtfm
-		dc.l ObjCollapseFloor, ObjLavaHurt, ObjBasaran, ObjMovingBlocks
-		dc.l ObjSpikedBalls, ObjGiantSpikedBalls, ObjSLZMovingPtfm
-		dc.l ObjCirclePtfm, ObjStaircasePtfm, ObjSLZGirder, ObjFan
-		dc.l ObjSeeSaw
-; ---------------------------------------------------------------------------
-
-ObjectFall:
-		move.l	8(a0),d2
-		move.l	$C(a0),d3
-		move.w	$10(a0),d0
-		ext.l	d0
-		asl.l	#8,d0
-		add.l	d0,d2
-		move.w	$12(a0),d0
-		addi.w	#$38,d0
-		move.w	d0,$12(a0)
-		ext.l	d0
-		asl.l	#8,d0
-		add.l	d0,d3
-		move.l	d2,8(a0)
-		move.l	d3,$C(a0)
-		rts
-; ---------------------------------------------------------------------------
-
-ObjectMove:
-		move.l	8(a0),d2
-		move.l	$C(a0),d3
-		move.w	$10(a0),d0
-		ext.l	d0
-		asl.l	#8,d0
-		add.l	d0,d2
-		move.w	$12(a0),d0
-		ext.l	d0
-		asl.l	#8,d0
-		add.l	d0,d3
-		move.l	d2,8(a0)
-		move.l	d3,$C(a0)
-		rts
-; ---------------------------------------------------------------------------
-
-ObjectDisplay:
-		lea	(DisplayLists).w,a1
-		move.b	$19(a0),d0
-		andi.w	#7,d0
-		lsl.w	#7,d0
-		adda.w	d0,a1
-		cmpi.w	#$7E,(a1)
-		bcc.s	locret_8768
-		addq.w	#2,(a1)
-		adda.w	(a1),a1
-		move.w	a0,(a1)
-
-locret_8768:
-		rts
-; ---------------------------------------------------------------------------
-
-ObjectDisplay2:
-		lea	(DisplayLists).w,a2
-		move.b	$19(a1),d0
-		andi.w	#7,d0
-		lsl.w	#7,d0
-		adda.w	d0,a2
-		cmpi.w	#$7E,(a2)
-		bcc.s	locret_8786
-		addq.w	#2,(a2)
-		adda.w	(a2),a2
-		move.w	a1,(a2)
-
-locret_8786:
-		rts
-; ---------------------------------------------------------------------------
-
-ObjectDelete:
-		movea.l	a0,a1
-
-loc_878A:
-		moveq	#0,d1
-		moveq	#$F,d0
-
-loc_878E:
-		move.l	d1,(a1)+
-		dbf	d0,loc_878E
-		rts
-; ---------------------------------------------------------------------------
-
-off_8796:	dc.l off_0, (unk_FFF700)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFFFFF
-; ---------------------------------------------------------------------------
-
-ProcessMaps:
-		lea	(byte_FFF800).w,a2
-		moveq	#0,d5
-		lea	(DisplayLists).w,a4
-		moveq	#7,d7
-
-loc_87B2:
-		tst.w	(a4)
-		beq.w	loc_8876
-		moveq	#2,d6
-
-loc_87BA:
-		movea.w	(a4,d6.w),a0
-		tst.b	(a0)
-		beq.w	loc_886E
-		bclr	#7,1(a0)
-		move.b	1(a0),d0
-		move.b	d0,d4
-		andi.w	#$C,d0
-		beq.s	loc_8826
-		movea.l	off_8796(pc,d0.w),a1
-		moveq	#0,d0
-		move.b	$18(a0),d0
-		move.w	8(a0),d3
-		sub.w	(a1),d3
-		move.w	d3,d1
-		add.w	d0,d1
-		bmi.w	loc_886E
-		move.w	d3,d1
-		sub.w	d0,d1
-		cmpi.w	#$140,d1
-		bge.s	loc_886E
-		addi.w	#$80,d3
-		btst	#4,d4
-		beq.s	loc_8830
-		moveq	#0,d0
-		move.b	$16(a0),d0
-		move.w	$C(a0),d2
-		sub.w	4(a1),d2
-		move.w	d2,d1
-		add.w	d0,d1
-		bmi.s	loc_886E
-		move.w	d2,d1
-		sub.w	d0,d1
-		cmpi.w	#$E0,d1
-		bge.s	loc_886E
-		addi.w	#$80,d2
-		bra.s	loc_8848
-; ---------------------------------------------------------------------------
-
-loc_8826:
-		move.w	$A(a0),d2
-		move.w	8(a0),d3
-		bra.s	loc_8848
-; ---------------------------------------------------------------------------
-
-loc_8830:
-		move.w	$C(a0),d2
-		sub.w	4(a1),d2
-		addi.w	#$80,d2
-		cmpi.w	#$60,d2
-		bcs.s	loc_886E
-		cmpi.w	#$180,d2
-		bcc.s	loc_886E
-
-loc_8848:
-		movea.l	4(a0),a1
-		moveq	#0,d1
-		btst	#5,d4
-		bne.s	loc_8864
-		move.b	$1A(a0),d1
-		add.b	d1,d1
-		adda.w	(a1,d1.w),a1
-		move.b	(a1)+,d1
-		subq.b	#1,d1
-		bmi.s	loc_8868
-
-loc_8864:
-		bsr.w	sub_8898
-
-loc_8868:
-		bset	#7,1(a0)
-
-loc_886E:
-		addq.w	#2,d6
-		subq.w	#2,(a4)
-		bne.w	loc_87BA
-
-loc_8876:
-		lea	$80(a4),a4
-		dbf	d7,loc_87B2
-		move.b	d5,(byte_FFF62C).w
-		cmpi.b	#$50,d5
-		beq.s	loc_8890
-		move.l	#0,(a2)
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8890:
-		move.b	#0,-5(a2)
-		rts
-; ---------------------------------------------------------------------------
-
-sub_8898:
-		movea.w	2(a0),a3
-		btst	#0,d4
-		bne.s	loc_88DE
-		btst	#1,d4
-		bne.w	loc_892C
-; ---------------------------------------------------------------------------
-
-sub_88AA:
-		cmpi.b	#$50,d5
-		beq.s	locret_88DC
-		move.b	(a1)+,d0
-		ext.w	d0
-		add.w	d2,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,(a2)+
-		addq.b	#1,d5
-		move.b	d5,(a2)+
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
-		add.w	a3,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d0
-		ext.w	d0
-		add.w	d3,d0
-		andi.w	#$1FF,d0
-		bne.s	loc_88D6
-		addq.w	#1,d0
-
-loc_88D6:
-		move.w	d0,(a2)+
-		dbf	d1,sub_88AA
-
-locret_88DC:
-		rts
-; ---------------------------------------------------------------------------
-
-loc_88DE:
-		btst	#1,d4
-		bne.w	loc_8972
-
-loc_88E6:
-		cmpi.b	#$50,d5
-		beq.s	locret_892A
-		move.b	(a1)+,d0
-		ext.w	d0
-		add.w	d2,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d4
-		move.b	d4,(a2)+
-		addq.b	#1,d5
-		move.b	d5,(a2)+
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
-		add.w	a3,d0
-		eori.w	#$800,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d0
-		ext.w	d0
-		neg.w	d0
-		add.b	d4,d4
-		andi.w	#$18,d4
-		addq.w	#8,d4
-		sub.w	d4,d0
-		add.w	d3,d0
-		andi.w	#$1FF,d0
-		bne.s	loc_8924
-		addq.w	#1,d0
-
-loc_8924:
-		move.w	d0,(a2)+
-		dbf	d1,loc_88E6
-
-locret_892A:
-		rts
-; ---------------------------------------------------------------------------
-
-loc_892C:
-		cmpi.b	#$50,d5
-		beq.s	locret_8970
-		move.b	(a1)+,d0
-		move.b	(a1),d4
-		ext.w	d0
-		neg.w	d0
-		lsl.b	#3,d4
-		andi.w	#$18,d4
-		addq.w	#8,d4
-		sub.w	d4,d0
-		add.w	d2,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,(a2)+
-		addq.b	#1,d5
-		move.b	d5,(a2)+
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
-		add.w	a3,d0
-		eori.w	#$1000,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d0
-		ext.w	d0
-		add.w	d3,d0
-		andi.w	#$1FF,d0
-		bne.s	loc_896A
-		addq.w	#1,d0
-
-loc_896A:
-		move.w	d0,(a2)+
-		dbf	d1,loc_892C
-
-locret_8970:
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8972:
-		cmpi.b	#$50,d5
-		beq.s	locret_89C4
-		move.b	(a1)+,d0
-		move.b	(a1),d4
-		ext.w	d0
-		neg.w	d0
-		lsl.b	#3,d4
-		andi.w	#$18,d4
-		addq.w	#8,d4
-		sub.w	d4,d0
-		add.w	d2,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d4
-		move.b	d4,(a2)+
-		addq.b	#1,d5
-		move.b	d5,(a2)+
-		move.b	(a1)+,d0
-		lsl.w	#8,d0
-		move.b	(a1)+,d0
-		add.w	a3,d0
-		eori.w	#$1800,d0
-		move.w	d0,(a2)+
-		move.b	(a1)+,d0
-		ext.w	d0
-		neg.w	d0
-		add.b	d4,d4
-		andi.w	#$18,d4
-		addq.w	#8,d4
-		sub.w	d4,d0
-		add.w	d3,d0
-		andi.w	#$1FF,d0
-		bne.s	loc_89BE
-		addq.w	#1,d0
-
-loc_89BE:
-		move.w	d0,(a2)+
-		dbf	d1,loc_8972
-
-locret_89C4:
-		rts
-; ---------------------------------------------------------------------------
-
-sub_89C6:
-		move.w	8(a0),d0
-		sub.w	(unk_FFF700).w,d0
-		bmi.s	loc_89EA
-		cmpi.w	#$140,d0
-		bge.s	loc_89EA
-		move.w	$C(a0),d1
-		sub.w	(unk_FFF704).w,d1
-		bmi.s	loc_89EA
-		cmpi.w	#$E0,d1
-		bge.s	loc_89EA
-		moveq	#0,d0
-		rts
-; ---------------------------------------------------------------------------
-
-loc_89EA:
-		moveq	#1,d0
-		rts
-; ---------------------------------------------------------------------------
-
-LoadObjects:
-		moveq	#0,d0
-		move.b	(unk_FFF76C).w,d0
-		move.w	off_89FC(pc,d0.w),d0
-		jmp	off_89FC(pc,d0.w)
-; ---------------------------------------------------------------------------
-
-off_89FC:	dc.w loc_8A00-off_89FC, loc_8A44-off_89FC
-; ---------------------------------------------------------------------------
-
-loc_8A00:
-		addq.b	#2,(unk_FFF76C).w
-		move.w	(level).w,d0
-		lsl.b	#6,d0
-		lsr.w	#4,d0
-		lea	(ObjectListArray).l,a0
-		movea.l	a0,a1
-		adda.w	(a0,d0.w),a0
-		move.l	a0,(unk_FFF770).w
-		move.l	a0,(unk_FFF774).w
-		adda.w	2(a1,d0.w),a1
-		move.l	a1,(unk_FFF778).w
-		move.l	a1,(unk_FFF77C).w
-		lea	(byte_FFFC00).w,a2
-		move.w	#$101,(a2)+
-		move.w	#$5E,d0
-
-loc_8A38:
-		clr.l	(a2)+
-		dbf	d0,loc_8A38
-		move.w	#$FFFF,(unk_FFF76E).w
-
-loc_8A44:
-		lea	(byte_FFFC00).w,a2
-		moveq	#0,d2
-		move.w	(unk_FFF700).w,d6
-		andi.w	#$FF80,d6
-		cmp.w	(unk_FFF76E).w,d6
-		beq.w	locret_8B20
-		bge.s	loc_8ABA
-		move.w	d6,(unk_FFF76E).w
-		movea.l	(unk_FFF774).w,a0
-		subi.w	#$80,d6
-		bcs.s	loc_8A96
-
-loc_8A6A:
-		cmp.w	-6(a0),d6
-		bge.s	loc_8A96
-		subq.w	#6,a0
-		tst.b	4(a0)
-		bpl.s	loc_8A80
-		subq.b	#1,1(a2)
-		move.b	1(a2),d2
-
-loc_8A80:
-		bsr.w	sub_8B22
-		bne.s	loc_8A8A
-		subq.w	#6,a0
-		bra.s	loc_8A6A
-; ---------------------------------------------------------------------------
-
-loc_8A8A:
-		tst.b	4(a0)
-		bpl.s	loc_8A94
-		addq.b	#1,1(a2)
-
-loc_8A94:
-		addq.w	#6,a0
-
-loc_8A96:
-		move.l	a0,(unk_FFF774).w
-		movea.l	(unk_FFF770).w,a0
-		addi.w	#$300,d6
-
-loc_8AA2:
-		cmp.w	-6(a0),d6
-		bgt.s	loc_8AB4
-		tst.b	-2(a0)
-		bpl.s	loc_8AB0
-		subq.b	#1,(a2)
-
-loc_8AB0:
-		subq.w	#6,a0
-		bra.s	loc_8AA2
-; ---------------------------------------------------------------------------
-
-loc_8AB4:
-		move.l	a0,(unk_FFF770).w
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8ABA:
-		move.w	d6,(unk_FFF76E).w
-		movea.l	(unk_FFF770).w,a0
-		addi.w	#$280,d6
-
-loc_8AC6:
-		cmp.w	(a0),d6
-		bls.s	loc_8ADA
-		tst.b	4(a0)
-		bpl.s	loc_8AD4
-		move.b	(a2),d2
-		addq.b	#1,(a2)
-
-loc_8AD4:
-		bsr.w	sub_8B22
-		beq.s	loc_8AC6
-
-loc_8ADA:
-		move.l	a0,(unk_FFF770).w
-		movea.l	(unk_FFF774).w,a0
-		subi.w	#$300,d6
-		bcs.s	loc_8AFA
-
-loc_8AE8:
-		cmp.w	(a0),d6
-		bls.s	loc_8AFA
-		tst.b	4(a0)
-		bpl.s	loc_8AF6
-		addq.b	#1,1(a2)
-
-loc_8AF6:
-		addq.w	#6,a0
-		bra.s	loc_8AE8
-; ---------------------------------------------------------------------------
-
-loc_8AFA:
-		move.l	a0,(unk_FFF774).w
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8B00:
-		movea.l	(unk_FFF778).w,a0
-		move.w	(unk_FFF718).w,d0
-		addi.w	#$200,d0
-		andi.w	#$FF80,d0
-		cmp.w	(a0),d0
-		bcs.s	locret_8B20
-		bsr.w	sub_8B22
-		move.l	a0,(unk_FFF778).w
-		bra.w	loc_8B00
-; ---------------------------------------------------------------------------
-
-locret_8B20:
-		rts
-; ---------------------------------------------------------------------------
-
-sub_8B22:
-		tst.b	4(a0)
-		bpl.s	loc_8B36
-		bset	#7,2(a2,d2.w)
-		beq.s	loc_8B36
-		addq.w	#6,a0
-		moveq	#0,d0
-		rts
-; ---------------------------------------------------------------------------
-
-loc_8B36:
-		bsr.w	ObjectLoad
-		bne.s	locret_8B70
-		move.w	(a0)+,8(a1)
-		move.w	(a0)+,d0
-		move.w	d0,d1
-		andi.w	#$FFF,d0
-		move.w	d0,$C(a1)
-		rol.w	#2,d1
-		andi.b	#3,d1
-		move.b	d1,1(a1)
-		move.b	d1,$22(a1)
-		move.b	(a0)+,d0
-		bpl.s	loc_8B66
-		andi.b	#$7F,d0
-		move.b	d2,$23(a1)
-
-loc_8B66:
-		move.b	d0,0(a1)
-		move.b	(a0)+,$28(a1)
-		moveq	#0,d0
-
-locret_8B70:
-		rts
-; ---------------------------------------------------------------------------
-
-ObjectLoad:
-		lea	(LevelObjectsList).w,a1
-		move.w	#$5F,d0
-
-loc_8B7A:
-		tst.b	(a1)
-		beq.s	locret_8B86
-		lea	$40(a1),a1
-		dbf	d0,loc_8B7A
-
-locret_8B86:
-		rts
-; ---------------------------------------------------------------------------
-
-LoadNextObject:
-		movea.l	a0,a1
-		move.w	#$F000,d0
-		sub.w	a0,d0
-		lsr.w	#6,d0
-		subq.w	#1,d0
-		bcs.s	locret_8BA2
-
-loc_8B96:
-		tst.b	(a1)
-		beq.s	locret_8BA2
-		lea	$40(a1),a1
-		dbf	d0,loc_8B96
-
-locret_8BA2:
-		rts
-; ---------------------------------------------------------------------------
-
-ObjChopper:
-		moveq	#0,d0
-		move.b	$24(a0),d0
-		move.w	off_8BB6(pc,d0.w),d1
-		jsr	off_8BB6(pc,d1.w)
-		bra.w	ObjectChkDespawn
-; ---------------------------------------------------------------------------
-
-off_8BB6:	dc.w loc_8BBA-off_8BB6, loc_8BF0-off_8BB6
-; ---------------------------------------------------------------------------
-
-loc_8BBA:
-		addq.b	#2,$24(a0)
-		move.l	#MapChopper,4(a0)
-		move.w	#$47B,2(a0)
-		move.b	#4,1(a0)
-		move.b	#4,$19(a0)
-		move.b	#9,$20(a0)
-		move.b	#$10,$18(a0)
-		move.w	#$F900,$12(a0)
-		move.w	$C(a0),$30(a0)
-
-loc_8BF0:
-		lea	(AniChopper).l,a1
-		bsr.w	AnimateSprite
-		bsr.w	ObjectMove
-		addi.w	#$18,$12(a0)
-		move.w	$30(a0),d0
-		cmp.w	$C(a0),d0
-		bcc.s	loc_8C18
-		move.w	d0,$C(a0)
-		move.w	#$F900,$12(a0)
-
-loc_8C18:
-		move.b	#1,$1C(a0)
-		subi.w	#$C0,d0
-		cmp.w	$C(a0),d0
-		bcc.s	locret_8C3A
-		move.b	#0,$1C(a0)
-		tst.w	$12(a0)
-		bmi.s	locret_8C3A
-		move.b	#2,$1C(a0)
-
-locret_8C3A:
-		rts
-; ---------------------------------------------------------------------------
-
-AniChopper:	dc.w byte_8C42-AniChopper, byte_8C46-AniChopper, byte_8C4A-AniChopper
-
-byte_8C42:	dc.b 7, 0, 1, $FF
-
-byte_8C46:	dc.b 3, 0, 1, $FF
-
-byte_8C4A:	dc.b 7, 0, $FF
-		even
-
-MapChopper:	dc.w byte_8C52-MapChopper, byte_8C58-MapChopper
-
-byte_8C52:	dc.b 1
-		dc.b $F0, $F, 0, 0, $F0
-
-byte_8C58:	dc.b 1
-		dc.b $F0, $F, 0, $10, $F0
 ; ---------------------------------------------------------------------------
 
 ObjJaws:
@@ -11162,28 +9411,9 @@ loc_8CA4:
 		bsr.w	AnimateSprite
 		bra.w	ObjectMove
 ; ---------------------------------------------------------------------------
-
-AniJaws:	dc.w byte_8CB4-AniJaws
-
-byte_8CB4:	dc.b 7, 0, 1, 2, 3, $FF
-
-MapJaws:	dc.w byte_8CC2-MapJaws, byte_8CCD-MapJaws, byte_8CD8-MapJaws, byte_8CE3-MapJaws
-
-byte_8CC2:	dc.b 2
-		dc.b $F4, $E, 0, 0, $F0
-		dc.b $F5, 5, 0, $18, $10
-
-byte_8CCD:	dc.b 2
-		dc.b $F4, $E, 0, $C, $F0
-		dc.b $F5, 5, 0, $1C, $10
-
-byte_8CD8:	dc.b 2
-		dc.b $F4, $E, 0, 0, $F0
-		dc.b $F5, 5, $10, $18, $10
-
-byte_8CE3:	dc.b 2
-		dc.b $F4, $E, 0, $C, $F0
-		dc.b $F5, 5, $10, $1C, $10
+		include "levels/LZ/Jaws/Sprite.ani"
+		include "levels/LZ/Jaws/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjBurrobot:
@@ -11310,49 +9540,10 @@ loc_8E46:
 		bsr.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-AniBurrobot:	dc.w byte_8E54-AniBurrobot, byte_8E58-AniBurrobot, byte_8E5C-AniBurrobot, byte_8E60-AniBurrobot
-
-byte_8E54:	dc.b 3, 0, 6, $FF
-
-byte_8E58:	dc.b 3, 0, 1, $FF
-
-byte_8E5C:	dc.b 3, 2, 3, $FF
-
-byte_8E60:	dc.b 3, 4, $FF
+		include "levels/LZ/Burrobot/Sprite.ani"
 		even
-
-MapBurrobot:	dc.w byte_8E72-MapBurrobot, byte_8E7D-MapBurrobot, byte_8E88-MapBurrobot, byte_8E93-MapBurrobot
-		dc.w byte_8E9E-MapBurrobot, byte_8EA9-MapBurrobot, byte_8EB4-MapBurrobot
-
-byte_8E72:	dc.b 2
-		dc.b $EC, $A, 0, 0, $F0
-		dc.b 4, 9, 0, 9, $F4
-
-byte_8E7D:	dc.b 2
-		dc.b $EC, $A, 0, $F, $F0
-		dc.b 4, 9, 0, $18, $F4
-
-byte_8E88:	dc.b 2
-		dc.b $E8, $A, 0, $1E, $F4
-		dc.b 0, $A, 0, $27, $F4
-
-byte_8E93:	dc.b 2
-		dc.b $E8, $A, 0, $30, $F4
-		dc.b 0, $A, 0, $39, $F4
-
-byte_8E9E:	dc.b 2
-		dc.b $E8, $A, 0, $F, $F0
-		dc.b 0, $A, 0, $42, $F4
-
-byte_8EA9:	dc.b 2
-		dc.b $F4, 6, 0, $4B, $E8
-		dc.b $F4, $A, 0, $51, $F8
-
-byte_8EB4:	dc.b 2
-		dc.b $EC, $A, 0, $F, $F0
-		dc.b 4, 9, 0, 9, $F4
-		dc.b 0
+		include "levels/LZ/Burrobot/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjMZPlatforms:
@@ -11729,68 +9920,10 @@ loc_92C6:
 		bsr.w	AnimateSprite
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-AniFloorLavaball:dc.w byte_92D6-AniFloorLavaball
-
-byte_92D6:	dc.b 5, 0, $20, 1, $21, $FF
-
-MapMZPlatforms:	dc.w byte_92E2-MapMZPlatforms, byte_9324-MapMZPlatforms, byte_9357-MapMZPlatforms
-
-byte_92E2:	dc.b $D
-		dc.b $D8, 6, 0, $57, $C0
-		dc.b $F0, 5, 0, $53, $C0
-		dc.b 0, $F, 0, 1, $C0
-		dc.b $D0, $F, 0, $27, $D0
-		dc.b $F0, $D, 0, $37, $D0
-		dc.b $F0, $F, 0, 1, $E0
-		dc.b $D0, $F, 0, $11, $F0
-		dc.b $D0, $F, 0, $3F, $10
-		dc.b $F0, $D, 0, $4F, $10
-		dc.b $F0, $F, 0, 1, 0
-		dc.b 0, $F, 0, 1, $20
-		dc.b $D8, 6, 0, $57, $30
-		dc.b $F0, 5, 0, $53, $30
-
-byte_9324:	dc.b $A
-		dc.b $D0, $F, 0, $27, $C0
-		dc.b $F0, $D, 0, $37, $C0
-		dc.b 0, $F, 0, 1, $C0
-		dc.b $C0, $F, 0, $27, $E0
-		dc.b $E0, $D, 0, $37, $E0
-		dc.b $F0, $F, 0, 1, $E0
-		dc.b $C0, $F, 0, $11, 0
-		dc.b $E0, $F, 0, 1, 0
-		dc.b $C0, $F, 0, $3F, $20
-		dc.b $E0, $D, 0, $4F, $20
-
-byte_9357:	dc.b 6
-		dc.b $D0, $F, 0, $11, $E0
-		dc.b $F0, $F, 0, 1, $E0
-		dc.b $10, $F, 0, 1, $E0
-		dc.b $D0, $F, 0, $11, 0
-		dc.b $F0, $F, 0, 1, 0
-		dc.b $10, $F, 0, 1, 0
-
-MapLavaball:	dc.w byte_9382-MapLavaball, byte_9388-MapLavaball, byte_938E-MapLavaball, byte_9394-MapLavaball, byte_939A-MapLavaball
-		dc.w byte_93A0-MapLavaball
-
-byte_9382:	dc.b 1
-		dc.b $E8, 7, 0, 0, $F8
-
-byte_9388:	dc.b 1
-		dc.b $E8, 7, 0, 8, $F8
-
-byte_938E:	dc.b 1
-		dc.b $F0, 6, 0, $10, $F8
-
-byte_9394:	dc.b 1
-		dc.b $F8, $D, 0, $16, $E8
-
-byte_939A:	dc.b 1
-		dc.b $F8, $D, 0, $1E, $E8
-
-byte_93A0:	dc.b 1
-		dc.b $F8, 9, 0, $26, $F0
+		include "levels/MZ/FloorLavaball/Sprite.ani"
+		include "levels/MZ/Platform/Sprite.map"
+		include "levels/MZ/FloorLavaball/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjGlassBlock:
@@ -12042,40 +10175,8 @@ loc_9624:
 		move.w	d1,$C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapGlassBlock:	dc.w byte_9638-MapGlassBlock, byte_9657-MapGlassBlock, byte_9676-MapGlassBlock, byte_9681-MapGlassBlock
-
-byte_9638:	dc.b 6
-		dc.b $DC, $C, 0, 0, $E0
-		dc.b $DC, $C, 8, 0, 0
-		dc.b $E4, $F, 0, 4, $E0
-		dc.b $E4, $F, 8, 4, 0
-		dc.b 4, $F, 0, 4, $E0
-		dc.b 4, $F, 8, 4, 0
-
-byte_9657:	dc.b 6
-		dc.b $DC, $F, 0, 4, $E0
-		dc.b $DC, $F, 8, 4, 0
-		dc.b $FC, $F, 0, 4, $E0
-		dc.b $FC, $F, 8, 4, 0
-		dc.b $1C, $C, $10, 0, $E0
-		dc.b $1C, $C, $18, 0, 0
-
-byte_9676:	dc.b 2
-		dc.b 8, 6, 0, $14, $F0
-		dc.b 0, 6, 0, $14, 0
-
-byte_9681:	dc.b $A
-		dc.b $C8, $C, 0, 0, $E0
-		dc.b $C8, $C, 8, 0, 0
-		dc.b $D0, $F, 0, 4, $E0
-		dc.b $D0, $F, 8, 4, 0
-		dc.b $F0, $F, 0, 4, $E0
-		dc.b $F0, $F, 8, 4, 0
-		dc.b $10, $F, 0, 4, $E0
-		dc.b $10, $F, 8, 4, 0
-		dc.b $30, $C, $10, 0, $E0
-		dc.b $30, $C, $18, 0, 0
+		include "levels/MZ/GlassBlock/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjChainPtfm:
@@ -12523,135 +10624,9 @@ loc_9B72:
 		move.w	d0,8(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapChainPtfm:	dc.w byte_9B9A-MapChainPtfm, byte_9BB4-MapChainPtfm, byte_9BCE-MapChainPtfm, byte_9BD4-MapChainPtfm
-		dc.w byte_9BDF-MapChainPtfm, byte_9BF4-MapChainPtfm, byte_9C13-MapChainPtfm, byte_9C3C-MapChainPtfm
-		dc.w byte_9C3C-MapChainPtfm, byte_9C6F-MapChainPtfm, byte_9C89-MapChainPtfm
-
-byte_9B9A:	dc.b 5
-		dc.b $F4, 6, 0, 0, $C8
-		dc.b $F4, $A, 0, 6, $D8
-		dc.b $EC, $F, 0, $F, $F0
-		dc.b $F4, $A, 8, 6, $10
-		dc.b $F4, 6, 8, 0, $28
-
-byte_9BB4:	dc.b 5
-		dc.b $F0, 3, $12, $1F, $D4
-		dc.b $F0, 3, $12, $1F, $E8
-		dc.b $F0, 3, $12, $1F, $FC
-		dc.b $F0, 3, $12, $1F, $10
-		dc.b $F0, 3, $12, $1F, $24
-
-byte_9BCE:	dc.b 1
-		dc.b $DC, $F, $10, $F, $F0
-
-byte_9BD4:	dc.b 2
-		dc.b 0, 1, 0, $3F, $FC
-		dc.b $10, 1, 0, $3F, $FC
-
-byte_9BDF:	dc.b 4
-		dc.b $E0, 1, 0, $3F, $FC
-		dc.b $F0, 1, 0, $3F, $FC
-		dc.b 0, 1, 0, $3F, $FC
-		dc.b $10, 1, 0, $3F, $FC
-
-byte_9BF4:	dc.b 6
-		dc.b $C0, 1, 0, $3F, $FC
-		dc.b $D0, 1, 0, $3F, $FC
-		dc.b $E0, 1, 0, $3F, $FC
-		dc.b $F0, 1, 0, $3F, $FC
-		dc.b 0, 1, 0, $3F, $FC
-		dc.b $10, 1, 0, $3F, $FC
-
-byte_9C13:	dc.b 8
-		dc.b $A0, 1, 0, $3F, $FC
-		dc.b $B0, 1, 0, $3F, $FC
-		dc.b $C0, 1, 0, $3F, $FC
-		dc.b $D0, 1, 0, $3F, $FC
-		dc.b $E0, 1, 0, $3F, $FC
-		dc.b $F0, 1, 0, $3F, $FC
-		dc.b 0, 1, 0, $3F, $FC
-		dc.b $10, 1, 0, $3F, $FC
-
-byte_9C3C:	dc.b $A
-		dc.b $80, 1, 0, $3F, $FC
-		dc.b $90, 1, 0, $3F, $FC
-		dc.b $A0, 1, 0, $3F, $FC
-		dc.b $B0, 1, 0, $3F, $FC
-		dc.b $C0, 1, 0, $3F, $FC
-		dc.b $D0, 1, 0, $3F, $FC
-		dc.b $E0, 1, 0, $3F, $FC
-		dc.b $F0, 1, 0, $3F, $FC
-		dc.b 0, 1, 0, $3F, $FC
-		dc.b $10, 1, 0, $3F, $FC
-
-byte_9C6F:	dc.b 5
-		dc.b $F4, 6, 0, 0, $D0
-		dc.b $F4, $A, 0, 6, $E0
-		dc.b $F4, $A, 8, 6, 8
-		dc.b $F4, 6, 8, 0, $20
-		dc.b $EC, $F, 0, $F, $F0
-
-byte_9C89:	dc.b 1
-		dc.b $EC, $F, 0, $2F, $F0
+		include "levels/MZ/ChainPtfm/Sprite.map"
 		even
-
-Map45:		dc.w byte_9CA2-Map45, byte_9CB2-Map45, byte_9CC2-Map45, byte_9CC8-Map45
-		dc.w byte_9CD3-Map45, byte_9CE8-Map45, byte_9D07-Map45, byte_9D30-Map45
-		dc.w byte_9D30-Map45
-
-byte_9CA2:	dc.b 3
-		dc.b $E0, $B, 0, $1F, $F4
-		dc.b 0, $B, $10, $1F, $F4
-		dc.b $F0, 3, 0, $2B, $C
-
-byte_9CB2:	dc.b 3
-		dc.b $E8, $C, $12, $1B, $F0
-		dc.b $FC, $C, $12, $1B, $F0
-		dc.b $10, $C, $12, $1B, $F0
-
-byte_9CC2:	dc.b 1
-		dc.b $F0, 3, 8, $2B, $FC
-
-byte_9CC8:	dc.b 2
-		dc.b $F8, 5, 0, $41, $E0
-		dc.b $F8, 5, 0, $41, $F0
-
-byte_9CD3:	dc.b 4
-		dc.b $F8, 5, 0, $41, $E0
-		dc.b $F8, 5, 0, $41, $F0
-		dc.b $F8, 5, 0, $41, 0
-		dc.b $F8, 5, 0, $41, $10
-
-byte_9CE8:	dc.b 6
-		dc.b $F8, 5, 0, $41, $E0
-		dc.b $F8, 5, 0, $41, $F0
-		dc.b $F8, 5, 0, $41, 0
-		dc.b $F8, 5, 0, $41, $10
-		dc.b $F8, 5, 0, $41, $20
-		dc.b $F8, 5, 0, $41, $30
-
-byte_9D07:	dc.b 8
-		dc.b $F8, 5, 0, $41, $E0
-		dc.b $F8, 5, 0, $41, $F0
-		dc.b $F8, 5, 0, $41, 0
-		dc.b $F8, 5, 0, $41, $10
-		dc.b $F8, 5, 0, $41, $20
-		dc.b $F8, 5, 0, $41, $30
-		dc.b $F8, 5, 0, $41, $40
-		dc.b $F8, 5, 0, $41, $50
-
-byte_9D30:	dc.b 8
-		dc.b $F8, 5, 0, $41, $E0
-		dc.b $F8, 5, 0, $41, $F0
-		dc.b $F8, 5, 0, $41, 0
-		dc.b $F8, 5, 0, $41, $10
-		dc.b $F8, 5, 0, $41, $20
-		dc.b $F8, 5, 0, $41, $30
-		dc.b $F8, 5, 0, $41, $40
-		dc.b $F8, 5, 0, $41, $50
-		dc.b $F8, 5, 0, $41, $60
-		dc.b $F8, 5, 0, $41, $70
+		include "unknown/Map45.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -12815,21 +10790,8 @@ loc_9ED0:
 		moveq	#1,d0
 		rts
 ; ---------------------------------------------------------------------------
-
-MapSwitch:	dc.w byte_9EDC-MapSwitch, byte_9EE7-MapSwitch, byte_9EF2-MapSwitch, byte_9EE7-MapSwitch
-
-byte_9EDC:	dc.b 2
-		dc.b $F5, 5, 0, 0, $F0
-		dc.b $F5, 5, 8, 0, 0
-
-byte_9EE7:	dc.b 2
-		dc.b $F5, 5, 0, 4, $F0
-		dc.b $F5, 5, 8, 4, 0
-
-byte_9EF2:	dc.b 2
-		dc.b $F5, 5, $FF, $FC, $F0
-		dc.b $F5, 5, 7, $FC, 0
-		dc.b $F8, 5, 0, 0, $F8
+		include "levels/shared/Switch/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjPushBlock:
@@ -13169,17 +11131,7 @@ loc_A296:
 locret_A29A:
 		rts
 ; ---------------------------------------------------------------------------
-
-MapPushBlock:	dc.w byte_A2A0-MapPushBlock, byte_A2A6-MapPushBlock
-
-byte_A2A0:	dc.b 1
-		dc.b $F0, $F, 0, 8, $F0
-
-byte_A2A6:	dc.b 4
-		dc.b $F0, $F, 0, 8, $C0
-		dc.b $F0, $F, 0, 8, $E0
-		dc.b $F0, $F, 0, 8, 0
-		dc.b $F0, $F, 0, 8, $20
+		include "levels/MZ/PushBlock/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -13772,168 +11724,10 @@ word_A856:	dc.w 4, $124, $BC
 		dc.b 2, 4
 		dc.w $20C, $14C, $CC
 		dc.b 2, 5
-
-MapTitleCard:	dc.w byte_A8A4-MapTitleCard, byte_A8D2-MapTitleCard, byte_A900-MapTitleCard, byte_A920-MapTitleCard
-		dc.w byte_A94E-MapTitleCard, byte_A97C-MapTitleCard, byte_A9A6-MapTitleCard, byte_A9BC-MapTitleCard
-		dc.w byte_A9C7-MapTitleCard, byte_A9D2-MapTitleCard, byte_A9DD-MapTitleCard
-
-byte_A8A4:	dc.b 9
-		dc.b $F8, 5, 0, $18, $B4
-		dc.b $F8, 5, 0, $3A, $C4
-		dc.b $F8, 5, 0, $10, $D4
-		dc.b $F8, 5, 0, $10, $E4
-		dc.b $F8, 5, 0, $2E, $F4
-		dc.b $F8, 5, 0, $1C, $14
-		dc.b $F8, 1, 0, $20, $24
-		dc.b $F8, 5, 0, $26, $2C
-		dc.b $F8, 5, 0, $26, $3C
-
-byte_A8D2:	dc.b 9
-		dc.b $F8, 5, 0, $26, $BC
-		dc.b $F8, 5, 0, 0, $CC
-		dc.b $F8, 5, 0, 4, $DC
-		dc.b $F8, 5, 0, $4A, $EC
-		dc.b $F8, 5, 0, $3A, $FC
-		dc.b $F8, 1, 0, $20, $C
-		dc.b $F8, 5, 0, $2E, $14
-		dc.b $F8, 5, 0, $42, $24
-		dc.b $F8, 5, 0, $1C, $34
-
-byte_A900:	dc.b 6
-		dc.b $F8, 5, 0, $2A, $CF
-		dc.b $F8, 5, 0, 0, $E0
-		dc.b $F8, 5, 0, $3A, $F0
-		dc.b $F8, 5, 0, 4, 0
-		dc.b $F8, 5, 0, $26, $10
-		dc.b $F8, 5, 0, $10, $20
-		dc.b 0
-
-byte_A920:	dc.b 9
-		dc.b $F8, 5, 0, $3E, $B4
-		dc.b $F8, 5, 0, $42, $C4
-		dc.b $F8, 5, 0, 0, $D4
-		dc.b $F8, 5, 0, $3A, $E4
-		dc.b $F8, 5, 0, $26, 4
-		dc.b $F8, 1, 0, $20, $14
-		dc.b $F8, 5, 0, $18, $1C
-		dc.b $F8, 5, 0, $1C, $2C
-		dc.b $F8, 5, 0, $42, $3C
-
-byte_A94E:	dc.b 9
-		dc.b $F8, 5, 0, $3E, $BC
-		dc.b $F8, 5, 0, $36, $CC
-		dc.b $F8, 5, 0, 0, $DC
-		dc.b $F8, 5, 0, $3A, $EC
-		dc.b $F8, 5, 0, $22, $FC
-		dc.b $F8, 5, 0, $26, $C
-		dc.b $F8, 1, 0, $20, $1C
-		dc.b $F8, 5, 0, $2E, $24
-		dc.b $F8, 5, 0, $18, $34
-
-byte_A97C:	dc.b 8
-		dc.b $F8, 5, 0, 8, $B0
-		dc.b $F8, 5, 0, $26, $C0
-		dc.b $F8, 5, 0, $32, $D0
-		dc.b $F8, 5, 0, 8, $E0
-		dc.b $F8, 5, 0, $22, $F0
-		dc.b $F8, 5, 0, $32, $20
-		dc.b $F8, 5, 0, $3A, $30
-		dc.b $F8, 5, 0, $22, $40
-		dc.b 0
-
-byte_A9A6:	dc.b 4
-		dc.b $F8, 5, 0, $4E, $E0
-		dc.b $F8, 5, 0, $32, $F0
-		dc.b $F8, 5, 0, $2E, 0
-		dc.b $F8, 5, 0, $10, $10
+		include "levels/shared/TitleCard/Sprite.map"
 		even
-
-byte_A9BC:	dc.b 2
-		dc.b 4, $C, 0, $53, $EC
-		dc.b $F4, 2, 0, $57, $C
-
-byte_A9C7:	dc.b 2
-		dc.b 4, $C, 0, $53, $EC
-		dc.b $F4, 6, 0, $5A, 8
-
-byte_A9D2:	dc.b 2
-		dc.b 4, $C, 0, $53, $EC
-		dc.b $F4, 6, 0, $60, 8
-
-byte_A9DD:	dc.b $D
-		dc.b $E4, $C, 0, $70, $F4
-		dc.b $E4, 2, 0, $74, $14
-		dc.b $EC, 4, 0, $77, $EC
-		dc.b $F4, 5, 0, $79, $E4
-		dc.b $14, $C, $18, $70, $EC
-		dc.b 4, 2, $18, $74, $E4
-		dc.b $C, 4, $18, $77, 4
-		dc.b $FC, 5, $18, $79, $C
-		dc.b $EC, 8, 0, $7D, $FC
-		dc.b $F4, $C, 0, $7C, $F4
-		dc.b $FC, 8, 0, $7C, $F4
-		dc.b 4, $C, 0, $7C, $EC
-		dc.b $C, 8, 0, $7C, $EC
-		even
-
-MapGameOver:	dc.w byte_AA24-MapGameOver, byte_AA2F-MapGameOver
-
-byte_AA24:	dc.b 2
-		dc.b $F8, $D, 0, 0, $B8
-		dc.b $F8, $D, 0, 8, $D8
-
-byte_AA2F:	dc.b 2
-		dc.b $F8, $D, 0, $14, 8
-		dc.b $F8, $D, 0, $C, $28
-
-MapLevelResults:dc.w byte_AA4C-MapLevelResults, byte_AA75-MapLevelResults, byte_AA94-MapLevelResults, byte_AAB3-MapLevelResults
-		dc.w byte_AAD7-MapLevelResults, byte_A9DD-MapLevelResults, byte_A9BC-MapLevelResults, byte_A9C7-MapLevelResults
-		dc.w byte_A9D2-MapLevelResults
-
-byte_AA4C:	dc.b 8
-		dc.b $F8, 5, 0, $3E, $B8
-		dc.b $F8, 5, 0, $32, $C8
-		dc.b $F8, 5, 0, $2E, $D8
-		dc.b $F8, 1, 0, $20, $E8
-		dc.b $F8, 5, 0, 8, $F0
-		dc.b $F8, 5, 0, $1C, $10
-		dc.b $F8, 5, 0, 0, $20
-		dc.b $F8, 5, 0, $3E, $30
-
-byte_AA75:	dc.b 6
-		dc.b $F8, 5, 0, $36, $D0
-		dc.b $F8, 5, 0, 0, $E0
-		dc.b $F8, 5, 0, $3E, $F0
-		dc.b $F8, 5, 0, $3E, 0
-		dc.b $F8, 5, 0, $10, $10
-		dc.b $F8, 5, 0, $C, $20
-
-byte_AA94:	dc.b 6
-
-byte_AA95:	dc.b $F8, $D, 1, $4A, $B0
-		dc.b $F8, 1, 1, $62, $D0
-		dc.b $F8, 9, 1, $64, $18
-		dc.b $F8, $D, 1, $6A, $30
-		dc.b $F7, 4, 0, $6E, $CD
-		dc.b $FF, 4, $18, $6E, $CD
-
-byte_AAB3:	dc.b 7
-		dc.b $F8, $D, 1, $5A, $B0
-		dc.b $F8, $D, 0, $66, $D9
-		dc.b $F8, 1, 1, $4A, $F9
-		dc.b $F7, 4, 0, $6E, $F6
-		dc.b $FF, 4, $18, $6E, $F6
-		dc.b $F8, $D, $FF, $F0, $28
-		dc.b $F8, 1, 1, $70, $48
-
-byte_AAD7:	dc.b 7
-		dc.b $F8, $D, 1, $52, $B0
-		dc.b $F8, $D, 0, $66, $D9
-		dc.b $F8, 1, 1, $4A, $F9
-		dc.b $F7, 4, 0, $6E, $F6
-		dc.b $FF, 4, $18, $6E, $F6
-		dc.b $F8, $D, $FF, $F8, $28
-		dc.b $F8, 1, 1, $70, $48
+		include "levels/shared/GameOver/Sprite.map"
+		include "levels/shared/LevelResults/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -14100,38 +11894,7 @@ loc_AC82:
 locret_ACA2:
 		rts
 ; ---------------------------------------------------------------------------
-
-MapSpikes:	dc.w byte_ACB0-MapSpikes, byte_ACC0-MapSpikes, byte_ACD0-MapSpikes, byte_ACD6-MapSpikes
-		dc.w byte_ACE6-MapSpikes, byte_AD05-MapSpikes
-
-byte_ACB0:	dc.b 3
-		dc.b $F0, 3, 0, 4, $EC
-		dc.b $F0, 3, 0, 4, $FC
-		dc.b $F0, 3, 0, 4, $C
-
-byte_ACC0:	dc.b 3
-		dc.b $EC, $C, 0, 0, $F0
-		dc.b $FC, $C, 0, 0, $F0
-		dc.b $C, $C, 0, 0, $F0
-
-byte_ACD0:	dc.b 1
-		dc.b $F0, 3, 0, 4, $FC
-
-byte_ACD6:	dc.b 3
-		dc.b $F0, 3, 0, 4, $E4
-		dc.b $F0, 3, 0, 4, $FC
-		dc.b $F0, 3, 0, 4, $14
-
-byte_ACE6:	dc.b 6
-		dc.b $F0, 3, 0, 4, $C0
-		dc.b $F0, 3, 0, 4, $D8
-		dc.b $F0, 3, 0, 4, $F0
-		dc.b $F0, 3, 0, 4, 8
-		dc.b $F0, 3, 0, 4, $20
-		dc.b $F0, 3, 0, 4, $38
-
-byte_AD05:	dc.b 1
-		dc.b $FC, $C, 0, 0, $F0
+		include "levels/shared/Spikes/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -14203,12 +11966,7 @@ loc_ADAA:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapPurpleRock:	dc.w byte_ADCC-MapPurpleRock
-
-byte_ADCC:	dc.b 2
-		dc.b $F0, $B, 0, 0, $E8
-		dc.b $F0, $B, 0, $C, 0
+		include "levels/GHZ/PurpleRock/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -14347,38 +12105,7 @@ ObjSmashWall_FragLeft:dc.w $FA00, $FA00
 		dc.w $FA00, $FF00
 		dc.w $FA00, $100
 		dc.w $FC00, $500
-
-MapSmashWall:	dc.w byte_AF78-MapSmashWall, byte_AFA1-MapSmashWall, byte_AFCA-MapSmashWall
-
-byte_AF78:	dc.b 8
-		dc.b $E0, 5, 0, 0, $F0
-		dc.b $F0, 5, 0, 0, $F0
-		dc.b 0, 5, 0, 0, $F0
-		dc.b $10, 5, 0, 0, $F0
-		dc.b $E0, 5, 0, 4, 0
-		dc.b $F0, 5, 0, 4, 0
-		dc.b 0, 5, 0, 4, 0
-		dc.b $10, 5, 0, 4, 0
-
-byte_AFA1:	dc.b 8
-		dc.b $E0, 5, 0, 4, $F0
-		dc.b $F0, 5, 0, 4, $F0
-		dc.b 0, 5, 0, 4, $F0
-		dc.b $10, 5, 0, 4, $F0
-		dc.b $E0, 5, 0, 4, 0
-		dc.b $F0, 5, 0, 4, 0
-		dc.b 0, 5, 0, 4, 0
-		dc.b $10, 5, 0, 4, 0
-
-byte_AFCA:	dc.b 8
-		dc.b $E0, 5, 0, 4, $F0
-		dc.b $F0, 5, 0, 4, $F0
-		dc.b 0, 5, 0, 4, $F0
-		dc.b $10, 5, 0, 4, $F0
-		dc.b $E0, 5, 0, 8, 0
-		dc.b $F0, 5, 0, 8, 0
-		dc.b 0, 5, 0, 8, 0
-		dc.b $10, 5, 0, 8, 0
+		include "levels/GHZ/SmashWall/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -14831,123 +12558,10 @@ loc_B4C2:
 loc_B4EE:
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-AniGHZBoss:	dc.w byte_B506-AniGHZBoss, byte_B50A-AniGHZBoss, byte_B50E-AniGHZBoss, byte_B512-AniGHZBoss
-		dc.w byte_B516-AniGHZBoss, byte_B522-AniGHZBoss, byte_B526-AniGHZBoss, byte_B52A-AniGHZBoss
-		dc.w byte_B52E-AniGHZBoss, byte_B532-AniGHZBoss
-
-byte_B506:	dc.b $F, 0, $FF
+		include "levels/GHZ/Boss/Sprite.ani"
+		include "levels/GHZ/Boss/Sprite.map"
 		even
-
-byte_B50A:	dc.b 5, 1, 2, $FF
-
-byte_B50E:	dc.b 3, 1, 2, $FF
-
-byte_B512:	dc.b 1, 1, 2, $FF
-
-byte_B516:	dc.b 3, 3, 4, 3, 4, 3, 4, 3, 4, $FD, 1
-		dc.b 0
-
-byte_B522:	dc.b $1F, 5, 1, $FF
-
-byte_B526:	dc.b 3, 6, 1, $FF
-
-byte_B52A:	dc.b $F, $A, $FF
-		even
-
-byte_B52E:	dc.b 3, 8, 9, $FF
-
-byte_B532:	dc.b 1, 8, 9, $FF
-
-MapGHZBoss:	dc.w byte_B54C-MapGHZBoss, byte_B56B-MapGHZBoss, byte_B576-MapGHZBoss, byte_B581-MapGHZBoss
-		dc.w byte_B591-MapGHZBoss, byte_B5A1-MapGHZBoss, byte_B5B1-MapGHZBoss, byte_B5C1-MapGHZBoss
-		dc.w byte_B5D6-MapGHZBoss, byte_B5DC-MapGHZBoss, byte_B5E2-MapGHZBoss
-
-byte_B54C:	dc.b 6
-		dc.b $EC, 1, 0, $A, $E4
-		dc.b $EC, 5, 0, $C, $C
-		dc.b $FC, $E, $20, $10, $E4
-		dc.b $FC, $E, $20, $1C, 4
-		dc.b $14, $C, $20, $28, $EC
-		dc.b $14, 0, $20, $2C, $C
-
-byte_B56B:	dc.b 2
-		dc.b $E4, 4, 0, 0, $F4
-		dc.b $EC, $D, 0, 2, $EC
-
-byte_B576:	dc.b 2
-		dc.b $E4, 4, 0, 0, $F4
-		dc.b $EC, $D, 0, $35, $EC
-
-byte_B581:	dc.b 3
-		dc.b $E4, 8, 0, $3D, $F4
-		dc.b $EC, 9, 0, $40, $EC
-		dc.b $EC, 5, 0, $46, 4
-
-byte_B591:	dc.b 3
-		dc.b $E4, 8, 0, $4A, $F4
-		dc.b $EC, 9, 0, $4D, $EC
-		dc.b $EC, 5, 0, $53, 4
-
-byte_B5A1:	dc.b 3
-		dc.b $E4, 8, 0, $57, $F4
-		dc.b $EC, 9, 0, $5A, $EC
-		dc.b $EC, 5, 0, $60, 4
-
-byte_B5B1:	dc.b 3
-		dc.b $E2, 4, 0, $64, $C
-		dc.b $E4, 4, 0, 0, $F4
-		dc.b $EC, $D, 0, $35, $EC
-
-byte_B5C1:	dc.b 4
-		dc.b $E4, 9, 0, $66, $F4
-		dc.b $E4, 8, 0, $57, $F4
-		dc.b $EC, 9, 0, $5A, $EC
-		dc.b $EC, 5, 0, $60, 4
-
-byte_B5D6:	dc.b 1
-		dc.b 4, 5, 0, $2D, $22
-
-byte_B5DC:	dc.b 1
-		dc.b 4, 5, 0, $31, $22
-
-byte_B5E2:	dc.b 0
-		even
-
-MapGHZBossBall:	dc.w byte_B5F8-MapGHZBossBall, byte_B5FE-MapGHZBossBall, byte_B604-MapGHZBossBall, byte_B60A-MapGHZBossBall
-		dc.w byte_B610-MapGHZBossBall, byte_B616-MapGHZBossBall, byte_B61C-MapGHZBossBall, byte_B622-MapGHZBossBall
-		dc.w byte_B628-MapGHZBossBall, byte_B62E-MapGHZBossBall
-
-byte_B5F8:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
-
-byte_B5FE:	dc.b 1
-		dc.b $FC, 4, 0, 4, $F8
-
-byte_B604:	dc.b 1
-		dc.b $FC, 0, 0, 6, $FC
-
-byte_B60A:	dc.b 1
-		dc.b $FC, 4, 0, 7, $F8
-
-byte_B610:	dc.b 1
-		dc.b $F8, 5, 0, 9, $F8
-
-byte_B616:	dc.b 1
-		dc.b $FC, 4, 0, $D, $F8
-
-byte_B61C:	dc.b 1
-		dc.b $F4, 6, 0, $F, $F8
-
-byte_B622:	dc.b 1
-		dc.b $F0, 7, 0, $15, $F8
-
-byte_B628:	dc.b 1
-		dc.b $F8, 9, 0, $1D, $F4
-
-byte_B62E:	dc.b 2
-		dc.b $F0, $B, 0, $23, $FC
-		dc.b 8, 4, 0, $2F, $EC
+		include "levels/GHZ/Boss/Ball.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -15109,45 +12723,8 @@ loc_B7FA:
 locret_B808:
 		rts
 ; ---------------------------------------------------------------------------
-
-AniCapsule:	dc.w byte_B80E-AniCapsule, byte_B80E-AniCapsule
-
-byte_B80E:	dc.b 2, 1, 3, $FF
-
-MapCapsule:	dc.w byte_B820-MapCapsule, byte_B844-MapCapsule, byte_B84A-MapCapsule, byte_B869-MapCapsule
-		dc.w byte_B86F-MapCapsule, byte_B87A-MapCapsule, byte_B880-MapCapsule
-
-byte_B820:	dc.b 7
-		dc.b $E0, $C, $20, 0, $F0
-		dc.b $E8, $D, $20, 4, $E0
-		dc.b $E8, $D, $20, $C, 0
-		dc.b $F8, $E, $20, $14, $E0
-		dc.b $F8, $E, $20, $20, 0
-		dc.b $10, $D, $20, $2C, $E0
-		dc.b $10, $D, $20, $34, 0
-
-byte_B844:	dc.b 1
-		dc.b $F8, 9, 0, $3C, $F4
-
-byte_B84A:	dc.b 6
-		dc.b 0, 8, $20, $42, $E0
-		dc.b 8, $C, $20, $45, $E0
-		dc.b 0, 4, $20, $49, $10
-		dc.b 8, $C, $20, $4B, 0
-		dc.b $10, $D, $20, $2C, $E0
-		dc.b $10, $D, $20, $34, 0
-
-byte_B869:	dc.b 1
-		dc.b $F8, 9, 0, $4F, $F4
-
-byte_B86F:	dc.b 2
-		dc.b $E8, $E, $20, $55, $F0
-		dc.b 0, $E, $20, $61, $F0
-
-byte_B87A:	dc.b 1
-		dc.b $F0, 7, $20, $6D, $F8
-
-byte_B880:	dc.b 0
+		include "levels/shared/Capsule/Sprite.ani"
+		include "levels/shared/Capsule/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -15279,48 +12856,8 @@ loc_B9D8:
 loc_B9E6:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniMotobug:	dc.w byte_B9F0-AniMotobug, byte_B9F4-AniMotobug, byte_B9FA-AniMotobug
-
-byte_B9F0:	dc.b $F, 2, $FF
-		even
-
-byte_B9F4:	dc.b 7, 0, 1, 0, 2, $FF
-
-byte_B9FA:	dc.b 1, 3, 6, 3, 6, 4, 6, 4, 6, 4, 6, 5, $FC, 0
-
-MapMotobug:	dc.w byte_BA16-MapMotobug, byte_BA2B-MapMotobug, byte_BA40-MapMotobug, byte_BA5A-MapMotobug
-		dc.w byte_BA60-MapMotobug, byte_BA66-MapMotobug, byte_BA6C-MapMotobug
-
-byte_BA16:	dc.b 4
-		dc.b $F0, $D, 0, 0, $EC
-		dc.b 0, $C, 0, 8, $EC
-		dc.b $F8, 1, 0, $C, $C
-		dc.b 8, 8, 0, $E, $F4
-
-byte_BA2B:	dc.b 4
-		dc.b $F1, $D, 0, 0, $EC
-		dc.b 1, $C, 0, 8, $EC
-		dc.b $F9, 1, 0, $C, $C
-		dc.b 9, 8, 0, $11, $F4
-
-byte_BA40:	dc.b 5
-		dc.b $F0, $D, 0, 0, $EC
-		dc.b 0, $C, 0, $14, $EC
-		dc.b $F8, 1, 0, $C, $C
-		dc.b 8, 4, 0, $18, $EC
-		dc.b 8, 4, 0, $12, $FC
-
-byte_BA5A:	dc.b 1
-		dc.b $FA, 0, 0, $1A, $10
-
-byte_BA60:	dc.b 1
-		dc.b $FA, 0, 0, $1B, $10
-
-byte_BA66:	dc.b 1
-		dc.b $FA, 0, 0, $1C, $10
-
-byte_BA6C:	dc.b 0
+		include "levels/GHZ/Motobug/Sprite.ani"
+		include "levels/GHZ/Motobug/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -15508,39 +13045,9 @@ loc_BCA2:
 		subq.b	#4,$24(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-AniSpring:	dc.w byte_BCB2-AniSpring, byte_BCBE-AniSpring
-
-byte_BCB2:	dc.b 0, 1, 0, 0, 2, 2, 2, 2, 2, 2, 0, $FC
-
-byte_BCBE:	dc.b 0, 4, 3, 3, 5, 5, 5, 5, 5, 5, 3, $FC
-
-MapSpring:	dc.w byte_BCD6-MapSpring, byte_BCE1-MapSpring, byte_BCE7-MapSpring, byte_BCF7-MapSpring
-		dc.w byte_BCFD-MapSpring, byte_BD03-MapSpring
-
-byte_BCD6:	dc.b 2
-		dc.b $F8, $C, 0, 0, $F0
-		dc.b 0, $C, 0, 4, $F0
-
-byte_BCE1:	dc.b 1
-		dc.b 0, $C, 0, 0, $F0
-
-byte_BCE7:	dc.b 3
-		dc.b $E8, $C, 0, 0, $F0
-		dc.b $F0, 5, 0, 8, $F8
-		dc.b 0, $C, 0, $C, $F0
-
-byte_BCF7:	dc.b 1
-		dc.b $F0, 7, 0, 0, $F8
-
-byte_BCFD:	dc.b 1
-		dc.b $F0, 3, 0, 4, $F8
-
-byte_BD03:	dc.b 4
-		dc.b $F0, 3, 0, 4, $10
-		dc.b $F8, 9, 0, 8, $F8
-		dc.b $F0, 0, 0, 0, $F8
-		dc.b 8, 0, 0, 3, $F8
+		include "levels/shared/Spring/Sprite.ani"
+		include "levels/shared/Spring/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjNewtron:
@@ -15700,76 +13207,8 @@ locret_BEC4:
 loc_BEC6:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniNewtron:	dc.w byte_BED4-AniNewtron, byte_BED8-AniNewtron, byte_BEE0-AniNewtron, byte_BEE4-AniNewtron
-		dc.w byte_BEE8-AniNewtron
-
-byte_BED4:	dc.b $F, $A, $FF
-		even
-
-byte_BED8:	dc.b $13, 0, 1, 3, 4, 5, $FE, 1
-
-byte_BEE0:	dc.b 2, 6, 7, $FF
-
-byte_BEE4:	dc.b 2, 8, 9, $FF
-
-byte_BEE8:	dc.b $13, 0, 1, 1, 2, 1, 1, 0, $FC, 0
-
-MapNewtron:	dc.w byte_BF08-MapNewtron, byte_BF18-MapNewtron, byte_BF28-MapNewtron, byte_BF38-MapNewtron
-		dc.w byte_BF4D-MapNewtron, byte_BF5D-MapNewtron, byte_BF68-MapNewtron, byte_BF78-MapNewtron
-		dc.w byte_BF88-MapNewtron, byte_BF98-MapNewtron, byte_BFA8-MapNewtron
-
-byte_BF08:	dc.b 3
-		dc.b $EC, $D, 0, 0, $EC
-		dc.b $F4, 0, 0, 8, $C
-		dc.b $FC, $E, 0, 9, $F4
-
-byte_BF18:	dc.b 3
-		dc.b $EC, 6, 0, $15, $EC
-		dc.b $EC, 9, 0, $1B, $FC
-		dc.b $FC, $A, 0, $21, $FC
-
-byte_BF28:	dc.b 3
-		dc.b $EC, 6, 0, $2A, $EC
-		dc.b $EC, 9, 0, $1B, $FC
-		dc.b $FC, $A, 0, $21, $FC
-
-byte_BF38:	dc.b 4
-		dc.b $EC, 6, 0, $30, $EC
-		dc.b $EC, 9, 0, $1B, $FC
-		dc.b $FC, 9, 0, $36, $FC
-		dc.b $C, 0, 0, $3C, $C
-
-byte_BF4D:	dc.b 3
-		dc.b $F4, $D, 0, $3D, $EC
-		dc.b $FC, 0, 0, $20, $C
-		dc.b 4, 8, 0, $45, $FC
-
-byte_BF5D:	dc.b 2
-		dc.b $F8, $D, 0, $48, $EC
-		dc.b $F8, 1, 0, $50, $C
-
-byte_BF68:	dc.b 3
-		dc.b $F8, $D, 0, $48, $EC
-		dc.b $F8, 1, 0, $50, $C
-		dc.b $FE, 0, 0, $52, $14
-
-byte_BF78:	dc.b 3
-		dc.b $F8, $D, 0, $48, $EC
-		dc.b $F8, 1, 0, $50, $C
-		dc.b $FE, 4, 0, $53, $14
-
-byte_BF88:	dc.b 3
-		dc.b $F8, $D, 0, $48, $EC
-		dc.b $F8, 1, 0, $50, $C
-		dc.b $FE, 0, $E0, $52, $14
-
-byte_BF98:	dc.b 3
-		dc.b $F8, $D, 0, $48, $EC
-		dc.b $F8, 1, 0, $50, $C
-		dc.b $FE, 4, $E0, $53, $14
-
-byte_BFA8:	dc.b 0
+		include "levels/GHZ/Newtron/Sprite.ani"
+		include "levels/GHZ/Newtron/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -15881,37 +13320,10 @@ locret_C0AE:
 loc_C0B0:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniRoller:	dc.w byte_C0BA-AniRoller, byte_C0BE-AniRoller, byte_C0C4-AniRoller
-
-byte_C0BA:	dc.b $F, 0, $FF
+		include "levels/shared/Roller/Sprite.ani"
 		even
-
-byte_C0BE:	dc.b $F, 1, 2, $FD, 2
+		include "levels/shared/Roller/Sprite.map"
 		even
-
-byte_C0C4:	dc.b 3, 2, 3, 4, $FF
-		even
-
-MapRoller:	dc.w byte_C0D4-MapRoller, byte_C0DF-MapRoller, byte_C0EA-MapRoller, byte_C0F0-MapRoller
-		dc.w byte_C0F6-MapRoller
-
-byte_C0D4:	dc.b 2
-		dc.b $DE, $E, 0, 0, $F0
-		dc.b $F6, $E, 0, $C, $F0
-
-byte_C0DF:	dc.b 2
-		dc.b $E6, $E, 0, 0, $F0
-		dc.b $FE, $D, 0, $18, $F0
-
-byte_C0EA:	dc.b 1
-		dc.b $F0, $F, 0, $20, $F0
-
-byte_C0F0:	dc.b 1
-		dc.b $F0, $F, 0, $30, $F0
-
-byte_C0F6:	dc.b 1
-		dc.b $F0, $F, 0, $40, $F0
 ; ---------------------------------------------------------------------------
 
 ObjWall:
@@ -15955,26 +13367,7 @@ loc_C154:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapWall:	dc.w byte_C17E-MapWall, byte_C193-MapWall, byte_C1A8-MapWall
-
-byte_C17E:	dc.b 4
-		dc.b $E0, 5, 0, 4, $F8
-		dc.b $F0, 5, 0, 8, $F8
-		dc.b 0, 5, 0, 8, $F8
-		dc.b $10, 5, 0, 8, $F8
-
-byte_C193:	dc.b 4
-		dc.b $E0, 5, 0, 8, $F8
-		dc.b $F0, 5, 0, 8, $F8
-		dc.b 0, 5, 0, 8, $F8
-		dc.b $10, 5, 0, 8, $F8
-
-byte_C1A8:	dc.b 4
-		dc.b $E0, 5, 0, 0, $F8
-		dc.b $F0, 5, 0, 0, $F8
-		dc.b 0, 5, 0, 0, $F8
-		dc.b $10, 5, 0, 0, $F8
+		include "levels/GHZ/Wall/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16161,16 +13554,8 @@ locret_C3CC:
 j_ObjectDelete:
 		bra.w	ObjectDelete
 ; ---------------------------------------------------------------------------
-
-AniLavaball:	dc.w byte_C3DA-AniLavaball, byte_C3E0-AniLavaball, byte_C3E4-AniLavaball, byte_C3EA-AniLavaball
-
-byte_C3DA:	dc.b 5, 0, $20, 1, $21, $FF
-
-byte_C3E0:	dc.b 5, 2, $FC, 0
-
-byte_C3E4:	dc.b 5, 3, $43, 4, $44, $FF
-
-byte_C3EA:	dc.b 5, 5, $FC, 0
+		include "levels/MZ/LavaBall/Sprite.ani"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjMZBlocks:
@@ -16288,11 +13673,8 @@ loc_C510:
 		move.w	d1,$C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapMZBlocks:	dc.w byte_C524-MapMZBlocks
-
-byte_C524:	dc.b 1
-		dc.b $F0, $F, 0, 1, $F0
+		include "levels/MZ/Blocks/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSceneryLamp:
@@ -16334,33 +13716,8 @@ loc_C57E:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapSceneryLamp:	dc.w byte_C5AE-MapSceneryLamp, byte_C5B9-MapSceneryLamp, byte_C5C4-MapSceneryLamp, byte_C5CF-MapSceneryLamp
-		dc.w byte_C5DA-MapSceneryLamp, byte_C5E5-MapSceneryLamp
-
-byte_C5AE:	dc.b 2
-		dc.b $F8, $C, 0, $31, $F0
-		dc.b 0, $C, $10, $31, $F0
-
-byte_C5B9:	dc.b 2
-		dc.b $F8, $C, 0, $35, $F0
-		dc.b 0, $C, $10, $35, $F0
-
-byte_C5C4:	dc.b 2
-		dc.b $F8, $C, 0, $39, $F0
-		dc.b 0, $C, $10, $39, $F0
-
-byte_C5CF:	dc.b 2
-		dc.b $F8, $C, 0, $3D, $F0
-		dc.b 0, $C, $10, $3D, $F0
-
-byte_C5DA:	dc.b 2
-		dc.b $F8, $C, 0, $41, $F0
-		dc.b 0, $C, $10, $41, $F0
-
-byte_C5E5:	dc.b 2
-		dc.b $F8, $C, 0, $45, $F0
-		dc.b 0, $C, $10, $45, $F0
+		include "levels/SYZ/SceneryLamp/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjBumper:
@@ -16421,28 +13778,9 @@ loc_C6A8:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-AniBumper:	dc.w byte_C6B6-AniBumper, byte_C6BA-AniBumper
-
-byte_C6B6:	dc.b $F, 0, $FF
+		include "levels/SYZ/Bumper/Sprite.ani"
 		even
-
-byte_C6BA:	dc.b 3, 1, 2, 1, 2, $FD, 0
-		even
-
-MapBumper:	dc.w byte_C6C8-MapBumper, byte_C6D3-MapBumper, byte_C6DE-MapBumper
-
-byte_C6C8:	dc.b 2
-		dc.b $F0, 7, 0, 0, $F0
-		dc.b $F0, 7, 8, 0, 0
-
-byte_C6D3:	dc.b 2
-		dc.b $F4, 6, 0, 8, $F4
-		dc.b $F4, 2, 8, 8, 4
-
-byte_C6DE:	dc.b 2
-		dc.b $F0, 7, 0, $E, $F0
-		dc.b $F0, 7, 8, $E, 0
+		include "levels/SYZ/Bumper/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16585,43 +13923,8 @@ locret_C880:
 word_C882:	dc.w $1388, $3E8, $1F4, $190, $12C, $12C, $C8, $C8, $64
 		dc.w $64, $64, $64, $32, $32, $32, $32, $A, $A, $A, $A
 		dc.w 0
-
-AniSignpost:	dc.w byte_C8B4-AniSignpost, byte_C8B8-AniSignpost, byte_C8BE-AniSignpost, byte_C8C4-AniSignpost
-
-byte_C8B4:	dc.b $F, 0, $FF
-		even
-
-byte_C8B8:	dc.b 1, 0, 1, 2, 3, $FF
-
-byte_C8BE:	dc.b 1, 4, 1, 2, 3, $FF
-
-byte_C8C4:	dc.b $F, 4, $FF
-		even
-
-MapSignpost:	dc.w byte_C8D2-MapSignpost, byte_C8E2-MapSignpost, byte_C8ED-MapSignpost, byte_C8F8-MapSignpost
-		dc.w byte_C903-MapSignpost
-
-byte_C8D2:	dc.b 3
-		dc.b $F0, $B, 0, 0, $E8
-		dc.b $F0, $B, 8, 0, 0
-		dc.b $10, 1, 0, $38, $FC
-
-byte_C8E2:	dc.b 2
-		dc.b $F0, $F, 0, $C, $F0
-		dc.b $10, 1, 0, $38, $FC
-
-byte_C8ED:	dc.b 2
-		dc.b $F0, 3, 0, $1C, $FC
-		dc.b $10, 1, 8, $38, $FC
-
-byte_C8F8:	dc.b 2
-		dc.b $F0, $F, 8, $C, $F0
-		dc.b $10, 1, 8, $38, $FC
-
-byte_C903:	dc.b 3
-		dc.b $F0, $B, 0, $20, $E8
-		dc.b $F0, $B, 0, $2C, 0
-		dc.b $10, 1, 0, $38, $FC
+		include "levels/shared/Signpost/Sprite.ani"
+		include "levels/shared/Signpost/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -17041,291 +14344,11 @@ loc_CD84:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapLavaHurt:	dc.w byte_CDAE-MapLavaHurt, byte_CDC3-MapLavaHurt, byte_CDD8-MapLavaHurt
-
-byte_CDAE:	dc.b 4
-		dc.b $E0, 5, 0, $18, $E0
-		dc.b $E0, 5, 0, $18, $10
-		dc.b $10, 5, 0, $18, $E0
-		dc.b $10, 5, 0, $18, $10
-
-byte_CDC3:	dc.b 4
-		dc.b $E0, 5, 0, $18, $C0
-		dc.b $E0, 5, 0, $18, $30
-		dc.b $10, 5, 0, $18, $C0
-		dc.b $10, 5, 0, $18, $30
-
-byte_CDD8:	dc.b 4
-		dc.b $E0, 5, 0, $18, $80
-		dc.b $E0, 5, 0, $18, $70
-		dc.b $10, 5, 0, $18, $80
-		dc.b $10, 5, 0, $18, $70
-		even
-
-AniLavaFallMaker:dc.w byte_CDFA-AniLavaFallMaker, byte_CE04-AniLavaFallMaker, byte_CE08-AniLavaFallMaker, byte_CE0C-AniLavaFallMaker
-		dc.w byte_CE14-AniLavaFallMaker, byte_CE18-AniLavaFallMaker
-
-byte_CDFA:	dc.b 2, 0, 1, 0, 1, 4, 5, 4, 5, $FC
-
-byte_CE04:	dc.b 2, 2, 3, $FF
-
-byte_CE08:	dc.b 2, 6, 7, $FF
-
-byte_CE0C:	dc.b 2, 2, 3, 0, 1, 0, 1, $FC
-
-byte_CE14:	dc.b $F, $13, $FF
-		even
-
-byte_CE18:	dc.b 2, $11, $12, $FF
-
-AniLavaChase:	dc.w byte_CE1E-AniLavaChase
-
-byte_CE1E:	dc.b 9, 0, 1, 2, 3, $FF
-
-MapLavafall:	dc.w byte_CE4C-MapLavafall, byte_CE57-MapLavafall, byte_CE62-MapLavafall, byte_CE77-MapLavafall
-		dc.w byte_CE8C-MapLavafall, byte_CEAB-MapLavafall, byte_CECA-MapLavafall, byte_CED5-MapLavafall
-		dc.w byte_CEE0-MapLavafall, byte_CF13-MapLavafall, byte_CF46-MapLavafall, byte_CF79-MapLavafall
-		dc.w byte_CF98-MapLavafall, byte_CFB7-MapLavafall, byte_CFD6-MapLavafall, byte_D027-MapLavafall
-		dc.w byte_D078-MapLavafall, byte_D0C9-MapLavafall, byte_D0E8-MapLavafall, byte_D107-MapLavafall
-
-byte_CE4C:	dc.b 2
-
-byte_CE4D:	dc.b $EC, $B, 0, 0, $E8
-		dc.b $EC, $B, 8, 0, 0
-
-byte_CE57:	dc.b 2
-		dc.b $EC, $B, 0, $18, $E8
-		dc.b $EC, $B, 8, $18, 0
-
-byte_CE62:	dc.b 4
-		dc.b $EC, $B, 0, 0, $C8
-		dc.b $F4, $E, 0, $C, $E0
-		dc.b $F4, $E, 8, $C, 0
-		dc.b $EC, $B, 8, 0, $20
-
-byte_CE77:	dc.b 4
-		dc.b $EC, $B, 0, $18, $C8
-		dc.b $F4, $E, 0, $24, $E0
-		dc.b $F4, $E, 8, $24, 0
-		dc.b $EC, $B, 8, $18, $20
-
-byte_CE8C:	dc.b 6
-		dc.b $EC, $B, 0, 0, $C8
-		dc.b $F4, $E, 0, $C, $E0
-		dc.b $F4, $E, 8, $C, 0
-		dc.b $EC, $B, 8, 0, $20
-		dc.b $E8, $E, 0, $90, $E0
-		dc.b $E8, $E, 8, $90, 0
-
-byte_CEAB:	dc.b 6
-		dc.b $EC, $B, 0, $18, $C8
-		dc.b $F4, $E, 0, $24, $E0
-		dc.b $F4, $E, 8, $24, 0
-		dc.b $EC, $B, 8, $18, $20
-		dc.b $E8, $E, 8, $90, $E0
-		dc.b $E8, $E, 0, $90, 0
-
-byte_CECA:	dc.b 2
-		dc.b $E0, $F, 0, $30, $E0
-		dc.b $E0, $F, 8, $30, 0
-
-byte_CED5:	dc.b 2
-		dc.b $E0, $F, 8, $30, $E0
-		dc.b $E0, $F, 0, $30, 0
-
-byte_CEE0:	dc.b $A
-		dc.b $90, $F, 0, $40, $E0
-		dc.b $90, $F, 8, $40, 0
-		dc.b $B0, $F, 0, $40, $E0
-		dc.b $B0, $F, 8, $40, 0
-		dc.b $D0, $F, 0, $40, $E0
-		dc.b $D0, $F, 8, $40, 0
-		dc.b $F0, $F, 0, $40, $E0
-		dc.b $F0, $F, 8, $40, 0
-		dc.b $10, $F, 0, $40, $E0
-		dc.b $10, $F, 8, $40, 0
-
-byte_CF13:	dc.b $A
-
-byte_CF14:	dc.b $90, $F, 0, $50, $E0
-		dc.b $90, $F, 8, $50, 0
-		dc.b $B0, $F, 0, $50, $E0
-		dc.b $B0, $F, 8, $50, 0
-		dc.b $D0, $F, 0, $50, $E0
-		dc.b $D0, $F, 8, $50, 0
-		dc.b $F0, $F, 0, $50, $E0
-		dc.b $F0, $F, 8, $50, 0
-		dc.b $10, $F, 0, $50, $E0
-		dc.b $10, $F, 8, $50, 0
-
-byte_CF46:	dc.b $A
-		dc.b $90, $F, 0, $60, $E0
-		dc.b $90, $F, 8, $60, 0
-		dc.b $B0, $F, 0, $60, $E0
-		dc.b $B0, $F, 8, $60, 0
-		dc.b $D0, $F, 0, $60, $E0
-		dc.b $D0, $F, 8, $60, 0
-		dc.b $F0, $F, 0, $60, $E0
-		dc.b $F0, $F, 8, $60, 0
-		dc.b $10, $F, 0, $60, $E0
-		dc.b $10, $F, 8, $60, 0
-
-byte_CF79:	dc.b 6
-		dc.b $90, $F, 0, $40, $E0
-		dc.b $90, $F, 8, $40, 0
-		dc.b $B0, $F, 0, $40, $E0
-		dc.b $B0, $F, 8, $40, 0
-		dc.b $D0, $F, 0, $40, $E0
-		dc.b $D0, $F, 8, $40, 0
-
-byte_CF98:	dc.b 6
-		dc.b $90, $F, 0, $50, $E0
-		dc.b $90, $F, 8, $50, 0
-		dc.b $B0, $F, 0, $50, $E0
-		dc.b $B0, $F, 8, $50, 0
-		dc.b $D0, $F, 0, $50, $E0
-		dc.b $D0, $F, 8, $50, 0
-
-byte_CFB7:	dc.b 6
-		dc.b $90, $F, 0, $60, $E0
-		dc.b $90, $F, 8, $60, 0
-		dc.b $B0, $F, 0, $60, $E0
-		dc.b $B0, $F, 8, $60, 0
-		dc.b $D0, $F, 0, $60, $E0
-		dc.b $D0, $F, 8, $60, 0
-
-byte_CFD6:	dc.b $10
-		dc.b $90, $F, 0, $40, $E0
-		dc.b $90, $F, 8, $40, 0
-		dc.b $B0, $F, 0, $40, $E0
-		dc.b $B0, $F, 8, $40, 0
-		dc.b $D0, $F, 0, $40, $E0
-		dc.b $D0, $F, 8, $40, 0
-		dc.b $F0, $F, 0, $40, $E0
-		dc.b $F0, $F, 8, $40, 0
-		dc.b $10, $F, 0, $40, $E0
-		dc.b $10, $F, 8, $40, 0
-		dc.b $30, $F, 0, $40, $E0
-		dc.b $30, $F, 8, $40, 0
-		dc.b $50, $F, 0, $40, $E0
-		dc.b $50, $F, 8, $40, 0
-		dc.b $70, $F, 0, $40, $E0
-		dc.b $70, $F, 8, $40, 0
-
-byte_D027:	dc.b $10
-
-byte_D028:	dc.b $90, $F, 0, $50, $E0
-		dc.b $90, $F, 8, $50, 0
-		dc.b $B0, $F, 0, $50, $E0
-		dc.b $B0, $F, 8, $50, 0
-		dc.b $D0, $F, 0, $50, $E0
-		dc.b $D0, $F, 8, $50, 0
-		dc.b $F0, $F, 0, $50, $E0
-		dc.b $F0, $F, 8, $50, 0
-		dc.b $10, $F, 0, $50, $E0
-		dc.b $10, $F, 8, $50, 0
-		dc.b $30, $F, 0, $50, $E0
-		dc.b $30, $F, 8, $50, 0
-		dc.b $50, $F, 0, $50, $E0
-		dc.b $50, $F, 8, $50, 0
-		dc.b $70, $F, 0, $50, $E0
-		dc.b $70, $F, 8, $50, 0
-
-byte_D078:	dc.b $10
-
-byte_D079:	dc.b $90, $F, 0, $60, $E0
-		dc.b $90, $F, 8, $60, 0
-		dc.b $B0, $F, 0, $60, $E0
-		dc.b $B0, $F, 8, $60, 0
-		dc.b $D0, $F, 0, $60, $E0
-		dc.b $D0, $F, 8, $60, 0
-		dc.b $F0, $F, 0, $60, $E0
-		dc.b $F0, $F, 8, $60, 0
-		dc.b $10, $F, 0, $60, $E0
-		dc.b $10, $F, 8, $60, 0
-		dc.b $30, $F, 0, $60, $E0
-		dc.b $30, $F, 8, $60, 0
-		dc.b $50, $F, 0, $60, $E0
-		dc.b $50, $F, 8, $60, 0
-		dc.b $70, $F, 0, $60, $E0
-		dc.b $70, $F, 8, $60, 0
-
-byte_D0C9:	dc.b 6
-		dc.b $E0, $B, 0, 0, $C8
-		dc.b $E8, $E, 0, $C, $E0
-		dc.b $E8, $E, 8, $C, 0
-		dc.b $E0, $B, 8, 0, $20
-		dc.b $D8, $E, 0, $90, $E0
-		dc.b $D8, $E, 8, $90, 0
-
-byte_D0E8:	dc.b 6
-		dc.b $E0, $B, 0, $18, $C8
-		dc.b $E8, $E, 0, $24, $E0
-		dc.b $E8, $E, 8, $24, 0
-		dc.b $E0, $B, 8, $18, $20
-		dc.b $D8, $E, 8, $90, $E0
-		dc.b $D8, $E, 0, $90, 0
-
-byte_D107:	dc.b 0
-
-MapLavaChase:	dc.w byte_D112-MapLavaChase, byte_D140-MapLavaChase, byte_D16E-MapLavaChase, byte_D19C-MapLavaChase
-		dc.w byte_D1CA-MapLavaChase
-
-byte_D112:	dc.b 9
-		dc.b $E0, $F, 0, $60, $20
-		dc.b 0, $F, 0, $70, $3C
-		dc.b 0, $F, $FF, $2A, $20
-		dc.b $E0, $F, $FF, $2A, 0
-		dc.b 0, $F, $FF, $2A, 0
-		dc.b $E0, $F, $FF, $2A, $E0
-		dc.b 0, $F, $FF, $2A, $E0
-		dc.b $E0, $F, $FF, $2A, $C0
-		dc.b 0, $F, $FF, $2A, $C0
-
-byte_D140:	dc.b 9
-		dc.b $E0, $F, 0, $70, $20
-		dc.b 0, $F, 0, $80, $3C
-		dc.b 0, $F, $FF, $2A, $20
-		dc.b $E0, $F, $FF, $2A, 0
-		dc.b 0, $F, $FF, $2A, 0
-		dc.b $E0, $F, $FF, $2A, $E0
-		dc.b 0, $F, $FF, $2A, $E0
-		dc.b $E0, $F, $FF, $2A, $C0
-		dc.b 0, $F, $FF, $2A, $C0
-
-byte_D16E:	dc.b 9
-
-byte_D16F:	dc.b $E0, $F, 0, $80, $20
-		dc.b 0, $F, 0, $70, $3C
-		dc.b 0, $F, $FF, $2A, $20
-		dc.b $E0, $F, $FF, $2A, 0
-		dc.b 0, $F, $FF, $2A, 0
-		dc.b $E0, $F, $FF, $2A, $E0
-		dc.b 0, $F, $FF, $2A, $E0
-		dc.b $E0, $F, $FF, $2A, $C0
-		dc.b 0, $F, $FF, $2A, $C0
-
-byte_D19C:	dc.b 9
-		dc.b $E0, $F, 0, $70, $20
-		dc.b 0, $F, 0, $60, $3C
-		dc.b 0, $F, $FF, $2A, $20
-		dc.b $E0, $F, $FF, $2A, 0
-		dc.b 0, $F, $FF, $2A, 0
-		dc.b $E0, $F, $FF, $2A, $E0
-		dc.b 0, $F, $FF, $2A, $E0
-		dc.b $E0, $F, $FF, $2A, $C0
-		dc.b 0, $F, $FF, $2A, $C0
-
-byte_D1CA:	dc.b 8
-		dc.b $E0, $F, $FF, $2A, $20
-		dc.b 0, $F, $FF, $2A, $20
-		dc.b $E0, $F, $FF, $2A, 0
-		dc.b 0, $F, $FF, $2A, 0
-		dc.b $E0, $F, $FF, $2A, $E0
-		dc.b 0, $F, $FF, $2A, $E0
-		dc.b $E0, $F, $FF, $2A, $C0
-		dc.b 0, $F, $FF, $2A, $C0
+		include "levels/MZ/LavaHurt/Sprite.map"
+		include "levels/MZ/LavaFall/Maker.ani"
+		include "levels/MZ/LavaChase/Sprite.ani"
+		include "levels/MZ/LavaFall/Sprite.map"
+		include "levels/MZ/LavaChase/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -17441,16 +14464,8 @@ loc_D308:
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
-
-Map4F:		dc.w byte_D310-Map4F, byte_D31B-Map4F
-
-byte_D310:	dc.b 2
-		dc.b $EC, $B, 0, 0, $F4
-		dc.b $C, 8, 0, $C, $F4
-
-byte_D31B:	dc.b 2
-		dc.b $EC, $B, 0, $F, $F4
-		dc.b $C, 4, 0, $1B, $FB
+		include "unknown/Map4F.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjYardin:
@@ -17532,58 +14547,9 @@ loc_D3F0:
 		move.b	#0,$1C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-AniYardin:	dc.w byte_D40C-AniYardin, byte_D410-AniYardin
-
-byte_D40C:	dc.b 7, 0, $FF
+		include "levels/shared/Yardin/Sprite.ani"
+		include "levels/shared/Yardin/Sprite.map"
 		even
-
-byte_D410:	dc.b 7, 0, 3, 1, 4, 0, 3, 2, 5, $FF
-
-MapYardin:	dc.w byte_D426-MapYardin, byte_D440-MapYardin, byte_D45A-MapYardin, byte_D474-MapYardin
-		dc.w byte_D48E-MapYardin, byte_D4A8-MapYardin
-
-byte_D426:	dc.b 5
-		dc.b $F4, 8, 0, 0, $F4
-		dc.b $FC, $E, 0, 3, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $31, $FC
-
-byte_D440:	dc.b 5
-		dc.b $F4, 8, 0, $14, $F4
-		dc.b $FC, $E, 0, $17, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $31, $FC
-
-byte_D45A:	dc.b 5
-		dc.b $F4, 9, 0, $23, $F4
-		dc.b 4, $D, 0, $29, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $31, $FC
-
-byte_D474:	dc.b 5
-		dc.b $F4, 8, 0, 0, $F4
-		dc.b $FC, $E, 0, 3, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $37, $FC
-
-byte_D48E:	dc.b 5
-		dc.b $F4, 8, 0, $14, $F4
-		dc.b $FC, $E, 0, $17, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $37, $FC
-
-byte_D4A8:	dc.b 5
-		dc.b $F4, 9, 0, $23, $F4
-		dc.b 4, $D, 0, $29, $EC
-		dc.b $EC, 4, 0, $F, $FC
-		dc.b $F4, 2, 0, $11, $C
-		dc.b 4, 9, 0, $37, $FC
 ; ---------------------------------------------------------------------------
 
 ObjSmashBlock:
@@ -17649,18 +14615,8 @@ loc_D580:
 ; ---------------------------------------------------------------------------
 
 ObjSmashBlock_Frag:dc.w $FE00, $FE00, $FF00, $FF00, $200, $FE00, $100, $FF00
-
-MapSmashBlock:	dc.w byte_D5AC-MapSmashBlock, byte_D5B7-MapSmashBlock
-
-byte_D5AC:	dc.b 2
-		dc.b $F0, $D, 0, 0, $F0
-		dc.b 0, $D, 0, 0, $F0
-
-byte_D5B7:	dc.b 4
-		dc.b $F0, 5, $80, 0, $F0
-		dc.b 0, 5, $80, 0, $F0
-		dc.b $F0, 5, $80, 0, 0
-		dc.b 0, 5, $80, 0, 0
+		include "levels/GHZ/SmashBlock/Sprite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjMovingPtfm:
@@ -17773,15 +14729,7 @@ loc_D6DA:
 		clr.b	$28(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapMovingPtfm:	dc.w byte_D6E4-MapMovingPtfm, byte_D6EA-MapMovingPtfm
-
-byte_D6E4:	dc.b 1
-		dc.b $F8, $F, 0, 8, $F0
-
-byte_D6EA:	dc.b 2
-		dc.b $F8, $F, 0, 8, $E0
-		dc.b $F8, $F, 0, 8, 0
+		include "levels/GHZ/MovingPtfm/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -17930,38 +14878,9 @@ loc_D862:
 		bpl.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-AniBasaran:	dc.w byte_D87E-AniBasaran, byte_D882-AniBasaran, byte_D886-AniBasaran
-
-byte_D87E:	dc.b $F, 0, $FF
+		include "levels/MZ/Basaran/Sprite.ani"
+		include "levels/MZ/Basaran/Sprite.map"
 		even
-
-byte_D882:	dc.b $F, 1, $FF
-		even
-
-byte_D886:	dc.b 3, 1, 2, 3, 2, $FF
-
-MapBasaran:	dc.w byte_D894-MapBasaran, byte_D89A-MapBasaran, byte_D8AA-MapBasaran, byte_D8BF-MapBasaran
-
-byte_D894:	dc.b 1
-		dc.b $F4, 6, 0, 0, $F8
-
-byte_D89A:	dc.b 3
-		dc.b $F2, $E, 0, 6, $F4
-		dc.b $A, 4, 0, $12, $FC
-		dc.b 2, 0, 0, $27, $C
-
-byte_D8AA:	dc.b 4
-		dc.b $F8, 4, 0, $14, $F8
-		dc.b 0, $C, 0, $16, $F0
-		dc.b 8, 4, 0, $1A, 0
-		dc.b 0, 0, 0, $28, $C
-
-byte_D8BF:	dc.b 4
-		dc.b $F6, 9, 0, $1C, $F5
-		dc.b 6, 8, 0, $22, $F4
-		dc.b $E, 4, 0, $25, $F4
-		dc.b $FE, 0, 0, $27, $C
 ; ---------------------------------------------------------------------------
 
 ObjMovingBlocks:
@@ -18304,36 +15223,7 @@ loc_DC06:
 		move.w	d1,8(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapMovingBlocks:dc.w byte_DC28-MapMovingBlocks, byte_DC2E-MapMovingBlocks, byte_DC43-MapMovingBlocks, byte_DC4E-MapMovingBlocks
-		dc.w byte_DC63-MapMovingBlocks, byte_DC73-MapMovingBlocks
-
-byte_DC28:	dc.b 1
-		dc.b $F0, $F, 0, $61, $F0
-
-byte_DC2E:	dc.b 4
-		dc.b $E0, $F, 0, $61, $E0
-		dc.b $E0, $F, 0, $61, 0
-		dc.b 0, $F, 0, $61, $E0
-		dc.b 0, $F, 0, $61, 0
-
-byte_DC43:	dc.b 2
-		dc.b $E0, $F, 0, $61, $F0
-		dc.b 0, $F, 0, $61, $F0
-
-byte_DC4E:	dc.b 4
-		dc.b $E6, $F, 0, $81, $E0
-		dc.b $E6, $F, 0, $81, 0
-		dc.b 0, $F, 0, $81, $E0
-		dc.b 0, $F, 0, $81, 0
-
-byte_DC63:	dc.b 3
-		dc.b $D9, $F, 0, $81, $F0
-		dc.b $F3, $F, 0, $81, $F0
-		dc.b $D, $F, 0, $81, $F0
-
-byte_DC73:	dc.b 1
-		dc.b $F0, $F, 0, $21, $F0
+		include "levels/shared/MovingBlocks/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -18476,11 +15366,8 @@ loc_DDF0:
 loc_DE08:
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-MapSpikedBalls:	dc.w byte_DE0E-MapSpikedBalls
-
-byte_DE0E:	dc.b 1
-		dc.b $F8, 5, 0, 0, $F8
+		include "unsorted/MapSpikedBalls.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjGiantSpikedBalls:
@@ -18591,21 +15478,8 @@ loc_DF06:
 		move.w	d5,8(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapGiantSpikedBalls:dc.w byte_DF44-MapGiantSpikedBalls, byte_DF5E-MapGiantSpikedBalls, byte_DF64-MapGiantSpikedBalls
-
-byte_DF44:	dc.b 5
-		dc.b $E8, 4, 0, 0, $F8
-		dc.b $F0, $F, 0, 2, $F0
-		dc.b $F8, 1, 0, $12, $E8
-		dc.b $F8, 1, 0, $14, $10
-		dc.b $10, 4, 0, $16, $F8
-
-byte_DF5E:	dc.b 1
-		dc.b $F8, $D, 0, $18, $F0
-
-byte_DF64:	dc.b 1
-		dc.b $F8, 5, 0, $20, $F8
+		include "unsorted/MapGiantSpikedBalls.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSLZMovingPtfm:
@@ -18855,13 +15729,8 @@ loc_E1BE:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapSLZMovingPtfm:dc.w byte_E1E2-MapSLZMovingPtfm
-
-byte_E1E2:	dc.b 3
-		dc.b $F8, $F, 0, $41, $D8
-		dc.b $F8, $F, 0, $41, $F8
-		dc.b $F8, 7, 0, $41, $18
+		include "levels/SLZ/MovingPtfm/Srite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjCirclePtfm:
@@ -18974,12 +15843,7 @@ loc_E306:
 		move.w	d2,$C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-
-MapCirclePtfm:	dc.w byte_E31C-MapCirclePtfm
-
-byte_E31C:	dc.b 2
-		dc.b $F8, 9, 0, $51, $E8
-		dc.b $F8, 9, 8, $51, 0
+		include "levels/SLZ/CirclePtfm/Srite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -19155,11 +16019,8 @@ locret_E4D0:
 ; ---------------------------------------------------------------------------
 		rts
 ; ---------------------------------------------------------------------------
-
-MapStaircasePtfm:dc.w byte_E4D6-MapStaircasePtfm
-
-byte_E4D6:	dc.b 1
-		dc.b $F0, $F, 0, $21, $F0
+		include "levels/SLZ/StaircasePtfm/Srite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjSLZGirder:
@@ -19193,19 +16054,8 @@ loc_E506:
 		move.w	d1,$A(a0)
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-MapSLZGirder:	dc.w byte_E530-MapSLZGirder
-
-byte_E530:	dc.b 9
-		dc.b $80, $F, 0, 0, $F0
-		dc.b $A0, $F, $10, 0, $F0
-		dc.b $C0, $F, 0, 0, $F0
-		dc.b $E0, $F, $10, 0, $F0
-		dc.b 0, $F, 0, 0, $F0
-		dc.b $20, $F, $10, 0, $F0
-		dc.b $40, $F, 0, 0, $F0
-		dc.b $60, $F, $10, 0, $F0
-		dc.b $7F, $F, 0, 0, $F0
+		include "levels/SLZ/Girder/Srite.map"
+		even
 ; ---------------------------------------------------------------------------
 
 ObjFan:
@@ -19308,21 +16158,7 @@ loc_E64E:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-
-MapFan:		dc.w byte_E67C-MapFan, byte_E687-MapFan, byte_E692-MapFan, byte_E687-MapFan
-		dc.w byte_E67C-MapFan
-
-byte_E67C:	dc.b 2
-		dc.b $F0, 9, 0, 0, $F8
-		dc.b 0, $D, 0, 6, $F0
-
-byte_E687:	dc.b 2
-		dc.b $F0, $D, 0, $E, $F0
-		dc.b 0, $D, 0, $16, $F0
-
-byte_E692:	dc.b 2
-		dc.b $F0, $D, 0, $1E, $F0
-		dc.b 0, 9, 0, $26, $F8
+		include "levels/SLZ/Fan/Srite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -19415,23 +16251,7 @@ ObjSeeSaw_SlopeLine:dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15
-
-MapSeesaw:	dc.w byte_E7D6-MapSeesaw, byte_E7FA-MapSeesaw, byte_E7D6-MapSeesaw, byte_E7FA-MapSeesaw
-
-byte_E7D6:	dc.b 7
-		dc.b $D4, 6, 0, 0, $D3
-		dc.b $DC, 6, 0, 6, $E3
-		dc.b $E4, 4, 0, $C, $F3
-		dc.b $EC, $D, 0, $E, $F3
-		dc.b $FC, 8, 0, $16, $FB
-		dc.b $F4, 6, 0, 6, $13
-		dc.b $FC, 5, 0, $19, $23
-
-byte_E7FA:	dc.b 4
-		dc.b $E6, $A, 0, $1D, $D0
-		dc.b $E6, $A, 0, $23, $E8
-		dc.b $E6, $A, 8, $23, 0
-		dc.b $E6, $A, 8, $1D, $18
+		include "levels/SLZ/Seesaw/Srite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -20865,84 +17685,7 @@ loc_F5FA:
 		or.b	d1,1(a0)
 		bra.w	sub_F4DA
 ; ---------------------------------------------------------------------------
-
-AniSonic:	dc.w byte_F64C-AniSonic, byte_F654-AniSonic, byte_F65C-AniSonic, byte_F664-AniSonic
-		dc.w byte_F66C-AniSonic, byte_F674-AniSonic, byte_F68A-AniSonic, byte_F68E-AniSonic
-		dc.w byte_F692-AniSonic, byte_F696-AniSonic, byte_F69A-AniSonic, byte_F69E-AniSonic
-		dc.w byte_F6A2-AniSonic, byte_F6A6-AniSonic, byte_F6AA-AniSonic, byte_F6AE-AniSonic
-		dc.w byte_F6B6-AniSonic, byte_F6BA-AniSonic, byte_F6BE-AniSonic, byte_F6C4-AniSonic
-		dc.w byte_F6CA-AniSonic, byte_F6CE-AniSonic, byte_F6D2-AniSonic, byte_F6D6-AniSonic
-		dc.w byte_F6DA-AniSonic, byte_F6DE-AniSonic, byte_F6E8-AniSonic
-
-byte_F64C:	dc.b $FF, 8, 9, $A, $B, 6, 7, $FF
-
-byte_F654:	dc.b $FF, $1E, $1F, $20, $21, $FF, $FF, $FF
-
-byte_F65C:	dc.b $FE, $2E, $2F, $30, $31, $32, $FF, $FF
-
-byte_F664:	dc.b $FE, $2E, $2F, $32, $30, $31, $32, $FF
-
-byte_F66C:	dc.b $FD, $45, $46, $47, $48, $FF, $FF, $FF
-
-byte_F674:	dc.b $17, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2
-		dc.b 2, 3, 4, $FE, 2
-		even
-
-byte_F68A:	dc.b $1F, $3A, $3B, $FF
-
-byte_F68E:	dc.b $3F, 5, $FF
-		even
-
-byte_F692:	dc.b $3F, $39, $FF
-		even
-
-byte_F696:	dc.b $3F, $33, $FF
-		even
-
-byte_F69A:	dc.b $3F, $34, $FF
-		even
-
-byte_F69E:	dc.b $3F, $35, $FF
-		even
-
-byte_F6A2:	dc.b $3F, $36, $FF
-		even
-
-byte_F6A6:	dc.b 7, $37, $38, $FF
-
-byte_F6AA:	dc.b 7, $3C, $3F, $FF
-
-byte_F6AE:	dc.b 7, $3C, $3D, $53, $3E, $54, $FF
-		even
-
-byte_F6B6:	dc.b $2F, $40, $FD
-		even
-
-byte_F6BA:	dc.b 4, $41, $42, $FF
-
-byte_F6BE:	dc.b $F, $43, $43, $43, $FE, 1
-
-byte_F6C4:	dc.b $F, $43, $44, $FE, 1
-		even
-
-byte_F6CA:	dc.b $3F, $49, $FF
-		even
-
-byte_F6CE:	dc.b $3F, $4A, $FF
-		even
-
-byte_F6D2:	dc.b 3, $4B, $FF
-		even
-
-byte_F6D6:	dc.b 3, $4C, $FF
-		even
-
-byte_F6DA:	dc.b 3, $4D, $FF
-		even
-
-byte_F6DE:	dc.b 3, $4E, $4F, $50, $51, $52, 0, $FE, 1, 0
-
-byte_F6E8:	dc.b 3, $55, $FF
+		include "levels/shared/Sonic/Srite.ani"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -21138,157 +17881,11 @@ loc_F8C0:
 locret_F8D0:
 		rts
 ; ---------------------------------------------------------------------------
-
-AniShield:	dc.w byte_F8DC-AniShield, byte_F8E4-AniShield, byte_F8EA-AniShield, byte_F904-AniShield
-		dc.w byte_F91E-AniShield
-
-byte_F8DC:	dc.b 1, 1, 0, 2, 0, 3, 0, $FF
-
-byte_F8E4:	dc.b 5, 4, 5, 6, 7, $FF
-
-byte_F8EA:	dc.b 0, 4, 4, 0, 4, 4, 0, 5, 5, 0, 5, 5, 0, 6, 6, 0, 6
-		dc.b 6, 0, 7, 7, 0, 7, 7, 0, $FF
-
-byte_F904:	dc.b 0, 4, 4, 0, 4, 0, 0, 5, 5, 0, 5, 0, 0, 6, 6, 0, 6
-		dc.b 0, 0, 7, 7, 0, 7, 0, 0, $FF
-
-byte_F91E:	dc.b 0, 4, 0, 0, 4, 0, 0, 5, 0, 0, 5, 0, 0, 6, 0, 0, 6
-		dc.b 0, 0, 7, 0, 0, 7, 0, 0, $FF
-
-MapShield:	dc.w byte_F953-MapShield, byte_F948-MapShield, byte_F95D-MapShield, byte_F972-MapShield
-		dc.w byte_F987-MapShield, byte_F99C-MapShield, byte_F9B1-MapShield, byte_F9C6-MapShield
-
-byte_F948:	dc.b 4
-
-byte_F949:	dc.b $E8, $A, 0, 0, $E8
-		dc.b $E8, $A, 0, 9, 0
-
-byte_F953:	dc.b 0, $A, $10, 0, $E8
-		dc.b 0, $A, $10, 9, 0
-
-byte_F95D:	dc.b 4
-		dc.b $E8, $A, 8, $12, $E9
-		dc.b $E8, $A, 0, $12, 0
-		dc.b 0, $A, $18, $12, $E9
-		dc.b 0, $A, $10, $12, 0
-
-byte_F972:	dc.b 4
-		dc.b $E8, $A, 8, 9, $E8
-		dc.b $E8, $A, 8, 0, 0
-		dc.b 0, $A, $18, 9, $E8
-		dc.b 0, $A, $18, 0, 0
-
-byte_F987:	dc.b 4
-		dc.b $E8, $A, 0, 0, $E8
-		dc.b $E8, $A, 0, 9, 0
-		dc.b 0, $A, $18, 9, $E8
-		dc.b 0, $A, $18, 0, 0
-
-byte_F99C:	dc.b 4
-		dc.b $E8, $A, 8, 9, $E8
-		dc.b $E8, $A, 8, 0, 0
-		dc.b 0, $A, $10, 0, $E8
-		dc.b 0, $A, $10, 9, 0
-
-byte_F9B1:	dc.b 4
-		dc.b $E8, $A, 0, $12, $E8
-		dc.b $E8, $A, 0, $1B, 0
-		dc.b 0, $A, $18, $1B, $E8
-		dc.b 0, $A, $18, $12, 0
-
-byte_F9C6:	dc.b 4
-		dc.b $E8, $A, 8, $1B, $E8
-		dc.b $E8, $A, 8, $12, 0
-		dc.b 0, $A, $10, $12, $E8
-		dc.b 0, $A, $10, $1B, 0
+		include "levels/shared/Shield/Shield.ani"
+		include "levels/shared/Shield/Shield.map"
 		even
-
-AniEntryRingBeta:dc.w byte_F9DE-AniEntryRingBeta
-
-byte_F9DE:	dc.b 5, 0, 1, 0, 1, 0, 7, 1, 7, 2, 7, 3, 7, 4, 7, 5, 7
-		dc.b 6, 7, $FC
-
-MapEntryRingBeta:dc.w byte_FA02-MapEntryRingBeta, byte_FA12-MapEntryRingBeta, byte_FA22-MapEntryRingBeta, byte_FA3C-MapEntryRingBeta
-		dc.w byte_FA6A-MapEntryRingBeta, byte_FAC5-MapEntryRingBeta, byte_FB1B-MapEntryRingBeta, byte_FB1C+$29-MapEntryRingBeta
-
-byte_FA02:	dc.b 3
-		dc.b $F8, 0, 0, 0, 8
-		dc.b 0, 4, 0, 1, 0
-		dc.b 8, 0, $10, 0, 8
-
-byte_FA12:	dc.b 3
-		dc.b $F0, $D, 0, 3, $F0
-		dc.b 0, $C, 0, $B, $F0
-		dc.b 8, $D, $10, 3, $F0
-
-byte_FA22:	dc.b 5
-		dc.b $E4, $E, 0, $F, $F4
-		dc.b $EC, 2, 0, $1B, $EC
-		dc.b $FC, $C, 0, $1E, $F4
-		dc.b 4, $E, $10, $F, $F4
-		dc.b 4, 1, $10, $1B, $EC
-
-byte_FA3C:	dc.b 9
-		dc.b $F0, 8, 0, $22, $F8
-		dc.b $F8, $E, 0, $25, $F0
-		dc.b $10, 8, 0, $31, $F0
-		dc.b 0, 5, 0, $34, $10
-		dc.b $F8, 0, 8, $25, $10
-		dc.b $F0, 0, $18, $36, $18
-		dc.b $F8, 0, $18, $25, $20
-		dc.b 0, 0, 8, $25, $28
-		dc.b $F8, 0, 0, $25, $30
-
-byte_FA6A:	dc.b $12
-		dc.b 0, 0, $18, $25, $F0
-		dc.b $F8, 4, 0, $38, $F8
-		dc.b $F0, 0, 0, $26, 8
-		dc.b 0, 0, 0, $25, 0
-		dc.b 8, 0, $18, $25, $F8
-		dc.b $10, 0, $10, $26, 0
-		dc.b 8, 0, $10, $38, 8
-		dc.b $F8, 0, 0, $29, $10
-		dc.b 0, 0, 0, $26, $10
-		dc.b 0, 0, 0, $2D, $18
-		dc.b 8, 0, 8, $26, $18
-		dc.b 8, 0, 0, $29, $20
-		dc.b $F8, 0, 0, $26, $20
-		dc.b $F8, 0, 0, $2D, $28
-		dc.b 0, 0, 0, $3A, $28
-		dc.b $F8, 0, $18, $26, $30
-		dc.b 0, 0, $10, $25, $38
-		dc.b $F8, 0, $10, $25, $40
-
-byte_FAC5:	dc.b $11
-		dc.b $F8, 0, 8, $25, 0
-		dc.b $F0, 0, 0, $38, $10
-		dc.b $10, 0, 8, $25, 0
-		dc.b 0, 0, $18, $25, $10
-		dc.b 8, 0, $10, $25, $18
-		dc.b $F8, 0, $18, $25, $20
-		dc.b 0, 0, $10, $26, $28
-		dc.b $F8, 0, $10, $25, $30
-		dc.b 0, 0, 0, $25, $30
-		dc.b 8, 0, 8, $25, $30
-		dc.b 0, 0, 8, $26, $38
-		dc.b 8, 0, 0, $29, $38
-		dc.b $F8, 0, 8, $26, $40
-		dc.b 0, 0, 0, $2D, $40
-		dc.b $F8, 0, 8, $25, $48
-		dc.b 0, 0, 0, $25, $48
-		dc.b 0, 0, $10, $25, $50
-
-byte_FB1B:	dc.b 9
-
-byte_FB1C:	dc.b $FC, 0, 8, $26, $30
-		dc.b 4, 0, 8, $25, $28
-		dc.b 4, 0, $10, $27, $38
-		dc.b 4, 0, 8, $26, $40
-		dc.b $FC, 0, $10, $25, $40
-		dc.b $FC, 0, $10, $26, $48
-		dc.b $C, 0, 8, $27, $48
-		dc.b 4, 0, $18, $26, $50
-		dc.b 4, 0, 8, $27, $58
+		include "levels/shared/SpecialRing/Sprite.ani"
+		include "levels/shared/SpecialRing/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -24068,1174 +20665,7 @@ loc_115EE:
 loc_11618:
 		jmp	ObjectDisplay
 ; ---------------------------------------------------------------------------
-
-MapHUD:		dc.w byte_11620-MapHUD
-
-byte_11620:	dc.b 9
-		dc.b $80, $D, $80, 0, 0
-		dc.b $80, $D, $80, $18, $20
-		dc.b $80, $D, $80, $20, $40
-		dc.b $90, $D, $80, $10, 0
-		dc.b $90, $D, $80, $28, $28
-		dc.b $A0, $D, $80, 8, 0
-		dc.b $A0, 9, $80, $30, $28
-		dc.b $40, 5, $81, $A, 0
-		dc.b $40, $D, $81, $E, $10
-; ---------------------------------------------------------------------------
-
-ScoreAdd:
-		move.b	#1,(byte_FFFE1F).w
-		lea	(unk_FFFE50).w,a2
-		lea	(dword_FFFE26).w,a3
-		add.l	d0,(a3)
-		move.l	#999999,d1
-		cmp.l	(a3),d1
-		bhi.w	loc_1166E
-		move.l	d1,(a3)
-		move.l	d1,(a2)
-
-loc_1166E:
-		move.l	(a3),d0
-		cmp.l	(a2),d0
-		bcs.w	locret_11678
-		move.l	d0,(a2)
-
-locret_11678:
-		rts
-; ---------------------------------------------------------------------------
-
-UpdateHUD:
-		tst.w	(word_FFFFFA).w
-		bne.w	loc_11746
-		tst.b	(byte_FFFE1F).w
-		beq.s	loc_1169A
-		clr.b	(byte_FFFE1F).w
-		move.l	#$5C800003,d0
-		move.l	(dword_FFFE26).w,d1
-		bsr.w	sub_1187E
-
-loc_1169A:
-		tst.b	(ExtraLifeFlags).w
-		beq.s	loc_116BA
-		bpl.s	loc_116A6
-		bsr.w	sub_117B2
-
-loc_116A6:
-		clr.b	(ExtraLifeFlags).w
-		move.l	#$5F400003,d0
-		moveq	#0,d1
-		move.w	(Rings).w,d1
-		bsr.w	sub_11874
-
-loc_116BA:
-		tst.b	(byte_FFFE1E).w
-		beq.s	loc_1170E
-		tst.w	(PauseFlag).w
-		bmi.s	loc_1170E
-		lea	(dword_FFFE26).w,a1
-		addq.b	#1,-(a1)
-		cmpi.b	#60,(a1)
-		bcs.s	loc_1170E
-		move.b	#0,(a1)
-		addq.b	#1,-(a1)
-		cmpi.b	#60,(a1)
-		bcs.s	loc_116EE
-		move.b	#0,(a1)
-		addq.b	#1,-(a1)
-		cmpi.b	#9,(a1)
-		bcs.s	loc_116EE
-		move.b	#9,(a1)
-
-loc_116EE:
-		move.l	#$5E400003,d0
-		moveq	#0,d1
-		move.b	(dword_FFFE22+1).w,d1
-		bsr.w	sub_118F4
-		move.l	#$5EC00003,d0
-		moveq	#0,d1
-		move.b	(dword_FFFE22+2).w,d1
-		bsr.w	sub_118FE
-
-loc_1170E:
-		tst.b	(byte_FFFE1C).w
-		beq.s	loc_1171C
-		clr.b	(byte_FFFE1C).w
-		bsr.w	sub_119BA
-
-loc_1171C:
-		tst.b	(byte_FFFE58).w
-		beq.s	locret_11744
-		clr.b	(byte_FFFE58).w
-		move.l	#$6E000002,($C00004).l
-		moveq	#0,d1
-		move.w	(word_FFFE54).w,d1
-		bsr.w	sub_11958
-		moveq	#0,d1
-		move.w	(word_FFFE56).w,d1
-		bsr.w	sub_11958
-
-locret_11744:
-		rts
-; ---------------------------------------------------------------------------
-
-loc_11746:
-		bsr.w	sub_1181E
-		tst.b	(ExtraLifeFlags).w
-		beq.s	loc_1176A
-		bpl.s	loc_11756
-		bsr.w	sub_117B2
-
-loc_11756:
-		clr.b	(ExtraLifeFlags).w
-		move.l	#$5F400003,d0
-		moveq	#0,d1
-		move.w	(Rings).w,d1
-		bsr.w	sub_11874
-
-loc_1176A:
-		move.l	#$5EC00003,d0
-		moveq	#0,d1
-		move.b	(byte_FFF62C).w,d1
-		bsr.w	sub_118FE
-		tst.b	(byte_FFFE1C).w
-		beq.s	loc_11788
-		clr.b	(byte_FFFE1C).w
-		bsr.w	sub_119BA
-
-loc_11788:
-		tst.b	(byte_FFFE58).w
-		beq.s	locret_117B0
-		clr.b	(byte_FFFE58).w
-		move.l	#$6E000002,($C00004).l
-		moveq	#0,d1
-		move.w	(word_FFFE54).w,d1
-		bsr.w	sub_11958
-		moveq	#0,d1
-		move.w	(word_FFFE56).w,d1
-		bsr.w	sub_11958
-
-locret_117B0:
-		rts
-; ---------------------------------------------------------------------------
-
-sub_117B2:
-		move.l	#$5F400003,($C00004).l
-		lea	byte_1181A(pc),a2
-		move.w	#2,d2
-		bra.s	loc_117E2
-; ---------------------------------------------------------------------------
-
-sub_117C6:
-		lea	($C00000).l,a6
-		bsr.w	sub_119BA
-		move.l	#$5C400003,($C00004).l
-		lea	byte_1180E(pc),a2
-		move.w	#$E,d2
-
-loc_117E2:
-		lea	byte_11A26(pc),a1
-
-loc_117E6:
-		move.w	#$F,d1
-		move.b	(a2)+,d0
-		bmi.s	loc_11802
-		ext.w	d0
-		lsl.w	#5,d0
-		lea	(a1,d0.w),a3
-
-loc_117F6:
-		move.l	(a3)+,(a6)
-		dbf	d1,loc_117F6
-
-loc_117FC:
-		dbf	d2,loc_117E6
-		rts
-; ---------------------------------------------------------------------------
-
-loc_11802:
-		move.l	#0,(a6)
-		dbf	d1,loc_11802
-		bra.s	loc_117FC
-; ---------------------------------------------------------------------------
-
-byte_1180E:	dc.b $16, $FF, $FF, $FF, $FF, $FF, $FF, 0, 0, $14, 0, 0
-
-byte_1181A:	dc.b $FF, $FF, 0, 0
-; ---------------------------------------------------------------------------
-
-sub_1181E:
-		move.l	#$5C400003,($C00004).l
-		move.w	(unk_FFF700).w,d1
-		swap	d1
-		move.w	(ObjectsList+8).w,d1
-		bsr.s	sub_1183E
-		move.w	(unk_FFF704).w,d1
-		swap	d1
-		move.w	(ObjectsList+$C).w,d1
-; ---------------------------------------------------------------------------
-
-sub_1183E:
-		moveq	#7,d6
-		lea	(ArtText).l,a1
-
-loc_11846:
-		rol.w	#4,d1
-		move.w	d1,d2
-		andi.w	#$F,d2
-		cmpi.w	#$A,d2
-		bcs.s	loc_11856
-		addq.w	#7,d2
-
-loc_11856:
-		lsl.w	#5,d2
-		lea	(a1,d2.w),a3
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		swap	d1
-		dbf	d6,loc_11846
-		rts
-; ---------------------------------------------------------------------------
-
-sub_11874:
-		lea	(dword_118E8).l,a2
-		moveq	#2,d6
-		bra.s	loc_11886
-; ---------------------------------------------------------------------------
-
-sub_1187E:
-		lea	(dword_118DC).l,a2
-		moveq	#5,d6
-
-loc_11886:
-		moveq	#0,d4
-		lea	byte_11A26(pc),a1
-
-loc_1188C:
-		moveq	#0,d2
-		move.l	(a2)+,d3
-
-loc_11890:
-		sub.l	d3,d1
-		bcs.s	loc_11898
-		addq.w	#1,d2
-		bra.s	loc_11890
-; ---------------------------------------------------------------------------
-
-loc_11898:
-		add.l	d3,d1
-		tst.w	d2
-		beq.s	loc_118A2
-		move.w	#1,d4
-
-loc_118A2:
-		tst.w	d4
-		beq.s	loc_118D0
-		lsl.w	#6,d2
-		move.l	d0,4(a6)
-		lea	(a1,d2.w),a3
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-
-loc_118D0:
-		addi.l	#$400000,d0
-		dbf	d6,loc_1188C
-		rts
-; ---------------------------------------------------------------------------
-
-dword_118DC:	dc.l 100000
-		dc.l 10000
-
-dword_118E4:	dc.l 1000
-
-dword_118E8:	dc.l 100
-
-dword_118EC:	dc.l 10
-
-dword_118F0:	dc.l 1
-; ---------------------------------------------------------------------------
-
-sub_118F4:
-		lea	(dword_118F0).l,a2
-		moveq	#0,d6
-		bra.s	loc_11906
-; ---------------------------------------------------------------------------
-
-sub_118FE:
-		lea	(dword_118EC).l,a2
-		moveq	#1,d6
-
-loc_11906:
-		moveq	#0,d4
-		lea	byte_11A26(pc),a1
-
-loc_1190C:
-		moveq	#0,d2
-		move.l	(a2)+,d3
-
-loc_11910:
-		sub.l	d3,d1
-		bcs.s	loc_11918
-		addq.w	#1,d2
-		bra.s	loc_11910
-; ---------------------------------------------------------------------------
-
-loc_11918:
-		add.l	d3,d1
-		tst.w	d2
-		beq.s	loc_11922
-		move.w	#1,d4
-
-loc_11922:
-		lsl.w	#6,d2
-		move.l	d0,4(a6)
-		lea	(a1,d2.w),a3
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		addi.l	#$400000,d0
-		dbf	d6,loc_1190C
-		rts
-; ---------------------------------------------------------------------------
-
-sub_11958:
-		lea	(dword_118E4).l,a2
-		moveq	#3,d6
-		moveq	#0,d4
-		lea	byte_11A26(pc),a1
-
-loc_11966:
-		moveq	#0,d2
-		move.l	(a2)+,d3
-
-loc_1196A:
-		sub.l	d3,d1
-		bcs.s	loc_11972
-		addq.w	#1,d2
-		bra.s	loc_1196A
-; ---------------------------------------------------------------------------
-
-loc_11972:
-		add.l	d3,d1
-		tst.w	d2
-		beq.s	loc_1197C
-		move.w	#1,d4
-
-loc_1197C:
-		tst.w	d4
-		beq.s	loc_119AC
-		lsl.w	#6,d2
-		lea	(a1,d2.w),a3
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-
-loc_119A6:
-		dbf	d6,loc_11966
-		rts
-; ---------------------------------------------------------------------------
-
-loc_119AC:
-		moveq	#$F,d5
-
-loc_119AE:
-		move.l	#0,(a6)
-		dbf	d5,loc_119AE
-		bra.s	loc_119A6
-; ---------------------------------------------------------------------------
-
-sub_119BA:
-		move.l	#$7BA00003,d0
-		moveq	#0,d1
-		move.b	(Lives).w,d1
-		lea	(dword_118EC).l,a2
-		moveq	#1,d6
-		moveq	#0,d4
-		lea	byte_11D26(pc),a1
-
-loc_119D4:
-		move.l	d0,4(a6)
-		moveq	#0,d2
-		move.l	(a2)+,d3
-
-loc_119DC:
-		sub.l	d3,d1
-		bcs.s	loc_119E4
-		addq.w	#1,d2
-		bra.s	loc_119DC
-; ---------------------------------------------------------------------------
-
-loc_119E4:
-		add.l	d3,d1
-		tst.w	d2
-		beq.s	loc_119EE
-		move.w	#1,d4
-
-loc_119EE:
-		tst.w	d4
-		beq.s	loc_11A14
-
-loc_119F2:
-		lsl.w	#5,d2
-		lea	(a1,d2.w),a3
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-
-loc_11A08:
-		addi.l	#$400000,d0
-		dbf	d6,loc_119D4
-		rts
-; ---------------------------------------------------------------------------
-
-loc_11A14:
-		tst.w	d6
-		beq.s	loc_119F2
-		moveq	#7,d5
-
-loc_11A1A:
-		move.l	#0,(a6)
-		dbf	d5,loc_11A1A
-		bra.s	loc_11A08
-; ---------------------------------------------------------------------------
-
-byte_11A26:	dc.b 0, 0, 0, 0, 0, $66, $66, $10, 6, $66, $66, $61, 6
-		dc.b $61, $16, $61, 6, $61, 6, $61, 6, $61, 6, $61, 6
-		dc.b $61, 6, $61, 6, $61, 6, $61, 6, $61, 6, $61, 6, $66
-		dc.b $66, $61, 0, $66, $66, $10, 0, $11, $11, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 6, $61, 0, 0, $66, $61, 0, 0, 6, $61, 0, 0
-		dc.b 6, $61, 0, 0, 6, $61, 0, 0, 6, $61, 0, 0, 6, $61
-		dc.b 0, 0, 6, $61, 0, 0, 6, $61, 0, 0, 6, $61, 0, 0, 1
-		dc.b $11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, $66, $66, $10, 6, $66, $66, $61
-		dc.b 6, $61, $16, $61, 1, $11, $66, $61, 0, 6, $66, $10
-		dc.b 0, $66, $61, 0, 0, $66, $10, 0, 6, $66, $10, 0, 6
-		dc.b $66, $66, $61, 6, $66, $66, $61, 1, $11, $11, $11
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, $66, $66, $10, 6, $66, $66, $61, 6, $61
-		dc.b $16, $61, 1, $11, 6, $61, 0, 6, $66, $10, 0, 6, $66
-		dc.b $10, 0, 1, $16, $61, 6, $61, 6, $61, 6, $66, $66
-		dc.b $61, 0, $66, $66, $10, 0, $11, $11, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, $66, $10, 0, 6, $66, $10, 0, 6, $66, $10, 0, $66
-		dc.b $66, $10, 0, $61, $66, $10, 6, $61, $66, $10, 6, $66
-		dc.b $66, $61, 6, $66, $66, $61, 1, $11, $66, $11, 0, 0
-		dc.b $66, $10, 0, 0, $11, $10, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, $66, $66, $61
-		dc.b 6, $66, $66, $61, 6, $61, $11, $11, 6, $61, 0, 0
-		dc.b 6, $66, $66, $10, 6, $66, $66, $61, 1, $11, $16, $61
-		dc.b 6, $61, 6, $61, 6, $66, $66, $61, 1, $66, $66, $10
-		dc.b 0, $11, $11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, $66, $66, $10, 6, $66
-		dc.b $66, $61, 6, $61, $16, $61, 6, $61, 1, $11, 6, $66
-		dc.b $66, $10, 6, $66, $66, $61, 6, $61, $16, $61, 6, $61
-		dc.b 6, $61, 6, $66, $66, $61, 0, $66, $66, $10, 0, $11
-		dc.b $11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 6, $66, $66, $61, 6, $66, $66, $61
-		dc.b 1, $11, $16, $61, 0, 0, $66, $10, 0, 0, $66, $10
-		dc.b 0, 0, $66, $10, 0, 6, $61, 0, 0, 6, $61, 0, 0, 6
-		dc.b $61, 0, 0, 6, $61, 0, 0, 1, $11, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $66
-		dc.b $66, $10, 6, $66, $66, $61, 6, $61, $16, $61, 6, $61
-		dc.b 6, $61, 0, $66, $66, $10, 0, $66, $66, $10, 6, $61
-		dc.b $16, $61, 6, $61, 6, $61, 6, $66, $66, $61, 0, $66
-		dc.b $66, $10, 0, $11, $11, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $66, $66, $10
-		dc.b 6, $66, $66, $61, 6, $61, $16, $61, 6, $61, 6, $61
-		dc.b 6, $66, $66, $61, 0, $66, $66, $61, 0, $11, $16, $61
-		dc.b 6, $61, 6, $61, 6, $66, $66, $61, 0, $66, $66, $10
-		dc.b 0, $11, $11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 6, $61, 0, 0, 6, $61, 0, 0, 1, $11, 0, 0, 0, 0, 0
-		dc.b 0, 6, $61, 0, 0, 6, $61, 0, 0, 1, $11, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0, 0, 0, 0, 0, $F, $FF, $FF, $F1, $F, $FF
-		dc.b $FF, $F1, $F, $F1, $11, $11, $F, $F1, 0, 0, $F, $FF
-		dc.b $FF, $10, $F, $FF, $FF, $10, $F, $F1, $11, $10, $F
-		dc.b $F1, 0, 0, $F, $FF, $FF, $F1, $F, $FF, $FF, $F1, 1
-		dc.b $11, $11, $11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-		dc.b 0, 0, 0, 0
-
-byte_11D26:	dc.b 0, 0, 0, 0, 0, $66, $66, $10, 6, $61, $16, $61, 6
-		dc.b $61, 6, $61, 6, $61, 6, $61, 6, $61, 6, $61, 0, $66
-		dc.b $66, $10, 0, $11, $11, 0, 0, 0, 0, 0, 0, 6, $61, 0
-		dc.b 0, $66, $61, 0, 0, $16, $61, 0, 0, 6, $61, 0, 0, 6
-		dc.b $61, 0, 0, 6, $61, 0, 0, 1, $11, 0, 0, 0, 0, 0, 0
-		dc.b $66, $66, $10, 0, $11, $16, $61, 0, 0, $66, $11, 0
-		dc.b 6, $61, $10, 0, $66, $11, $10, 6, $66, $66, $61, 1
-		dc.b $11, $11, $11, 0, 0, 0, 0, 0, $66, $66, $10, 0, $11
-		dc.b $16, $61, 0, 6, $66, $10, 0, 1, $16, $61, 6, $61
-		dc.b 6, $61, 0, $66, $66, $10, 0, $11, $11, 0, 0, 0, 0
-		dc.b 0, 0, 0, $66, $10, 0, 6, $66, $10, 0, $61, $66, $10
-		dc.b 6, $61, $66, $10, 6, $66, $66, $61, 1, $11, $66, $11
-		dc.b 0, 0, $11, $10, 0, 0, 0, 0, 6, $66, $66, $61, 6, $61
-		dc.b $11, $11, 6, $66, $66, $10, 1, $11, $16, $61, 6, $61
-		dc.b 6, $61, 0, $66, $66, $10, 0, $11, $11, 0, 0, 0, 0
-		dc.b 0, 0, $66, $66, $10, 6, $61, $11, $10, 6, $66, $66
-		dc.b $10, 6, $61, $16, $61, 6, $61, 6, $61, 0, $66, $66
-		dc.b $10, 0, $11, $11, 0, 0, 0, 0, 0, 6, $66, $66, $61
-		dc.b 1, $11, $16, $61, 0, 0, $66, $10, 0, 6, $61, 0, 0
-		dc.b $66, $10, 0, 0, $66, $10, 0, 0, $11, $10, 0, 0, 0
-		dc.b 0, 0, 0, $66, $66, $10, 6, $61, $16, $61, 0, $66
-		dc.b $66, $10, 6, $61, $16, $61, 6, $61, 6, $61, 0, $66
-		dc.b $66, $10, 0, $11, $11, 0, 0, 0, 0, 0, 0, $66, $66
-		dc.b $10, 6, $61, $16, $61, 6, $61, 6, $61, 0, $66, $66
-		dc.b $61, 0, $11, $16, $61, 0, $66, $66, $10, 0, $11, $11
-		dc.b 0
-; ---------------------------------------------------------------------------
-
-DebugMode:
-		moveq	#0,d0
-		move.b	(DebugRoutine).w,d0
-		move.w	off_11E74(pc,d0.w),d1
-		jmp	off_11E74(pc,d1.w)
-; ---------------------------------------------------------------------------
-
-off_11E74:	dc.w loc_11E78-off_11E74, loc_11EB8-off_11E74
-; ---------------------------------------------------------------------------
-
-loc_11E78:
-		addq.b	#2,(DebugRoutine).w
-		move.b	#0,$1A(a0)
-		move.b	#0,$1C(a0)
-		moveq	#0,d0
-		move.b	(level).w,d0
-		lea	(DebugLists).l,a2
-		add.w	d0,d0
-		adda.w	(a2,d0.w),a2
-		move.w	(a2)+,d6
-		cmp.b	(byte_FFFE06).w,d6
-		bhi.s	loc_11EA8
-		move.b	#0,(byte_FFFE06).w
-
-loc_11EA8:
-		bsr.w	sub_11FCE
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#1,(byte_FFFE0B).w
-
-loc_11EB8:
-		moveq	#0,d0
-		move.b	(level).w,d0
-		lea	(DebugLists).l,a2
-		add.w	d0,d0
-		adda.w	(a2,d0.w),a2
-		move.w	(a2)+,d6
-		bsr.w	sub_11ED6
-		jmp	ObjectDisplay
-; ---------------------------------------------------------------------------
-
-sub_11ED6:
-		moveq	#0,d4
-		move.w	#1,d1
-		move.b	(padPress1).w,d4
-		bne.s	loc_11F0E
-		tst.b	(padHeld1).w
-		bne.s	loc_11EF6
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#$F,(byte_FFFE0B).w
-		rts
-; ---------------------------------------------------------------------------
-
-loc_11EF6:
-		subq.b	#1,(byte_FFFE0A).w
-		bne.s	loc_11F12
-		move.b	#1,(byte_FFFE0A).w
-		addq.b	#1,(byte_FFFE0B).w
-		bne.s	loc_11F0E
-		move.b	#$FF,(byte_FFFE0B).w
-
-loc_11F0E:
-		move.b	(padHeld1).w,d4
-
-loc_11F12:
-		moveq	#0,d1
-		move.b	(byte_FFFE0B).w,d1
-		addq.w	#1,d1
-		swap	d1
-		asr.l	#4,d1
-		move.l	$C(a0),d2
-		move.l	8(a0),d3
-		btst	#0,d4
-		beq.s	loc_11F32
-		sub.l	d1,d2
-		bcc.s	loc_11F32
-		moveq	#0,d2
-
-loc_11F32:
-		btst	#1,d4
-		beq.s	loc_11F48
-		add.l	d1,d2
-		cmpi.l	#$7FF0000,d2
-		bcs.s	loc_11F48
-		move.l	#$7FF0000,d2
-
-loc_11F48:
-		btst	#2,d4
-		beq.s	loc_11F54
-		sub.l	d1,d3
-		bcc.s	loc_11F54
-		moveq	#0,d3
-
-loc_11F54:
-		btst	#3,d4
-		beq.s	loc_11F5C
-		add.l	d1,d3
-
-loc_11F5C:
-		move.l	d2,$C(a0)
-		move.l	d3,8(a0)
-		btst	#6,(padPressPlayer).w
-		beq.s	loc_11F80
-		addq.b	#1,(byte_FFFE06).w
-		cmp.b	(byte_FFFE06).w,d6
-		bhi.s	loc_11F7C
-		move.b	#0,(byte_FFFE06).w
-
-loc_11F7C:
-		bra.w	sub_11FCE
-; ---------------------------------------------------------------------------
-
-loc_11F80:
-		btst	#5,(padPressPlayer).w
-		beq.s	loc_11FA4
-		jsr	ObjectLoad
-		bne.s	loc_11FA4
-		move.w	8(a0),8(a1)
-		move.w	$C(a0),$C(a1)
-		move.b	4(a0),0(a1)
-		rts
-; ---------------------------------------------------------------------------
-
-loc_11FA4:
-		btst	#4,(padPressPlayer).w
-		beq.s	locret_11FCC
-		moveq	#0,d0
-		move.w	d0,(DebugRoutine).w
-		move.l	#MapSonic,(ObjectsList+4).w
-		move.w	#$780,(ObjectsList+2).w
-		move.b	d0,(ObjectsList+$1C).w
-		move.w	d0,$A(a0)
-		move.w	d0,$E(a0)
-
-locret_11FCC:
-		rts
-; ---------------------------------------------------------------------------
-
-sub_11FCE:
-		moveq	#0,d0
-		move.b	(byte_FFFE06).w,d0
-		lsl.w	#3,d0
-		move.l	(a2,d0.w),4(a0)
-		move.w	6(a2,d0.w),2(a0)
-		move.b	5(a2,d0.w),$1A(a0)
-		rts
-; ---------------------------------------------------------------------------
-
-DebugLists:	dc.w word_11FF6-DebugLists, word_12060-DebugLists, word_1207A-DebugLists, word_12104-DebugLists
-		dc.w word_1216E-DebugLists, word_121D8-DebugLists
-
-word_11FF6:	dc.w $D
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($1F<<24)|MapCrabmeat
-		dc.b 0, 0, 4, 0
-		dc.l ($22<<24)|MapBuzzbomber
-		dc.b 0, 0, 4, $44
-		dc.l ($2B<<24)|MapChopper
-		dc.b 0, 0, 4, $7B
-		dc.l ($36<<24)|MapSpikes
-		dc.b 0, 0, 5, $1B
-		dc.l ($18<<24)|MapPlatform1
-		dc.b 0, 0, $40, 0
-		dc.l ($3B<<24)|MapPurpleRock
-		dc.b 0, 0, $63, $D0
-		dc.l ($40<<24)|MapMotobug
-		dc.b 0, 0, 4, $F0
-		dc.l ($41<<24)|MapSpring
-		dc.b 0, 0, 5, $23
-		dc.l ($42<<24)|MapNewtron
-		dc.b 0, 0, $24, $9B
-		dc.l ($44<<24)|MapWall
-		dc.b 0, 0, $43, $4C
-		dc.l ($19<<24)|MapRollingBall
-		dc.b 0, 0, $43, $AA
-
-word_12060:	dc.w 3
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($1F<<24)|MapCrabmeat
-		dc.b 0, 0, 4, 0
-
-word_1207A:	dc.w $11
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($22<<24)|MapBuzzbomber
-		dc.b 0, 0, 4, $44
-		dc.l ($36<<24)|MapSpikes
-		dc.b 0, 0, 5, $1B
-		dc.l ($41<<24)|MapSpring
-		dc.b 0, 0, 5, $23
-		dc.l ($13<<24)|MapLavaball
-		dc.b 0, 0, 3, $45
-		dc.l ($46<<24)|MapMZBlocks
-		dc.b 0, 0, $40, 0
-		dc.l ($4C<<24)|MapLavafall
-		dc.b 0, 0, $63, $A8
-		dc.l ($4E<<24)|MapLavaChase
-		dc.b 0, 0, $63, $A8
-		dc.l ($33<<24)|MapPushBlock
-		dc.b 0, 0, $42, $B8
-		dc.l ($4F<<24)|Map4F
-		dc.b 0, 0, 4, $E4
-		dc.l ($50<<24)|MapYardin
-		dc.b 0, 0, 4, $7B
-		dc.l ($51<<24)|MapSmashBlock
-		dc.b 0, 0, $42, $B8
-		dc.l ($52<<24)|MapMovingPtfm
-		dc.b 0, 0, 2, $B8
-		dc.l ($53<<24)|MapCollapseFloor
-		dc.b 0, 0, $62, $B8
-		dc.l ($54<<24)|MapLavaHurt
-		dc.b 0, 0, $86, $80
-		dc.l ($55<<24)|MapBasaran
-		dc.b 0, 0, $24, $B8
-
-word_12104:	dc.w $D
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($59<<24)|MapSLZMovingPtfm
-		dc.b 0, 0, $44, $80
-		dc.l ($53<<24)|MapCollapseFloor
-		dc.b 0, 2, $44, $E0
-		dc.l ($18<<24)|MapPlatform3
-		dc.b 0, 0, $44, $80
-		dc.l ($5A<<24)|MapCirclePtfm
-		dc.b 0, 0, $44, $80
-		dc.l ($5B<<24)|MapStaircasePtfm
-		dc.b 0, 0, $44, $80
-		dc.l ($5D<<24)|MapFan
-		dc.b 0, 0, $43, $A0
-		dc.l ($5E<<24)|MapSeesaw
-		dc.b 0, 0, 3, $74
-		dc.l ($41<<24)|MapSpring
-		dc.b 0, 0, 5, $23
-		dc.l ($13<<24)|MapLavaball
-		dc.b 0, 0, 3, $45
-		dc.l ($1F<<24)|MapCrabmeat
-		dc.b 0, 0, 4, 0
-		dc.l ($22<<24)|MapBuzzbomber
-		dc.b 0, 0, 4, $44
-
-word_1216E:	dc.w $D
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($36<<24)|MapSpikes
-		dc.b 0, 0, 5, $1B
-		dc.l ($41<<24)|MapSpring
-		dc.b 0, 0, 5, $23
-		dc.l ($43<<24)|MapRoller
-		dc.b 0, 0, $24, $B8
-		dc.l ($12<<24)|MapSceneryLamp
-		dc.b 0, 0, 0, 0
-		dc.l ($47<<24)|MapBumper
-		dc.b 0, 0, 3, $80
-		dc.l ($1F<<24)|MapCrabmeat
-		dc.b 0, 0, 4, 0
-		dc.l ($22<<24)|MapBuzzbomber
-		dc.b 0, 0, 4, $44
-		dc.l ($50<<24)|MapYardin
-		dc.b 0, 0, 4, $7B
-		dc.l ($18<<24)|MapPlatform2
-		dc.b 0, 0, $40, 0
-		dc.l ($56<<24)|MapMovingBlocks
-		dc.b 0, 0, $40, 0
-		dc.l ($32<<24)|MapSwitch
-		dc.b 0, 0, 5, $13
-
-word_121D8:	dc.w 3
-		dc.l ($25<<24)|MapRing
-		dc.b 0, 0, $27, $B2
-		dc.l ($26<<24)|MapMonitor
-		dc.b 0, 0, 6, $80
-		dc.l ($1F<<24)|MapCrabmeat
-		dc.b 0, 0, 4, 0
-		dc.l ($1E<<24)|MapBallhog
-		dc.b 0, 0, $24, 0
-		dc.l ($2C<<24)|MapJaws
-		dc.b 0, 0, 4, $7B
-		dc.l ($2D<<24)|MapBurrobot
-		dc.b 0, 0, $24, $7B
-
-LevelDataArray:	dc.l ($4<<24)|TilesGHZ_2, ($5<<24)|BlocksGHZ, ChunksGHZ
-		dc.b 0, $81, 4, 4
-		dc.l ($6<<24)|TilesLZ, ($7<<24)|BlocksLZ, ChunksLZ
-		dc.b 0, $82, 5, 5
-		dc.l ($8<<24)|TilesMZ, ($9<<24)|BlocksMZ, ChunksMZ
-		dc.b 0, $83, 6, 6
-		dc.l ($A<<24)|TilesSLZ, ($B<<24)|BlocksSLZ, ChunksSLZ
-		dc.b 0, $84, 7, 7
-		dc.l ($C<<24)|TilesSYZ, ($D<<24)|BlocksSYZ, ChunksSYZ
-		dc.b 0, $85, 8, 8
-		dc.l ($E<<24)|TilesSBZ, ($F<<24)|BlocksSBZ, ChunksSBZ
-		dc.b 0, $86, 9, 9
-
-plcArray:	dc.w word_122A0-plcArray, word_122C0-plcArray, word_122D4-plcArray, plcGameOver-plcArray
-		dc.w plcGHZ1-plcArray, plzGHZ2-plcArray, plcLZ1-plcArray, plcLZ2-plcArray, plcMZ1-plcArray
-		dc.w plcMZ2-plcArray, plzSLZ1-plcArray, plcSLZ2-plcArray, plzSYZ1-plcArray, plcSYZ2-plcArray
-		dc.w plcSBZ1-plcArray, plcSBZ2-plcArray, plcTitleCards-plcArray, word_12484-plcArray
-		dc.w plcSignPosts-plcArray, plcFlash-plcArray, word_124A8-plcArray, word_1251C-plcArray
-		dc.w word_1252A-plcArray, word_12538-plcArray, word_12546-plcArray, word_12554-plcArray
-		dc.w word_12562-plcArray
-
-word_122A0:	dc.w 4
-		dc.l ArtSmoke
-		dc.w $F400
-		dc.l ArtHUD
-		dc.w $D940
-		dc.l ArtLives
-		dc.w $FA80
-		dc.l ArtRings
-		dc.w $F640
-		dc.l byte_2E6C8
-		dc.w $F2E0
-
-word_122C0:	dc.w 2
-		dc.l ArtMonitors
-		dc.w $D000
-		dc.l ArtShield
-		dc.w $A820
-		dc.l ArtInvinStars
-		dc.w $AB80
-
-word_122D4:	dc.w 0
-		dc.l ArtExplosions
-		dc.w $B400
-
-plcGameOver:	dc.w 0
-		dc.l ArtGameOver
-		dc.w $B000
-
-plcGHZ1:	dc.w $B
-		dc.l TilesGHZ_1
-		dc.w 0
-		dc.l TilesGHZ_2
-		dc.w $39A0
-		dc.l byte_27400
-		dc.w $6B00
-		dc.l ArtPurpleRock
-		dc.w $7A00
-		dc.l ArtCrabmeat
-		dc.w $8000
-		dc.l ArtBuzzbomber
-		dc.w $8880
-		dc.l ArtChopper
-		dc.w $8F60
-		dc.l ArtNewtron
-		dc.w $9360
-		dc.l ArtMotobug
-		dc.w $9E00
-		dc.l ArtSpikes
-		dc.w $A360
-		dc.l ArtSpringHoriz
-		dc.w $A460
-		dc.l ArtSpringVerti
-		dc.w $A660
-
-plzGHZ2:	dc.w 5
-		dc.l byte_2744A
-		dc.w $7000
-		dc.l ArtBridge
-		dc.w $71C0
-		dc.l ArtSpikeLogs
-		dc.w $7300
-		dc.l byte_27698
-		dc.w $7540
-		dc.l ArtSmashWall
-		dc.w $A1E0
-		dc.l ArtWall
-		dc.w $6980
-
-plcLZ1:		dc.w 0
-		dc.l TilesLZ
-		dc.w 0
-
-plcLZ2:		dc.w 0
-		dc.l ArtJaws
-		dc.w $99C0
-
-plcMZ1:		dc.w 9
-		dc.l TilesMZ
-		dc.w 0
-		dc.l ArtChainPtfm
-		dc.w $6000
-		dc.l byte_2827A
-		dc.w $68A0
-		dc.l byte_2744A
-		dc.w $7000
-		dc.l byte_2816E
-		dc.w $71C0
-		dc.l byte_28558
-		dc.w $7500
-		dc.l ArtBuzzbomber
-		dc.w $8880
-		dc.l ArtYardin
-		dc.w $8F60
-		dc.l ArtBasaran
-		dc.w $9700
-		dc.l ArtSplats
-		dc.w $9C80
-
-plcMZ2:		dc.w 4
-		dc.l ArtButtonMZ
-		dc.w $A260
-		dc.l ArtSpikes
-		dc.w $A360
-		dc.l ArtSpringHoriz
-		dc.w $A460
-		dc.l ArtSpringVerti
-		dc.w $A660
-		dc.l byte_28E6E
-		dc.w $5700
-
-plzSLZ1:	dc.w $A
-		dc.l TilesSLZ
-		dc.w 0
-		dc.l byte_2827A
-		dc.w $68A0
-		dc.l ArtCrabmeat
-		dc.w $8000
-		dc.l ArtBuzzbomber
-		dc.w $8880
-		dc.l byte_297B6
-		dc.w $9000
-		dc.l byte_29D4A
-		dc.w $9C00
-		dc.l ArtMotobug
-		dc.w $9E00
-		dc.l byte_294DA
-		dc.w $A260
-		dc.l ArtSpikes
-		dc.w $A360
-		dc.l ArtSpringHoriz
-		dc.w $A460
-		dc.l ArtSpringVerti
-		dc.w $A660
-
-plcSLZ2:	dc.w 3
-		dc.l ArtSeesaw
-		dc.w $6E80
-		dc.l ArtFan
-		dc.w $7400
-		dc.l byte_2953C
-		dc.w $7980
-		dc.l byte_2961E
-		dc.w $7B80
-
-plzSYZ1:	dc.w 4
-		dc.l TilesSYZ
-		dc.w 0
-		dc.l ArtCrabmeat
-		dc.w $8000
-		dc.l ArtBuzzbomber
-		dc.w $8880
-		dc.l ArtYardin
-		dc.w $8F60
-		dc.l byte_2BC04
-		dc.w $9700
-
-plcSYZ2:	dc.w 6
-		dc.l ArtBumper
-		dc.w $7000
-		dc.l byte_2A104
-		dc.w $72C0
-		dc.l byte_29FC0
-		dc.w $7740
-		dc.l ArtButton
-		dc.w $A1E0
-		dc.l ArtSpikes
-		dc.w $A360
-		dc.l ArtSpringHoriz
-		dc.w $A460
-		dc.l ArtSpringVerti
-		dc.w $A660
-
-plcSBZ1:	dc.w 0
-		dc.l TilesSBZ
-		dc.w 0
-
-plcSBZ2:	dc.w 0
-		dc.l ArtJaws
-		dc.w $99C0
-
-plcTitleCards:	dc.w 0
-		dc.l ArtTitleCards
-		dc.w $B000
-
-word_12484:	dc.w 2
-		dc.l byte_60000
-		dc.w $8000
-		dc.l byte_60864
-		dc.w $8D80
-		dc.l byte_60BB0
-		dc.w $93A0
-
-plcSignPosts:	dc.w 0
-		dc.l ArtSignPost
-		dc.w $D000
-
-plcFlash:	dc.w 0
-		dc.l ArtFlash
-		dc.w $A820
-
-word_124A8:	dc.w $B
-		dc.l byte_64A7C
-		dc.w 0
-		dc.l ArtSpecialAnimals
-		dc.w $A20
-		dc.l ArtSpecialBlocks
-		dc.w $2840
-		dc.l ArtBumper
-		dc.w $4760
-		dc.l ArtSpecialGoal
-		dc.w $4A20
-		dc.l ArtSpecialUpDown
-		dc.w $4C60
-		dc.l ArtSpecialR
-		dc.w $5E00
-		dc.l ArtSpecial1up
-		dc.w $6E00
-		dc.l ArtSpecialStars
-		dc.w $7E00
-		dc.l byte_65432
-		dc.w $8E00
-		dc.l ArtSpecialSkull
-		dc.w $9E00
-		dc.l ArtSpecialU
-		dc.w $AE00
-		dc.l ArtSpecialEmerald
-		dc.w 0
-		dc.l ArtSpecialZone1
-		dc.w 0
-		dc.l ArtSpecialZone2
-		dc.w 0
-		dc.l ArtSpecialZone3
-		dc.w 0
-		dc.l ArtSpecialZone4
-		dc.w 0
-		dc.l ArtSpecialZone5
-		dc.w 0
-		dc.l ArtSpecialZone6
-		dc.w 0
-
-word_1251C:	dc.w 1
-		dc.l ArtAnimalPocky
-		dc.w $B000
-		dc.l ArtAnimalCucky
-		dc.w $B240
-
-word_1252A:	dc.w 1
-		dc.l ArtAnimalPecky
-		dc.w $B000
-		dc.l ArtAnimalRocky
-		dc.w $B240
-
-word_12538:	dc.w 1
-		dc.l ArtAnimalPicky
-		dc.w $B000
-		dc.l ArtAnimalFlicky
-		dc.w $B240
-
-word_12546:	dc.w 1
-		dc.l ArtAnimalRicky
-		dc.w $B000
-		dc.l ArtAnimalRocky
-		dc.w $B240
-
-word_12554:	dc.w 1
-		dc.l ArtAnimalPicky
-		dc.w $B000
-		dc.l ArtAnimalCucky
-		dc.w $B240
-
-word_12562:	dc.w 1
-		dc.l ArtAnimalPocky
-		dc.w $B000
-		dc.l ArtAnimalFlicky
-		dc.w $B240
-		align	$8000					; Unnecessary alignment
-		incbin "unknown/18000.dat"
-		even
-ArtSega:	incbin "screens/sega/Main.nem"
-		even
-MapSega:	incbin "unknown/18A56.eni"
-		even
-byte_18A62:	incbin "unknown/18A62.unc"
-		even
-ArtTitleMain:	incbin "screens/title/Main.nem"
-		even
-ArtTitleSonic:	incbin "screens/title/Sonic.nem"
-		even
+		include "levels/shared/HUD/Sprite.map"
 		include "levels/shared/Sonic/sprite.map"
 		include "levels/shared/Sonic/dynamic.map"
 ArtSonic:	incbin "levels/shared/Sonic/Art.unc"
@@ -29368,5 +24798,5 @@ ConsoleRegion:	ds.b 1
 
 word_FFFFFA:	ds.w 1
 
-ChecksumStr:	ds.b 3
+ChecksumStr:	ds.l 1
 ; end of 'RAM'

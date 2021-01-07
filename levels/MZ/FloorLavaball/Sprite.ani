@@ -1,0 +1,3 @@
+AniFloorLavaball:dc.w byte_92D6-AniFloorLavaball
+
+byte_92D6:	dc.b 5, 0, $20, 1, $21, $FF

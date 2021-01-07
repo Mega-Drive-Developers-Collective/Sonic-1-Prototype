@@ -1,0 +1,49 @@
+MapLevelResults:dc.w byte_AA4C-MapLevelResults, byte_AA75-MapLevelResults, byte_AA94-MapLevelResults
+		dc.w byte_AAB3-MapLevelResults, byte_AAD7-MapLevelResults
+		dc.w byte_A9DD-MapLevelResults, byte_A9BC-MapLevelResults
+		dc.w byte_A9C7-MapLevelResults, byte_A9D2-MapLevelResults
+
+byte_AA4C:	dc.b 8
+		dc.b $F8, 5, 0, $3E, $B8
+		dc.b $F8, 5, 0, $32, $C8
+		dc.b $F8, 5, 0, $2E, $D8
+		dc.b $F8, 1, 0, $20, $E8
+		dc.b $F8, 5, 0, 8, $F0
+		dc.b $F8, 5, 0, $1C, $10
+		dc.b $F8, 5, 0, 0, $20
+		dc.b $F8, 5, 0, $3E, $30
+
+byte_AA75:	dc.b 6
+		dc.b $F8, 5, 0, $36, $D0
+		dc.b $F8, 5, 0, 0, $E0
+		dc.b $F8, 5, 0, $3E, $F0
+		dc.b $F8, 5, 0, $3E, 0
+		dc.b $F8, 5, 0, $10, $10
+		dc.b $F8, 5, 0, $C, $20
+
+byte_AA94:	dc.b 6
+
+byte_AA95:	dc.b $F8, $D, 1, $4A, $B0
+		dc.b $F8, 1, 1, $62, $D0
+		dc.b $F8, 9, 1, $64, $18
+		dc.b $F8, $D, 1, $6A, $30
+		dc.b $F7, 4, 0, $6E, $CD
+		dc.b $FF, 4, $18, $6E, $CD
+
+byte_AAB3:	dc.b 7
+		dc.b $F8, $D, 1, $5A, $B0
+		dc.b $F8, $D, 0, $66, $D9
+		dc.b $F8, 1, 1, $4A, $F9
+		dc.b $F7, 4, 0, $6E, $F6
+		dc.b $FF, 4, $18, $6E, $F6
+		dc.b $F8, $D, $FF, $F0, $28
+		dc.b $F8, 1, 1, $70, $48
+
+byte_AAD7:	dc.b 7
+		dc.b $F8, $D, 1, $52, $B0
+		dc.b $F8, $D, 0, $66, $D9
+		dc.b $F8, 1, 1, $4A, $F9
+		dc.b $F7, 4, 0, $6E, $F6
+		dc.b $FF, 4, $18, $6E, $F6
+		dc.b $F8, $D, $FF, $F8, $28
+		dc.b $F8, 1, 1, $70, $48

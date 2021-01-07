@@ -1,0 +1,33 @@
+MapMotobug:	dc.w byte_BA16-MapMotobug, byte_BA2B-MapMotobug, byte_BA40-MapMotobug
+		dc.w byte_BA5A-MapMotobug, byte_BA60-MapMotobug, byte_BA66-MapMotobug
+		dc.w byte_BA6C-MapMotobug
+
+byte_BA16:	dc.b 4
+		dc.b $F0, $D, 0, 0, $EC
+		dc.b 0, $C, 0, 8, $EC
+		dc.b $F8, 1, 0, $C, $C
+		dc.b 8, 8, 0, $E, $F4
+
+byte_BA2B:	dc.b 4
+		dc.b $F1, $D, 0, 0, $EC
+		dc.b 1, $C, 0, 8, $EC
+		dc.b $F9, 1, 0, $C, $C
+		dc.b 9, 8, 0, $11, $F4
+
+byte_BA40:	dc.b 5
+		dc.b $F0, $D, 0, 0, $EC
+		dc.b 0, $C, 0, $14, $EC
+		dc.b $F8, 1, 0, $C, $C
+		dc.b 8, 4, 0, $18, $EC
+		dc.b 8, 4, 0, $12, $FC
+
+byte_BA5A:	dc.b 1
+		dc.b $FA, 0, 0, $1A, $10
+
+byte_BA60:	dc.b 1
+		dc.b $FA, 0, 0, $1B, $10
+
+byte_BA66:	dc.b 1
+		dc.b $FA, 0, 0, $1C, $10
+
+byte_BA6C:	dc.b 0
