@@ -32,13 +32,3 @@ obSolid:	equ ob2ndRout ; solid status flag
 flashtime:	equ $30	; time between flashes after getting hit
 invtime:	equ $32	; time left for invincibility
 shoetime:	equ $34	; time left for speed shoes
-obFrontAngle:	equ $36
-obRearAngle:	equ $37
-obOnWheel:	equ $38	; on convex wheel flag
-obRestartTimer:	equ $3A ; level restart timer
-obJumping:	equ $3C	; jumping flag
-obPlatformID:	equ $3D	; ost slot of the object Sonic's on top of
-obLRLock:	equ $3E	; flag for preventing left and right input
-
-; Object specific
-Smash_speed:	equ $30		; Sonic's horizontal speed
