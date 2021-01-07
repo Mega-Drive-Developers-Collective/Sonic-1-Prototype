@@ -5451,7 +5451,7 @@ EventsSLZNull:
 
 Obj02:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4B90(pc,d0.w),d1
 		jmp	off_4B90(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5498,7 +5498,7 @@ loc_4BEC:
 
 Obj03:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4C68(pc,d0.w),d1
 		jmp	off_4C68(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5534,7 +5534,7 @@ loc_4CB8:
 
 Obj04:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4CCC(pc,d0.w),d1
 		jmp	off_4CCC(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5577,7 +5577,7 @@ loc_4D28:
 
 Obj05:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4D3C(pc,d0.w),d1
 		jmp	off_4D3C(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5607,7 +5607,7 @@ loc_4D68:
 
 Ojb06:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4DFC(pc,d0.w),d1
 		jmp	off_4DFC(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5635,7 +5635,7 @@ loc_4E2E:
 
 Obj07:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4E42(pc,d0.w),d1
 		jmp	off_4E42(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -5657,7 +5657,7 @@ loc_4E50:
 
 ObjBridge:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_4E64(pc,d0.w),d1
 		jmp	off_4E64(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -6101,7 +6101,7 @@ ObjBridge_Display:
 
 ObjSwingPtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_548A(pc,d0.w),d1
 		jmp	off_548A(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -6351,7 +6351,7 @@ j_ObjectDisplay:
 
 ObjSpikeLogs:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_5788(pc,d0.w),d1
 		jmp	off_5788(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -6479,7 +6479,7 @@ loc_58C8:
 
 ObjPlatform:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_5918(pc,d0.w),d1
 		jmp	off_5918(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -6769,7 +6769,7 @@ loc_5BCE:
 
 ObjRollingBall:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_5C8E(pc,d0.w),d1
 		jmp	off_5C8E(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -6964,7 +6964,7 @@ sub_5E50:
 
 ObjCollapsePtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_5EEE(pc,d0.w),d1
 		jmp	off_5EEE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7058,7 +7058,7 @@ loc_5FDE:
 
 ObjCollapseFloor:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_5FF2(pc,d0.w),d1
 		jmp	off_5FF2(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7280,7 +7280,7 @@ ObjCollapsePtfm_Slope:dc.b $20, $20, $20, $20, $20, $20, $20, $20, $21, $21
 
 Obj1B:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_6634(pc,d0.w),d1
 		jmp	off_6634(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7366,7 +7366,7 @@ byte_66F5:	dc.b 4
 
 ObjScenery:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_6718(pc,d0.w),d1
 		jmp	off_6718(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7424,7 +7424,7 @@ ObjScenery_Types:dc.l MapScenery
 
 ObjUnkSwitch:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_67C8(pc,d0.w),d1
 		jmp	off_67C8(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7501,7 +7501,7 @@ loc_6874:
 
 Obj2A:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_689E(pc,d0.w),d1
 		jmp	off_689E(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7678,7 +7678,7 @@ loc_6A28:
 
 ObjTitleSonic:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_6A64(pc,d0.w),d1
 		jmp	off_6A64(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7730,7 +7730,7 @@ loc_6AC6:
 
 OibjTitleText:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_6AE8(pc,d0.w),d1
 		jsr	off_6AE8(pc,d1.w)
 		bra.w	ObjectDisplay
@@ -7842,7 +7842,7 @@ locret_6BDA:
 
 ObjBallhog:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_6F3E(pc,d0.w),d1
 		jmp	off_6F3E(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -7957,7 +7957,7 @@ loc_705C:
 
 ObjCannonball:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7070(pc,d0.w),d1
 		jmp	off_7070(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8011,7 +8011,7 @@ loc_70EE:
 
 ObjCannonballExplode:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7102(pc,d0.w),d1
 		jmp	off_7102(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8046,7 +8046,7 @@ loc_7160:
 
 ObjExplode:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7172(pc,d0.w),d1
 		jmp	off_7172(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8089,7 +8089,7 @@ loc_71EE:
 
 ObjBombExplode:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7200(pc,d0.w),d1
 		jmp	off_7200(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8121,7 +8121,7 @@ loc_7204:
 
 ObjAnimals:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_732C(pc,d0.w),d1
 		jmp	off_732C(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8262,7 +8262,7 @@ loc_74E2:
 
 ObjPoints:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7500(pc,d0.w),d1
 		jsr	off_7500(pc,d1.w)
 		bra.w	ObjectDisplay
@@ -8296,7 +8296,7 @@ loc_752E:
 
 ObjCrabmeat:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_75B8(pc,d0.w),d1
 		jmp	off_75B8(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8495,7 +8495,7 @@ loc_77D0:
 
 ObjBuzzbomber:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_78A6(pc,d0.w),d1
 		jmp	off_78A6(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8608,7 +8608,7 @@ loc_79E6:
 
 ObjBuzzMissile:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_79FA(pc,d0.w),d1
 		jmp	off_79FA(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8695,7 +8695,7 @@ loc_7AC2:
 
 ObjRing:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7BEE(pc,d0.w),d1
 		jmp	off_7BEE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8844,7 +8844,7 @@ loc_7D6A:
 
 ObjRingLoss:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7D7E(pc,d0.w),d1
 		jmp	off_7D7E(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -8965,7 +8965,7 @@ loc_7EBC:
 
 Obj4B:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_7ECE(pc,d0.w),d1
 		jmp	off_7ECE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -9020,7 +9020,7 @@ loc_7F4C:
 
 ObjMonitor:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8054(pc,d0.w),d1
 		jmp	off_8054(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -9187,7 +9187,7 @@ loc_8216:
 
 ObjMonitorItem:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8242(pc,d0.w),d1
 		jsr	off_8242(pc,d1.w)
 		bra.w	ObjectDisplay
@@ -10024,7 +10024,7 @@ locret_8BA2:
 
 ObjChopper:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8BB6(pc,d0.w),d1
 		jsr	off_8BB6(pc,d1.w)
 		bra.w	ObjectChkDespawn
@@ -10076,7 +10076,7 @@ locret_8C3A:
 
 ObjJaws:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8C70(pc,d0.w),d1
 		jsr	off_8C70(pc,d1.w)
 		bra.w	ObjectChkDespawn
@@ -10107,7 +10107,7 @@ loc_8CA4:
 
 ObjBurrobot:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8CFC(pc,d0.w),d1
 		jmp	off_8CFC(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -10237,7 +10237,7 @@ loc_8E46:
 
 ObjMZPlatforms:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_8ECE(pc,d0.w),d1
 		jmp	off_8ECE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -10538,7 +10538,7 @@ ObjMZPlatforms_Slope3:dc.b $20, $20, $20, $20, $20
 
 ObjFloorLavaball:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_91F2(pc,d0.w),d1
 		jmp	off_91F2(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -10617,7 +10617,7 @@ loc_92C6:
 
 ObjGlassBlock:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_93DE(pc,d0.w),d1
 		jsr	off_93DE(pc,d1.w)
 		bsr.w	ObjectDisplay
@@ -10870,7 +10870,7 @@ loc_9624:
 
 ObjChainPtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_96C2(pc,d0.w),d1
 		jmp	off_96C2(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -11159,7 +11159,7 @@ loc_99CC:
 
 Obj45:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_99DE(pc,d0.w),d1
 		jmp	off_99DE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -11321,7 +11321,7 @@ loc_9B72:
 
 ObjSwitch:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_9D72(pc,d0.w),d1
 		jmp	off_9D72(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -11485,7 +11485,7 @@ loc_9ED0:
 
 ObjPushBlock:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_9F10(pc,d0.w),d1
 		jmp	off_9F10(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12060,7 +12060,7 @@ loc_A4C4:
 
 ObjTitleCard:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_A4D6(pc,d0.w),d1
 		jmp	off_A4D6(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12189,7 +12189,7 @@ word_A5E4:	dc.w 0, $120, $FEFC, $13C, $414, $154, $214, $154
 
 ObjGameOver:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_A652(pc,d0.w),d1
 		jmp	off_A652(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12256,7 +12256,7 @@ loc_A6DC:
 
 ObjLevelResults:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_A6EE(pc,d0.w),d1
 		jmp	off_A6EE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12422,7 +12422,7 @@ word_A856:	dc.w 4, $124, $BC
 
 ObjSpikes:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_AB0A(pc,d0.w),d1
 		jmp	off_AB0A(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12589,7 +12589,7 @@ locret_ACA2:
 
 ObjPurpleRock:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_AD1A(pc,d0.w),d1
 		jmp	off_AD1A(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12625,7 +12625,7 @@ loc_AD42:
 
 ObjWaterfallSnd:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_AD88(pc,d0.w),d1
 		jmp	off_AD88(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -12661,7 +12661,7 @@ loc_ADAA:
 
 ObjSmashWall:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_ADEA(pc,d0.w),d1
 		jsr	off_ADEA(pc,d1.w)
 		bra.w	ObjectChkDespawn
@@ -12671,22 +12671,22 @@ off_ADEA:	dc.w loc_ADF0-off_ADEA, loc_AE1A-off_ADEA, loc_AE92-off_ADEA
 ; ---------------------------------------------------------------------------
 
 loc_ADF0:
-		addq.b	#2,$24(a0)
-		move.l	#MapSmashWall,4(a0)
-		move.w	#$450F,2(a0)
-		move.b	#4,1(a0)
-		move.b	#$10,$18(a0)
-		move.b	#4,$19(a0)
-		move.b	$28(a0),$1A(a0)
+		addq.b	#2,obRoutine(a0)
+		move.l	#MapSmashWall,obMap(a0)
+		move.w	#$450F,obGfx(a0)
+		move.b	#4,obRender(a0)
+		move.b	#$10,obPriority(a0)
+		move.b	#4,obActWid(a0)
+		move.b	obSubtype(a0),obFrame(a0)
 
 loc_AE1A:
-		move.w	(ObjectsList+$10).w,$30(a0)
+		move.w	(ObjectsList+obVelX).w,Smash_speed(a0)
 		move.w	#$1B,d1
 		move.w	#$20,d2
 		move.w	#$20,d3
-		move.w	8(a0),d4
+		move.w	obX(a0),d4
 		bsr.w	sub_A2BC
-		btst	#5,$22(a0)
+		btst	#5,obStatus(a0)
 		bne.s	loc_AE3E
 
 locret_AE3C:
@@ -12694,35 +12694,35 @@ locret_AE3C:
 ; ---------------------------------------------------------------------------
 
 loc_AE3E:
-		cmpi.b	#2,$1C(a1)
+		cmpi.b	#2,obAnim(a1)
 		bne.s	locret_AE3C
-		move.w	$30(a0),d0
+		move.w	Smash_speed(a0),d0
 		bpl.s	loc_AE4E
 		neg.w	d0
 
 loc_AE4E:
 		cmpi.w	#$480,d0
 		bcs.s	locret_AE3C
-		move.w	$30(a0),$10(a1)
-		addq.w	#4,8(a1)
+		move.w	Smash_speed(a0),Smash_speed(a1)
+		addq.w	#4,obX(a1)
 		lea	(ObjSmashWall_FragRight).l,a4
-		move.w	8(a0),d0
-		cmp.w	8(a1),d0
+		move.w	obX(a0),d0
+		cmp.w	obX(a1),d0
 		bcs.s	loc_AE78
-		subq.w	#8,8(a1)
+		subq.w	#8,obX(a1)
 		lea	(ObjSmashWall_FragLeft).l,a4
 
 loc_AE78:
-		move.w	$10(a1),$14(a1)
-		bclr	#5,$22(a0)
-		bclr	#5,$22(a1)
+		move.w	obVelX(a1),obInertia(a1)
+		bclr	#5,obStatus(a0)
+		bclr	#5,obStatus(a1)
 		moveq	#7,d1
 		move.w	#$70,d2
 		bsr.s	ObjectFragment
 
 loc_AE92:
 		bsr.w	ObjectMove
-		addi.w	#$70,$12(a0)
+		addi.w	#$70,obVelY(a0)
 		bsr.w	ObjectDisplay
 		tst.b	1(a0)
 		bpl.w	ObjectDelete
@@ -12731,14 +12731,14 @@ loc_AE92:
 
 ObjectFragment:
 		moveq	#0,d0
-		move.b	$1A(a0),d0
+		move.b	obFrame(a0),d0
 		add.w	d0,d0
-		movea.l	4(a0),a3
+		movea.l	obMap(a0),a3
 		adda.w	(a3,d0.w),a3
 		addq.w	#1,a3
-		bset	#5,1(a0)
+		bset	#5,obRender(a0)
 		move.b	0(a0),d4
-		move.b	1(a0),d5
+		move.b	obRender(a0),d5
 		movea.l	a0,a1
 		bra.s	loc_AED6
 ; ---------------------------------------------------------------------------
@@ -12749,23 +12749,23 @@ loc_AECE:
 		addq.w	#5,a3
 
 loc_AED6:
-		move.b	#4,$24(a1)
+		move.b	#4,obRoutine(a1)
 		move.b	d4,0(a1)
-		move.l	a3,4(a1)
-		move.b	d5,1(a1)
-		move.w	8(a0),8(a1)
-		move.w	$C(a0),$C(a1)
-		move.w	2(a0),2(a1)
-		move.b	$19(a0),$19(a1)
-		move.b	$18(a0),$18(a1)
-		move.w	(a4)+,$10(a1)
-		move.w	(a4)+,$12(a1)
+		move.l	a3,obMap(a1)
+		move.b	d5,obRender(a1)
+		move.w	obX(a0),obX(a1)
+		move.w	obY(a0),obY(a1)
+		move.w	obGfx(a0),obGfx(a1)
+		move.b	obActWid(a0),obActWid(a1)
+		move.b	obPriority(a0),obPriority(a1)
+		move.w	(a4)+,obVelX(a1)
+		move.w	(a4)+,obVelY(a1)
 		cmpa.l	a0,a1
 		bcc.s	loc_AF24
 		move.l	a0,-(sp)
 		movea.l	a1,a0
 		bsr.w	ObjectMove
-		add.w	d2,$12(a0)
+		add.w	d2,obVelY(a0)
 		movea.l	(sp)+,a0
 		bsr.w	ObjectDisplayA1
 
@@ -12800,7 +12800,7 @@ ObjSmashWall_FragLeft:dc.w $FA00, $FA00
 
 ObjGHZBoss:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_B002(pc,d0.w),d1
 		jmp	off_B002(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -13097,7 +13097,7 @@ loc_B2FC:
 
 ObjGHZBossBall:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_B340(pc,d0.w),d1
 		jmp	off_B340(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -13256,7 +13256,7 @@ loc_B4EE:
 
 ObjCapsule:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_B66C(pc,d0.w),d1
 		jsr	off_B66C(pc,d1.w)
 		bsr.w	ObjectDisplay
@@ -13419,7 +13419,7 @@ locret_B808:
 
 ObjMotobug:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_B890(pc,d0.w),d1
 		jmp	off_B890(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -13552,7 +13552,7 @@ loc_B9E6:
 
 ObjSpring:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_BAA0(pc,d0.w),d1
 		jsr	off_BAA0(pc,d1.w)
 		bsr.w	ObjectDisplay
@@ -13741,7 +13741,7 @@ loc_BCA2:
 
 ObjNewtron:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_BD26(pc,d0.w),d1
 		jmp	off_BD26(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -13903,7 +13903,7 @@ loc_BEC6:
 
 ObjRoller:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_BFB8(pc,d0.w),d1
 		jmp	off_BFB8(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14017,7 +14017,7 @@ loc_C0B0:
 
 ObjWall:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C10A(pc,d0.w),d1
 		jmp	off_C10A(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14062,7 +14062,7 @@ loc_C154:
 
 ObjLavaMaker:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C1D0(pc,d0.w),d1
 		jsr	off_C1D0(pc,d1.w)
 		bra.w	loc_C2E6
@@ -14101,7 +14101,7 @@ locret_C22A:
 
 ObjLavaball:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C23E(pc,d0.w),d1
 		jsr	off_C23E(pc,d1.w)
 		bra.w	ObjectDisplay
@@ -14249,7 +14249,7 @@ j_ObjectDelete:
 
 ObjMZBlocks:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C3FC(pc,d0.w),d1
 		jmp	off_C3FC(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14368,7 +14368,7 @@ loc_C510:
 
 ObjSceneryLamp:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C538(pc,d0.w),d1
 		jmp	off_C538(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14411,7 +14411,7 @@ loc_C57E:
 
 ObjBumper:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C5FE(pc,d0.w),d1
 		jmp	off_C5FE(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14475,7 +14475,7 @@ loc_C6A8:
 
 ObjSignpost:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C726(pc,d0.w),d1
 		jsr	off_C726(pc,d1.w)
 		lea	(AniSignpost).l,a1
@@ -14619,7 +14619,7 @@ word_C882:	dc.w $1388, $3E8, $1F4, $190, $12C, $12C, $C8, $C8, $64
 
 ObjLavafallMalker:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_C926(pc,d0.w),d1
 		jsr	off_C926(pc,d1.w)
 		bra.w	loc_CB28
@@ -14704,7 +14704,7 @@ loc_C9EA:
 
 ObjLavafall:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_CA12(pc,d0.w),d1
 		jsr	off_CA12(pc,d1.w)
 		bra.w	ObjectDisplay
@@ -14875,7 +14875,7 @@ loc_CBEA:
 
 ObjLavaChase:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_CBFC(pc,d0.w),d1
 		jmp	off_CBFC(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -14989,7 +14989,7 @@ loc_CD1C:
 
 ObjLavaHurt:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_CD2E(pc,d0.w),d1
 		jmp	off_CD2E(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -15043,7 +15043,7 @@ loc_CD84:
 
 Obj4F:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D202(pc,d0.w),d1
 		jmp	off_D202(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -15159,7 +15159,7 @@ loc_D308:
 
 ObjYardin:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D334(pc,d0.w),d1
 		jmp	off_D334(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -15243,7 +15243,7 @@ loc_D3F0:
 
 ObjSmashBlock:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D4D4(pc,d0.w),d1
 		jsr	off_D4D4(pc,d1.w)
 		bra.w	ObjectChkDespawn
@@ -15310,7 +15310,7 @@ ObjSmashBlock_Frag:dc.w $FE00, $FE00, $FF00, $FF00, $200, $FE00, $100, $FF00
 
 ObjMovingPtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D5FC(pc,d0.w),d1
 		jsr	off_D5FC(pc,d1.w)
 		move.w	$32(a0),d0
@@ -15424,7 +15424,7 @@ loc_D6DA:
 
 ObjBasaran:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D704(pc,d0.w),d1
 		jmp	off_D704(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -15574,7 +15574,7 @@ loc_D862:
 
 ObjMovingBlocks:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_D8E2(pc,d0.w),d1
 		jmp	off_D8E2(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -15918,7 +15918,7 @@ loc_DC06:
 
 ObjSpikedBalls:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_DC88(pc,d0.w),d1
 		jmp	off_DC88(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -16061,7 +16061,7 @@ loc_DE08:
 
 ObjGiantSpikedBalls:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_DE22(pc,d0.w),d1
 		jmp	off_DE22(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -16173,7 +16173,7 @@ loc_DF06:
 
 ObjSLZMovingPtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_DF9A(pc,d0.w),d1
 		jsr	off_DF9A(pc,d1.w)
 		move.w	$32(a0),d0
@@ -16424,7 +16424,7 @@ loc_E1BE:
 
 ObjCirclePtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_E222(pc,d0.w),d1
 		jsr	off_E222(pc,d1.w)
 		move.w	$32(a0),d0
@@ -16538,7 +16538,7 @@ loc_E306:
 
 ObjStaircasePtfm:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_E358(pc,d0.w),d1
 		jsr	off_E358(pc,d1.w)
 		move.w	$30(a0),d0
@@ -16714,7 +16714,7 @@ locret_E4D0:
 
 ObjSLZGirder:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_E4EA(pc,d0.w),d1
 		jmp	off_E4EA(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -16749,7 +16749,7 @@ loc_E506:
 
 ObjFan:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_E56C(pc,d0.w),d1
 		jmp	off_E56C(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -16853,7 +16853,7 @@ loc_E64E:
 
 ObjSeeSaw:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_E6B0(pc,d0.w),d1
 		jsr	off_E6B0(pc,d1.w)
 		bra.w	ObjectChkDespawn
@@ -17124,9 +17124,9 @@ loc_EA0C:
 		bne.w	loc_EAD8
 		tst.w	$14(a0)
 		bne.w	loc_EAD8
-		bclr	#5,$22(a0)
-		move.b	#5,$1C(a0)
-		btst	#3,$22(a0)
+		bclr	#5,obAngle(a0)
+		move.b	#5,obAnim(a0)
+		btst	#3,obStatus(a0)
 		beq.s	loc_EA6E
 		moveq	#0,d0
 		move.b	$3D(a0),d0
@@ -18420,7 +18420,7 @@ locret_F744:
 
 ObjShield:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_F754(pc,d0.w),d1
 		jmp	off_F754(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -18519,7 +18519,7 @@ loc_F836:
 
 ObjEntryRingBeta:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_F848(pc,d0.w),d1
 		jmp	off_F848(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -20407,7 +20407,7 @@ loc_10CA8:
 
 ObjSonicSpecial:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_10CC6(pc,d0.w),d1
 		jmp	off_10CC6(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -20926,7 +20926,7 @@ locret_111C0:
 
 ObjAniTest:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_111D0(pc,d0.w),d1
 		jmp	off_111D0(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -21334,7 +21334,7 @@ loc_115C6:
 
 ObjHUD:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	obStatus(a0),d0
 		move.w	off_115EA(pc,d0.w),d1
 		jmp	off_115EA(pc,d1.w)
 ; ---------------------------------------------------------------------------
