@@ -14884,7 +14884,7 @@ off_CBFC:	dc.w loc_CC06-off_CBFC, loc_CC66-off_CBFC, loc_CCA2-off_CBFC, loc_CD00
 ; ---------------------------------------------------------------------------
 
 loc_CC06:
-		addq.b	#2,$24(a0)
+		addq.b	#2,obRoutine(a0)
 		movea.l	a0,a1
 		moveq	#1,d1
 		bra.s	loc_CC16
@@ -14895,34 +14895,34 @@ loc_CC10:
 		bne.s	loc_CC58
 
 loc_CC16:
-		move.b	#$4E,0(a1)
-		move.l	#MapLavaChase,4(a1)
-		move.w	#$63A8,2(a1)
-		move.b	#4,1(a1)
-		move.b	#$50,$18(a1)
-		move.w	8(a0),8(a1)
-		move.w	$C(a0),$C(a1)
-		move.b	#1,$19(a1)
-		move.b	#0,$1C(a1)
-		move.b	#$94,$20(a1)
+		move.b	#$4E,obID(a1)
+		move.l	#MapLavaChase,obMap(a1)
+		move.w	#$63A8,obGfx(a1)
+		move.b	#4,obRender(a1)
+		move.b	#$50,obPriority(a1)
+		move.w	obX(a0),obX(a1)
+		move.w	obY(a0),obY(a1)
+		move.b	#1,obActWid(a1)
+		move.b	#0,obAnim(a1)
+		move.b	#$94,obColType(a1)
 		move.l	a0,$3C(a1)
 
 loc_CC58:
 		dbf	d1,loc_CC10
-		addq.b	#6,$24(a1)
-		move.b	#4,$1A(a1)
+		addq.b	#6,obRoutine(a1)
+		move.b	#4,obFrame(a1)
 
 loc_CC66:
-		move.w	(ObjectsList+8).w,d0
-		sub.w	8(a0),d0
+		move.w	(ObjectsList+obX).w,d0
+		sub.w	obX(a0),d0
 		bcc.s	loc_CC72
 		neg.w	d0
 
 loc_CC72:
 		cmpi.w	#$E0,d0
 		bcc.s	loc_CC92
-		move.w	(ObjectsList+$C).w,d0
-		sub.w	$C(a0),d0
+		move.w	(ObjectsList+obY).w,d0
+		sub.w	obY(a0),d0
 		bcc.s	loc_CC84
 		neg.w	d0
 
@@ -14936,13 +14936,13 @@ loc_CC84:
 loc_CC92:
 		tst.b	$36(a0)
 		beq.s	loc_CCA2
-		move.w	#$100,$10(a0)
-		addq.b	#2,$24(a0)
+		move.w	#$100,obVelX(a0)
+		addq.b	#2,obRoutine(a0)
 
 loc_CCA2:
-		cmpi.w	#$6A0,8(a0)
+		cmpi.w	#$6A0,obX(a0)
 		bne.s	loc_CCB2
-		clr.w	$10(a0)
+		clr.w	obVelX(a0)
 		clr.b	$36(a0)
 
 loc_CCB2:
@@ -14952,7 +14952,7 @@ loc_CCB2:
 		bsr.w	ObjectDisplay
 		tst.b	$36(a0)
 		bne.s	locret_CCE6
-		move.w	8(a0),d0
+		move.w	obX(a0),d0
 		andi.w	#$FF80,d0
 		move.w	(CameraX).w,d1
 		subi.w	#$80,d1
@@ -14968,18 +14968,18 @@ locret_CCE6:
 loc_CCE8:
 		lea	(byte_FFFC00).w,a2
 		moveq	#0,d0
-		move.b	$23(a0),d0
-		bclr	#7,2(a2,d0.w)
-		move.b	#8,$24(a0)
+		move.b	obRespawnNo(a0),d0
+		bclr	#7,obGfx(a2,d0.w)
+		move.b	#8,obRoutine(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_CD00:
 		movea.l	$3C(a0),a1
-		cmpi.b	#8,$24(a1)
+		cmpi.b	#8,obRoutine(a1)
 		beq.s	loc_CD1C
-		move.w	8(a1),8(a0)
-		subi.w	#$80,8(a0)
+		move.w	obX(a1),obX(a0)
+		subi.w	#$80,obX(a0)
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
 
@@ -15000,16 +15000,16 @@ byte_CD32:	dc.b $96, $94, $95, 0
 ; ---------------------------------------------------------------------------
 
 loc_CD36:
-		addq.b	#2,$24(a0)
+		addq.b	#2,obRoutine(a0)
 		moveq	#0,d0
-		move.b	$28(a0),d0
-		move.b	byte_CD32(pc,d0.w),$20(a0)
-		move.l	#MapLavaHurt,4(a0)
-		move.w	#$8680,2(a0)
-		move.b	#4,1(a0)
-		move.b	#$80,$18(a0)
-		move.b	#4,$19(a0)
-		move.b	$28(a0),$1A(a0)
+		move.b	obSubtype(a0),d0
+		move.b	byte_CD32(pc,d0.w),obColType(a0)
+		move.l	#MapLavaHurt,obMap(a0)
+		move.w	#$8680,obGfx(a0)
+		move.b	#4,obRender(a0)
+		move.b	#$80,obPriority(a0)
+		move.b	#4,obActWid(a0)
+		move.b	obSubtype(a0),obFrame(a0)
 
 loc_CD6C:
 		tst.w	(DebugRoutine).w
@@ -15017,12 +15017,12 @@ loc_CD6C:
 		bsr.w	ObjectDisplay
 
 loc_CD76:
-		cmpi.b	#6,(ObjectsList+$24).w
+		cmpi.b	#6,(ObjectsList+obRoutine).w
 		bcc.s	loc_CD84
-		bset	#7,1(a0)
+		bset	#7,obRender(a0)
 
 loc_CD84:
-		move.w	8(a0),d0
+		move.w	obX(a0),d0
 		andi.w	#$FF80,d0
 		move.w	(CameraX).w,d1
 		subi.w	#$80,d1
@@ -15052,15 +15052,15 @@ off_D202:	dc.w loc_D20A-off_D202, loc_D246-off_D202, loc_D274-off_D202, loc_D2C8
 ; ---------------------------------------------------------------------------
 
 loc_D20A:
-		addq.b	#2,$24(a0)
-		move.l	#Map4F,4(a0)
-		move.w	#$24E4,2(a0)
-		move.b	#4,1(a0)
-		move.b	#4,$19(a0)
-		move.b	#$C,$18(a0)
-		move.b	#$14,$16(a0)
-		move.b	#2,$20(a0)
-		tst.b	$28(a0)
+		addq.b	#2,obRoutine(a0)
+		move.l	#Map4F,obMap(a0)
+		move.w	#$24E4,obGfx(a0)
+		move.b	#4,obRender(a0)
+		move.b	#4,obActWid(a0)
+		move.b	#$C,obPriority(a0)
+		move.b	#$14,obHeight(a0)
+		move.b	#2,obColType(a0)
+		tst.b	obSubtype(a0)
 		beq.s	loc_D246
 		move.w	#$300,d2
 		bra.s	loc_D24A
@@ -15071,26 +15071,26 @@ loc_D246:
 
 loc_D24A:
 		move.w	#$100,d1
-		bset	#0,1(a0)
-		move.w	(ObjectsList+8).w,d0
-		sub.w	8(a0),d0
+		bset	#0,obRender(a0)
+		move.w	(ObjectsList+obX).w,d0
+		sub.w	obX(a0),d0
 		bcc.s	loc_D268
 		neg.w	d0
 		neg.w	d1
-		bclr	#0,1(a0)
+		bclr	#0,obRender(a0)
 
 loc_D268:
 		cmp.w	d2,d0
 		bcc.s	loc_D274
-		move.w	d1,$10(a0)
-		addq.b	#2,$24(a0)
+		move.w	d1,obVelX(a0)
+		addq.b	#2,obRoutine(a0)
 
 loc_D274:
 		bsr.w	ObjectFall
-		move.b	#1,$1A(a0)
+		move.b	#1,obFrame(a0)
 		tst.w	$12(a0)
 		bmi.s	loc_D2AE
-		move.b	#0,$1A(a0)
+		move.b	#0,obFrame(a0)
 		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	loc_D2AE
@@ -15098,20 +15098,20 @@ loc_D274:
 		andi.w	#$3FF,d0
 		cmpi.w	#$2D2,d0
 		bcs.s	loc_D2A4
-		addq.b	#2,$24(a0)
+		addq.b	#2,obRoutine(a0)
 		bra.s	loc_D2AE
 ; ---------------------------------------------------------------------------
 
 loc_D2A4:
 		add.w	d1,$C(a0)
-		move.w	#$FC00,$12(a0)
+		move.w	#$FC00,obVelY(a0)
 
 loc_D2AE:
 		bsr.w	sub_D2DA
 		beq.s	loc_D2C4
-		neg.w	$10(a0)
-		bchg	#0,1(a0)
-		bchg	#0,$22(a0)
+		neg.w	obVelX(a0)
+		bchg	#0,obRender(a0)
+		bchg	#0,obStatus(a0)
 
 loc_D2C4:
 		bra.w	ObjectChkDespawn
@@ -15120,7 +15120,7 @@ loc_D2C4:
 loc_D2C8:
 		bsr.w	ObjectFall
 		bsr.w	ObjectDisplay
-		tst.b	1(a0)
+		tst.b	obRender(a0)
 		bpl.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
@@ -15131,8 +15131,8 @@ sub_D2DA:
 		andi.w	#3,d0
 		bne.s	loc_D308
 		moveq	#0,d3
-		move.b	$18(a0),d3
-		tst.w	$10(a0)
+		move.b	obPriority(a0),d3
+		tst.w	obVelX(a0)
 		bmi.s	loc_D2FE
 		bsr.w	sub_106B2
 		tst.w	d1
@@ -15168,22 +15168,22 @@ off_D334:	dc.w loc_D338-off_D334, loc_D38C-off_D334
 ; ---------------------------------------------------------------------------
 
 loc_D338:
-		move.l	#MapYardin,4(a0)
-		move.w	#$247B,2(a0)
-		move.b	#4,1(a0)
-		move.b	#4,$19(a0)
-		move.b	#$14,$18(a0)
-		move.b	#$11,$16(a0)
-		move.b	#8,$17(a0)
-		move.b	#$CC,$20(a0)
+		move.l	#MapYardin,obMap(a0)
+		move.w	#$247B,obGfx(a0)
+		move.b	#4,obRender(a0)
+		move.b	#4,obActWid(a0)
+		move.b	#$14,obPriority(a0)
+		move.b	#$11,obHeight(a0)
+		move.b	#8,obWidth(a0)
+		move.b	#$CC,obColType(a0)
 		bsr.w	ObjectFall
 		bsr.w	sub_105F0
 		tst.w	d1
 		bpl.s	locret_D38A
-		add.w	d1,$C(a0)
-		move.w	#0,$12(a0)
-		addq.b	#2,$24(a0)
-		bchg	#0,$22(a0)
+		add.w	d1,obY(a0)
+		move.w	#0,obVelY(a0)
+		addq.b	#2,obRoutine(a0)
+		bchg	#0,obStatus(a0)
 
 locret_D38A:
 		rts
@@ -15191,7 +15191,7 @@ locret_D38A:
 
 loc_D38C:
 		moveq	#0,d0
-		move.b	$25(a0),d0
+		move.b	ob2ndRout(a0),d0
 		move.w	off_D3A8(pc,d0.w),d1
 		jsr	off_D3A8(pc,d1.w)
 		lea	(AniYardin).l,a1
@@ -15205,12 +15205,12 @@ off_D3A8:	dc.w loc_D3AC-off_D3A8, loc_D3D0-off_D3A8
 loc_D3AC:
 		subq.w	#1,$30(a0)
 		bpl.s	locret_D3CE
-		addq.b	#2,$25(a0)
-		move.w	#$FF00,$10(a0)
-		move.b	#1,$1C(a0)
-		bchg	#0,$22(a0)
+		addq.b	#2,ob2ndRout(a0)
+		move.w	#$FF00,obVelX(a0)
+		move.b	#1,obAnim(a0)
+		bchg	#0,obStatus(a0)
 		bne.s	locret_D3CE
-		neg.w	$10(a0)
+		neg.w	obVelX(a0)
 
 locret_D3CE:
 		rts
@@ -15223,17 +15223,17 @@ loc_D3D0:
 		blt.s	loc_D3F0
 		cmpi.w	#$C,d1
 		bge.s	loc_D3F0
-		add.w	d1,$C(a0)
+		add.w	d1,obY(a0)
 		bsr.w	sub_D2DA
 		bne.s	loc_D3F0
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_D3F0:
-		subq.b	#2,$25(a0)
+		subq.b	#2,ob2ndRout(a0)
 		move.w	#$3B,$30(a0)
-		move.w	#0,$10(a0)
-		move.b	#0,$1C(a0)
+		move.w	#0,obVelX(a0)
+		move.b	#0,obAnim(a0)
 		rts
 ; ---------------------------------------------------------------------------
 		include "levels/shared/Yardin/Sprite.ani"
