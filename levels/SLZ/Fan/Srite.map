@@ -1,0 +1,14 @@
+MapFan:		dc.w byte_E67C-MapFan, byte_E687-MapFan, byte_E692-MapFan
+		dc.w byte_E687-MapFan, byte_E67C-MapFan
+
+byte_E67C:	dc.b 2
+		dc.b $F0, 9, 0, 0, $F8
+		dc.b 0, $D, 0, 6, $F0
+
+byte_E687:	dc.b 2
+		dc.b $F0, $D, 0, $E, $F0
+		dc.b 0, $D, 0, $16, $F0
+
+byte_E692:	dc.b 2
+		dc.b $F0, $D, 0, $1E, $F0
+		dc.b 0, 9, 0, $26, $F8

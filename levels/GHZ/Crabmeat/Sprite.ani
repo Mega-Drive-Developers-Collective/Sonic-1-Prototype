@@ -1,0 +1,26 @@
+AniCrabmeat:	dc.w byte_77E4-AniCrabmeat, byte_77E8-AniCrabmeat, byte_77EC-AniCrabmeat
+		dc.w byte_77F0-AniCrabmeat, byte_77F6-AniCrabmeat, byte_77FC-AniCrabmeat
+		dc.w byte_7802-AniCrabmeat, byte_7806-AniCrabmeat
+
+byte_77E4:	dc.b $F, 0, $FF
+		even
+
+byte_77E8:	dc.b $F, 2, $FF
+		even
+
+byte_77EC:	dc.b $F, $22, $FF
+		even
+
+byte_77F0:	dc.b $F, 1, $21, 0, $FF
+		even
+
+byte_77F6:	dc.b $F, $21, 3, 2, $FF
+		even
+
+byte_77FC:	dc.b $F, 1, $23, $22, $FF
+		even
+
+byte_7802:	dc.b $F, 4, $FF
+		even
+
+byte_7806:	dc.b 1, 5, 6, $FF

@@ -1,0 +1,6 @@
+MapSLZMovingPtfm:dc.w byte_E1E2-MapSLZMovingPtfm
+
+byte_E1E2:	dc.b 3
+		dc.b $F8, $F, 0, $41, $D8
+		dc.b $F8, $F, 0, $41, $F8
+		dc.b $F8, 7, 0, $41, $18

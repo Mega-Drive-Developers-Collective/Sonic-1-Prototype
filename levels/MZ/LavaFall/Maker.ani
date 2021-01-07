@@ -1,0 +1,15 @@
+AniLavaFallMaker:dc.w byte_CDFA-AniLavaFallMaker, byte_CE04-AniLavaFallMaker, byte_CE08-AniLavaFallMaker, byte_CE0C-AniLavaFallMaker
+		dc.w byte_CE14-AniLavaFallMaker, byte_CE18-AniLavaFallMaker
+
+byte_CDFA:	dc.b 2, 0, 1, 0, 1, 4, 5, 4, 5, $FC
+
+byte_CE04:	dc.b 2, 2, 3, $FF
+
+byte_CE08:	dc.b 2, 6, 7, $FF
+
+byte_CE0C:	dc.b 2, 2, 3, 0, 1, 0, 1, $FC
+
+byte_CE14:	dc.b $F, $13, $FF
+		even
+
+byte_CE18:	dc.b 2, $11, $12, $FF

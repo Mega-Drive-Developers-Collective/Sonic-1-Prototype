@@ -1,0 +1,7 @@
+AniChopper:	dc.w byte_8C42-AniChopper, byte_8C46-AniChopper, byte_8C4A-AniChopper
+
+byte_8C42:	dc.b 7, 0, 1, $FF
+
+byte_8C46:	dc.b 3, 0, 1, $FF
+
+byte_8C4A:	dc.b 7, 0, $FF

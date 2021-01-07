@@ -1,0 +1,56 @@
+MapLavaChase:	dc.w byte_D112-MapLavaChase, byte_D140-MapLavaChase, byte_D16E-MapLavaChase, byte_D19C-MapLavaChase
+		dc.w byte_D1CA-MapLavaChase
+
+byte_D112:	dc.b 9
+		dc.b $E0, $F, 0, $60, $20
+		dc.b 0, $F, 0, $70, $3C
+		dc.b 0, $F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A, 0
+		dc.b 0, $F, $FF, $2A, 0
+		dc.b $E0, $F, $FF, $2A, $E0
+		dc.b 0, $F, $FF, $2A, $E0
+		dc.b $E0, $F, $FF, $2A, $C0
+		dc.b 0, $F, $FF, $2A, $C0
+
+byte_D140:	dc.b 9
+		dc.b $E0, $F, 0, $70, $20
+		dc.b 0, $F, 0, $80, $3C
+		dc.b 0, $F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A, 0
+		dc.b 0, $F, $FF, $2A, 0
+		dc.b $E0, $F, $FF, $2A, $E0
+		dc.b 0, $F, $FF, $2A, $E0
+		dc.b $E0, $F, $FF, $2A, $C0
+		dc.b 0, $F, $FF, $2A, $C0
+
+byte_D16E:	dc.b 9
+		dc.b $E0, $F, 0, $80, $20
+		dc.b 0, $F, 0, $70, $3C
+		dc.b 0, $F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A, 0
+		dc.b 0, $F, $FF, $2A, 0
+		dc.b $E0, $F, $FF, $2A, $E0
+		dc.b 0, $F, $FF, $2A, $E0
+		dc.b $E0, $F, $FF, $2A, $C0
+		dc.b 0, $F, $FF, $2A, $C0
+
+byte_D19C:	dc.b 9
+		dc.b $E0, $F, 0, $70, $20
+		dc.b 0, $F, 0, $60, $3C
+		dc.b 0, $F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A, 0
+		dc.b 0, $F, $FF, $2A, 0
+		dc.b $E0, $F, $FF, $2A, $E0
+		dc.b 0, $F, $FF, $2A, $E0
+		dc.b $E0, $F, $FF, $2A, $C0
+		dc.b 0, $F, $FF, $2A, $C0
+
+byte_D1CA:	dc.b 8
+		dc.b $E0, $F, $FF, $2A, $20
+		dc.b 0, $F, $FF, $2A, $20
+		dc.b $E0, $F, $FF, $2A, 0
+		dc.b 0, $F, $FF, $2A, 0
+		dc.b $E0, $F, $FF, $2A, $E0
+		dc.b 0, $F, $FF, $2A, $E0
+		dc.b $E0, $F, $FF, $2A, $C0
+		dc.b 0, $F, $FF, $2A, $C0

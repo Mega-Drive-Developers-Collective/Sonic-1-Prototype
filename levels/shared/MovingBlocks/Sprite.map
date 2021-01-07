@@ -1,0 +1,30 @@
+MapMovingBlocks:dc.w byte_DC28-MapMovingBlocks, byte_DC2E-MapMovingBlocks, byte_DC43-MapMovingBlocks
+		dc.w byte_DC4E-MapMovingBlocks, byte_DC63-MapMovingBlocks
+		dc.w byte_DC73-MapMovingBlocks
+
+byte_DC28:	dc.b 1
+		dc.b $F0, $F, 0, $61, $F0
+
+byte_DC2E:	dc.b 4
+		dc.b $E0, $F, 0, $61, $E0
+		dc.b $E0, $F, 0, $61, 0
+		dc.b 0, $F, 0, $61, $E0
+		dc.b 0, $F, 0, $61, 0
+
+byte_DC43:	dc.b 2
+		dc.b $E0, $F, 0, $61, $F0
+		dc.b 0, $F, 0, $61, $F0
+
+byte_DC4E:	dc.b 4
+		dc.b $E6, $F, 0, $81, $E0
+		dc.b $E6, $F, 0, $81, 0
+		dc.b 0, $F, 0, $81, $E0
+		dc.b 0, $F, 0, $81, 0
+
+byte_DC63:	dc.b 3
+		dc.b $D9, $F, 0, $81, $F0
+		dc.b $F3, $F, 0, $81, $F0
+		dc.b $D, $F, 0, $81, $F0
+
+byte_DC73:	dc.b 1
+		dc.b $F0, $F, 0, $21, $F0

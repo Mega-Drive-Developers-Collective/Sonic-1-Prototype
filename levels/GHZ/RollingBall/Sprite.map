@@ -1,0 +1,27 @@
+MapRollingBall:	dc.w byte_5E82-MapRollingBall, byte_5EA1-MapRollingBall, byte_5EB6-MapRollingBall, byte_5ECB-MapRollingBall
+
+byte_5E82:	dc.b 6
+		dc.b $F0, 4, 0, $24, $F0
+		dc.b $F8, 4, $10, $24, $F0
+		dc.b $E8, $A, 0, 0, $E8
+		dc.b $E8, $A, 8, 0, 0
+		dc.b 0, $A, $10, 0, $E8
+		dc.b 0, $A, $18, 0, 0
+
+byte_5EA1:	dc.b 4
+		dc.b $E8, $A, 0, 9, $E8
+		dc.b $E8, $A, 8, 9, 0
+		dc.b 0, $A, $10, 9, $E8
+		dc.b 0, $A, $18, 9, 0
+
+byte_5EB6:	dc.b 4
+		dc.b $E8, $A, 0, $12, $E8
+		dc.b $E8, $A, 0, $1B, 0
+		dc.b 0, $A, $18, $1B, $E8
+		dc.b 0, $A, $18, $12, 0
+
+byte_5ECB:	dc.b 4
+		dc.b $E8, $A, 8, $1B, $E8
+		dc.b $E8, $A, 8, $12, 0
+		dc.b 0, $A, $10, $12, $E8
+		dc.b 0, $A, $10, $1B, 0

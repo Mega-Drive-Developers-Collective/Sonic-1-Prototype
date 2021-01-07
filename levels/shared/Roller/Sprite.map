@@ -1,0 +1,19 @@
+MapRoller:	dc.w byte_C0D4-MapRoller, byte_C0DF-MapRoller, byte_C0EA-MapRoller
+		dc.w byte_C0F0-MapRoller, byte_C0F6-MapRoller
+
+byte_C0D4:	dc.b 2
+		dc.b $DE, $E, 0, 0, $F0
+		dc.b $F6, $E, 0, $C, $F0
+
+byte_C0DF:	dc.b 2
+		dc.b $E6, $E, 0, 0, $F0
+		dc.b $FE, $D, 0, $18, $F0
+
+byte_C0EA:	dc.b 1
+		dc.b $F0, $F, 0, $20, $F0
+
+byte_C0F0:	dc.b 1
+		dc.b $F0, $F, 0, $30, $F0
+
+byte_C0F6:	dc.b 1
+		dc.b $F0, $F, 0, $40, $F0

@@ -1,0 +1,24 @@
+MapExplode:	dc.w byte_72CC-MapExplode, byte_72D2-MapExplode, byte_72D8-MapExplode, byte_72DE-MapExplode, byte_72F3-MapExplode
+
+byte_72CC:	dc.b 1
+		dc.b $F8, 9, 0, 0, $F4
+
+byte_72D2:	dc.b 1
+		dc.b $F0, $F, 0, 6, $F0
+
+byte_72D8:	dc.b 1
+		dc.b $F0, $F, 0, $16, $F0
+
+byte_72DE:	dc.b 4
+		dc.b $EC, $A, 0, $26, $EC
+		dc.b $EC, 5, 0, $2F, 4
+		dc.b 4, 5, $18, $2F, $EC
+		dc.b $FC, $A, $18, $26, $FC
+
+byte_72F3:	dc.b 4
+		dc.b $EC, $A, 0, $33, $EC
+		dc.b $EC, 5, 0, $3C, 4
+		dc.b 4, 5, $18, $3C, $EC
+		dc.b $FC, $A, $18, $33, $FC
+
+MapBombExplode:	dc.w byte_72CC-MapBombExplode, byte_7312-MapBombExplode, byte_7318-MapBombExplode, byte_72DE-MapBombExplode

@@ -1,0 +1,13 @@
+MapBuzzMissile:	dc.w byte_7BC8-MapBuzzMissile, byte_7BCE-MapBuzzMissile, byte_7BD4-MapBuzzMissile, byte_7BDA-MapBuzzMissile
+
+byte_7BC8:	dc.b 1
+		dc.b $F8, 5, 0, $24, $F8
+
+byte_7BCE:	dc.b 1
+		dc.b $F8, 5, 0, $28, $F8
+
+byte_7BD4:	dc.b 1
+		dc.b $F8, 5, 0, $2C, $F8
+
+byte_7BDA:	dc.b 1
+		dc.b $F8, 5, 0, $33, $F8

@@ -1,0 +1,7 @@
+MapChopper:	dc.w byte_8C52-MapChopper, byte_8C58-MapChopper
+
+byte_8C52:	dc.b 1
+		dc.b $F0, $F, 0, 0, $F0
+
+byte_8C58:	dc.b 1
+		dc.b $F0, $F, 0, $10, $F0

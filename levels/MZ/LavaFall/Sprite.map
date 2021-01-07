@@ -1,0 +1,183 @@
+MapLavafall:	dc.w byte_CE4C-MapLavafall, byte_CE57-MapLavafall, byte_CE62-MapLavafall
+		dc.w byte_CE77-MapLavafall, byte_CE8C-MapLavafall, byte_CEAB-MapLavafall
+		dc.w byte_CECA-MapLavafall, byte_CED5-MapLavafall, byte_CEE0-MapLavafall
+		dc.w byte_CF13-MapLavafall, byte_CF46-MapLavafall, byte_CF79-MapLavafall
+		dc.w byte_CF98-MapLavafall, byte_CFB7-MapLavafall, byte_CFD6-MapLavafall
+		dc.w byte_D027-MapLavafall, byte_D078-MapLavafall, byte_D0C9-MapLavafall
+		dc.w byte_D0E8-MapLavafall, byte_D107-MapLavafall
+
+byte_CE4C:	dc.b 2
+		dc.b $EC, $B, 0, 0, $E8
+		dc.b $EC, $B, 8, 0, 0
+
+byte_CE57:	dc.b 2
+		dc.b $EC, $B, 0, $18, $E8
+		dc.b $EC, $B, 8, $18, 0
+
+byte_CE62:	dc.b 4
+		dc.b $EC, $B, 0, 0, $C8
+		dc.b $F4, $E, 0, $C, $E0
+		dc.b $F4, $E, 8, $C, 0
+		dc.b $EC, $B, 8, 0, $20
+
+byte_CE77:	dc.b 4
+		dc.b $EC, $B, 0, $18, $C8
+		dc.b $F4, $E, 0, $24, $E0
+		dc.b $F4, $E, 8, $24, 0
+		dc.b $EC, $B, 8, $18, $20
+
+byte_CE8C:	dc.b 6
+		dc.b $EC, $B, 0, 0, $C8
+		dc.b $F4, $E, 0, $C, $E0
+		dc.b $F4, $E, 8, $C, 0
+		dc.b $EC, $B, 8, 0, $20
+		dc.b $E8, $E, 0, $90, $E0
+		dc.b $E8, $E, 8, $90, 0
+
+byte_CEAB:	dc.b 6
+		dc.b $EC, $B, 0, $18, $C8
+		dc.b $F4, $E, 0, $24, $E0
+		dc.b $F4, $E, 8, $24, 0
+		dc.b $EC, $B, 8, $18, $20
+		dc.b $E8, $E, 8, $90, $E0
+		dc.b $E8, $E, 0, $90, 0
+
+byte_CECA:	dc.b 2
+		dc.b $E0, $F, 0, $30, $E0
+		dc.b $E0, $F, 8, $30, 0
+
+byte_CED5:	dc.b 2
+		dc.b $E0, $F, 8, $30, $E0
+		dc.b $E0, $F, 0, $30, 0
+
+byte_CEE0:	dc.b $A
+		dc.b $90, $F, 0, $40, $E0
+		dc.b $90, $F, 8, $40, 0
+		dc.b $B0, $F, 0, $40, $E0
+		dc.b $B0, $F, 8, $40, 0
+		dc.b $D0, $F, 0, $40, $E0
+		dc.b $D0, $F, 8, $40, 0
+		dc.b $F0, $F, 0, $40, $E0
+		dc.b $F0, $F, 8, $40, 0
+		dc.b $10, $F, 0, $40, $E0
+		dc.b $10, $F, 8, $40, 0
+
+byte_CF13:	dc.b $A
+		dc.b $90, $F, 0, $50, $E0
+		dc.b $90, $F, 8, $50, 0
+		dc.b $B0, $F, 0, $50, $E0
+		dc.b $B0, $F, 8, $50, 0
+		dc.b $D0, $F, 0, $50, $E0
+		dc.b $D0, $F, 8, $50, 0
+		dc.b $F0, $F, 0, $50, $E0
+		dc.b $F0, $F, 8, $50, 0
+		dc.b $10, $F, 0, $50, $E0
+		dc.b $10, $F, 8, $50, 0
+
+byte_CF46:	dc.b $A
+		dc.b $90, $F, 0, $60, $E0
+		dc.b $90, $F, 8, $60, 0
+		dc.b $B0, $F, 0, $60, $E0
+		dc.b $B0, $F, 8, $60, 0
+		dc.b $D0, $F, 0, $60, $E0
+		dc.b $D0, $F, 8, $60, 0
+		dc.b $F0, $F, 0, $60, $E0
+		dc.b $F0, $F, 8, $60, 0
+		dc.b $10, $F, 0, $60, $E0
+		dc.b $10, $F, 8, $60, 0
+
+byte_CF79:	dc.b 6
+		dc.b $90, $F, 0, $40, $E0
+		dc.b $90, $F, 8, $40, 0
+		dc.b $B0, $F, 0, $40, $E0
+		dc.b $B0, $F, 8, $40, 0
+		dc.b $D0, $F, 0, $40, $E0
+		dc.b $D0, $F, 8, $40, 0
+
+byte_CF98:	dc.b 6
+		dc.b $90, $F, 0, $50, $E0
+		dc.b $90, $F, 8, $50, 0
+		dc.b $B0, $F, 0, $50, $E0
+		dc.b $B0, $F, 8, $50, 0
+		dc.b $D0, $F, 0, $50, $E0
+		dc.b $D0, $F, 8, $50, 0
+
+byte_CFB7:	dc.b 6
+		dc.b $90, $F, 0, $60, $E0
+		dc.b $90, $F, 8, $60, 0
+		dc.b $B0, $F, 0, $60, $E0
+		dc.b $B0, $F, 8, $60, 0
+		dc.b $D0, $F, 0, $60, $E0
+		dc.b $D0, $F, 8, $60, 0
+
+byte_CFD6:	dc.b $10
+		dc.b $90, $F, 0, $40, $E0
+		dc.b $90, $F, 8, $40, 0
+		dc.b $B0, $F, 0, $40, $E0
+		dc.b $B0, $F, 8, $40, 0
+		dc.b $D0, $F, 0, $40, $E0
+		dc.b $D0, $F, 8, $40, 0
+		dc.b $F0, $F, 0, $40, $E0
+		dc.b $F0, $F, 8, $40, 0
+		dc.b $10, $F, 0, $40, $E0
+		dc.b $10, $F, 8, $40, 0
+		dc.b $30, $F, 0, $40, $E0
+		dc.b $30, $F, 8, $40, 0
+		dc.b $50, $F, 0, $40, $E0
+		dc.b $50, $F, 8, $40, 0
+		dc.b $70, $F, 0, $40, $E0
+		dc.b $70, $F, 8, $40, 0
+
+byte_D027:	dc.b $10
+		dc.b $90, $F, 0, $50, $E0
+		dc.b $90, $F, 8, $50, 0
+		dc.b $B0, $F, 0, $50, $E0
+		dc.b $B0, $F, 8, $50, 0
+		dc.b $D0, $F, 0, $50, $E0
+		dc.b $D0, $F, 8, $50, 0
+		dc.b $F0, $F, 0, $50, $E0
+		dc.b $F0, $F, 8, $50, 0
+		dc.b $10, $F, 0, $50, $E0
+		dc.b $10, $F, 8, $50, 0
+		dc.b $30, $F, 0, $50, $E0
+		dc.b $30, $F, 8, $50, 0
+		dc.b $50, $F, 0, $50, $E0
+		dc.b $50, $F, 8, $50, 0
+		dc.b $70, $F, 0, $50, $E0
+		dc.b $70, $F, 8, $50, 0
+
+byte_D078:	dc.b $10
+		dc.b $90, $F, 0, $60, $E0
+		dc.b $90, $F, 8, $60, 0
+		dc.b $B0, $F, 0, $60, $E0
+		dc.b $B0, $F, 8, $60, 0
+		dc.b $D0, $F, 0, $60, $E0
+		dc.b $D0, $F, 8, $60, 0
+		dc.b $F0, $F, 0, $60, $E0
+		dc.b $F0, $F, 8, $60, 0
+		dc.b $10, $F, 0, $60, $E0
+		dc.b $10, $F, 8, $60, 0
+		dc.b $30, $F, 0, $60, $E0
+		dc.b $30, $F, 8, $60, 0
+		dc.b $50, $F, 0, $60, $E0
+		dc.b $50, $F, 8, $60, 0
+		dc.b $70, $F, 0, $60, $E0
+		dc.b $70, $F, 8, $60, 0
+
+byte_D0C9:	dc.b 6
+		dc.b $E0, $B, 0, 0, $C8
+		dc.b $E8, $E, 0, $C, $E0
+		dc.b $E8, $E, 8, $C, 0
+		dc.b $E0, $B, 8, 0, $20
+		dc.b $D8, $E, 0, $90, $E0
+		dc.b $D8, $E, 8, $90, 0
+
+byte_D0E8:	dc.b 6
+		dc.b $E0, $B, 0, $18, $C8
+		dc.b $E8, $E, 0, $24, $E0
+		dc.b $E8, $E, 8, $24, 0
+		dc.b $E0, $B, 8, $18, $20
+		dc.b $D8, $E, 8, $90, $E0
+		dc.b $D8, $E, 0, $90, 0
+
+byte_D107:	dc.b 0

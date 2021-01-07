@@ -1,0 +1,10 @@
+MapAnimals1:	dc.w byte_754E-MapAnimals1, byte_7554-MapAnimals1, byte_7548-MapAnimals1
+
+byte_7548:	dc.b 1
+		dc.b $F4, 6, 0, 0, $F8
+
+byte_754E:	dc.b 1
+		dc.b $F4, 6, 0, 6, $F8
+
+byte_7554:	dc.b 1
+		dc.b $F4, 6, 0, $C, $F8

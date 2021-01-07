@@ -1,0 +1,9 @@
+AniRoller:	dc.w byte_C0BA-AniRoller, byte_C0BE-AniRoller, byte_C0C4-AniRoller
+
+byte_C0BA:	dc.b $F, 0, $FF
+		even
+
+byte_C0BE:	dc.b $F, 1, 2, $FD, 2
+		even
+
+byte_C0C4:	dc.b 3, 2, 3, 4, $FF

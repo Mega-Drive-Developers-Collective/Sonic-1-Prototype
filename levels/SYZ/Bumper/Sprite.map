@@ -1,0 +1,13 @@
+MapBumper:	dc.w byte_C6C8-MapBumper, byte_C6D3-MapBumper, byte_C6DE-MapBumper
+
+byte_C6C8:	dc.b 2
+		dc.b $F0, 7, 0, 0, $F0
+		dc.b $F0, 7, 8, 0, 0
+
+byte_C6D3:	dc.b 2
+		dc.b $F4, 6, 0, 8, $F4
+		dc.b $F4, 2, 8, 8, 4
+
+byte_C6DE:	dc.b 2
+		dc.b $F0, 7, 0, $E, $F0
+		dc.b $F0, 7, 8, $E, 0

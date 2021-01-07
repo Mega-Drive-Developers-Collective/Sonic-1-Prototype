@@ -1,0 +1,4 @@
+AniEntryRingBeta:dc.w byte_F9DE-AniEntryRingBeta
+
+byte_F9DE:	dc.b 5, 0, 1, 0, 1, 0, 7, 1, 7, 2, 7, 3, 7, 4, 7, 5, 7
+		dc.b 6, 7, $FC
