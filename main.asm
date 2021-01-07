@@ -21,6 +21,7 @@
 
 ROM		section org(0)
 			opt ae-		; temporary!!!
+		include "tools/LANG.ASM"
 
 align		macro pos
 		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
@@ -21382,7 +21383,7 @@ loc_74328:
 		move.b	byte_74348(pc,d0.w),d0
 		tst.b	($A01FF6).l
 		bne.s	locret_74346
-		move.b	d0,($A00183).l
+		move.b	d0,($A00000|TimpaniPitch).l
 		move.b	#$83,($A01FFF).l
 
 locret_74346:
@@ -23497,7 +23498,7 @@ loc_756AE:
 
 byte_756C8:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
-Z80Driver:	incbin "z80.unc"
+Z80Driver:	include "sound/Z80/DAC Driver.asm"
 		even
 mGHZ:		incbin "sound/music/GHZ.ssf"
 		even
@@ -23537,9 +23538,9 @@ mCredits:	incbin "sound/music/Credits.ssf"
 mSFXList:	dc.l sA0, sA1, sA2, sA3, sA4, sA5, sA6, sA7
 		dc.l sA8, sA9, sAA, sAB, sAC, sAD, sAE, sAF
 		dc.l sB0, sB1, sB2, sB3, sB4, sB5, sB6, sB7
-		dc.l sB8, sB9, sBA, sBB, sBC, sBD, sBE, sBF
+		dc.l sB8, sB9, sBA, sBB, sBC_, sBD, sBE, sBF
 		dc.l sC0, sC1, sC2, sC3, sC4, sC5, sC6, sC7
-		dc.l sC8, sC9, sCA, sCB, sCC_, sCD, sCE, sCF
+		dc.l sC8, sC9, sCA, sCB, sCC_, sCD, sCE, sCF_
 
 mSpecialSFXList:dc.l sD0, sD1, sD2
 sA0:		incbin "sound/sfx/A0.ssf"
@@ -23598,7 +23599,7 @@ sBA:		incbin "sound/sfx/BA.ssf"
 		even
 sBB:		incbin "sound/sfx/BB.ssf"
 		even
-sBC:		incbin "sound/sfx/BC.ssf"
+sBC_:		incbin "sound/sfx/BC.ssf"
 		even
 sBD:		incbin "sound/sfx/BD.ssf"
 		even
@@ -23636,7 +23637,7 @@ sCD:		incbin "sound/sfx/CD.ssf"
 		even
 sCE:		incbin "sound/sfx/CE.ssf"
 		even
-sCF:		incbin "sound/sfx/CF.ssf"
+sCF_:		incbin "sound/sfx/CF.ssf"
 		even
 sD0:		incbin "sound/sfx/D0.ssf"
 		even
@@ -23649,7 +23650,7 @@ sD2:		incbin "sound/sfx/D2.ssf"
 ; ===========================================================================
 ; Segment type: Regular
 ; segment "RAM"
-RAM		section bss, org($FFFF0000)
+RAM		section bss, org($FFFF0000), size($10000)
 
 Chunks:		ds.b $80					; note to self: sort this out later
 
