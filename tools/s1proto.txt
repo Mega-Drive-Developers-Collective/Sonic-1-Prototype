@@ -255,7 +255,7 @@
 72D1E
 
 # disassemble sound data
-756D0 z80.unc
+756D0 sound/Z80/DAC Driver.unc
 7732C sound/music/GHZ.ssf
 77C68 sound/music/LZ.ssf
 78332 sound/music/MZ.ssf
