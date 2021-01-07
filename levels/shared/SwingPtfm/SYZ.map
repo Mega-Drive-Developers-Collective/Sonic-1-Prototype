@@ -1,4 +1,4 @@
-off_573E:	dc.w byte_5744-off_573E, byte_576D-off_573E, byte_5773-off_573E
+MapSwingPtfmSYZ:dc.w byte_5744-MapSwingPtfmSYZ, byte_576D-MapSwingPtfmSYZ, byte_5773-MapSwingPtfmSYZ
 
 byte_5744:	dc.b 8
 		dc.b $F0, $F, 0, 4, $E0
