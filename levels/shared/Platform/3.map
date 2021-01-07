@@ -1,0 +1,5 @@
+MapPlatform3:	dc.w byte_5C74-MapPlatform3
+
+byte_5C74:	dc.b 2
+		dc.b $F8, $F, 0, $21, $E0
+		dc.b $F8, $F, 0, $21, 0

@@ -1,0 +1,33 @@
+MapCollapseFloor:dc.w byte_65AA-MapCollapseFloor, byte_65BF-MapCollapseFloor, byte_65E8-MapCollapseFloor, byte_65FD-MapCollapseFloor
+
+byte_65AA:	dc.b 4
+		dc.b $F8, $D, 0, 0, $E0
+		dc.b 8, $D, 0, 0, $E0
+		dc.b $F8, $D, 0, 0, 0
+		dc.b 8, $D, 0, 0, 0
+
+byte_65BF:	dc.b 8
+		dc.b $F8, 5, 0, 0, $E0
+		dc.b $F8, 5, 0, 0, $F0
+		dc.b $F8, 5, 0, 0, 0
+		dc.b $F8, 5, 0, 0, $10
+		dc.b 8, 5, 0, 0, $E0
+		dc.b 8, 5, 0, 0, $F0
+		dc.b 8, 5, 0, 0, 0
+		dc.b 8, 5, 0, 0, $10
+
+byte_65E8:	dc.b 4
+		dc.b $F8, $D, 0, 0, $E0
+		dc.b 8, $D, 0, 8, $E0
+		dc.b $F8, $D, 0, 0, 0
+		dc.b 8, $D, 0, 8, 0
+
+byte_65FD:	dc.b 8
+		dc.b $F8, 5, 0, 0, $E0
+		dc.b $F8, 5, 0, 4, $F0
+		dc.b $F8, 5, 0, 0, 0
+		dc.b $F8, 5, 0, 4, $10
+		dc.b 8, 5, 0, 8, $E0
+		dc.b 8, 5, 0, $C, $F0
+		dc.b 8, 5, 0, 8, 0
+		dc.b 8, 5, 0, $C, $10

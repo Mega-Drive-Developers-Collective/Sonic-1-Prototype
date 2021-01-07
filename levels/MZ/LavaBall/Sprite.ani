@@ -1,0 +1,9 @@
+AniLavaball:	dc.w byte_C3DA-AniLavaball, byte_C3E0-AniLavaball, byte_C3E4-AniLavaball, byte_C3EA-AniLavaball
+
+byte_C3DA:	dc.b 5, 0, $20, 1, $21, $FF
+
+byte_C3E0:	dc.b 5, 2, $FC, 0
+
+byte_C3E4:	dc.b 5, 3, $43, 4, $44, $FF
+
+byte_C3EA:	dc.b 5, 5, $FC, 0

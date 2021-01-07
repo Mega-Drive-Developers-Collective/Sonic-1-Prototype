@@ -14,18 +14,18 @@
 01AA8
 
 # disassemble standard palette data
-01B3C screens/sega/main.pal
-01BBC screens/title/main.pal
-01C3C screens/title/level select.pal
-01CBC levels/shared/Sonic/sonic.pal
-01CDC levels/GHZ/main.pal
-01D3C levels/LZ/main.pal
-01D9C levels/GHZ/night.pal
-01E1C levels/MZ/main.pal
-01E7C levels/SLZ/main.pal
-01EDC levels/SYZ/main.pal
-01F3C levels/SBZ/main.pal
-01F9C screens/special stage/main.pal
+01B3C screens/sega/Main.pal
+01BBC screens/title/Main.pal
+01C3C screens/title/Level Select.pal
+01CBC levels/shared/Sonic/Sonic.pal
+01CDC levels/GHZ/Main.pal
+01D3C levels/LZ/Main.pal
+01D9C levels/GHZ/Night.pal
+01E1C levels/MZ/Main.pal
+01E7C levels/SLZ/Main.pal
+01EDC levels/SYZ/Main.pal
+01F3C levels/SBZ/Main.pal
+01F9C screens/special stage/Main.pal
 0201C
 
 # disassemble misc stuff
@@ -37,6 +37,7 @@
 039B2
 
 # disassemble art and map data
+18000 unknown/18000.dat
 18720 screens/sega/Main.nem
 18A56 unknown/18A56.eni
 18A62 unknown/18A62.unc
@@ -58,50 +59,50 @@
 27D20 levels/GHZ/SmashWall/Art.nem
 27DBE levels/GHZ/Wall/Art.nem
 27E22 levels/MZ/ChainPtfm/Art.nem
-280B0 unsorted/mz button.nem
+280B0 levels/shared/Button/Art MZ.nem
 2816E unsorted/mz piston.nem
 2827A unsorted/mz fire ball.nem
 28558 unsorted/mz lava.nem
 28E6E unsorted/mz pushable block.nem
-2905A unsorted/slz seesaw.nem
-29296 unsorted/slz fan.nem
+2905A levels/SLZ/Seesaw/Art.nem
+29296 levels/SLZ/Fan/Art.nem
 294DA unsorted/slz platform.nem
 2953C unsorted/slz girders.nem
 2961E unsorted/slz spiked platforms.nem
 297B6 unsorted/slz misc platforms.nem
 29D4A unsorted/slz metal block.nem
-29E56 unsorted/syz bumper.nem
+29E56 levels/SYZ/Bumper/Art.nem
 29FC0 unsorted/syz small spiked ball.nem
-2A022 unsorted/button.nem
+2A022 levels/shared/Button/Art.nem
 2A104 unsorted/swinging spiked ball.nem
-2A56A unsorted/crabmeat.nem
-2AA58 unsorted/buzzkill.nem
-2B6D0 unsorted/chopper.nem
-2B938 unsorted/jaws.nem
+2A56A levels/GHZ/Crabmeat/Art.nem
+2AA58 levels/GHZ/Buzzbomber/Art.nem
+2B6D0 levels/GHZ/Chopper/Art.nem
+2B938 levels/LZ/Jaws/Art.nem
 2BC04 unsorted/roller.nem
-2C128 unsorted/motobug.nem
-2C3B2 unsorted/newtron.nem
-2C9D0 unsorted/yadrin.nem
-2CDB8 unsorted/batbrain.nem
-2D0B4 unsorted/splats.nem
-2D2FC unsorted/titlecards.nem
-2D912 unsorted/hud main.nem
-2DA08 unsorted/hud lives.nem
-2DB0E unsorted/ring.nem
-2DC02 unsorted/monitor.nem
-2E062 unsorted/explosion.nem
+2C128 levels/GHZ/Motobug/Art.nem
+2C3B2 levels/GHZ/Newtron/Art.nem
+2C9D0 levels/shared/Yardin/Art.nem
+2CDB8 levels/MZ/Basaran/Art.nem
+2D0B4 levels/shared/Splats/Art.nem
+2D2FC levels/shared/Title Cards/Art.nem
+2D912 levels/shared/HUD/Main.nem
+2DA08 levels/shared/HUD/Lives.nem
+2DB0E levels/shared/Rings/Art.nem
+2DC02 levels/shared/Monitors/Art.nem
+2E062 levels/shared/Explosions/Art.nem
 2E6C8 unsorted/score points.nem
-2E77C unsorted/game over.nem
-2ECDC unsorted/spring v.nem
-2EDDE unsorted/spring h.nem
-2EEBA unsorted/end sign post.nem
-2F336 levels/shared/Animals/pocky.nem
-2F48E levels/shared/Animals/cucky.nem
-2F5EA levels/shared/Animals/pecky.nem
-2F766 levels/shared/Animals/rocky.nem
-2F882 levels/shared/Animals/picky.nem
-2F9B8 levels/shared/Animals/flicky.nem
-2FAF2 levels/shared/Animals/ricky.nem
+2E77C levels/shared/GameOver/Art.nem
+2ECDC levels/shared/Springs/Art Horizontal.nem
+2EDDE levels/shared/Springs/Art Vertical.nem
+2EEBA levels/shared/Signpost/Art.nem
+2F336 levels/shared/Animals/Pocky.nem
+2F48E levels/shared/Animals/Cucky.nem
+2F5EA levels/shared/Animals/Pecky.nem
+2F766 levels/shared/Animals/Rocky.nem
+2F882 levels/shared/Animals/Picky.nem
+2F9B8 levels/shared/Animals/Flicky.nem
+2FAF2 levels/shared/Animals/Ricky.nem
 2FC4E
 
 # disassemble level stuff
@@ -140,26 +141,26 @@
 63000
 
 # disassemble art and map data
-63080 screens/special stage/ss generic blocks.nem
+63080 screens/special stage/Art Blocks.nem
 639B8 unknown/639B8.eni
-63AEC screens/special stage/ss bg animals.nem
+63AEC screens/special stage/Art Animals.nem
 6477C unknown/6477C.eni
 64A7C screens/special stage/ss bg misc.nem
-64F70 screens/special stage/ss goal.nem
-6505E screens/special stage/ss r.nem
-6512E screens/special stage/ss skull.nem
-651FE screens/special stage/ss u.nem
-652DE screens/special stage/ss 1up.nem
-653D4 screens/special stage/ss stars.nem
+64F70 screens/special stage/Art Goal.nem
+6505E screens/special stage/Art R Block.nem
+6512E screens/special stage/Art Skull.nem
+651FE screens/special stage/Art U Block.nem
+652DE screens/special stage/Art 1up.nem
+653D4 screens/special stage/Art Stars.nem
 65432 screens/special stage/ss red white.nem
-654C4 screens/special stage/ss zone1.nem
-65586 screens/special stage/ss zone2.nem
-65654 screens/special stage/ss zone3.nem
-65720 screens/special stage/ss zone4.nem
-657E8 screens/special stage/ss zone5.nem
-658B2 screens/special stage/ss zone6.nem
-65982 screens/special stage/ss up down.nem
-65B76 screens/special stage/ss emerald.nem
+654C4 screens/special stage/Art Zone 1.nem
+65586 screens/special stage/Art Zone 2.nem
+65654 screens/special stage/Art Zone 3.nem
+65720 screens/special stage/Art Zone 4.nem
+657E8 screens/special stage/Art Zone 5.nem
+658B2 screens/special stage/Art Zone 6.nem
+65982 screens/special stage/Art Up Down.nem
+65B76 screens/special stage/Art Emerald.nem
 65BE6
 
 # disassemble misc data
@@ -169,12 +170,12 @@
 6A100
 
 # disassemble collision data
-6A100 unknown/col 06A100.dat
-6A290 unknown/col 06A290.dat
-6A358 unknown/col 06A358.dat
-6A658 unknown/col 06A658.dat
-6A84C unknown/col 06A84C.dat
-6A9DC unknown/col 06A9DC.dat
+6A100 levels/GHZ/Collision.dat
+6A290 levels/LZ/Collision.dat
+6A358 levels/MZ/Collision.dat
+6A658 levels/SLZ/Collision.dat
+6A84C levels/SYZ/Collision.dat
+6A9DC levels/SBZ/Collision.dat
 6AB08
 
 # disassemble misc data
@@ -229,7 +230,7 @@
 6E13A levels/SBZ/Foreground 2.unc
 6E33C levels/SBZ/Background 2.unc
 6E340
-6E348 levels/Unknown/Foreground 1.unc
+6E348 levels/Ending/Foreground 1.unc
 6E3CA
 
 # disassemble object lists
@@ -254,7 +255,7 @@
 72D1E
 
 # disassemble sound data
-756D0 sound/z80.unc
+756D0 sound/Z80/DAC Driver.unc
 7732C sound/music/GHZ.ssf
 77C68 sound/music/LZ.ssf
 78332 sound/music/MZ.ssf

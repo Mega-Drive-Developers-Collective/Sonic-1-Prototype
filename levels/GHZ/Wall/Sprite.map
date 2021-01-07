@@ -1,0 +1,19 @@
+MapWall:	dc.w byte_C17E-MapWall, byte_C193-MapWall, byte_C1A8-MapWall
+
+byte_C17E:	dc.b 4
+		dc.b $E0, 5, 0, 4, $F8
+		dc.b $F0, 5, 0, 8, $F8
+		dc.b 0, 5, 0, 8, $F8
+		dc.b $10, 5, 0, 8, $F8
+
+byte_C193:	dc.b 4
+		dc.b $E0, 5, 0, 8, $F8
+		dc.b $F0, 5, 0, 8, $F8
+		dc.b 0, 5, 0, 8, $F8
+		dc.b $10, 5, 0, 8, $F8
+
+byte_C1A8:	dc.b 4
+		dc.b $E0, 5, 0, 0, $F8
+		dc.b $F0, 5, 0, 0, $F8
+		dc.b 0, 5, 0, 0, $F8
+		dc.b $10, 5, 0, 0, $F8

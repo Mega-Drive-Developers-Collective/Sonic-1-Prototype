@@ -1,0 +1,11 @@
+MapSmashBlock:	dc.w byte_D5AC-MapSmashBlock, byte_D5B7-MapSmashBlock
+
+byte_D5AC:	dc.b 2
+		dc.b $F0, $D, 0, 0, $F0
+		dc.b 0, $D, 0, 0, $F0
+
+byte_D5B7:	dc.b 4
+		dc.b $F0, 5, $80, 0, $F0
+		dc.b 0, 5, $80, 0, $F0
+		dc.b $F0, 5, $80, 0, 0
+		dc.b 0, 5, $80, 0, 0

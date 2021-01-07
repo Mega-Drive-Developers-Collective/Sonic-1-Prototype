@@ -1,0 +1,13 @@
+AniNewtron:	dc.w byte_BED4-AniNewtron, byte_BED8-AniNewtron, byte_BEE0-AniNewtron
+		dc.w byte_BEE4-AniNewtron, byte_BEE8-AniNewtron
+
+byte_BED4:	dc.b $F, $A, $FF
+		even
+
+byte_BED8:	dc.b $13, 0, 1, 3, 4, 5, $FE, 1
+
+byte_BEE0:	dc.b 2, 6, 7, $FF
+
+byte_BEE4:	dc.b 2, 8, 9, $FF
+
+byte_BEE8:	dc.b $13, 0, 1, 1, 2, 1, 1, 0, $FC, 0

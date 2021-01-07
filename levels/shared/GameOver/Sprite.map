@@ -1,0 +1,9 @@
+MapGameOver:	dc.w byte_AA24-MapGameOver, byte_AA2F-MapGameOver
+
+byte_AA24:	dc.b 2
+		dc.b $F8, $D, 0, 0, $B8
+		dc.b $F8, $D, 0, 8, $D8
+
+byte_AA2F:	dc.b 2
+		dc.b $F8, $D, 0, $14, 8
+		dc.b $F8, $D, 0, $C, $28

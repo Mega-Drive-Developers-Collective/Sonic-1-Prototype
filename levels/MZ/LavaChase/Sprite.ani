@@ -1,0 +1,3 @@
+AniLavaChase:	dc.w byte_CE1E-AniLavaChase
+
+byte_CE1E:	dc.b 9, 0, 1, 2, 3, $FF

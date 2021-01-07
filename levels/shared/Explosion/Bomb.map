@@ -1,0 +1,7 @@
+		dc.w byte_72F3-MapBombExplode
+
+byte_7312:	dc.b 1
+		dc.b $F0, $F, 0, $40, $F0
+
+byte_7318:	dc.b 1
+		dc.b $F0, $F, 0, $50, $F0
