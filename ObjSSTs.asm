@@ -11,7 +11,7 @@ obVelY:		equ $12	; y-axis velocity (2 bytes)
 obInertia:	equ $14	; potential speed (2 bytes)
 obHeight:	equ $16	; height/2
 obWidth:	equ $17	; width/2
-obPriority:	equ $18	; sprite stack priority -- 0 is front, questionably used...
+obPriority:	equ $18	; sprite stack priority -- 0 is front
 obActWid:	equ $19	; action width
 obFrame:	equ $1A	; current frame displayed
 obAniFrame:	equ $1B	; current frame in animation script
