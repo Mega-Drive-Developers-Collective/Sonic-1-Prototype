@@ -23497,7 +23497,7 @@ loc_756AE:
 
 byte_756C8:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
-Z80Driver:	incbin "sound/z80.unc"
+Z80Driver:	incbin "z80.unc"
 		even
 mGHZ:		incbin "sound/music/GHZ.ssf"
 		even
