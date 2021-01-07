@@ -1,0 +1,2 @@
+The timpani pitch byte is $A00000+183
+Remember to set that in loc_74328.
