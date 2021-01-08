@@ -1,10 +1,8 @@
 ; MADE BY NATSUMI 2017
 
 ; DEFINE HELPERS
-z80prg =	0		; 0 IN 68K MODE, 1 IN Z80 MODE
 ztemp =		0		; TEMPORARY REGISTER
 zundoc =	1		; SET TO 0 TO USE UNDOCUMENTED OPCODES
-zchkoffs =	0		; SET TO 0 TO NOT CHECK IX/IY AND JR OFFSETS
 z80regstr	EQUS "a b c d e h l bc de hl sp af ix iy i r ixh ixl iyh iyl (bc) (de) (hl) (sp) af' (ix) (iy)"
 
 ; EASILY MAKE SECTIONS
@@ -16,7 +14,6 @@ z80prg =	0
 	endif
 
 	PUSHO			; push options
-	OPT AE-			; automatic evens off
 	OPT AN+			; allow use of 100H instead of $100
 	OPT M-			; do not print better macro info. Comment out for large text dump.
 	OPT D-			; make sure EQU/SET do not descope local lables
@@ -115,24 +112,11 @@ p =				p+1
 zindoff	macro reg, byte
 	local off
 off	substr 4, strlen("\reg")-1, "\reg"
-
-	if zchkoffs
-		dc.b -(off)-1, off
-		zfuture \byte
-
-	else
 		dc.b \byte, off
-	endif
     endm
 
 zjrfuture macro off, byte
-	if zchkoffs
-		dc.b -(off)-1, off
-		zfuture \byte
-
-	else
 		dc.b \byte, off
-	endif
     endm
 
 ; QUEUES SIGNED VALUES TO BE FIXED
@@ -1889,27 +1873,15 @@ retm	macro
     endm
 
 di	macro
-	if z80prg=0
 		move	#$2700,sr	; THIS IS HERE, IF YOU WANNA USE DI IN 68K CODE ;)
-	else
-		dc.b $F3
-	endif
     endm
 
 ei	macro
-	if z80prg=0
 		move	#$2300,sr	; THIS IS HERE, IF YOU WANNA USE EI IN 68K CODE ;)
-	else
-		dc.b $FB
-	endif
     endm
 
 halt	macro
-	if z80prg=0
 		stop	#$2700		; THIS IS HERE, IF YOU WANNA USE HALT IN 68K CODE ;)
-	else
-		dc.b $76
-	endif
     endm
 
 znop	macro
