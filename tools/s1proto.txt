@@ -36,6 +36,43 @@
 038E0 unknown/038E0.pal
 039B2
 
+# disassemble start locations
+03CCC levels/GHZ/Start 1.dat
+03CD0 levels/GHZ/Start 2.dat
+03CD4 levels/GHZ/Start 3.dat
+03CD8 levels/GHZ/Start 4.dat
+
+03CDC levels/LZ/Start 1.dat
+03CE0 levels/LZ/Start 2.dat
+03CE4 levels/LZ/Start 3.dat
+03CE8 levels/LZ/Start 4.dat
+
+03CEC levels/MZ/Start 1.dat
+03CF0 levels/MZ/Start 2.dat
+03CF4 levels/MZ/Start 3.dat
+03CF8 levels/MZ/Start 4.dat
+
+03CFC levels/SLZ/Start 1.dat
+03D00 levels/SLZ/Start 2.dat
+03D04 levels/SLZ/Start 3.dat
+03D08 levels/SLZ/Start 4.dat
+
+03D0C levels/SYZ/Start 1.dat
+03D10 levels/SYZ/Start 2.dat
+03D14 levels/SYZ/Start 3.dat
+03D18 levels/SYZ/Start 4.dat
+
+03D1C levels/SBZ/Start 1.dat
+03D20 levels/SBZ/Start 2.dat
+03D24 levels/SBZ/Start 3.dat
+03D28 levels/SBZ/Start 4.dat
+
+03D2C levels/Ending/Start 1.dat
+03D30 levels/Ending/Start 2.dat
+03D34 levels/Ending/Start 3.dat
+03D38 levels/Ending/Start 4.dat
+03D3C
+
 # disassemble art and map data
 18000 unknown/18000.dat
 18720 screens/sega/Main.nem
@@ -93,8 +130,8 @@
 2E062 levels/shared/Explosions/Art.nem
 2E6C8 unsorted/score points.nem
 2E77C levels/shared/GameOver/Art.nem
-2ECDC levels/shared/Springs/Art Horizontal.nem
-2EDDE levels/shared/Springs/Art Vertical.nem
+2ECDC levels/shared/Spring/Art Horizontal.nem
+2EDDE levels/shared/Spring/Art Vertical.nem
 2EEBA levels/shared/Signpost/Art.nem
 2F336 levels/shared/Animals/Pocky.nem
 2F48E levels/shared/Animals/Cucky.nem
@@ -164,9 +201,9 @@
 65BE6
 
 # disassemble misc data
-68000 unknown/68000.dat
-68100 unknown/68100.dat
-69100 unknown/69100.dat
+68000 levels/shared/Collision Angles.dat
+68100 levels/shared/Collision Widths.dat
+69100 levels/shared/Collision Heights.dat
 6A100
 
 # disassemble collision data

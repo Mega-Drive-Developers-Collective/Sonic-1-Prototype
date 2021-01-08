@@ -9,12 +9,6 @@
 *.pal
 *.blk
 *.map
-*.map
 *.ani
-*.map
-levels/GHZ/BallHog/Cannonball.map
-levels/GHZ/BallHog/CannonballExplode.map
-levels/GHZ/BallHog/Sprite.ani
-levels/GHZ/BallHog/Sprite.map
-levels/GHZ/BallHog/Cannonball.map
-*.map
+*.log
+SONLVL/dllcache/*
