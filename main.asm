@@ -9467,7 +9467,7 @@ AllObjects:	dc.l ObjSonic, Obj02, Obj03, Obj04, Obj05, Ojb06, Obj07
 		dc.l ObjSpring, ObjNewtron, ObjRoller, ObjWall, Obj45
 		dc.l ObjMZBlocks, ObjBumper, ObjGHZBossBall, ObjWaterfallSnd
 		dc.l ObjEntryRingBeta, Obj4B, ObjLavafallMalker, ObjLavafall
-		dc.l ObjLavaChase, Obj4F, ObjYardin, ObjSmashBlock, ObjMovingPtfm
+		dc.l ObjLavaChase, Obj4F, ObjYadrin, ObjSmashBlock, ObjMovingPtfm
 		dc.l ObjCollapseFloor, ObjLavaHurt, ObjBasaran, ObjMovingBlocks
 		dc.l ObjSpikedBalls, ObjGiantSpikedBalls, ObjSLZMovingPtfm
 		dc.l ObjCirclePtfm, ObjStaircasePtfm, ObjSLZGirder, ObjFan
@@ -15188,7 +15188,7 @@ loc_D308:
 		even
 ; ---------------------------------------------------------------------------
 
-ObjYardin:
+ObjYadrin:
 		moveq	#0,d0
 		move.b	$24(a0),d0
 		move.w	off_D334(pc,d0.w),d1
@@ -15199,7 +15199,7 @@ off_D334:	dc.w loc_D338-off_D334, loc_D38C-off_D334
 ; ---------------------------------------------------------------------------
 
 loc_D338:
-		move.l	#MapYardin,4(a0)
+		move.l	#MapYadrin,4(a0)
 		move.w	#$247B,2(a0)
 		move.b	#4,1(a0)
 		move.b	#4,$19(a0)
@@ -15267,8 +15267,8 @@ loc_D3F0:
 		move.b	#0,$1C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-		include "levels/shared/Yardin/Sprite.ani"
-		include "levels/shared/Yardin/Sprite.map"
+		include "levels/shared/Yadrin/Sprite.ani"
+		include "levels/shared/Yadrin/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16565,7 +16565,7 @@ loc_E306:
 		move.w	d2,$C(a0)
 		rts
 ; ---------------------------------------------------------------------------
-		include "levels/SLZ/CirclePtfm/Srite.map"
+		include "levels/SLZ/CirclePtfm/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16741,7 +16741,7 @@ locret_E4D0:
 ; ---------------------------------------------------------------------------
 		rts
 ; ---------------------------------------------------------------------------
-		include "levels/SLZ/StaircasePtfm/Srite.map"
+		include "levels/SLZ/StaircasePtfm/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16776,7 +16776,7 @@ loc_E506:
 		move.w	d1,$A(a0)
 		bra.w	ObjectDisplay
 ; ---------------------------------------------------------------------------
-		include "levels/SLZ/Girder/Srite.map"
+		include "levels/SLZ/Girder/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16880,7 +16880,7 @@ loc_E64E:
 		bhi.w	ObjectDelete
 		rts
 ; ---------------------------------------------------------------------------
-		include "levels/SLZ/Fan/Srite.map"
+		include "levels/SLZ/Fan/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -16973,7 +16973,7 @@ ObjSeeSaw_SlopeLine:dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15, $15, $15
 		dc.b $15, $15, $15, $15, $15, $15, $15, $15
-		include "levels/SLZ/Seesaw/Srite.map"
+		include "levels/SLZ/Seesaw/Sprite.map"
 		even
 ; ---------------------------------------------------------------------------
 
@@ -22156,7 +22156,7 @@ word_1207A:	dc.w $11
 		dc.b 0, 0, $42, $B8
 		dc.l ($4F<<24)|Map4F
 		dc.b 0, 0, 4, $E4
-		dc.l ($50<<24)|MapYardin
+		dc.l ($50<<24)|MapYadrin
 		dc.b 0, 0, 4, $7B
 		dc.l ($51<<24)|MapSmashBlock
 		dc.b 0, 0, $42, $B8
@@ -22216,7 +22216,7 @@ word_1216E:	dc.w $D
 		dc.b 0, 0, 4, 0
 		dc.l ($22<<24)|MapBuzzbomber
 		dc.b 0, 0, 4, $44
-		dc.l ($50<<24)|MapYardin
+		dc.l ($50<<24)|MapYadrin
 		dc.b 0, 0, 4, $7B
 		dc.l ($18<<24)|MapPlatform2
 		dc.b 0, 0, $40, 0
@@ -22582,7 +22582,7 @@ ArtWall:	incbin "levels/GHZ/Wall/Art.nem"
 		even
 ArtChainPtfm:	incbin "levels/MZ/ChainPtfm/Art.nem"
 		even
-ArtButtonMZ:	incbin "levels/shared/Button/Art MZ.nem"
+ArtButtonMZ:	incbin "levels/shared/Switch/Art MZ.nem"
 		even
 byte_2816E:	incbin "unsorted/mz piston.nem"
 		even
@@ -22590,7 +22590,7 @@ byte_2827A:	incbin "unsorted/mz fire ball.nem"
 		even
 byte_28558:	incbin "unsorted/mz lava.nem"
 		even
-byte_28E6E:	incbin "unsorted/mz pushable block.nem"
+byte_28E6E:	incbin "levels/MZ/PushBlock/Art.nem"
 		even
 ArtSeesaw:	incbin "levels/SLZ/Seesaw/Art.nem"
 		even
@@ -22610,7 +22610,7 @@ ArtBumper:	incbin "levels/SYZ/Bumper/Art.nem"
 		even
 byte_29FC0:	incbin "unsorted/syz small spiked ball.nem"
 		even
-ArtButton:	incbin "levels/shared/Button/Art.nem"
+ArtButton:	incbin "levels/shared/Switch/Art.nem"
 		even
 byte_2A104:	incbin "unsorted/swinging spiked ball.nem"
 		even
@@ -22628,7 +22628,7 @@ ArtMotobug:	incbin "levels/GHZ/Motobug/Art.nem"
 		even
 ArtNewtron:	incbin "levels/GHZ/Newtron/Art.nem"
 		even
-ArtYardin:	incbin "levels/shared/Yardin/Art.nem"
+ArtYardin:	incbin "levels/shared/Yadrin/Art.nem"
 		even
 ArtBasaran:	incbin "levels/MZ/Basaran/Art.nem"
 		even

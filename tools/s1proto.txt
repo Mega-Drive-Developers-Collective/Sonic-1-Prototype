@@ -96,11 +96,11 @@
 27D20 levels/GHZ/SmashWall/Art.nem
 27DBE levels/GHZ/Wall/Art.nem
 27E22 levels/MZ/ChainPtfm/Art.nem
-280B0 levels/shared/Button/Art MZ.nem
+280B0 levels/shared/Switch/Art MZ.nem
 2816E unsorted/mz piston.nem
 2827A unsorted/mz fire ball.nem
 28558 unsorted/mz lava.nem
-28E6E unsorted/mz pushable block.nem
+28E6E levels/MZ/PushBlock/Art.nem
 2905A levels/SLZ/Seesaw/Art.nem
 29296 levels/SLZ/Fan/Art.nem
 294DA unsorted/slz platform.nem
@@ -110,7 +110,7 @@
 29D4A unsorted/slz metal block.nem
 29E56 levels/SYZ/Bumper/Art.nem
 29FC0 unsorted/syz small spiked ball.nem
-2A022 levels/shared/Button/Art.nem
+2A022 levels/shared/Switch/Art.nem
 2A104 unsorted/swinging spiked ball.nem
 2A56A levels/GHZ/Crabmeat/Art.nem
 2AA58 levels/GHZ/Buzzbomber/Art.nem
@@ -119,7 +119,7 @@
 2BC04 unsorted/roller.nem
 2C128 levels/GHZ/Motobug/Art.nem
 2C3B2 levels/GHZ/Newtron/Art.nem
-2C9D0 levels/shared/Yardin/Art.nem
+2C9D0 levels/shared/Yadrin/Art.nem
 2CDB8 levels/MZ/Basaran/Art.nem
 2D0B4 levels/shared/Splats/Art.nem
 2D2FC levels/shared/Title Cards/Art.nem
