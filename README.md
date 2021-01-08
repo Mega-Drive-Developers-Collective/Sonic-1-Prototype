@@ -5,3 +5,9 @@ Research disassembly of the Sonic 1 prototype that was released by Hidden Palace
 * To edit the file names for split files, open tools/s1proto.txt and edit the appropriate lines, or add new files in sequentially, making sure you also have specified the end of the file range. See the file for examples. Run test.bat so that all the files will update and you can check for bit perfectness.
 * To edit the Z80 driver, go to sound --> Z80 --> DAC Driver.asm/i64.
 * Please ensure that before you submit a pull request, that **you have pulled the latest version from the main repository** and resolved any merge conflicts!
+### Credits
+* Release of the prototype - drx/Hidden Palace
+* The start of the entire disassembly (January 2nd, 2021) - AuroraFields
+* Z80 disassembly - RepellantMold
+* Most of the labelling - DeltaWooloo
+* SONLVL projects - AuroraFields
