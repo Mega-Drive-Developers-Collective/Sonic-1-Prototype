@@ -17,6 +17,7 @@ BankSwitchLoop:
 		rrca
 		djnz	BankSwitchLoop
 		jr	CheckSamples
+		align 10
 ; ---------------------------------------------------------------------------
 DeltaTable:	db 0, 1, 2, 4, 8, 10h, 20h, 40h, 80h, 0FFh, 0FEh, 0FCh
 		db 0F8h, 0F0h, 0E0h, 0C0h
@@ -28,7 +29,7 @@ CheckSamples:
 WaitDACLoop:
 		ld	a, (hl)
 		zor	a
-		jp	p, WaitDACLoop
+		jpp	WaitDACLoop
 		push	af
 		push	hl
 		ld	a, 80h
@@ -71,7 +72,7 @@ loc_73:
 		ld	d, (iy+1)
 		ld	a, (1FF7h)
 		zor	a
-		jp	m, loc_8F
+		jpm	loc_8F
 		ld	hl, (1FF8h)
 		zadd	hl, de
 		ex	de, hl
@@ -105,7 +106,7 @@ loc_9F:
 
 loc_B8:
 		bit	7, (hl)
-		jr	nz, loc_B8
+		jrnz	loc_B8
 		ld	(hl), 2Ah
 		inc	hl
 		xor	a
@@ -130,7 +131,7 @@ loc_C5:
 
 loc_DA:
 		bit	7, (hl)
-		jr	nz, loc_DA
+		jrnz	loc_DA
 		ld	(hl), 2Ah
 		inc	hl
 		xor	a
@@ -142,28 +143,28 @@ loc_E7:
 		djnz	offset(*)
 		exx
 		bit	7, (iy+5)
-		jr	nz, loc_F5
+		jrnz	loc_F5
 		bit	7, (hl)
-		jp	nz, WaitDACLoop
+		jpnz	WaitDACLoop
 
 loc_F5:
 		inc	de
 		dec	bc
 		ld	a, c
 		zor	b
-		jp	nz, loc_9F
+		jpnz	loc_9F
 		ld	a, (1FFEh)
 		zor	a
-		jp	z, loc_153
+		jpz	loc_153
 		exx
-		jp	p, loc_10C
+		jpp	loc_10C
 		zand	7Fh
 		ld	(ix+0), c
 
 loc_10C:
 		dec	a
 		ld	(1FFEh), a
-		jr	z, loc_133
+		jrz	loc_133
 		ld	c, (ix+0)
 		exx
 		ld	l, (iy+6)
@@ -201,7 +202,7 @@ loc_153:
 		ld	hl, 1FF6h
 		ld	a, (hl)
 		zor	a
-		jp	m, CheckSamples
+		jpm	CheckSamples
 		xor	a
 		ld	(hl), a
 		jp	CheckSamples
