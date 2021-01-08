@@ -8,7 +8,5 @@
 *.ssf
 *.pal
 *.blk
-*.map
-*.ani
 *.log
 SONLVL/dllcache/*
