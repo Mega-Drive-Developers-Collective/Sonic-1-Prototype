@@ -18445,7 +18445,7 @@ locret_F744:
 
 ObjShield:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	routine(a0),d0
 		move.w	ObjShield_Index(pc,d0.w),d1
 		jmp	ObjShield_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -18454,20 +18454,20 @@ ObjShield_Index:dc.w ObjShield_Init-ObjShield_Index, ObjShield_Shield-ObjShield_
 ; ---------------------------------------------------------------------------
 
 ObjShield_Init:
-		addq.b	#2,$24(a0)
-		move.l	#MapShield,4(a0)
-		move.b	#4,1(a0)
-		move.b	#1,$19(a0)
-		move.b	#$10,$18(a0)
-		tst.b	$1C(a0)
+		addq.b	#2,routine(a0)
+		move.l	#MapShield,map(a0)
+		move.b	#4,render(a0)
+		move.b	#1,prio(a0)
+		move.b	#$10,xdisp(a0)
+		tst.b	ani(a0)
 		bne.s	loc_F786
-		move.w	#$541,2(a0)
+		move.w	#$541,tile(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F786:
-		addq.b	#2,$24(a0)
-		move.w	#$55C,2(a0)
+		addq.b	#2,routine(a0)
+		move.w	#$55C,tile(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -18476,9 +18476,9 @@ ObjShield_Shield:
 		bne.s	locret_F7C0
 		tst.b	(byte_FFFE2C).w
 		beq.s	ObjShield_Delete
-		move.w	(ObjectsList+8).w,8(a0)
-		move.w	(ObjectsList+$C).w,$C(a0)
-		move.b	(ObjectsList+$22).w,$22(a0)
+		move.w	(ObjectsList+xpos).w,xpos(a0)
+		move.w	(ObjectsList+ypos).w,ypos(a0)
+		move.b	(ObjectsList+status).w,status(a0)
 		lea	(AniShield).l,a1
 		jsr	(AnimateSprite).l
 		bsr.w	ObjectDisplay
@@ -18495,7 +18495,7 @@ ObjShield_Stars:
 		tst.b	(byte_FFFE2D).w
 		beq.s	ObjShield_Delete2
 		move.w	(unk_FFF7A8).w,d0
-		move.b	$1C(a0),d1
+		move.b	ani(a0),d1
 		subq.b	#1,d1
 		bra.s	ObjShield_StarTrail
 ; ---------------------------------------------------------------------------
@@ -18530,9 +18530,9 @@ ObjShield_StarTrail2:
 ObjShield_StarTrail2a:
 		lea	(SonicPosTable).w,a1
 		lea	(a1,d0.w),a1
-		move.w	(a1)+,8(a0)
-		move.w	(a1)+,$C(a0)
-		move.b	(ObjectsList+$22).w,$22(a0)
+		move.w	(a1)+,xpos(a0)
+		move.w	(a1)+,ypos(a0)
+		move.b	(ObjectsList+status).w,status(a0)
 		lea	(AniShield).l,a1
 		jsr	(AnimateSprite).l
 		bra.w	ObjectDisplay
@@ -18544,7 +18544,7 @@ ObjShield_Delete2:
 
 ObjEntryRingBeta:
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	routine(a0),d0
 		move.w	ObjEntryRingBeta_Index(pc,d0.w),d1
 		jmp	ObjEntryRingBeta_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -18560,21 +18560,21 @@ ObjEntryRingBeta_Init:
 ; ---------------------------------------------------------------------------
 
 ObjEntryRingBeta_Init2:
-		addq.b	#2,$24(a0)
-		move.l	#MapEntryRingBeta,4(a0)
-		move.b	#4,1(a0)
-		move.b	#1,$19(a0)
-		move.b	#$38,$18(a0)
-		move.w	#$541,2(a0)
+		addq.b	#2,routine(a0)
+		move.l	#MapEntryRingBeta,map(a0)
+		move.b	#4,render(a0)
+		move.b	#1,prio(a0)
+		move.b	#$38,xdisp(a0)
+		move.w	#$541,tile(a0)
 		move.w	#$78,$30(a0)
 
 ObjEntryRingBeta_RmvSonic:
-		move.w	(ObjectsList+8).w,8(a0)
-		move.w	(ObjectsList+$C).w,$C(a0)
-		move.b	(ObjectsList+$22).w,$22(a0)
+		move.w	(ObjectsList+xpos).w,xpos(a0)
+		move.w	(ObjectsList+ypos).w,ypos(a0)
+		move.b	(ObjectsList+status).w,status(a0)
 		lea	(AniEntryRingBeta).l,a1
 		jsr	(AnimateSprite).l
-		cmpi.b	#2,$1A(a0)
+		cmpi.b	#2,frame(a0)
 		bne.s	ObjEntryRingBeta_Display
 		tst.b	(ObjectsList).w
 		beq.s	ObjEntryRingBeta_Display
@@ -18607,10 +18607,10 @@ ObjEntryRingBeta_Wait:
 TouchObjects:
 		nop
 		moveq	#0,d5
-		move.b	$16(a0),d5
+		move.b	yrad(a0),d5
 		subq.b	#3,d5
-		move.w	8(a0),d2
-		move.w	$C(a0),d3
+		move.w	xpos(a0),d2
+		move.w	ypos(a0),d3
 		subq.w	#8,d2
 		sub.w	d5,d3
 		move.w	#$10,d4
@@ -18621,7 +18621,7 @@ TouchObjects:
 loc_FB6E:
 		tst.b	1(a1)
 		bpl.s	loc_FB7A
-		move.b	$20(a1),d0
+		move.b	col(a1),d0
 		bne.s	loc_FBB8
 
 loc_FB7A:
@@ -18793,7 +18793,7 @@ loc_FCE0:
 		beq.s	loc_FCEA
 
 loc_FCE6:
-		moveq	#$FFFFFFFF,d0
+		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
