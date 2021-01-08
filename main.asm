@@ -16970,7 +16970,7 @@ ObjSonic:
 		tst.w	(DebugRoutine).w
 		bne.w	DebugMode
 		moveq	#0,d0
-		move.b	$24(a0),d0
+		move.b	routine(a0),d0
 		move.w	off_E826(pc,d0.w),d1
 		jmp	off_E826(pc,d1.w)
 ; ---------------------------------------------------------------------------
@@ -16980,20 +16980,20 @@ off_E826:	dc.w loc_E830-off_E826, loc_E872-off_E826, ObjSonic_Hurt-off_E826, Obj
 ; ---------------------------------------------------------------------------
 
 loc_E830:
-		addq.b	#2,$24(a0)
-		move.b	#$13,$16(a0)
-		move.b	#9,$17(a0)
-		move.l	#MapSonic,4(a0)
-		move.w	#$780,2(a0)
-		move.b	#2,$19(a0)
-		move.b	#$18,$18(a0)
-		move.b	#4,1(a0)
+		addq.b	#2,routine(a0)
+		move.b	#$13,yrad(a0)
+		move.b	#9,xrad(a0)
+		move.l	#MapSonic,map(a0)
+		move.w	#$780,tile(a0)
+		move.b	#2,prio(a0)
+		move.b	#$18,xdisp(a0)
+		move.b	#4,render(a0)
 		move.w	#$600,(unk_FFF760).w
 		move.w	#$C,(unk_FFF762).w
 		move.w	#$40,(unk_FFF764).w
 
 loc_E872:
-		andi.w	#$7FF,$C(a0)
+		andi.w	#$7FF,ypos(a0)
 		andi.w	#$7FF,(CameraY).w
 		tst.w	(word_FFFFFA).w
 		beq.s	loc_E892
@@ -17003,14 +17003,14 @@ loc_E872:
 
 loc_E892:
 		moveq	#0,d0
-		move.b	$22(a0),d0
+		move.b	status(a0),d0
 		andi.w	#6,d0
 		move.w	off_E8C8(pc,d0.w),d1
 		jsr	off_E8C8(pc,d1.w)
 		bsr.s	sub_E8D6
 		bsr.w	sub_E952
-		move.b	(unk_FFF768).w,$36(a0)
-		move.b	(unk_FFF76A).w,$37(a0)
+		move.b	(unk_FFF768).w,sensorfront(a0)
+		move.b	(unk_FFF76A).w,sensorback(a0)
 		bsr.w	ObjSonic_Animate
 		bsr.w	TouchObjects
 		bsr.w	ObjSonic_SpecialChunk
@@ -17024,9 +17024,9 @@ MusicList2:	dc.b $81, $82, $83, $84, $85, $86
 ; ---------------------------------------------------------------------------
 
 sub_E8D6:
-		move.w	$30(a0),d0
+		move.w	invulnerable(a0),d0
 		beq.s	loc_E8E4
-		subq.w	#1,$30(a0)
+		subq.w	#1,invulnerable(a0)
 		lsr.w	#3,d0
 		bcc.s	loc_E8E8
 
@@ -17036,9 +17036,9 @@ loc_E8E4:
 loc_E8E8:
 		tst.b	(byte_FFFE2D).w
 		beq.s	loc_E91C
-		tst.w	$32(a0)
+		tst.w	invincible(a0)
 		beq.s	loc_E91C
-		subq.w	#1,$32(a0)
+		subq.w	#1,invincible(a0)
 		bne.s	loc_E91C
 		tst.b	(unk_FFF7AA).w
 		bne.s	loc_E916
@@ -17056,9 +17056,9 @@ loc_E916:
 loc_E91C:
 		tst.b	(byte_FFFE2E).w
 		beq.s	locret_E950
-		tst.w	$34(a0)
+		tst.w	speedshoes(a0)
 		beq.s	locret_E950
-		subq.w	#1,$34(a0)
+		subq.w	#1,speedshoes(a0)
 		bne.s	locret_E950
 		move.w	#$600,(unk_FFF760).w
 		move.w	#$C,(unk_FFF762).w
@@ -17076,8 +17076,8 @@ sub_E952:
 		move.w	(unk_FFF7A8).w,d0
 		lea	(SonicPosTable).w,a1
 		lea	(a1,d0.w),a1
-		move.w	8(a0),(a1)+
-		move.w	$C(a0),(a1)+
+		move.w	xpos(a0),(a1)+
+		move.w	ypos(a0),(a1)+
 		addq.b	#4,(unk_FFF7A9).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -17129,7 +17129,7 @@ ObjSonic_Move:
 		move.w	(unk_FFF760).w,d6
 		move.w	(unk_FFF762).w,d5
 		move.w	(unk_FFF764).w,d4
-		tst.w	$3E(a0)
+		tst.w	lock(a0)
 		bne.w	ObjSonic_LookUp
 		btst	#2,(padHeldPlayer).w
 		beq.s	ObjSonic_NoLeft
@@ -17141,30 +17141,30 @@ ObjSonic_NoLeft:
 		bsr.w	ObjSonic_MoveRight
 
 ObjSonic_NoRight:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		bne.w	ObjSonic_ResetScroll
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		bne.w	ObjSonic_ResetScroll
-		bclr	#5,$22(a0)
-		move.b	#5,$1C(a0)
-		btst	#3,$22(a0)
+		bclr	#5,status(a0)
+		move.b	#5,ani(a0)
+		btst	#3,status(a0)
 		beq.s	ObjSonic_Balance
 		moveq	#0,d0
-		move.b	$3D(a0),d0
+		move.b	platform(a0),d0
 		lsl.w	#6,d0
 		lea	(ObjectsList).w,a1
 		lea	(a1,d0.w),a1
-		tst.b	$22(a1)
+		tst.b	status(a1)
 		bmi.s	ObjSonic_LookUp
 		moveq	#0,d1
-		move.b	$18(a1),d1
+		move.b	xdisp(a1),d1
 		move.w	d1,d2
 		add.w	d2,d2
 		subq.w	#4,d2
-		add.w	8(a0),d1
-		sub.w	8(a1),d1
+		add.w	xpos(a0),d1
+		sub.w	xpos(a1),d1
 		cmpi.w	#4,d1
 		blt.s	loc_EA92
 		cmp.w	d2,d1
@@ -17176,30 +17176,30 @@ ObjSonic_Balance:
 		jsr	ObjectHitFloor
 		cmpi.w	#$C,d1
 		blt.s	ObjSonic_LookUp
-		cmpi.b	#3,$36(a0)
+		cmpi.b	#3,sensorfront(a0)
 		bne.s	loc_EA8A
 
 loc_EA82:
-		bclr	#0,$22(a0)
+		bclr	#0,status(a0)
 		bra.s	loc_EA98
 ; ---------------------------------------------------------------------------
 
 loc_EA8A:
-		cmpi.b	#3,$37(a0)
+		cmpi.b	#3,sensorback(a0)
 		bne.s	ObjSonic_LookUp
 
 loc_EA92:
-		bset	#0,$22(a0)
+		bset	#0,status(a0)
 
 loc_EA98:
-		move.b	#6,$1C(a0)
+		move.b	#6,ani(a0)
 		bra.s	ObjSonic_ResetScroll
 ; ---------------------------------------------------------------------------
 
 ObjSonic_LookUp:
 		btst	#0,(padHeldPlayer).w
 		beq.s	ObjSonic_Duck
-		move.b	#7,$1C(a0)
+		move.b	#7,ani(a0)
 		cmpi.w	#$C8,(unk_FFF73E).w
 		beq.s	loc_EAEA
 		addq.w	#2,(unk_FFF73E).w
@@ -17209,7 +17209,7 @@ ObjSonic_LookUp:
 ObjSonic_Duck:
 		btst	#1,(padHeldPlayer).w
 		beq.s	ObjSonic_ResetScroll
-		move.b	#8,$1C(a0)
+		move.b	#8,ani(a0)
 		cmpi.w	#8,(unk_FFF73E).w
 		beq.s	loc_EAEA
 		subq.w	#2,(unk_FFF73E).w
@@ -17229,7 +17229,7 @@ loc_EAEA:
 		move.b	(padHeldPlayer).w,d0
 		andi.b	#$C,d0
 		bne.s	loc_EB16
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		beq.s	loc_EB16
 		bmi.s	loc_EB0A
 		sub.w	d5,d0
@@ -17237,7 +17237,7 @@ loc_EAEA:
 		move.w	#0,d0
 
 loc_EB04:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 		bra.s	loc_EB16
 ; ---------------------------------------------------------------------------
 
@@ -17247,35 +17247,35 @@ loc_EB0A:
 		move.w	#0,d0
 
 loc_EB12:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 
 loc_EB16:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		jsr	(GetSine).l
-		muls.w	$14(a0),d1
+		muls.w	inertia(a0),d1
 		asr.l	#8,d1
-		move.w	d1,$10(a0)
-		muls.w	$14(a0),d0
+		move.w	d1,xvel(a0)
+		muls.w	inertia(a0),d0
 		asr.l	#8,d0
-		move.w	d0,$12(a0)
+		move.w	d0,yvel(a0)
 
 loc_EB34:
 		move.b	#$40,d1
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		beq.s	locret_EB8E
 		bmi.s	loc_EB42
 		neg.w	d1
 
 loc_EB42:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		add.b	d1,d0
 		move.w	d0,-(sp)
 		bsr.w	ObjSonic_WalkSpeed
 		move.w	(sp)+,d0
 		tst.w	d1
 		bpl.s	locret_EB8E
-		move.w	#0,$14(a0)
-		bset	#5,$22(a0)
+		move.w	#0,inertia(a0)
+		bset	#5,status(a0)
 		asl.w	#8,d1
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
@@ -17284,37 +17284,37 @@ loc_EB42:
 		beq.s	loc_EB84
 		cmpi.b	#$80,d0
 		beq.s	loc_EB7E
-		add.w	d1,$10(a0)
+		add.w	d1,xvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EB7E:
-		sub.w	d1,$12(a0)
+		sub.w	d1,yvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EB84:
-		sub.w	d1,$10(a0)
+		sub.w	d1,xvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EB8A:
-		add.w	d1,$12(a0)
+		add.w	d1,yvel(a0)
 
 locret_EB8E:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_MoveLeft:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		beq.s	loc_EB98
 		bpl.s	loc_EBC4
 
 loc_EB98:
-		bset	#0,$22(a0)
+		bset	#0,status(a0)
 		bne.s	loc_EBAC
-		bclr	#5,$22(a0)
-		move.b	#1,$1D(a0)
+		bclr	#5,status(a0)
+		move.b	#1,anilast(a0)
 
 loc_EBAC:
 		sub.w	d5,d0
@@ -17325,8 +17325,8 @@ loc_EBAC:
 		move.w	d1,d0
 
 loc_EBB8:
-		move.w	d0,$14(a0)
-		move.b	#0,$1C(a0)
+		move.w	d0,inertia(a0)
+		move.b	#0,ani(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17336,15 +17336,15 @@ loc_EBC4:
 		move.w	#$FF80,d0
 
 loc_EBCC:
-		move.w	d0,$14(a0)
-		move.b	$26(a0),d0
+		move.w	d0,inertia(a0)
+		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		bne.s	locret_EBFA
 		cmpi.w	#$400,d0
 		blt.s	locret_EBFA
-		move.b	#$D,$1C(a0)
-		bclr	#0,$22(a0)
+		move.b	#$D,ani(a0)
+		bclr	#0,status(a0)
 		move.w	#$A4,d0
 		jsr	(PlaySFX).l
 
@@ -17353,12 +17353,12 @@ locret_EBFA:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_MoveRight:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		bmi.s	loc_EC2A
-		bclr	#0,$22(a0)
+		bclr	#0,status(a0)
 		beq.s	loc_EC16
-		bclr	#5,$22(a0)
-		move.b	#1,$1D(a0)
+		bclr	#5,status(a0)
+		move.b	#1,anilast(a0)
 
 loc_EC16:
 		add.w	d5,d0
@@ -17367,8 +17367,8 @@ loc_EC16:
 		move.w	d6,d0
 
 loc_EC1E:
-		move.w	d0,$14(a0)
-		move.b	#0,$1C(a0)
+		move.w	d0,inertia(a0)
+		move.b	#0,ani(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17378,15 +17378,15 @@ loc_EC2A:
 		move.w	#$80,d0
 
 loc_EC32:
-		move.w	d0,$14(a0)
-		move.b	$26(a0),d0
+		move.w	d0,inertia(a0)
+		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		bne.s	locret_EC60
 		cmpi.w	#$FC00,d0
 		bgt.s	locret_EC60
-		move.b	#$D,$1C(a0)
-		bset	#0,$22(a0)
+		move.b	#$D,ani(a0)
+		bset	#0,status(a0)
 		move.w	#$A4,d0
 		jsr	(PlaySFX).l
 
@@ -17401,7 +17401,7 @@ ObjSonic_RollSpeed:
 		asr.w	#1,d5
 		move.w	(unk_FFF764).w,d4
 		asr.w	#2,d4
-		tst.w	$3E(a0)
+		tst.w	lock(a0)
 		bne.s	loc_EC92
 		btst	#2,(padHeldPlayer).w
 		beq.s	loc_EC86
@@ -17413,7 +17413,7 @@ loc_EC86:
 		bsr.w	ObjSonic_RollRight
 
 loc_EC92:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		beq.s	loc_ECB4
 		bmi.s	loc_ECA8
 		sub.w	d5,d0
@@ -17421,7 +17421,7 @@ loc_EC92:
 		move.w	#0,d0
 
 loc_ECA2:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 		bra.s	loc_ECB4
 ; ---------------------------------------------------------------------------
 
@@ -17431,37 +17431,37 @@ loc_ECA8:
 		move.w	#0,d0
 
 loc_ECB0:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 
 loc_ECB4:
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		bne.s	loc_ECD6
-		bclr	#2,$22(a0)
-		move.b	#$13,$16(a0)
-		move.b	#9,$17(a0)
-		move.b	#5,$1C(a0)
-		subq.w	#5,$C(a0)
+		bclr	#2,status(a0)
+		move.b	#$13,yrad(a0)
+		move.b	#9,xrad(a0)
+		move.b	#5,ani(a0)
+		subq.w	#5,ypos(a0)
 
 loc_ECD6:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		jsr	(GetSine).l
-		muls.w	$14(a0),d1
+		muls.w	inertia(a0),d1
 		asr.l	#8,d1
-		move.w	d1,$10(a0)
-		muls.w	$14(a0),d0
+		move.w	d1,xvel(a0)
+		muls.w	inertia(a0),d0
 		asr.l	#8,d0
-		move.w	d0,$12(a0)
+		move.w	d0,yvel(a0)
 		bra.w	loc_EB34
 ; ---------------------------------------------------------------------------
 
 ObjSonic_RollLeft:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		beq.s	loc_ED00
 		bpl.s	loc_ED0E
 
 loc_ED00:
-		bset	#0,$22(a0)
-		move.b	#2,$1C(a0)
+		bset	#0,status(a0)
+		move.b	#2,ani(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17471,15 +17471,15 @@ loc_ED0E:
 		move.w	#$FF80,d0
 
 loc_ED16:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_RollRight:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		bmi.s	loc_ED30
-		bclr	#0,$22(a0)
-		move.b	#2,$1C(a0)
+		bclr	#0,status(a0)
+		move.b	#2,ani(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17489,7 +17489,7 @@ loc_ED30:
 		move.w	#$80,d0
 
 loc_ED38:
-		move.w	d0,$14(a0)
+		move.w	d0,inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17497,12 +17497,12 @@ ObjSonic_ChgJumpDirection:
 		move.w	(unk_FFF760).w,d6
 		move.w	(unk_FFF762).w,d5
 		asl.w	#1,d5
-		btst	#4,$22(a0)
+		btst	#4,status(a0)
 		bne.s	ObjSonic_ResetScroll2
-		move.w	$10(a0),d0
+		move.w	xvel(a0),d0
 		btst	#2,(padHeld1).w
 		beq.s	loc_ED6E
-		bset	#0,$22(a0)
+		bset	#0,status(a0)
 		sub.w	d5,d0
 		move.w	d6,d1
 		neg.w	d1
@@ -17513,14 +17513,14 @@ ObjSonic_ChgJumpDirection:
 loc_ED6E:
 		btst	#3,(padHeld1).w
 		beq.s	ObjSonic_JumpMove
-		bclr	#0,$22(a0)
+		bclr	#0,status(a0)
 		add.w	d5,d0
 		cmp.w	d6,d0
 		blt.s	ObjSonic_JumpMove
 		move.w	d6,d0
 
 ObjSonic_JumpMove:
-		move.w	d0,$10(a0)
+		move.w	d0,xvel(a0)
 
 ObjSonic_ResetScroll2:
 		cmpi.w	#$60,(unk_FFF73E).w
@@ -17532,9 +17532,9 @@ loc_ED96:
 		subq.w	#2,(unk_FFF73E).w
 
 loc_ED9A:
-		cmpi.w	#$FC00,$12(a0)
+		cmpi.w	#$FC00,yvel(a0)
 		bcs.s	locret_EDC8
-		move.w	$10(a0),d0
+		move.w	xvel(a0),d0
 		move.w	d0,d1
 		asr.w	#5,d1
 		beq.s	locret_EDC8
@@ -17544,7 +17544,7 @@ loc_ED9A:
 		move.w	#0,d0
 
 loc_EDB6:
-		move.w	d0,$10(a0)
+		move.w	d0,xvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17554,32 +17554,32 @@ loc_EDBC:
 		move.w	#0,d0
 
 loc_EDC4:
-		move.w	d0,$10(a0)
+		move.w	d0,xvel(a0)
 
 locret_EDC8:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_Squish:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		bne.s	locret_EDF8
 		bsr.w	ObjSonic_NoRunningOnWalls
 		tst.w	d1
 		bpl.s	locret_EDF8
-		move.w	#0,$14(a0)
-		move.w	#0,$10(a0)
-		move.w	#0,$12(a0)
-		move.b	#$B,$1C(a0)
+		move.w	#0,inertia(a0)
+		move.w	#0,xvel(a0)
+		move.w	#0,yvel(a0)
+		move.b	#$B,ani(a0)
 
 locret_EDF8:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_LevelBound:
-		move.l	8(a0),d1
-		move.w	$10(a0),d0
+		move.l	xpos(a0),d1
+		move.w	xvel(a0),d0
 		ext.l	d0
 		asl.l	#8,d0
 		add.l	d0,d1
@@ -17600,15 +17600,15 @@ ObjSonic_LevelBound:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_BoundSides:
-		move.w	d0,8(a0)
-		move.w	#0,$A(a0)
-		move.w	#0,$10(a0)
-		move.w	#0,$14(a0)
+		move.w	d0,xpos(a0)
+		move.w	#0,xpix(a0)
+		move.w	#0,xvel(a0)
+		move.w	#0,inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_Roll:
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		bpl.s	loc_EE54
 		neg.w	d0
 
@@ -17626,22 +17626,22 @@ locret_EE6C:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_CheckRoll:
-		btst	#2,$22(a0)
+		btst	#2,status(a0)
 		beq.s	ObjSonic_DoRoll
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_DoRoll:
-		bset	#2,$22(a0)
-		move.b	#$E,$16(a0)
-		move.b	#7,$17(a0)
-		move.b	#2,$1C(a0)
-		addq.w	#5,$C(a0)
+		bset	#2,status(a0)
+		move.b	#$E,yrad(a0)
+		move.b	#7,xrad(a0)
+		move.b	#2,ani(a0)
+		addq.w	#5,ypos(a0)
 		move.w	#$BE,d0
 		jsr	(PlaySFX).l
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		bne.s	locret_EEAA
-		move.w	#$200,$14(a0)
+		move.w	#$200,inertia(a0)
 
 locret_EEAA:
 		rts
@@ -17652,120 +17652,120 @@ ObjSonic_Jump:
 		andi.b	#$70,d0
 		beq.w	locret_EF46
 		moveq	#0,d0
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#-$80,d0
 		bsr.w	sub_10520
 		cmpi.w	#6,d1
 		blt.w	locret_EF46
 		moveq	#0,d0
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		subi.b	#$40,d0
 		jsr	(GetSine).l
 		muls.w	#$680,d1
 		asr.l	#8,d1
-		add.w	d1,$10(a0)
+		add.w	d1,xvel(a0)
 		muls.w	#$680,d0
 		asr.l	#8,d0
-		add.w	d0,$12(a0)
-		bset	#1,$22(a0)
-		bclr	#5,$22(a0)
+		add.w	d0,yvel(a0)
+		bset	#1,status(a0)
+		bclr	#5,status(a0)
 		addq.l	#4,sp
-		move.b	#1,$3C(a0)
+		move.b	#1,jumping(a0)
 		move.w	#$A0,d0
 		jsr	(PlaySFX).l
-		move.b	#$13,$16(a0)
-		move.b	#9,$17(a0)
+		move.b	#$13,yrad(a0)
+		move.b	#9,xrad(a0)
 		tst.b	(byte_FFD600).w
 		bne.s	loc_EF48
-		btst	#2,$22(a0)
+		btst	#2,status(a0)
 		bne.s	loc_EF50
-		move.b	#$E,$16(a0)
-		move.b	#7,$17(a0)
-		move.b	#2,$1C(a0)
-		bset	#2,$22(a0)
-		addq.w	#5,$C(a0)
+		move.b	#$E,yrad(a0)
+		move.b	#7,xrad(a0)
+		move.b	#2,ani(a0)
+		bset	#2,status(a0)
+		addq.w	#5,ypos(a0)
 
 locret_EF46:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EF48:
-		move.b	#$13,$1C(a0)
+		move.b	#$13,ani(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EF50:
-		bset	#4,$22(a0)
+		bset	#4,status(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_JumpHeight:
-		tst.b	$3C(a0)
+		tst.b	jumping(a0)
 		beq.s	loc_EF78
-		cmpi.w	#$FC00,$12(a0)
+		cmpi.w	#$FC00,yvel(a0)
 		bge.s	locret_EF76
 		move.b	(padHeldPlayer).w,d0
 		andi.b	#$70,d0
 		bne.s	locret_EF76
-		move.w	#$FC00,$12(a0)
+		move.w	#$FC00,yvel(a0)
 
 locret_EF76:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EF78:
-		cmpi.w	#$F040,$12(a0)
+		cmpi.w	#$F040,yvel(a0)
 		bge.s	locret_EF86
-		move.w	#$F040,$12(a0)
+		move.w	#$F040,yvel(a0)
 
 locret_EF86:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_SlopeResist:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#$60,d0
 		cmpi.b	#$C0,d0
 		bcc.s	locret_EFBC
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		jsr	(GetSine).l
 		muls.w	#$20,d0
 		asr.l	#8,d0
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		beq.s	locret_EFBC
 		bmi.s	loc_EFB8
 		tst.w	d0
 		beq.s	locret_EFB6
-		add.w	d0,$14(a0)
+		add.w	d0,inertia(a0)
 
 locret_EFB6:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_EFB8:
-		add.w	d0,$14(a0)
+		add.w	d0,inertia(a0)
 
 locret_EFBC:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_RollRepel:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#$60,d0
 		cmpi.b	#$C0,d0
 		bcc.s	locret_EFF8
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		jsr	(GetSine).l
 		muls.w	#$50,d0
 		asr.l	#8,d0
-		tst.w	$14(a0)
+		tst.w	inertia(a0)
 		bmi.s	loc_EFEE
 		tst.w	d0
 		bpl.s	loc_EFE8
 		asr.l	#2,d0
 
 loc_EFE8:
-		add.w	d0,$14(a0)
+		add.w	d0,inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17775,7 +17775,7 @@ loc_EFEE:
 		asr.l	#2,d0
 
 loc_EFF4:
-		add.w	d0,$14(a0)
+		add.w	d0,inertia(a0)
 
 locret_EFF8:
 		rts
@@ -17783,33 +17783,33 @@ locret_EFF8:
 
 ObjSonic_SlopeRepel:
 		nop
-		tst.w	$3E(a0)
+		tst.w	lock(a0)
 		bne.s	loc_F02C
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		beq.s	locret_F02A
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		bpl.s	loc_F018
 		neg.w	d0
 
 loc_F018:
 		cmpi.w	#$280,d0
 		bcc.s	locret_F02A
-		bset	#1,$22(a0)
-		move.w	#$1E,$3E(a0)
+		bset	#1,status(a0)
+		move.w	#$1E,lock(a0)
 
 locret_F02A:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F02C:
-		subq.w	#1,$3E(a0)
+		subq.w	#1,lock(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_JumpAngle:
-		move.b	$26(a0),d0
+		move.b	angle(a0),d0
 		beq.s	locret_F04C
 		bpl.s	loc_F042
 		addq.b	#2,d0
@@ -17826,15 +17826,15 @@ loc_F042:
 		moveq	#0,d0
 
 loc_F048:
-		move.b	d0,$26(a0)
+		move.b	d0,angle(a0)
 
 locret_F04C:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_Floor:
-		move.w	$10(a0),d1
-		move.w	$12(a0),d2
+		move.w	xvel(a0),d1
+		move.w	yvel(a0),d2
 		jsr	(GetAngle).l
 		subi.b	#$20,d0
 		andi.b	#$C0,d0
@@ -17849,49 +17849,49 @@ loc_F07C:
 		bsr.w	ObjSonic_HitWall
 		tst.w	d1
 		bpl.s	loc_F08E
-		sub.w	d1,8(a0)
-		move.w	#0,$10(a0)
+		sub.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
 
 loc_F08E:
 		bsr.w	sub_1068C
 		tst.w	d1
 		bpl.s	loc_F0A0
-		add.w	d1,8(a0)
-		move.w	#0,$10(a0)
+		add.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
 
 loc_F0A0:
 		bsr.w	ObjSonic_HitFloor
 		tst.w	d1
 		bpl.s	locret_F102
-		move.b	$12(a0),d0
+		move.b	yvel(a0),d0
 		addq.b	#8,d0
 		neg.b	d0
 		cmp.b	d0,d1
 		blt.s	locret_F102
-		add.w	d1,$C(a0)
-		move.b	d3,$26(a0)
+		add.w	d1,ypos(a0)
+		move.b	d3,angle(a0)
 		bsr.w	ObjSonic_ResetOnFloor
-		move.b	#0,$1C(a0)
+		move.b	#0,ani(a0)
 		move.b	d3,d0
 		addi.b	#$20,d0
 		andi.b	#$40,d0
 		bne.s	loc_F0E0
-		move.w	#0,$12(a0)
-		move.w	$10(a0),$14(a0)
+		move.w	#0,yvel(a0)
+		move.w	xvel(a0),inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F0E0:
-		move.w	#0,$10(a0)
-		cmpi.w	#$FC0,$12(a0)
+		move.w	#0,xvel(a0)
+		cmpi.w	#$FC0,yvel(a0)
 		ble.s	loc_F0F4
-		move.w	#$FC0,$12(a0)
+		move.w	#$FC0,yvel(a0)
 
 loc_F0F4:
-		move.w	$12(a0),$14(a0)
+		move.w	yvel(a0),inertia(a0)
 		tst.b	d3
 		bpl.s	locret_F102
-		neg.w	$14(a0)
+		neg.w	inertia(a0)
 
 locret_F102:
 		rts
@@ -17901,9 +17901,9 @@ loc_F104:
 		bsr.w	ObjSonic_HitWall
 		tst.w	d1
 		bpl.s	loc_F11E
-		sub.w	d1,8(a0)
-		move.w	#0,$10(a0)
-		move.w	$12(a0),$14(a0)
+		sub.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
+		move.w	yvel(a0),inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17911,23 +17911,23 @@ loc_F11E:
 		bsr.w	ObjSonic_NoRunningOnWalls
 		tst.w	d1
 		bpl.s	loc_F132
-		sub.w	d1,$C(a0)
-		move.w	#0,$12(a0)
+		sub.w	d1,ypos(a0)
+		move.w	#0,yvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F132:
-		tst.w	$12(a0)
+		tst.w	yvel(a0)
 		bmi.s	locret_F15E
 		bsr.w	ObjSonic_HitFloor
 		tst.w	d1
 		bpl.s	locret_F15E
-		add.w	d1,$C(a0)
-		move.b	d3,$26(a0)
+		add.w	d1,ypos(a0)
+		move.b	d3,angle(a0)
 		bsr.w	ObjSonic_ResetOnFloor
-		move.b	#0,$1C(a0)
-		move.w	#0,$12(a0)
-		move.w	$10(a0),$14(a0)
+		move.b	#0,ani(a0)
+		move.w	#0,yvel(a0)
+		move.w	xvel(a0),inertia(a0)
 
 locret_F15E:
 		rts
@@ -17937,15 +17937,15 @@ loc_F160:
 		bsr.w	ObjSonic_HitWall
 		tst.w	d1
 		bpl.s	loc_F172
-		sub.w	d1,8(a0)
-		move.w	#0,$10(a0)
+		sub.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
 
 loc_F172:
 		bsr.w	sub_1068C
 		tst.w	d1
 		bpl.s	loc_F184
-		add.w	d1,8(a0)
-		move.w	#0,$10(a0)
+		add.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
 
 loc_F184:
 		bsr.w	ObjSonic_NoRunningOnWalls
@@ -17956,17 +17956,17 @@ loc_F184:
 		addi.b	#$20,d0
 		andi.b	#$40,d0
 		bne.s	loc_F1A4
-		move.w	#0,$12(a0)
+		move.w	#0,yvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F1A4:
-		move.b	d3,$26(a0)
+		move.b	d3,angle(a0)
 		bsr.w	ObjSonic_ResetOnFloor
-		move.w	$12(a0),$14(a0)
+		move.w	yvel(a0),inertia(a0)
 		tst.b	d3
 		bpl.s	locret_F1BA
-		neg.w	$14(a0)
+		neg.w	inertia(a0)
 
 locret_F1BA:
 		rts
@@ -17976,9 +17976,9 @@ loc_F1BC:
 		bsr.w	sub_1068C
 		tst.w	d1
 		bpl.s	loc_F1D6
-		add.w	d1,8(a0)
-		move.w	#0,$10(a0)
-		move.w	$12(a0),$14(a0)
+		add.w	d1,xpos(a0)
+		move.w	#0,xvel(a0)
+		move.w	yvel(a0),inertia(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -17987,59 +17987,59 @@ loc_F1D6:
 		tst.w	d1
 		bpl.s	loc_F1EA
 		sub.w	d1,$C(a0)
-		move.w	#0,$12(a0)
+		move.w	#0,yvel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F1EA:
-		tst.w	$12(a0)
+		tst.w	yvel(a0)
 		bmi.s	locret_F216
 		bsr.w	ObjSonic_HitFloor
 		tst.w	d1
 		bpl.s	locret_F216
-		add.w	d1,$C(a0)
-		move.b	d3,$26(a0)
+		add.w	d1,ypos(a0)
+		move.b	d3,angle(a0)
 		bsr.w	ObjSonic_ResetOnFloor
-		move.b	#0,$1C(a0)
-		move.w	#0,$12(a0)
-		move.w	$10(a0),$14(a0)
+		move.b	#0,ani(a0)
+		move.w	#0,yvel(a0)
+		move.w	xvel(a0),inertia(a0)
 
 locret_F216:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_ResetOnFloor:
-		btst	#4,$22(a0)
+		btst	#4,status(a0)
 		beq.s	loc_F226
 		nop
 		nop
 		nop
 
 loc_F226:
-		bclr	#5,$22(a0)
-		bclr	#1,$22(a0)
-		bclr	#4,$22(a0)
-		btst	#2,$22(a0)
+		bclr	#5,status(a0)
+		bclr	#1,status(a0)
+		bclr	#4,status(a0)
+		btst	#2,status(a0)
 		beq.s	loc_F25C
-		bclr	#2,$22(a0)
-		move.b	#$13,$16(a0)
-		move.b	#9,$17(a0)
-		move.b	#0,$1C(a0)
-		subq.w	#5,$C(a0)
+		bclr	#2,status(a0)
+		move.b	#$13,yrad(a0)
+		move.b	#9,xrad(a0)
+		move.b	#0,ani(a0)
+		subq.w	#5,ypos(a0)
 
 loc_F25C:
-		move.w	#0,$3E(a0)
-		move.b	#0,$3C(a0)
+		move.w	#0,lock(a0)
+		move.b	#0,jumping(a0)
 		rts
 ; ---------------------------------------------------------------------------
 		lea	(byte_FFD400).w,a1
-		move.w	8(a0),d0
+		move.w	xpos(a0),d0
 		bsr.w	sub_F290
 		lea	(byte_FFD500).w,a1
-		move.w	$C(a0),d0
+		move.w	ypos(a0),d0
 		bsr.w	sub_F290
 		lea	(byte_FFD600).w,a1
-		move.w	$14(a0),d0
+		move.w	inertia(a0),d0
 		bsr.w	sub_F290
 		rts
 ; ---------------------------------------------------------------------------
@@ -18064,7 +18064,7 @@ sub_F290:
 ObjSonic_Hurt:
 		bsr.w	ObjSonic_HurtStop
 		bsr.w	ObjectMove
-		addi.w	#$30,$12(a0)
+		addi.w	#$30,yvel(a0)
 		bsr.w	ObjSonic_LevelBound
 		bsr.w	sub_E952
 		bsr.w	ObjSonic_Animate
@@ -18078,15 +18078,15 @@ ObjSonic_HurtStop:
 		cmp.w	$C(a0),d0
 		bcs.w	loc_FD78
 		bsr.w	loc_F07C
-		btst	#1,$22(a0)
+		btst	#1,status(a0)
 		bne.s	locret_F318
 		moveq	#0,d0
-		move.w	d0,$12(a0)
-		move.w	d0,$10(a0)
-		move.w	d0,$14(a0)
-		move.b	#0,$1C(a0)
-		subq.b	#2,$24(a0)
-		move.w	#$78,$30(a0)
+		move.w	d0,yvel(a0)
+		move.w	d0,xvel(a0)
+		move.w	d0,inertia(a0)
+		move.b	#0,ani(a0)
+		subq.b	#2,routine(a0)
+		move.w	#$78,invulnerable(a0)
 
 locret_F318:
 		rts
@@ -18104,17 +18104,17 @@ ObjSonic_Death:
 ObjSonic_GameOver:
 		move.w	(unk_FFF72E).w,d0
 		addi.w	#$100,d0
-		cmp.w	$C(a0),d0
+		cmp.w	ypos(a0),d0
 		bcc.w	locret_F3AE
-		move.w	#$FFC8,$12(a0)
-		addq.b	#2,$24(a0)
+		move.w	#$FFC8,yvel(a0)
+		addq.b	#2,routine(a0)
 		addq.b	#1,(byte_FFFE1C).w
 		subq.b	#1,(Lives).w
 		bne.s	loc_F380
 		move.w	#0,$3A(a0)
 		move.b	#$39,(byte_FFD080).w
 		move.b	#$39,(byte_FFD0C0).w
-		move.b	#1,(byte_FFD0C0+$1A).w
+		move.b	#1,(byte_FFD0C0+frame).w
 		move.w	#$8F,d0
 		jsr	(PlaySFX).l
 		moveq	#3,d0
@@ -18130,10 +18130,10 @@ loc_F380:
 		beq.s	locret_F3AE
 		andi.b	#$40,d0
 		bne.s	loc_F3B0
-		move.b	#0,$1C(a0)
-		subq.b	#4,$24(a0)
-		move.w	$38(a0),$C(a0)
-		move.w	#$78,$30(a0)
+		move.b	#0,ani(a0)
+		subq.b	#4,routine(a0)
+		move.w	convex(a0),ypos(a0)
+		move.w	#$78,invulnerable(a0)
 
 locret_F3AE:
 		rts
@@ -18168,7 +18168,7 @@ loc_F3F4:
 		move.w	$C(a0),d0
 		lsr.w	#1,d0
 		andi.w	#$380,d0
-		move.w	8(a0),d1
+		move.w	xpos(a0),d1
 		move.w	d1,d2
 		lsr.w	#8,d1
 		andi.w	#$7F,d1
@@ -18183,47 +18183,47 @@ loc_F3F4:
 		beq.s	loc_F448
 		cmp.b	(unk_FFF7AD).w,d1
 		beq.s	loc_F438
-		bclr	#6,1(a0)
+		bclr	#6,render(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F438:
-		btst	#1,$22(a0)
+		btst	#1,status(a0)
 		beq.s	loc_F448
-		bclr	#6,1(a0)
+		bclr	#6,render(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F448:
 		cmpi.b	#$2C,d2
 		bcc.s	loc_F456
-		bclr	#6,1(a0)
+		bclr	#6,render(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F456:
 		cmpi.b	#$E0,d2
 		bcs.s	loc_F464
-		bset	#6,1(a0)
+		bset	#6,render(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F464:
-		btst	#6,1(a0)
+		btst	#6,render(a0)
 		bne.s	loc_F480
-		move.b	$26(a0),d1
+		move.b	angle(a0),d1
 		beq.s	locret_F490
 		cmpi.b	#$80,d1
 		bhi.s	locret_F490
-		bset	#6,1(a0)
+		bset	#6,render(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_F480:
-		move.b	$26(a0),d1
+		move.b	angle(a0),d1
 		cmpi.b	#$80,d1
 		bls.s	locret_F490
-		bclr	#6,1(a0)
+		bclr	#6,render(a0)
 
 locret_F490:
 		rts
@@ -18232,36 +18232,36 @@ locret_F490:
 ObjSonic_Animate:
 		lea	(AniSonic).l,a1
 		moveq	#0,d0
-		move.b	$1C(a0),d0
-		cmp.b	$1D(a0),d0
+		move.b	ani(a0),d0
+		cmp.b	anilast(a0),d0
 		beq.s	ObjSonic_AnimDo
-		move.b	d0,$1D(a0)
-		move.b	#0,$1B(a0)
-		move.b	#0,$1E(a0)
+		move.b	d0,anilast(a0)
+		move.b	#0,anipos(a0)
+		move.b	#0,anidelay(a0)
 
 ObjSonic_AnimDo:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
 		move.b	(a1),d0
 		bmi.s	ObjSonic_AnimateCmd
-		move.b	$22(a0),d1
+		move.b	status(a0),d1
 		andi.b	#1,d1
-		andi.b	#$FC,1(a0)
-		or.b	d1,1(a0)
-		subq.b	#1,$1E(a0)
+		andi.b	#$FC,render(a0)
+		or.b	d1,render(a0)
+		subq.b	#1,anidelay(a0)
 		bpl.s	ObjSonic_AnimDelay
-		move.b	d0,$1E(a0)
+		move.b	d0,anidelay(a0)
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimDo2:
 		moveq	#0,d1
-		move.b	$1B(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	anipos(a0),d1
+		move.b	render(a1,d1.w),d0
 		bmi.s	ObjSonic_AnimEndFF
 
 ObjSonic_AnimNext:
-		move.b	d0,$1A(a0)
-		addq.b	#1,$1B(a0)
+		move.b	d0,frame(a0)
+		addq.b	#1,anipos(a0)
 
 ObjSonic_AnimDelay:
 		rts
@@ -18270,38 +18270,38 @@ ObjSonic_AnimDelay:
 ObjSonic_AnimEndFF:
 		addq.b	#1,d0
 		bne.s	ObjSonic_AnimFE
-		move.b	#0,$1B(a0)
-		move.b	1(a1),d0
+		move.b	#0,anipos(a0)
+		move.b	render(a1),d0
 		bra.s	ObjSonic_AnimNext
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimFE:
 		addq.b	#1,d0
 		bne.s	ObjSonic_AnimFD
-		move.b	2(a1,d1.w),d0
-		sub.b	d0,$1B(a0)
+		move.b	tile(a1,d1.w),d0
+		sub.b	d0,anipos(a0)
 		sub.b	d0,d1
-		move.b	1(a1,d1.w),d0
+		move.b	render(a1,d1.w),d0
 		bra.s	ObjSonic_AnimNext
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimFD:
 		addq.b	#1,d0
 		bne.s	ObjSonic_AnimEnd
-		move.b	2(a1,d1.w),$1C(a0)
+		move.b	tile(a1,d1.w),ani(a0)
 
 ObjSonic_AnimEnd:
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimateCmd:
-		subq.b	#1,$1E(a0)
+		subq.b	#1,anidelay(a0)
 		bpl.s	ObjSonic_AnimDelay
 		addq.b	#1,d0
 		bne.w	ObjSonic_AnimRollJump
 		moveq	#0,d1
-		move.b	$26(a0),d0
-		move.b	$22(a0),d2
+		move.b	angle(a0),d0
+		move.b	status(a0),d2
 		andi.b	#1,d2
 		bne.s	loc_F53E
 		not.b	d0
@@ -18312,14 +18312,14 @@ loc_F53E:
 		moveq	#3,d1
 
 loc_F546:
-		andi.b	#$FC,1(a0)
+		andi.b	#$FC,render(a0)
 		eor.b	d1,d2
-		or.b	d2,1(a0)
-		btst	#5,$22(a0)
+		or.b	d2,render(a0)
+		btst	#5,status(a0)
 		bne.w	ObjSonic_AnimPush
 		lsr.b	#4,d0
 		andi.b	#6,d0
-		move.w	$14(a0),d2
+		move.w	inertia(a0),d2
 		bpl.s	loc_F56A
 		neg.w	d2
 
@@ -18342,16 +18342,16 @@ loc_F582:
 
 loc_F590:
 		lsr.w	#8,d2
-		move.b	d2,$1E(a0)
+		move.b	d2,anidelay(a0)
 		bsr.w	ObjSonic_AnimDo2
-		add.b	d3,$1A(a0)
+		add.b	d3,frame(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimRollJump:
 		addq.b	#1,d0
 		bne.s	ObjSonic_AnimPush
-		move.w	$14(a0),d2
+		move.w	inertia(a0),d2
 		bpl.s	loc_F5AC
 		neg.w	d2
 
@@ -18369,16 +18369,16 @@ loc_F5BE:
 
 loc_F5C8:
 		lsr.w	#8,d2
-		move.b	d2,$1E(a0)
-		move.b	$22(a0),d1
+		move.b	d2,anidelay(a0)
+		move.b	status(a0),d1
 		andi.b	#1,d1
-		andi.b	#$FC,1(a0)
-		or.b	d1,1(a0)
+		andi.b	#$FC,render(a0)
+		or.b	d1,render(a0)
 		bra.w	ObjSonic_AnimDo2
 ; ---------------------------------------------------------------------------
 
 ObjSonic_AnimPush:
-		move.w	$14(a0),d2
+		move.w	inertia(a0),d2
 		bmi.s	loc_F5EC
 		neg.w	d2
 
@@ -18389,14 +18389,14 @@ loc_F5EC:
 
 loc_F5F4:
 		lsr.w	#6,d2
-		move.b	d2,$1E(a0)
+		move.b	d2,anidelay(a0)
 
 loc_F5FA:
 		lea	(byte_F66C).l,a1
-		move.b	$22(a0),d1
+		move.b	status(a0),d1
 		andi.b	#1,d1
-		andi.b	#$FC,1(a0)
-		or.b	d1,1(a0)
+		andi.b	#$FC,render(a0)
+		or.b	d1,render(a0)
 		bra.w	ObjSonic_AnimDo2
 ; ---------------------------------------------------------------------------
 		include "levels/shared/Sonic/Srite.ani"
@@ -18405,7 +18405,7 @@ loc_F5FA:
 
 ObjSonic_DynTiles:
 		moveq	#0,d0
-		move.b	$1A(a0),d0
+		move.b	frame(a0),d0
 		cmp.b	(unk_FFF766).w,d0
 		beq.s	locret_F744
 		move.b	d0,(unk_FFF766).w
@@ -18433,7 +18433,7 @@ ObjSonic_DynReadEntry:
 loc_F730:
 		movem.l	(a1)+,d2-d6/a4-a6
 		movem.l	d2-d6/a4-a6,(a3)
-		lea	$20(a3),a3
+		lea	col(a3),a3
 		dbf	d0,loc_F730
 
 loc_F740:

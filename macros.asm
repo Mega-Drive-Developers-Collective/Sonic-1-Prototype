@@ -2,10 +2,9 @@
 		include "tools/LANG.ASM"
 
 align		macro pos
-		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
+		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),-1
 	endm
 ; ---------------------------------------------------------------------------
-
 ; enum object, width 64 bytes
 id		equ 0
 render		equ 1
@@ -35,9 +34,7 @@ routine2	equ $25
 angle		equ $26
 subtype		equ $28
 size		equ $40
-
 ; ---------------------------------------------------------------------------
-
 ; enum player, width 64 bytes
 inertia		equ $14
 air		equ $20
