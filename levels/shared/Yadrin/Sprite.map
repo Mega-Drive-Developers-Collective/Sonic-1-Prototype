@@ -1,5 +1,5 @@
-MapYardin:	dc.w byte_D426-MapYardin, byte_D440-MapYardin, byte_D45A-MapYardin
-		dc.w byte_D474-MapYardin, byte_D48E-MapYardin, byte_D4A8-MapYardin
+MapYadrin:	dc.w byte_D426-MapYadrin, byte_D440-MapYadrin, byte_D45A-MapYadrin
+		dc.w byte_D474-MapYadrin, byte_D48E-MapYadrin, byte_D4A8-MapYadrin
 
 byte_D426:	dc.b 5
 		dc.b $F4, 8, 0, 0, $F4
