@@ -14,3 +14,11 @@ Research disassembly of the Sonic 1 prototype that was released by Hidden Palace
 * unknown and unsorted has various misc files that have yet not been relocated or identified.
 * tools folder has a few different things. Usually for hacking you don't need to touch this. Just be aware to not delete this folder.
 * diff.bat, test.bat, process.bat and split.bat are not needed after initially running split.bat!
+
+## Credits
+* drx & Hidden Palace - Prototype release
+* Aurora Fields - Project lead, tool programming, documentation
+* RepellantMold - DAC driver disassembly, documentation
+* DeltaWooloo - Documentation
+* Jorge - Additional help
+* Mega Drive Developers Collective - Project host
