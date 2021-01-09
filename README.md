@@ -3,7 +3,6 @@ Research disassembly of the Sonic 1 prototype that was released by Hidden Palace
 ## Contribution notes
 * To edit the assembly code, use IDA pro 7.2 and do your changes there, that way they can be backed up easier. There are a few misceelaneous commands for the processor. Output your file via the LST file format to tools/s1proto.lst. Run text.bat to ensure bit perfectness (press enter to go to next error, if you find the end of file, it is perfect).
 * To edit the file names for split files, open tools/s1proto.txt and edit the appropriate lines, or add new files in sequentially, making sure you also have specified the end of the file range. See the file for examples. Run test.bat so that all the files will update and you can check for bit perfectness.
-* To edit the Z80 driver, go to sound --> Z80 --> DAC Driver.asm/i64.
 * Please ensure that before you submit a pull request, that you have pulled the latest version from the main repository and resolved any merge conflicts!
 * You can also come discuss this project in our Discord at http://dc.megadrive.dev/
 
@@ -16,9 +15,10 @@ Research disassembly of the Sonic 1 prototype that was released by Hidden Palace
 * tools folder has a few different things. Usually for hacking you don't need to touch this. Just be aware to not delete this folder.
 * diff.bat, test.bat, process.bat and split.bat are not needed after initially running split.bat!
 
-### Credits
-* Release of the prototype - drx/Hidden Palace
-* The start of the entire disassembly (January 2nd, 2021) - AuroraFields
-* Z80 disassembly - RepellantMold
-* Most of the labelling - DeltaWooloo
-* SONLVL projects - AuroraFields
+## Credits
+* drx & Hidden Palace - Prototype release
+* Aurora Fields - Project lead, tool programming, documentation
+* RepellantMold - DAC driver disassembly, documentation
+* DeltaWooloo - Documentation
+* Jorge - Additional help
+* Mega Drive Developers Collective - Project host
