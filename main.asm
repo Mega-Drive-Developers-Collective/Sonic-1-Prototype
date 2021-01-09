@@ -23040,72 +23040,74 @@ ObjListSBZ3:	incbin "levels/SBZ/Objects 3.unc"
 ObjListNull:	dc.w $FFFF, 0, 0
 		align	$4000					; Unnecessary alignment
 
-mSoundPriorities:dc.l mSoundPrioList
+dSoundPriorities:dc.l dSoundPrioList
 
-mSpecialSFXPtr:	dc.l mSpecialSFXList
+dSpecialSFXPtr:	dc.l dSpecialSFXList
 
-mMusicPtr:	dc.l mMusicList
+dMusicPtr:	dc.l dMusicList
 
-mSFXPtr:	dc.l mSFXList
+dSFXPtr:	dc.l dSFXList
 
-off_74010:	dc.l byte_74110
+dModPtr:	dc.l dModulationData
 
-mVolEnvPtr:	dc.l mVolEnvList
+dVolEnvPtr:	dc.l dVolEnvList
 		dc.l $A0
 		dc.l SoundSource
 
-mSpeedTempos:	dc.l mSpeedTempoList
+dSpeedTempos:	dc.l dSpeedTempoList
 
-mVolEnvList:	dc.l byte_74048, byte_7405F, byte_74066, byte_74077, byte_74091
-		dc.l byte_74082, byte_740BB, byte_740D7, byte_740FF
+dVolEnvList:	dc.l vd01, vd02, vd03, vd04, vd05, v06, v07, vd08, vd09
 
-byte_74048:	dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
+vd01:		dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
 		dc.b 5, 6, 6, 6, 7, $83
 
-byte_7405F:	dc.b 0, 2, 4, 6, 8, $10, $83
+vd02:		dc.b 0, 2, 4, 6, 8, $10, $83
 
-byte_74066:	dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
+vd03:		dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
 
-byte_74077:	dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
+vd04:		dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
 
-byte_74082:	dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
+v06:		dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
 
-byte_74091:	dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
+vd05:		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
 		dc.b 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3
 		dc.b 3, 3, 3, 3, 3, 3, 4, $83
 
-byte_740BB:	dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
+v07:		dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 4, 4, 4, 5, 5, 5, 6, 7, $83
 
-byte_740D7:	dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
+vd08:		dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6
 		dc.b 6, 6, 7, 7, 7, $83
 
-byte_740FF:	dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, $A, $B, $C, $D, $E
+vd09:		dc.b 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, $A, $B, $C, $D, $E
 		dc.b $F, $83
 
-byte_74110:	dc.b $D, 1, 7, 4, 1, 1, 1, 4, 2, 1, 2, 4, 8, 1, 6, 4
+dModulationData:dc.b $D, 1, 7, 4
+		dc.b 1, 1, 1, 4
+		dc.b 2, 1, 2, 4
+		dc.b 8, 1, 6, 4
 
-mSpeedTempoList:dc.b 7, $72, $73, $26, $15, 8, $FF, 5
+dSpeedTempoList:dc.b 7, $72, $73, $26, $15, 8, $FF, 5
 
-mMusicList:	dc.l mGHZ, mLZ, mMZ, mSLZ, mSYZ, mSBZ, mInvincibility
+dMusicList:	dc.l mGHZ, mLZ, mMZ, mSLZ, mSYZ, mSBZ, mInvincibility
 		dc.l mExtraLife, mSS, mTitle, mEnding, mBoss, mFZ, mResults
 		dc.l mGameOver, mContinue, mCredits
 
-mSoundPrioList:	dcb.b $1F,$80
+dSoundPrioList:	dcb.b $1F,$80
 		dcb.b $30,$70
 		dcb.b $16,$80
-		dc.b 0
+		even
 ; ---------------------------------------------------------------------------
 
 SoundSource:
 		move.w	#$100,($A11100).l
 
-loc_741DA:
+@wait:
 		btst	#0,($A11100).l
-		bne.s	loc_741DA
+		bne.s	@wait
 		btst	#7,($A01FFD).l
-		beq.s	loc_74202
+		beq.s	@rundriver
 		move.w	#0,($A11100).l
 		nop
 		nop
@@ -23115,246 +23117,246 @@ loc_741DA:
 		bra.s	SoundSource
 ; ---------------------------------------------------------------------------
 
-loc_74202:
+@rundriver:
 		lea	((SoundMemory)&$FFFFFF).l,a6
 		clr.b	$E(a6)
 		tst.b	3(a6)
-		bne.w	loc_745C6
+		bne.w	sPauseHandler
 		subq.b	#1,1(a6)
-		bne.s	loc_7421E
-		jsr	sub_74D60(pc)
+		bne.s	@notempo
+		jsr	dTempoDelay(pc)
 
-loc_7421E:
+@notempo:
 		move.b	4(a6),d0
-		beq.s	loc_74228
-		jsr	sub_74C3C(pc)
+		beq.s	@nofadeout
+		jsr	dFadeout(pc)
 
-loc_74228:
+@nofadeout:
 		tst.b	$24(a6)
-		beq.s	loc_74232
-		jsr	sub_74DB6(pc)
+		beq.s	@nofadein
+		jsr	dFadeIn(pc)
 
-loc_74232:
+@nofadein:
 		tst.w	$A(a6)
-		beq.s	loc_7423C
-		jsr	sub_74678(pc)
+		beq.s	@noqueue
+		jsr	dSoundQueue(pc)
 
-loc_7423C:
+@noqueue:
 		lea	$40(a6),a5
 		tst.b	(a5)
-		bpl.s	loc_74248
-		jsr	sub_742C2(pc)
+		bpl.s	@nodac
+		jsr	dUpdateDAC(pc)
 
-loc_74248:
+@nodac:
 		clr.b	8(a6)
 		moveq	#5,d7
 
-loc_7424E:
+@loopfm1:
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_7425A
-		jsr	sub_74350(pc)
+		bpl.s	@nofm1
+		jsr	dUpdateFM(pc)
 
-loc_7425A:
-		dbf	d7,loc_7424E
+@nofm1:
+		dbf	d7,@loopfm1
 		moveq	#2,d7
 
-loc_74260:
+@looppsg1:
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_7426C
-		jsr	sub_74F5C(pc)
+		bpl.s	@nopsg1
+		jsr	dUpdatePSG(pc)
 
-loc_7426C:
-		dbf	d7,loc_74260
+@nopsg1:
+		dbf	d7,@looppsg1
 		move.b	#$80,$E(a6)
 		moveq	#2,d7
 
-loc_74278:
+@loopfm2:
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_74284
-		jsr	sub_74350(pc)
+		bpl.s	@nofm2
+		jsr	dUpdateFM(pc)
 
-loc_74284:
-		dbf	d7,loc_74278
+@nofm2:
+		dbf	d7,@loopfm2
 		moveq	#2,d7
 
-loc_7428A:
+@looppsg2:
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_74296
-		jsr	sub_74F5C(pc)
+		bpl.s	@nopsg2
+		jsr	dUpdatePSG(pc)
 
-loc_74296:
-		dbf	d7,loc_7428A
+@nopsg2:
+		dbf	d7,@looppsg2
 		move.b	#$40,$E(a6)
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_742AC
-		jsr	sub_74350(pc)
+		bpl.s	@nofm3
+		jsr	dUpdateFM(pc)
 
-loc_742AC:
+@nofm3:
 		adda.w	#$30,a5
 		tst.b	(a5)
-		bpl.s	loc_742B8
-		jsr	sub_74F5C(pc)
+		bpl.s	dExit
+		jsr	dUpdatePSG(pc)
 
-loc_742B8:
+dExit:
 		move.w	#0,($A11100).l
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_742C2:
+dUpdateDAC:
 		subq.b	#1,$E(a5)
-		bne.s	locret_74326
+		bne.s	@nodelay
 		move.b	#$80,8(a6)
 		movea.l	4(a5),a4
 
-loc_742D2:
+@command:
 		moveq	#0,d5
 		move.b	(a4)+,d5
 		cmpi.b	#$E0,d5
-		bcs.s	loc_742E2
-		jsr	sub_75184(pc)
-		bra.s	loc_742D2
+		bcs.s	@notcommand
+		jsr	dCommands(pc)
+		bra.s	@command
 ; ---------------------------------------------------------------------------
 
-loc_742E2:
+@notcommand:
 		tst.b	d5
-		bpl.s	loc_742F8
+		bpl.s	@duration
 		move.b	d5,$10(a5)
 		move.b	(a4)+,d5
-		bpl.s	loc_742F8
+		bpl.s	@duration
 		subq.w	#1,a4
 		move.b	$F(a5),$E(a5)
-		bra.s	loc_742FC
+		bra.s	@checknote
 ; ---------------------------------------------------------------------------
 
-loc_742F8:
-		jsr	sub_743CA(pc)
+@duration:
+		jsr	dCalcDuration(pc)
 
-loc_742FC:
+@checknote:
 		move.l	a4,4(a5)
 		btst	#2,(a5)
-		bne.s	locret_74326
+		bne.s	@nodelay
 		moveq	#0,d0
 		move.b	$10(a5),d0
 		cmpi.b	#$80,d0
-		beq.s	locret_74326
+		beq.s	@nodelay
 		btst	#3,d0
-		bne.s	loc_74328
+		bne.s	@timpani
 		tst.b	($A01FF6).l
-		bne.s	locret_74326
+		bne.s	@nodelay
 		move.b	d0,($A01FFF).l
 
-locret_74326:
+@nodelay:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74328:
+@timpani:
 		subi.b	#$88,d0
-		move.b	byte_74348(pc,d0.w),d0
+		move.b	@timpanipitch(pc,d0.w),d0
 		tst.b	($A01FF6).l
-		bne.s	locret_74346
+		bne.s	@noupdate
 		move.b	d0,($A00000|TimpaniPitch).l
 		move.b	#$83,($A01FFF).l
 
-locret_74346:
+@noupdate:
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_74348:	dc.b $12, $15, $1C, $1D, $FF, $FF, $FF, $FF
+@timpanipitch:	dc.b $12, $15, $1C, $1D, $FF, $FF, $FF, $FF
 ; ---------------------------------------------------------------------------
 
-sub_74350:
+dUpdateFM:
 		subq.b	#1,$E(a5)
-		bne.s	loc_7436A
+		bne.s	@noupdate
 		bclr	#4,(a5)
-		jsr	sub_74376(pc)
-		jsr	sub_744A2(pc)
-		jsr	loc_74518(pc)
-		bra.w	loc_74E10
+		jsr	dTrackerFM(pc)
+		jsr	dUpdateFreqFM(pc)
+		jsr	sPanAniInit(pc)
+		bra.w	dNoteOnFM
 ; ---------------------------------------------------------------------------
 
-loc_7436A:
-		jsr	sub_74428(pc)
-		jsr	sub_74450(pc)
-		bra.w	loc_744AE
+@noupdate:
+		jsr	dGate(pc)
+		jsr	dModulate(pc)
+		bra.w	dUpdateFreqFM2
 ; ---------------------------------------------------------------------------
 
-sub_74376:
+dTrackerFM:
 		movea.l	4(a5),a4
 		bclr	#1,(a5)
 
-loc_7437E:
+@command:
 		moveq	#0,d5
 		move.b	(a4)+,d5
 		cmpi.b	#$E0,d5
-		bcs.s	loc_7438E
-		jsr	sub_75184(pc)
-		bra.s	loc_7437E
+		bcs.s	@notcommand
+		jsr	dCommands(pc)
+		bra.s	@command
 ; ---------------------------------------------------------------------------
 
-loc_7438E:
-		jsr	sub_74E2C(pc)
+@notcommand:
+		jsr	sKeyOffFM(pc)
 		tst.b	d5
-		bpl.s	loc_743A4
-		jsr	sub_743AC(pc)
+		bpl.s	@duration
+		jsr	dLoadFreqFM(pc)
 		move.b	(a4)+,d5
-		bpl.s	loc_743A4
+		bpl.s	@duration
 		subq.w	#1,a4
-		bra.w	sub_743EA
+		bra.w	dFinishTrack
 ; ---------------------------------------------------------------------------
 
-loc_743A4:
-		jsr	sub_743CA(pc)
-		bra.w	sub_743EA
+@duration:
+		jsr	dCalcDuration(pc)
+		bra.w	dFinishTrack
 ; ---------------------------------------------------------------------------
 
-sub_743AC:
+dLoadFreqFM:
 		subi.b	#$80,d5
-		beq.s	loc_743E2
+		beq.s	sProcRest
 		add.b	8(a5),d5
 		andi.w	#$7F,d5
 		lsl.w	#1,d5
-		lea	word_74E9C(pc),a0
+		lea	sFreqFM(pc),a0
 		move.w	(a0,d5.w),d6
 		move.w	d6,$10(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_743CA:
+dCalcDuration:
 		move.b	d5,d0
 		move.b	2(a5),d1
 
-loc_743D0:
+@loop:
 		subq.b	#1,d1
-		beq.s	loc_743D8
+		beq.s	@save
 		add.b	d5,d0
-		bra.s	loc_743D0
+		bra.s	@loop
 ; ---------------------------------------------------------------------------
 
-loc_743D8:
+@save:
 		move.b	d0,$F(a5)
 		move.b	d0,$E(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_743E2:
+sProcRest:
 		bset	#1,(a5)
 		clr.w	$10(a5)
 ; ---------------------------------------------------------------------------
 
-sub_743EA:
+dFinishTrack:
 		move.l	a4,4(a5)
 		move.b	$F(a5),$E(a5)
 		btst	#4,(a5)
-		bne.s	locret_74426
+		bne.s	@nomod
 		move.b	$13(a5),$12(a5)
 		clr.b	$C(a5)
 		btst	#3,(a5)
-		beq.s	locret_74426
+		beq.s	@nomod
 		movea.l	$14(a5),a0
 		move.b	(a0)+,$18(a5)
 		move.b	(a0)+,$19(a5)
@@ -23364,58 +23366,58 @@ sub_743EA:
 		move.b	d0,$1B(a5)
 		clr.w	$1C(a5)
 
-locret_74426:
+@nomod:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74428:
+dGate:
 		tst.b	$12(a5)
-		beq.s	locret_7444E
+		beq.s	@nogate
 		subq.b	#1,$12(a5)
-		bne.s	locret_7444E
+		bne.s	@nogate
 		bset	#1,(a5)
 		tst.b	1(a5)
-		bmi.w	loc_74448
-		jsr	sub_74E2C(pc)
+		bmi.w	@psg
+		jsr	sKeyOffFM(pc)
 		addq.w	#4,sp
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74448:
-		jsr	sub_750CA(pc)
+@psg:
+		jsr	sMutePSG(pc)
 		addq.w	#4,sp
 
-locret_7444E:
+@nogate:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74450:
+dModulate:
 		addq.w	#4,sp
 		btst	#3,(a5)
-		beq.s	locret_744A0
+		beq.s	@nomods
 		tst.b	$18(a5)
-		beq.s	loc_74464
+		beq.s	@nodelay
 		subq.b	#1,$18(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74464:
+@nodelay:
 		subq.b	#1,$19(a5)
-		beq.s	loc_7446C
+		beq.s	@nextstep
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7446C:
+@nextstep:
 		movea.l	$14(a5),a0
 		move.b	1(a0),$19(a5)
 		tst.b	$1B(a5)
-		bne.s	loc_74488
+		bne.s	@noflip
 		move.b	3(a0),$1B(a5)
 		neg.b	$1A(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74488:
+@noflip:
 		subq.b	#1,$1B(a5)
 		move.b	$1A(a5),d6
 		ext.w	d6
@@ -23424,109 +23426,114 @@ loc_74488:
 		add.w	$10(a5),d6
 		subq.w	#4,sp
 
-locret_744A0:
+@nomods:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_744A2:
+dUpdateFreqFM:
 		btst	#1,(a5)
 		bne.s	locret_744E0
 		move.w	$10(a5),d6
-		beq.s	loc_744E2
+		beq.s	dUpdateFreqFM_Rest
 
-loc_744AE:
+dUpdateFreqFM2:
 		move.b	$1E(a5),d0
 		ext.w	d0
 		add.w	d0,d6
 		btst	#2,(a5)
 		bne.s	locret_744E0
 		tst.b	$F(a6)
-		beq.s	loc_744CA
+		beq.s	@nofm3sm
 		cmpi.b	#2,1(a5)
-		beq.s	loc_744E8
+		beq.s	dUpdateFreqFM_FM3SM
 
-loc_744CA:
+@nofm3sm:
 		move.w	d6,d1
 		lsr.w	#8,d1
 		move.b	#$A4,d0
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 		move.b	d6,d1
 		move.b	#$A0,d0
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 
 locret_744E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_744E2:
+dUpdateFreqFM_Rest:
 		bset	#1,(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_744E8:
-		lea	byte_74510(pc),a1
+dUpdateFreqFM_FM3SM:
+		lea	@fm3freqs(pc),a1
 		lea	$10(a6),a2
 		moveq	#3,d7
 
-loc_744F2:
+@fm3loop:
 		move.w	d6,d1
 		move.w	(a2)+,d0
 		add.w	d0,d1
 		move.w	d1,d3
 		lsr.w	#8,d1
 		move.b	(a1)+,d0
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		move.b	d3,d1
 		move.b	(a1)+,d0
-		jsr	sub_74E5C(pc)
-		dbf	d7,loc_744F2
+		jsr	dWriteYM1(pc)
+		dbf	d7,@fm3loop
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_74510:	dc.b $AD, $A9, $AC, $A8, $AE, $AA, $A6, $A2
+@fm3freqs:	dc.b $AD, $A9
+		dc.b $AC, $A8
+		dc.b $AE, $AA
+		dc.b $A6, $A2
 ; ---------------------------------------------------------------------------
 
-loc_74518:
+sPanAniInit:
 		btst	#1,(a5)
-		bne.s	locret_7452A
+		bne.s	@tables
 		moveq	#0,d0
 		move.b	$1F(a5),d0
 		lsl.w	#1,d0
-		jmp	locret_7452A(pc,d0.w)
+		jmp	@tables(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_7452A:
+@tables:
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	loc_74556
+		bra.s	sPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	loc_7454C
+		bra.s	sPanAni_Reset
 ; ---------------------------------------------------------------------------
-		bra.s	loc_7454C
+		bra.s	sPanAni_Reset
 ; ---------------------------------------------------------------------------
+
+sPanAni:
 		btst	#1,(a5)
-		bne.s	locret_74544
+		bne.s	@table
 		moveq	#0,d0
 		move.b	$1F(a5),d0
 		lsl.w	#1,d0
-		jmp	locret_74544(pc,d0.w)
+		jmp	@table(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-locret_74544:
+@table:
 		rts
 ; ---------------------------------------------------------------------------
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	loc_74556
+		bra.s	sPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	loc_74556
+		bra.s	sPanAni_Cont
 ; ---------------------------------------------------------------------------
 
-loc_7454C:
+sPanAni_Reset:
 		move.b	$23(a5),$24(a5)
 		clr.b	$21(a5)
 
-loc_74556:
+sPanAni_Cont:
 		move.b	$24(a5),d0
 		cmp.b	$23(a5),d0
 		bne.s	loc_7457E
@@ -23546,7 +23553,7 @@ loc_7457E:
 		move.b	$20(a5),d0
 		subq.w	#1,d0
 		lsl.w	#2,d0
-		movea.l	off_745B0(pc,d0.w),a0
+		movea.l	sPanAniTable(pc,d0.w),a0
 		moveq	#0,d0
 		move.b	$21(a5),d0
 		subq.w	#1,d0
@@ -23555,97 +23562,97 @@ loc_7457E:
 		andi.b	#$37,d0
 		or.b	d0,d1
 		move.b	#$B4,d0
-		jsr	sub_74E44(pc)
+		jsr	dChkWriteYMch(pc)
 		addq.b	#1,$24(a5)
 
 locret_745AE:
 		rts
 ; ---------------------------------------------------------------------------
 
-off_745B0:	dc.l byte_745BC, byte_745BE, byte_745C1
+sPanAniTable:	dc.l pd01, pd02, pd03
 
-byte_745BC:	dc.b $40, $80
+pd01:		dc.b $40, $80
 
-byte_745BE:	dc.b $40, $C0, $80
+pd02:		dc.b $40, $C0, $80
 
-byte_745C1:	dc.b $C0, $80, $C0, $40, 0
+pd03:		dc.b $C0, $80, $C0, $40, 0
 ; ---------------------------------------------------------------------------
 
-loc_745C6:
-		bmi.s	loc_7460A
+sPauseHandler:
+		bmi.s	@resume
 		cmpi.b	#2,3(a6)
-		beq.w	loc_74674
+		beq.w	dPauseExit
 		move.b	#2,3(a6)
 		moveq	#2,d2
 		move.b	#$B4,d0
 		moveq	#0,d1
 
-loc_745E0:
-		jsr	sub_74E5C(pc)
-		jsr	sub_74E80(pc)
+@clearpan:
+		jsr	dWriteYM1(pc)
+		jsr	dWriteYM2(pc)
 		addq.b	#1,d0
-		dbf	d2,loc_745E0
+		dbf	d2,@clearpan
 		moveq	#2,d2
 		moveq	#$28,d0
 
-loc_745F2:
+@keyoff:
 		move.b	d2,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		addq.b	#4,d1
-		jsr	sub_74E5C(pc)
-		dbf	d2,loc_745F2
-		jsr	sub_750E0(pc)
-		bra.w	loc_742B8
+		jsr	dWriteYM1(pc)
+		dbf	d2,@keyoff
+		jsr	dMutePSG(pc)
+		bra.w	dExit
 ; ---------------------------------------------------------------------------
 
-loc_7460A:
+@resume:
 		clr.b	3(a6)
 		moveq	#$30,d3
 		lea	$40(a6),a5
 		moveq	#6,d4
 
-loc_74616:
+@enablemusic:
 		btst	#7,(a5)
-		beq.s	loc_7462E
+		beq.s	@nextmusic
 		btst	#2,(a5)
-		bne.s	loc_7462E
+		bne.s	@nextmusic
 		move.b	#$B4,d0
 		move.b	$A(a5),d1
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 
-loc_7462E:
+@nextmusic:
 		adda.w	d3,a5
-		dbf	d4,loc_74616
+		dbf	d4,@enablemusic
 		lea	$220(a6),a5
 		moveq	#2,d4
 
-loc_7463A:
+@enablesfx:
 		btst	#7,(a5)
-		beq.s	loc_74652
+		beq.s	@nextsfx
 		btst	#2,(a5)
-		bne.s	loc_74652
+		bne.s	@nextsfx
 		move.b	#$B4,d0
 		move.b	$A(a5),d1
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 
-loc_74652:
+@nextsfx:
 		adda.w	d3,a5
-		dbf	d4,loc_7463A
+		dbf	d4,@enablesfx
 		lea	$340(a6),a5
 		btst	#7,(a5)
-		beq.s	loc_74674
+		beq.s	dPauseExit
 		btst	#2,(a5)
-		bne.s	loc_74674
+		bne.s	dPauseExit
 		move.b	#$B4,d0
 		move.b	$A(a5),d1
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 
-loc_74674:
-		bra.w	loc_742B8
+dPauseExit:
+		bra.w	dExit
 ; ---------------------------------------------------------------------------
 
-sub_74678:
-		movea.l	(mSoundPriorities).l,a0
+dSoundQueue:
+		movea.l	(dSoundPriorities).l,a0
 		lea	$A(a6),a1
 		move.b	0(a6),d3
 		moveq	#2,d4
@@ -23666,55 +23673,55 @@ loc_74688:
 loc_746A6:
 		dbf	d4,loc_74688
 		tst.b	d3
-		bmi.s	loc_746B2
+		bmi.s	dPlaySnd
 		move.b	d3,0(a6)
 
-loc_746B2:
+dPlaySnd:
 		moveq	#0,d7
 		move.b	9(a6),d7
 		move.b	#$80,9(a6)
 		cmpi.b	#$80,d7
-		beq.s	locret_746FC
-		bcs.w	loc_74CFE
+		beq.s	@nosound
+		bcs.w	dStopAll
 		cmpi.b	#$9F,d7
-		bls.w	loc_74730
+		bls.w	dPlaySnd_Music
 		cmpi.b	#$A0,d7
-		bcs.w	locret_746FC
+		bcs.w	@nosound
 		cmpi.b	#$CF,d7
-		bls.w	loc_74920
+		bls.w	dPlaySnd_SFX
 		cmpi.b	#$D0,d7
-		bcs.w	locret_746FC
+		bcs.w	@nosound
 		cmpi.b	#$D7,d7
-		bcs.w	loc_74A4C
+		bcs.w	dPlaySnd_SpecSFX
 		cmpi.b	#$E0,d7
-		bcs.s	loc_7471C
+		bcs.s	dPlaySnd_DAC
 		cmpi.b	#$E5,d7
-		bls.s	loc_746FE
+		bls.s	dPlaySnd_Cmd
 
-locret_746FC:
+@nosound:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_746FE:
+dPlaySnd_Cmd:
 		subi.b	#$E0,d7
 		lsl.w	#2,d7
-		jmp	loc_74708(pc,d7.w)
+		jmp	@commands(pc,d7.w)
 ; ---------------------------------------------------------------------------
 
-loc_74708:
-		bra.w	loc_74C1E
+@commands:
+		bra.w	dPlaySnd_FadeOut
 ; ---------------------------------------------------------------------------
-		bra.w	sub_74B10
+		bra.w	dStopSFX
 ; ---------------------------------------------------------------------------
-		bra.w	loc_74D90
+		bra.w	dPlaySnd_ShoesOn
 ; ---------------------------------------------------------------------------
-		bra.w	loc_74DA4
+		bra.w	dPlaySnd_ShoesOff
 ; ---------------------------------------------------------------------------
-		bra.w	sub_74BB4
+		bra.w	dStopSpecSFX
 ; ---------------------------------------------------------------------------
 
-loc_7471C:
-		addi.b	#$B1,d7
+dPlaySnd_DAC:
+		addi.b	#-$4F,d7
 		move.b	d7,($A01FFF).l
 		nop
 		nop
@@ -23723,47 +23730,47 @@ loc_7471C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74730:
+dPlaySnd_Music:
 		cmpi.b	#$88,d7
-		bne.s	loc_7477E
+		bne.s	@notextralife
 		tst.b	$27(a6)
-		bne.w	loc_74910
+		bne.w	@exit
 		lea	$40(a6),a5
 		moveq	#9,d0
 
-loc_74744:
+@noint:
 		bclr	#2,(a5)
 		adda.w	#$30,a5
-		dbf	d0,loc_74744
+		dbf	d0,@noint
 		lea	$220(a6),a5
 		moveq	#5,d0
 
-loc_74756:
-		bclr	#7,(a5)
+@loop0:
+		bclr	#7,(a5)					; does this disable sfx?
 		adda.w	#$30,a5
-		dbf	d0,loc_74756
+		dbf	d0,@loop0
 		movea.l	a6,a0
 		lea	$3A0(a6),a1
 		move.w	#$87,d0
 
-loc_7476C:
+@memcopy:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_7476C
+		dbf	d0,@memcopy
 		move.b	#$80,$27(a6)
 		clr.b	0(a6)
-		bra.s	loc_74786
+		bra.s	@initmusic
 ; ---------------------------------------------------------------------------
 
-loc_7477E:
+@notextralife:
 		clr.b	$27(a6)
 		clr.b	$26(a6)
 
-loc_74786:
-		jsr	sub_74D2A(pc)
-		movea.l	(mSpeedTempos).l,a4
+@initmusic:
+		jsr	dClearMemory(pc)
+		movea.l	(dSpeedTempos).l,a4
 		subi.b	#$81,d7
 		move.b	(a4,d7.w),$29(a6)
-		movea.l	(mMusicPtr).l,a4
+		movea.l	(dMusicPtr).l,a4
 		lsl.w	#2,d7
 		movea.l	(a4,d7.w),a4
 		moveq	#0,d0
@@ -23773,10 +23780,10 @@ loc_74786:
 		move.b	5(a4),d0
 		move.b	d0,$28(a6)
 		tst.b	$2A(a6)
-		beq.s	loc_747C2
+		beq.s	@jump0
 		move.b	$29(a6),d0
 
-loc_747C2:
+@jump0:
 		move.b	d0,2(a6)
 		move.b	d0,1(a6)
 		moveq	#0,d1
@@ -23784,16 +23791,16 @@ loc_747C2:
 		addq.w	#6,a4
 		moveq	#0,d7
 		move.b	2(a3),d7
-		beq.w	loc_7486E
+		beq.w	@dopsg
 		subq.b	#1,d7
 		move.b	#$C0,d1
 		move.b	4(a3),d4
 		moveq	#$30,d6
 		move.b	#1,d5
 		lea	$40(a6),a1
-		lea	byte_74914(pc),a2
+		lea	dFMTypes(pc),a2
 
-loc_747F2:
+@loadfm:
 		bset	#7,(a1)
 		move.b	(a2)+,1(a1)
 		move.b	d4,2(a1)
@@ -23806,44 +23813,44 @@ loc_747F2:
 		move.l	d0,4(a1)
 		move.w	(a4)+,8(a1)
 		adda.w	d6,a1
-		dbf	d7,loc_747F2
+		dbf	d7,@loadfm
 		cmpi.b	#7,2(a3)
-		bne.s	loc_74832
+		bne.s	@enabledac
 		moveq	#$2B,d0
 		moveq	#0,d1
-		jsr	sub_74E5C(pc)
-		bra.w	loc_7486E
+		jsr	dWriteYM1(pc)
+		bra.w	@dopsg
 ; ---------------------------------------------------------------------------
 
-loc_74832:
+@enabledac:
 		moveq	#$28,d0
 		moveq	#6,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		move.b	#$42,d0
 		moveq	#$7F,d1
-		jsr	sub_74E80(pc)
+		jsr	dWriteYM2(pc)
 		move.b	#$4A,d0
 		moveq	#$7F,d1
-		jsr	sub_74E80(pc)
+		jsr	dWriteYM2(pc)
 		move.b	#$46,d0
 		moveq	#$7F,d1
-		jsr	sub_74E80(pc)
+		jsr	dWriteYM2(pc)
 		move.b	#$4E,d0
 		moveq	#$7F,d1
-		jsr	sub_74E80(pc)
+		jsr	dWriteYM2(pc)
 		move.b	#$B6,d0
 		move.b	#$C0,d1
-		jsr	sub_74E80(pc)
+		jsr	dWriteYM2(pc)
 
-loc_7486E:
+@dopsg:
 		moveq	#0,d7
 		move.b	3(a3),d7
-		beq.s	loc_748AE
+		beq.s	@updatesfx
 		subq.b	#1,d7
 		lea	$190(a6),a1
-		lea	byte_7491C(pc),a2
+		lea	dPSGTypes(pc),a2
 
-loc_74880:
+@loadpsg:
 		bset	#7,(a1)
 		move.b	(a2)+,1(a1)
 		move.b	d4,2(a1)
@@ -23857,89 +23864,92 @@ loc_74880:
 		move.b	(a4)+,d0
 		move.b	(a4)+,$B(a1)
 		adda.w	d6,a1
-		dbf	d7,loc_74880
+		dbf	d7,@loadpsg
 
-loc_748AE:
+@updatesfx:
 		lea	$220(a6),a1
 		moveq	#5,d7
 
-loc_748B4:
+@sfxloop:
 		tst.b	(a1)
-		bpl.w	loc_748D6
+		bpl.w	@nextsfx
 		moveq	#0,d0
 		move.b	1(a1),d0
-		bmi.s	loc_748C8
+		bmi.s	@psgsfx
 		subq.b	#2,d0
 		lsl.b	#2,d0
-		bra.s	loc_748CA
+		bra.s	@getch
 ; ---------------------------------------------------------------------------
 
-loc_748C8:
+@psgsfx:
 		lsr.b	#3,d0
 
-loc_748CA:
-		lea	off_74A0C(pc),a0
+@getch:
+		lea	dMusicChanTbl(pc),a0
 		movea.l	(a0,d0.w),a0
 		bset	#2,(a0)
 
-loc_748D6:
+@nextsfx:
 		adda.w	d6,a1
-		dbf	d7,loc_748B4
+		dbf	d7,@sfxloop
 		tst.w	$340(a6)
-		bpl.s	loc_748E8
+		bpl.s	@nospec1
 		bset	#2,$100(a6)
 
-loc_748E8:
+@nospec1:
 		tst.w	$370(a6)
-		bpl.s	loc_748F4
+		bpl.s	@nospec2
 		bset	#2,$1F0(a6)
 
-loc_748F4:
+@nospec2:
 		lea	$70(a6),a5
 		moveq	#5,d4
 
-loc_748FA:
-		jsr	sub_74E2C(pc)
+@keyofffm:
+		jsr	sKeyOffFM(pc)
 		adda.w	d6,a5
-		dbf	d4,loc_748FA
+		dbf	d4,@keyofffm
 		moveq	#2,d4
 
-loc_74906:
-		jsr	sub_750CA(pc)
+@mutepsg:
+		jsr	sMutePSG(pc)
 		adda.w	d6,a5
-		dbf	d4,loc_74906
+		dbf	d4,@mutepsg
 
-loc_74910:
+@exit:
 		addq.w	#4,sp
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_74914:	dc.b 6, 0, 1, 2, 4, 5, 6, 0
+dFMTypes:
+		dc.b 6, 0, 1, 2, 4, 5, 6, 0
 
-byte_7491C:	dc.b $80, $A0, $C0, 0
+dPSGTypes:
+		dc.b $80, $A0, $C0
+		even
 ; ---------------------------------------------------------------------------
 
-loc_74920:
+dPlaySnd_SFX:
 		tst.b	$27(a6)
-		bne.w	locret_74A0A
+		bne.w	@exits
 		cmpi.b	#$B5,d7
-		bne.s	loc_7493E
+		bne.s	@notring
 		tst.b	$2B(a6)
-		bne.s	loc_74938
+		bne.s	@noswap
 		move.b	#$CE,d7
 
-loc_74938:
+@noswap:
 		bchg	#0,$2B(a6)
 
-loc_7493E:
+@notring:
 		cmpi.b	#$A7,d7
-		bne.s	loc_74952
+		bne.s	@notpush
 		tst.b	$2C(a6)
-		bne.w	locret_74A0A
+		bne.w	@exits
 		move.b	#$80,$2C(a6)
 
-loc_74952:
-		movea.l	(mSFXPtr).l,a0
+@notpush:
+		movea.l	(dSFXPtr).l,a0
 		subi.b	#$A0,d7
 		lsl.w	#2,d7
 		movea.l	(a0,d7.w),a3
@@ -23953,39 +23963,39 @@ loc_74952:
 		subq.b	#1,d7
 		moveq	#$30,d6
 
-loc_74976:
+@chanloop:
 		moveq	#0,d3
 		move.b	1(a1),d3
 		move.b	d3,d4
-		bmi.s	loc_74992
+		bmi.s	@psg
 		subq.w	#2,d3
 		lsl.w	#2,d3
-		lea	off_74A0C(pc),a5
+		lea	dMusicChanTbl(pc),a5
 		movea.l	(a5,d3.w),a5
 		bset	#2,(a5)
-		bra.s	loc_749B8
+		bra.s	@continue
 ; ---------------------------------------------------------------------------
 
-loc_74992:
+@psg:
 		lsr.w	#3,d3
-		movea.l	off_74A0C(pc,d3.w),a5
+		movea.l	dMusicChanTbl(pc,d3.w),a5
 		bset	#2,(a5)
 		cmpi.b	#$C0,d4
-		bne.s	loc_749B8
+		bne.s	@continue
 		move.b	d4,d0
 		ori.b	#$1F,d0
 		move.b	d0,($C00011).l
 		bchg	#5,d0
 		move.b	d0,($C00011).l
 
-loc_749B8:
-		movea.l	off_74A2C(pc,d3.w),a5
+@continue:
+		movea.l	dSFXChanTbl(pc,d3.w),a5
 		movea.l	a5,a2
 		moveq	#$B,d0
 
-loc_749C0:
+@clear:
 		clr.l	(a2)+
-		dbf	d0,loc_749C0
+		dbf	d0,@clear
 		move.w	(a1)+,(a5)
 		move.b	d5,2(a5)
 		moveq	#0,d0
@@ -23996,37 +24006,38 @@ loc_749C0:
 		move.b	#1,$E(a5)
 		move.b	d6,$D(a5)
 		tst.b	d4
-		bmi.s	loc_749EE
+		bmi.s	@notpsg
 		move.b	#$C0,$A(a5)
 
-loc_749EE:
-		dbf	d7,loc_74976
+@notpsg:
+		dbf	d7,@chanloop
 		tst.b	$250(a6)
-		bpl.s	loc_749FE
+		bpl.s	@nospec
 		bset	#2,$340(a6)
 
-loc_749FE:
+@nospec:
 		tst.b	$310(a6)
-		bpl.s	locret_74A0A
+		bpl.s	@exits
 		bset	#2,$370(a6)
 
-locret_74A0A:
+@exits:
 		rts
 ; ---------------------------------------------------------------------------
 
-off_74A0C:	dc.l (SoundMemory+$D0)&$FFFFFF, 0, (SoundMemory+$100)&$FFFFFF
+dMusicChanTbl:	dc.l (SoundMemory+$D0)&$FFFFFF, 0, (SoundMemory+$100)&$FFFFFF
 		dc.l (SoundMemory+$130)&$FFFFFF, (SoundMemory+$190)&$FFFFFF, (SoundMemory+$1C0)&$FFFFFF
 		dc.l (SoundMemory+$1F0)&$FFFFFF, (SoundMemory+$1F0)&$FFFFFF
 
-off_74A2C:	dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
+dSFXChanTbl:
+		dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
 		dc.l (SoundMemory+$280)&$FFFFFF, (SoundMemory+$2B0)&$FFFFFF, (SoundMemory+$2E0)&$FFFFFF
 		dc.l (SoundMemory+$310)&$FFFFFF, (SoundMemory+$310)&$FFFFFF
 ; ---------------------------------------------------------------------------
 
-loc_74A4C:
+dPlaySnd_SpecSFX:
 		tst.b	$27(a6)
-		bne.w	locret_74AF6
-		movea.l	(mSpecialSFXPtr).l,a0
+		bne.w	@exitp
+		movea.l	(dSpecialSFXPtr).l,a0
 		subi.b	#$D0,d7
 		lsl.w	#2,d7
 		movea.l	(a0,d7.w),a3
@@ -24040,25 +24051,25 @@ loc_74A4C:
 		subq.b	#1,d7
 		moveq	#$30,d6
 
-loc_74A78:
+@chloop:
 		move.b	1(a1),d4
-		bmi.s	loc_74A8A
+		bmi.s	@sppsg
 		bset	#2,$100(a6)
 		lea	$340(a6),a5
-		bra.s	loc_74A94
+		bra.s	@cont
 ; ---------------------------------------------------------------------------
 
-loc_74A8A:
+@sppsg:
 		bset	#2,$1F0(a6)
 		lea	$370(a6),a5
 
-loc_74A94:
+@cont:
 		movea.l	a5,a2
 		moveq	#$B,d0
 
-loc_74A98:
+@clearch:
 		clr.l	(a2)+
-		dbf	d0,loc_74A98
+		dbf	d0,@clearch
 		move.w	(a1)+,(a5)
 		move.b	d5,2(a5)
 		moveq	#0,d0
@@ -24069,138 +24080,138 @@ loc_74A98:
 		move.b	#1,$E(a5)
 		move.b	d6,$D(a5)
 		tst.b	d4
-		bmi.s	loc_74AC6
+		bmi.s	@notsppsg
 		move.b	#$C0,$A(a5)
 
-loc_74AC6:
-		dbf	d7,loc_74A78
+@notsppsg:
+		dbf	d7,@chloop
 		tst.b	$250(a6)
-		bpl.s	loc_74AD6
+		bpl.s	@nospecx
 		bset	#2,$340(a6)
 
-loc_74AD6:
+@nospecx:
 		tst.b	$310(a6)
-		bpl.s	locret_74AF6
+		bpl.s	@exitp
 		bset	#2,$370(a6)
 		ori.b	#$1F,d4
 		move.b	d4,($C00011).l
 		bchg	#5,d4
 		move.b	d4,($C00011).l
 
-locret_74AF6:
+@exitp:
 		rts
 ; ---------------------------------------------------------------------------
 		dc.l (SoundMemory+$100)&$FFFFFF, (SoundMemory+$1F0)&$FFFFFF, (SoundMemory+$250)&$FFFFFF
 		dc.l (SoundMemory+$310)&$FFFFFF, (SoundMemory+$340)&$FFFFFF, (SoundMemory+$370)&$FFFFFF
 ; ---------------------------------------------------------------------------
 
-sub_74B10:
+dStopSFX:
 		clr.b	0(a6)
 		moveq	#$27,d0
 		moveq	#0,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		lea	$220(a6),a5
 		moveq	#5,d7
 
-loc_74B22:
+@runch:
 		tst.b	(a5)
-		bpl.w	loc_74BAA
+		bpl.w	@nextch
 		bclr	#7,(a5)
 		moveq	#0,d3
 		move.b	1(a5),d3
-		bmi.s	loc_74B74
-		jsr	sub_74E2C(pc)
+		bmi.s	@psg
+		jsr	sKeyOffFM(pc)
 		cmpi.b	#4,d3
-		bne.s	loc_74B4E
+		bne.s	@notspecial
 		tst.b	$340(a6)
-		bpl.s	loc_74B4E
+		bpl.s	@notspecial
 		lea	$340(a6),a5
 		movea.l	$20(a6),a1
-		bra.s	loc_74B60
+		bra.s	@procfm
 ; ---------------------------------------------------------------------------
 
-loc_74B4E:
+@notspecial:
 		subq.b	#2,d3
 		lsl.b	#2,d3
-		lea	off_74A0C(pc),a0
+		lea	dMusicChanTbl(pc),a0
 		movea.l	a5,a3
 		movea.l	(a0,d3.w),a5
 		movea.l	$18(a6),a1
 
-loc_74B60:
+@procfm:
 		bclr	#2,(a5)
 		bset	#1,(a5)
 		move.b	$B(a5),d0
-		jsr	sub_753F8(pc)
+		jsr	dUpdateVoice(pc)
 		movea.l	a3,a5
-		bra.s	loc_74BAA
+		bra.s	@nextch
 ; ---------------------------------------------------------------------------
 
-loc_74B74:
-		jsr	sub_750CA(pc)
+@psg:
+		jsr	sMutePSG(pc)
 		lea	$370(a6),a0
 		cmpi.b	#$E0,d3
-		beq.s	loc_74B92
+		beq.s	@procpsg
 		cmpi.b	#$C0,d3
-		beq.s	loc_74B92
+		beq.s	@procpsg
 		lsr.b	#3,d3
-		lea	off_74A0C(pc),a0
+		lea	dMusicChanTbl(pc),a0
 		movea.l	(a0,d3.w),a0
 
-loc_74B92:
+@procpsg:
 		bclr	#2,(a0)
 		bset	#1,(a0)
 		cmpi.b	#$E0,1(a0)
-		bne.s	loc_74BAA
+		bne.s	@nextch
 		move.b	$26(a0),($C00011).l
 
-loc_74BAA:
+@nextch:
 		adda.w	#$30,a5
-		dbf	d7,loc_74B22
+		dbf	d7,@runch
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74BB4:
+dStopSpecSFX:
 		lea	$340(a6),a5
 		tst.b	(a5)
-		bpl.s	loc_74BE6
+		bpl.s	@spec2
 		bclr	#7,(a5)
 		btst	#2,(a5)
-		bne.s	loc_74BE6
-		jsr	loc_74E38(pc)
+		bne.s	@spec2
+		jsr	sKeyOffFM2(pc)
 		lea	$100(a6),a5
 		bclr	#2,(a5)
 		bset	#1,(a5)
 		tst.b	(a5)
-		bpl.s	loc_74BE6
+		bpl.s	@spec2
 		movea.l	$18(a6),a1
 		move.b	$B(a5),d0
-		jsr	sub_753F8(pc)
+		jsr	dUpdateVoice(pc)
 
-loc_74BE6:
+@spec2:
 		lea	$370(a6),a5
 		tst.b	(a5)
-		bpl.s	locret_74C1C
+		bpl.s	@rts
 		bclr	#7,(a5)
 		btst	#2,(a5)
-		bne.s	locret_74C1C
-		jsr	loc_750D0(pc)
+		bne.s	@rts
+		jsr	sMutePSG2(pc)
 		lea	$1F0(a6),a5
 		bclr	#2,(a5)
 		bset	#1,(a5)
 		tst.b	(a5)
-		bpl.s	locret_74C1C
+		bpl.s	@rts
 		cmpi.b	#$E0,1(a5)
-		bne.s	locret_74C1C
+		bne.s	@rts
 		move.b	$26(a5),($C00011).l
 
-locret_74C1C:
+@rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74C1E:
-		jsr	sub_74B10(pc)
-		jsr	sub_74BB4(pc)
+dPlaySnd_FadeOut:
+		jsr	dStopSFX(pc)
+		jsr	dStopSpecSFX(pc)
 		move.b	#3,6(a6)
 		move.b	#$28,4(a6)
 		clr.b	$40(a6)
@@ -24208,125 +24219,125 @@ loc_74C1E:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74C3C:
+dFadeout:
 		move.b	6(a6),d0
-		beq.s	loc_74C48
+		beq.s	@dotick
 		subq.b	#1,6(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74C48:
+@dotick:
 		subq.b	#1,4(a6)
-		beq.w	loc_74CFE
+		beq.w	dStopAll
 		move.b	#3,6(a6)
 		lea	$70(a6),a5
 		moveq	#5,d7
 
-loc_74C5C:
+@loopfm:
 		tst.b	(a5)
-		bpl.s	loc_74C70
+		bpl.s	@nofm
 		addq.b	#1,9(a5)
-		bpl.s	loc_74C6C
+		bpl.s	@updatefm
 		bclr	#7,(a5)
-		bra.s	loc_74C70
+		bra.s	@nofm
 ; ---------------------------------------------------------------------------
 
-loc_74C6C:
-		jsr	sub_7545E(pc)
+@updatefm:
+		jsr	dUpdateVolFM(pc)
 
-loc_74C70:
+@nofm:
 		adda.w	#$30,a5
-		dbf	d7,loc_74C5C
+		dbf	d7,@loopfm
 		moveq	#2,d7
 
-loc_74C7A:
+@looppsg:
 		tst.b	(a5)
-		bpl.s	loc_74C98
+		bpl.s	@nopsg
 		addq.b	#1,9(a5)
 		cmpi.b	#$10,9(a5)
-		bcs.s	loc_74C90
+		bcs.s	@updatpsg
 		bclr	#7,(a5)
-		bra.s	loc_74C98
+		bra.s	@nopsg
 ; ---------------------------------------------------------------------------
 
-loc_74C90:
+@updatpsg:
 		move.b	9(a5),d6
-		jsr	sub_75082(pc)
+		jsr	dUpdateVolPSG(pc)
 
-loc_74C98:
+@nopsg:
 		adda.w	#$30,a5
-		dbf	d7,loc_74C7A
+		dbf	d7,@looppsg
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74CA2:
+dMuteFM_Special:
 		moveq	#3,d4
 		moveq	#$40,d3
 		moveq	#$7F,d1
 
-loc_74CA8:
+@tlloop:
 		move.b	d3,d0
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 		addq.b	#4,d3
-		dbf	d4,loc_74CA8
+		dbf	d4,@tlloop
 		moveq	#3,d4
 		move.b	#$80,d3
 		moveq	#$F,d1
 
-loc_74CBC:
+@rrloop:
 		move.b	d3,d0
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 		addq.b	#4,d3
-		dbf	d4,loc_74CBC
+		dbf	d4,@rrloop
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74CCA:
+dMuteFM:
 		moveq	#2,d2
 		moveq	#$28,d0
 
-loc_74CCE:
+@keyoff:
 		move.b	d2,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		addq.b	#4,d1
-		jsr	sub_74E5C(pc)
-		dbf	d2,loc_74CCE
+		jsr	dWriteYM1(pc)
+		dbf	d2,@keyoff
 		moveq	#$40,d0
 		moveq	#$7F,d1
 		moveq	#2,d3
 
-loc_74CE4:
+@fmloop:
 		moveq	#3,d2
 
-loc_74CE6:
-		jsr	sub_74E5C(pc)
-		jsr	sub_74E80(pc)
+@oploop:
+		jsr	dWriteYM1(pc)
+		jsr	dWriteYM2(pc)
 		addq.w	#4,d0
-		dbf	d2,loc_74CE6
+		dbf	d2,@oploop
 		subi.b	#$F,d0
-		dbf	d3,loc_74CE4
+		dbf	d3,@fmloop
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74CFE:
+dStopAll:
 		moveq	#$2B,d0
 		move.b	#$80,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		moveq	#$27,d0
 		moveq	#0,d1
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		movea.l	a6,a0
 		move.w	#$E3,d0
 
-loc_74D16:
+@memclr:
 		clr.l	(a0)+
-		dbf	d0,loc_74D16
+		dbf	d0,@memclr
 		move.b	#$80,9(a6)
-		jsr	sub_74CCA(pc)
-		bra.w	sub_750E0
+		jsr	dMuteFM(pc)
+		bra.w	dMutePSG
 ; ---------------------------------------------------------------------------
 
-sub_74D2A:
+dClearMemory:
 		movea.l	a6,a0
 		move.b	0(a6),d1
 		move.b	$27(a6),d2
@@ -24334,18 +24345,18 @@ sub_74D2A:
 		move.b	$26(a6),d4
 		move.w	#$87,d0
 
-loc_74D40:
+@clear:
 		clr.l	(a0)+
-		dbf	d0,loc_74D40
+		dbf	d0,@clear
 		move.b	d1,0(a6)
 		move.b	d2,$27(a6)
 		move.b	d3,$2A(a6)
 		move.b	d4,$26(a6)
 		move.b	#$80,9(a6)
-		bra.w	sub_750E0
+		bra.w	dMutePSG
 ; ---------------------------------------------------------------------------
 
-sub_74D60:
+dTempoDelay:
 		move.b	2(a6),1(a6)
 		addq.b	#1,$4E(a6)
 		addq.b	#1,$7E(a6)
@@ -24360,148 +24371,148 @@ sub_74D60:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74D90:
+dPlaySnd_ShoesOn:
 		move.b	$29(a6),2(a6)
 		move.b	$29(a6),1(a6)
 		move.b	#$80,$2A(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74DA4:
+dPlaySnd_ShoesOff:
 		move.b	$28(a6),2(a6)
 		move.b	$28(a6),1(a6)
 		clr.b	$2A(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74DB6:
+dFadeIn:
 		tst.b	$25(a6)
-		beq.s	loc_74DC2
+		beq.s	@dotick
 		subq.b	#1,$25(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74DC2:
+@dotick:
 		tst.b	$26(a6)
-		beq.s	loc_74E04
+		beq.s	@disable
 		subq.b	#1,$26(a6)
 		move.b	#2,$25(a6)
 		lea	$70(a6),a5
 		moveq	#5,d7
 
-loc_74DD8:
+@loopfm:
 		tst.b	(a5)
-		bpl.s	loc_74DE4
+		bpl.s	@nofm
 		subq.b	#1,9(a5)
-		jsr	sub_7545E(pc)
+		jsr	dUpdateVolFM(pc)
 
-loc_74DE4:
+@nofm:
 		adda.w	#$30,a5
-		dbf	d7,loc_74DD8
+		dbf	d7,@loopfm
 		moveq	#2,d7
 
-loc_74DEE:
+@looppsg:
 		tst.b	(a5)
-		bpl.s	loc_74DFA
+		bpl.s	@nopsg
 		subq.b	#1,9(a5)
-		jsr	sub_75082(pc)
+		jsr	dUpdateVolPSG(pc)
 
-loc_74DFA:
+@nopsg:
 		adda.w	#$30,a5
-		dbf	d7,loc_74DEE
+		dbf	d7,@looppsg
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74E04:
+@disable:
 		bclr	#2,$40(a6)
 		clr.b	$24(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74E10:
+dNoteOnFM:
 		btst	#1,(a5)
-		bne.s	locret_74E2A
+		bne.s	@rts
 		btst	#2,(a5)
-		bne.s	locret_74E2A
+		bne.s	@rts
 		moveq	#$28,d0
 		move.b	1(a5),d1
 		ori.b	#$F0,d1
-		bra.w	sub_74E5C
+		bra.w	dWriteYM1
 ; ---------------------------------------------------------------------------
 
-locret_74E2A:
+@rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74E2C:
+sKeyOffFM:
 		btst	#4,(a5)
 		bne.s	locret_74E42
 		btst	#2,(a5)
 		bne.s	locret_74E42
 
-loc_74E38:
+sKeyOffFM2:
 		moveq	#$28,d0
 		move.b	1(a5),d1
-		bra.w	sub_74E5C
+		bra.w	dWriteYM1
 ; ---------------------------------------------------------------------------
 
 locret_74E42:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74E44:
+dChkWriteYMch:
 		btst	#2,(a5)
 		bne.s	locret_74E4E
-		bra.w	sub_74E50
+		bra.w	dWriteYMch
 ; ---------------------------------------------------------------------------
 
 locret_74E4E:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74E50:
+dWriteYMch:
 		btst	#2,1(a5)
-		bne.s	loc_74E76
+		bne.s	dWriteYMch2
 		add.b	1(a5),d0
 ; ---------------------------------------------------------------------------
 
-sub_74E5C:
+dWriteYM1:
 		lea	($A04000).l,a0
 
-loc_74E62:
+@waitym1:
 		btst	#7,(a0)
-		bne.s	loc_74E62
+		bne.s	@waitym1
 		move.b	d0,(a0)
 
-loc_74E6A:
+@waitym2:
 		btst	#7,(a0)
-		bne.s	loc_74E6A
+		bne.s	@waitym2
 		move.b	d1,1(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_74E76:
+dWriteYMch2:
 		move.b	1(a5),d2
 		bclr	#2,d2
 		add.b	d2,d0
 ; ---------------------------------------------------------------------------
 
-sub_74E80:
+dWriteYM2:
 		lea	($A04000).l,a0
 
-loc_74E86:
+@waitym1:
 		btst	#7,(a0)
-		bne.s	loc_74E86
+		bne.s	@waitym1
 		move.b	d0,2(a0)
 
-loc_74E90:
+@waitym2:
 		btst	#7,(a0)
-		bne.s	loc_74E90
+		bne.s	@waitym2
 		move.b	d1,3(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-word_74E9C:	dc.w $25E, $284, $2AB, $2D3, $2FE, $32D, $35C, $38F, $3C5
+sFreqFM:	dc.w $25E, $284, $2AB, $2D3, $2FE, $32D, $35C, $38F, $3C5
 		dc.w $3FF, $43C, $47C, $A5E, $A84, $AAB, $AD3, $AFE, $B2D
 		dc.w $B5C, $B8F, $BC5, $BFF, $C3C, $C7C,$125E,$1284,$12AB
 		dc.w $12D3,$12FE,$132D,$135C,$138F,$13C5,$13FF,$143C,$147C
@@ -24514,89 +24525,89 @@ word_74E9C:	dc.w $25E, $284, $2AB, $2D3, $2FE, $32D, $35C, $38F, $3C5
 		dc.w $3B5C,$3B8F,$3BC5,$3BFF,$3C3C,$3C7C
 ; ---------------------------------------------------------------------------
 
-sub_74F5C:
+dUpdatePSG:
 		subq.b	#1,$E(a5)
-		bne.s	loc_74F72
+		bne.s	@noupdate
 		bclr	#4,(a5)
-		jsr	sub_74F84(pc)
-		jsr	sub_74FE8(pc)
-		bra.w	loc_7503A
+		jsr	dTrackerPSG(pc)
+		jsr	dUpdateFreqPSG(pc)
+		bra.w	dVolEnvProg
 ; ---------------------------------------------------------------------------
 
-loc_74F72:
-		jsr	sub_74428(pc)
-		jsr	sub_75032(pc)
-		jsr	sub_74450(pc)
-		jsr	sub_74FEE(pc)
+@noupdate:
+		jsr	dGate(pc)
+		jsr	dVolEnvProg2(pc)
+		jsr	dModulate(pc)
+		jsr	dUpdateFreqPSG2(pc)
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_74F84:
+dTrackerPSG:
 		bclr	#1,(a5)
 		movea.l	4(a5),a4
 
-loc_74F8C:
+@command:
 		moveq	#0,d5
 		move.b	(a4)+,d5
 		cmpi.b	#$E0,d5
-		bcs.s	loc_74F9C
-		jsr	sub_75184(pc)
-		bra.s	loc_74F8C
+		bcs.s	@notcommand
+		jsr	dCommands(pc)
+		bra.s	@command
 ; ---------------------------------------------------------------------------
 
-loc_74F9C:
+@notcommand:
 		tst.b	d5
-		bpl.s	loc_74FB0
-		jsr	sub_74FB8(pc)
+		bpl.s	@duration
+		jsr	dLoadFreqPSG(pc)
 		move.b	(a4)+,d5
 		tst.b	d5
-		bpl.s	loc_74FB0
+		bpl.s	@duration
 		subq.w	#1,a4
-		bra.w	sub_743EA
+		bra.w	dFinishTrack
 ; ---------------------------------------------------------------------------
 
-loc_74FB0:
-		jsr	sub_743CA(pc)
-		bra.w	sub_743EA
+@duration:
+		jsr	dCalcDuration(pc)
+		bra.w	dFinishTrack
 ; ---------------------------------------------------------------------------
 
-sub_74FB8:
+dLoadFreqPSG:
 		subi.b	#$81,d5
-		bcs.s	loc_74FD6
+		bcs.s	@duration
 		add.b	8(a5),d5
 		andi.w	#$7F,d5
 		lsl.w	#1,d5
-		lea	word_750F8(pc),a0
+		lea	dFreqPSG(pc),a0
 		move.w	(a0,d5.w),$10(a5)
-		bra.w	sub_743EA
+		bra.w	dFinishTrack
 ; ---------------------------------------------------------------------------
 
-loc_74FD6:
+@duration:
 		bset	#1,(a5)
-		move.w	#$FFFF,$10(a5)
-		jsr	sub_743EA(pc)
-		bra.w	sub_750CA
+		move.w	#-1,$10(a5)
+		jsr	dFinishTrack(pc)
+		bra.w	sMutePSG
 ; ---------------------------------------------------------------------------
 
-sub_74FE8:
+dUpdateFreqPSG:
 		move.w	$10(a5),d6
-		bmi.s	loc_7502C
+		bmi.s	dRestPSG
 ; ---------------------------------------------------------------------------
 
-sub_74FEE:
+dUpdateFreqPSG2:
 		move.b	$1E(a5),d0
 		ext.w	d0
 		add.w	d0,d6
 		btst	#2,(a5)
-		bne.s	locret_7502A
+		bne.s	@rts
 		btst	#1,(a5)
-		bne.s	locret_7502A
+		bne.s	@rts
 		move.b	1(a5),d0
 		cmpi.b	#$E0,d0
-		bne.s	loc_75010
+		bne.s	@nopsg4
 		move.b	#$C0,d0
 
-loc_75010:
+@nopsg4:
 		move.w	d6,d1
 		andi.b	#$F,d1
 		or.b	d1,d0
@@ -24605,25 +24616,25 @@ loc_75010:
 		move.b	d0,($C00011).l
 		move.b	d6,($C00011).l
 
-locret_7502A:
+@rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7502C:
+dRestPSG:
 		bset	#1,(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_75032:
+dVolEnvProg2:
 		tst.b	$B(a5)
-		beq.w	locret_750A2
+		beq.w	dUpdateVolPSG_Rts
 
-loc_7503A:
+dVolEnvProg:
 		move.b	9(a5),d6
 		moveq	#0,d0
 		move.b	$B(a5),d0
-		beq.s	sub_75082
-		movea.l	(mVolEnvPtr).l,a0
+		beq.s	dUpdateVolPSG
+		movea.l	(dVolEnvPtr).l,a0
 		subq.w	#1,d0
 		lsl.w	#2,d0
 		movea.l	(a0,d0.w),a0
@@ -24631,66 +24642,66 @@ loc_7503A:
 		move.b	(a0,d0.w),d0
 		addq.b	#1,$C(a5)
 		btst	#7,d0
-		beq.s	loc_75078
+		beq.s	@volume
 		cmpi.b	#$83,d0
-		beq.s	loc_750B2
+		beq.s	dVolEnvCmd_Hold
 		cmpi.b	#$85,d0
-		beq.s	loc_750B8
+		beq.s	dVolEnvCmd_Loop
 		cmpi.b	#$80,d0
-		beq.s	loc_750C2
+		beq.s	dVolEnvCmd_Reset
 
-loc_75078:
+@volume:
 		add.w	d0,d6
 		cmpi.b	#$10,d6
-		bcs.s	sub_75082
+		bcs.s	dUpdateVolPSG
 		moveq	#$F,d6
 ; ---------------------------------------------------------------------------
 
-sub_75082:
+dUpdateVolPSG:
 		btst	#1,(a5)
-		bne.s	locret_750A2
+		bne.s	dUpdateVolPSG_Rts
 		btst	#2,(a5)
-		bne.s	locret_750A2
+		bne.s	dUpdateVolPSG_Rts
 		btst	#4,(a5)
-		bne.s	loc_750A4
+		bne.s	dUpdateVolPSG_ChkGate
 
-loc_75094:
+dUpdateVolPSG_DoIt:
 		or.b	1(a5),d6
 		addi.b	#$10,d6
 		move.b	d6,($C00011).l
 
-locret_750A2:
+dUpdateVolPSG_Rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_750A4:
+dUpdateVolPSG_ChkGate:
 		tst.b	$13(a5)
-		beq.s	loc_75094
+		beq.s	dUpdateVolPSG_DoIt
 		tst.b	$12(a5)
-		bne.s	loc_75094
+		bne.s	dUpdateVolPSG_DoIt
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_750B2:
+dVolEnvCmd_Hold:
 		subq.b	#1,$C(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_750B8:
+dVolEnvCmd_Loop:
 		move.b	1(a0,d0.w),$C(a5)
-		bra.w	loc_7503A
+		bra.w	dVolEnvProg
 ; ---------------------------------------------------------------------------
 
-loc_750C2:
+dVolEnvCmd_Reset:
 		clr.b	$C(a5)
-		bra.w	loc_7503A
+		bra.w	dVolEnvProg
 ; ---------------------------------------------------------------------------
 
-sub_750CA:
+sMutePSG:
 		btst	#2,(a5)
 		bne.s	locret_750DE
 
-loc_750D0:
+sMutePSG2:
 		move.b	1(a5),d0
 		ori.b	#$1F,d0
 		move.b	d0,($C00011).l
@@ -24699,7 +24710,7 @@ locret_750DE:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_750E0:
+dMutePSG:
 		lea	($C00011).l,a0
 		move.b	#$9F,(a0)
 		move.b	#$BF,(a0)
@@ -24708,7 +24719,7 @@ sub_750E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-word_750F8:	dc.w $356,$326,$2F9,$2CE,$2A5,$280,$25C,$23A,$21A,$1FB
+dFreqPSG:	dc.w $356,$326,$2F9,$2CE,$2A5,$280,$25C,$23A,$21A,$1FB
 		dc.w $1DF,$1C4,$1AB,$193,$17D,$167,$153,$140,$12E,$11D
 		dc.w $10D, $FE, $EF, $E2, $D6, $C9, $BE, $B4, $A9, $A0
 		dc.w $97, $8F, $87, $7F, $78, $71, $6B, $65, $5F, $5A
@@ -24717,115 +24728,115 @@ word_750F8:	dc.w $356,$326,$2F9,$2CE,$2A5,$280,$25C,$23A,$21A,$1FB
 		dc.w $1B, $1A, $18, $17, $16, $15, $13, $12, $11,   0
 ; ---------------------------------------------------------------------------
 
-sub_75184:
+dCommands:
 		subi.w	#$E0,d5
 		lsl.w	#2,d5
-		jmp	loc_7518E(pc,d5.w)
+		jmp	@commands(pc,d5.w)
 ; ---------------------------------------------------------------------------
 
-loc_7518E:
-		bra.w	loc_7521C
+@commands:
+		bra.w	dcPan
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7523C
+		bra.w	dcsDetune
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75242
+		bra.w	dcsComm
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75248
+		bra.w	dcGlobalMod
 ; ---------------------------------------------------------------------------
 		bra.w	loc_7527A
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7532C
+		bra.w	dcaVolFMP
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7533C
+		bra.w	dcaVolFM
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75346
+		bra.w	dcHold
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7534C
+		bra.w	dcGate
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75356
+		bra.w	dcsLFO
 ; ---------------------------------------------------------------------------
-		bra.w	loc_753A8
+		bra.w	dcsTempo
 ; ---------------------------------------------------------------------------
-		bra.w	loc_753B2
+		bra.w	dcPlaySnd
 ; ---------------------------------------------------------------------------
-		bra.w	loc_753B8
+		bra.w	dcaVolPSG
 ; ---------------------------------------------------------------------------
 		bra.w	loc_753C0
 ; ---------------------------------------------------------------------------
-		bra.w	loc_753C8
+		bra.w	dcYM1
 ; ---------------------------------------------------------------------------
-		bra.w	loc_753D0
+		bra.w	dcVoice
 ; ---------------------------------------------------------------------------
-		bra.w	loc_754DA
+		bra.w	dcMod68k
 ; ---------------------------------------------------------------------------
-		bra.w	loc_754FC
+		bra.w	dcModOn
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75502
+		bra.w	dcStop
 ; ---------------------------------------------------------------------------
-		bra.w	loc_755C4
+		bra.w	dcNoisePSG
 ; ---------------------------------------------------------------------------
-		bra.w	loc_755DE
+		bra.w	dcModOff
 ; ---------------------------------------------------------------------------
-		bra.w	loc_755E4
+		bra.w	dcVolEnv
 ; ---------------------------------------------------------------------------
-		bra.w	loc_755EA
+		bra.w	dcJump
 ; ---------------------------------------------------------------------------
-		bra.w	loc_755F6
+		bra.w	dcLoop
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75610
+		bra.w	dcCall
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75622
+		bra.w	dcReturn
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75636
+		bra.w	dcTickCh
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7563C
+		bra.w	dcaTranspose
 ; ---------------------------------------------------------------------------
-		bra.w	loc_75644
+		bra.w	dcTick
 ; ---------------------------------------------------------------------------
 		bra.w	loc_7565A
 ; ---------------------------------------------------------------------------
-		bra.w	loc_7568C
+		bra.w	dcFM3SM
 ; ---------------------------------------------------------------------------
 		moveq	#0,d0
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
-		jmp	loc_75214(pc,d0.w)
+		jmp	@meta(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-loc_75214:
-		bra.w	loc_756A8
+@meta:
+		bra.w	dcSSGEG
 ; ---------------------------------------------------------------------------
-		bra.w	loc_756A8
+		bra.w	dcSSGEG
 ; ---------------------------------------------------------------------------
 
-loc_7521C:
+dcPan:
 		move.b	(a4)+,d1
 		tst.b	1(a5)
-		bmi.s	locret_7523A
+		bmi.s	@rts
 		move.b	$A(a5),d0
 		andi.b	#$37,d0
 		or.b	d0,d1
 		move.b	d1,$A(a5)
 		move.b	#$B4,d0
-		bra.w	sub_74E44
+		bra.w	dChkWriteYMch
 ; ---------------------------------------------------------------------------
 
-locret_7523A:
+@rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7523C:
+dcsDetune:
 		move.b	(a4)+,$1E(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75242:
+dcsComm:
 		move.b	(a4)+,7(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75248:
-		movea.l	(off_74010).l,a0
+dcGlobalMod:
+		movea.l	(dModPtr).l,a0
 		moveq	#0,d0
 		move.b	(a4)+,d0
 		subq.b	#1,d0
@@ -24868,7 +24879,7 @@ loc_752A0:
 		moveq	#0,d0
 		move.b	$B(a5),d0
 		movea.l	$18(a6),a1
-		jsr	sub_753F8(pc)
+		jsr	dUpdateVoice(pc)
 
 loc_752C2:
 		adda.w	#$30,a5
@@ -24879,7 +24890,7 @@ loc_752CC:
 		btst	#7,(a5)
 		beq.s	loc_752DE
 		bset	#1,(a5)
-		jsr	sub_750CA(pc)
+		jsr	sMutePSG(pc)
 		add.b	d6,9(a5)
 
 loc_752DE:
@@ -24892,11 +24903,15 @@ loc_752DE:
 		addq.w	#8,sp
 		rts
 ; ---------------------------------------------------------------------------
-		jsr	sub_74CA2(pc)
-		bra.w	loc_75502
+
+dcSilence:
+		jsr	dMuteFM_Special(pc)
+		bra.w	dcStop
 ; ---------------------------------------------------------------------------
+
+dcPanAni:
 		move.b	(a4)+,$1F(a5)
-		beq.s	loc_75320
+		beq.s	@disable
 		move.b	(a4)+,$20(a5)
 		move.b	(a4)+,$21(a5)
 		move.b	(a4)+,$22(a5)
@@ -24905,87 +24920,87 @@ loc_752DE:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75320:
+@disable:
 		move.b	#$B4,d0
 		move.b	$A(a5),d1
-		bra.w	sub_74E44
+		bra.w	dChkWriteYMch
 ; ---------------------------------------------------------------------------
 
-loc_7532C:
+dcaVolFMP:
 		move.b	(a4)+,d0
 		tst.b	1(a5)
-		bpl.s	loc_7533C
+		bpl.s	dcaVolFM
 		add.b	d0,9(a5)
 		addq.w	#1,a4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7533C:
+dcaVolFM:
 		move.b	(a4)+,d0
 		add.b	d0,9(a5)
-		bra.w	sub_7545E
+		bra.w	dUpdateVolFM
 ; ---------------------------------------------------------------------------
 
-loc_75346:
+dcHold:
 		bset	#4,(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7534C:
+dcGate:
 		move.b	(a4),$12(a5)
 		move.b	(a4)+,$13(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75356:
-		movea.l	$18(a6),a1
-		beq.s	loc_75360
+dcsLFO:
+		movea.l	$18(a6),a1				; wtf this is borked
+		beq.s	@something
 		movea.l	$1C(a6),a1
 
-loc_75360:
+@something:
 		move.b	(a4),d3
 		adda.w	#9,a0
-		lea	byte_753A4(pc),a2
+		lea	dOpLFO(pc),a2
 		moveq	#3,d6
 
-loc_7536C:
+@lfoops:
 		move.b	(a1)+,d1
 		move.b	(a2)+,d0
 		btst	#7,d3
-		beq.s	loc_7537E
+		beq.s	@skipop
 		bset	#7,d1
-		jsr	sub_74E44(pc)
+		jsr	dChkWriteYMch(pc)
 
-loc_7537E:
+@skipop:
 		lsl.w	#1,d3
-		dbf	d6,loc_7536C
+		dbf	d6,@lfoops
 		move.b	(a4)+,d1
 		moveq	#$22,d0
-		jsr	sub_74E5C(pc)
+		jsr	dWriteYM1(pc)
 		move.b	(a4)+,d1
 		move.b	$A(a5),d0
 		andi.b	#$C0,d0
 		or.b	d0,d1
 		move.b	d1,$A(a5)
 		move.b	#$B4,d0
-		bra.w	sub_74E44
+		bra.w	dChkWriteYMch
 ; ---------------------------------------------------------------------------
 
-byte_753A4:	dc.b $60, $68, $64, $6C
+dOpLFO:		dc.b $60, $68, $64, $6C
 ; ---------------------------------------------------------------------------
 
-loc_753A8:
+dcsTempo:
 		move.b	(a4),2(a6)
 		move.b	(a4)+,1(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_753B2:
+dcPlaySnd:
 		move.b	(a4)+,$A(a6)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_753B8:
+dcaVolPSG:
 		move.b	(a4)+,d0
 		add.b	d0,9(a5)
 		rts
@@ -24996,13 +25011,13 @@ loc_753C0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_753C8:
+dcYM1:
 		move.b	(a4)+,d0
 		move.b	(a4)+,d1
-		bra.w	sub_74E5C
+		bra.w	dWriteYM1
 ; ---------------------------------------------------------------------------
 
-loc_753D0:
+dcVoice:
 		moveq	#0,d0
 		move.b	(a4)+,d0
 		move.b	d0,$B(a5)
@@ -25010,120 +25025,120 @@ loc_753D0:
 		bne.w	locret_75454
 		movea.l	$18(a6),a1
 		tst.b	$E(a6)
-		beq.s	sub_753F8
+		beq.s	dUpdateVoice
 		movea.l	$1C(a6),a1
 		tst.b	$E(a6)
-		bmi.s	sub_753F8
+		bmi.s	dUpdateVoice
 		movea.l	$20(a6),a1
 ; ---------------------------------------------------------------------------
 
-sub_753F8:
+dUpdateVoice:
 		subq.w	#1,d0
-		bmi.s	loc_75406
+		bmi.s	@gotvoice
 		move.w	#$19,d1
 
-loc_75400:
+@count:
 		adda.w	d1,a1
-		dbf	d0,loc_75400
+		dbf	d0,@count
 
-loc_75406:
+@gotvoice:
 		move.b	(a1)+,d1
 		move.b	d1,$25(a5)
 		move.b	d1,d4
 		move.b	#$B0,d0
-		jsr	sub_74E50(pc)
-		lea	byte_754C2(pc),a2
+		jsr	dWriteYMch(pc)
+		lea	dOpVoice(pc),a2
 		moveq	#$13,d3
 
-loc_7541C:
+@writeregs:
 		move.b	(a2)+,d0
 		move.b	(a1)+,d1
-		jsr	sub_74E50(pc)
-		dbf	d3,loc_7541C
+		jsr	dWriteYMch(pc)
+		dbf	d3,@writeregs
 		moveq	#3,d5
 		andi.w	#7,d4
-		move.b	byte_75456(pc,d4.w),d4
+		move.b	dAlgoMasks(pc,d4.w),d4
 		move.b	9(a5),d3
 
-loc_75436:
+@updatetl:
 		move.b	(a2)+,d0
 		move.b	(a1)+,d1
 		lsr.b	#1,d4
-		bcc.s	loc_75440
+		bcc.s	@nonslot
 		add.b	d3,d1
 
-loc_75440:
-		jsr	sub_74E50(pc)
-		dbf	d5,loc_75436
+@nonslot:
+		jsr	dWriteYMch(pc)
+		dbf	d5,@updatetl
 		move.b	#$B4,d0
 		move.b	$A(a5),d1
-		jsr	sub_74E50(pc)
+		jsr	dWriteYMch(pc)
 
 locret_75454:
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_75456:	dc.b 8, 8, 8, 8, $A, $E, $E, $F
+dAlgoMasks:	dc.b 8, 8, 8, 8, $A, $E, $E, $F
 ; ---------------------------------------------------------------------------
 
-sub_7545E:
+dUpdateVolFM:
 		btst	#2,(a5)
-		bne.s	locret_754C0
+		bne.s	@rts
 		moveq	#0,d0
 		move.b	$B(a5),d0
 		movea.l	$18(a6),a1
 		tst.b	$E(a6)
-		beq.s	loc_75482
+		beq.s	@gotvoices
 		movea.l	$1C(a6),a1
 		tst.b	$E(a6)
-		bmi.s	loc_75482
+		bmi.s	@gotvoices
 		movea.l	$20(a6),a1
 
-loc_75482:
+@gotvoices:
 		subq.w	#1,d0
-		bmi.s	loc_75490
+		bmi.s	@gotaddr
 		move.w	#$19,d1
 
-loc_7548A:
+@count:
 		adda.w	d1,a1
-		dbf	d0,loc_7548A
+		dbf	d0,@count
 
-loc_75490:
+@gotaddr:
 		adda.w	#$15,a1
-		lea	byte_754D6(pc),a2
+		lea	dOpTL(pc),a2
 		move.b	$25(a5),d0
 		andi.w	#7,d0
-		move.b	byte_75456(pc,d0.w),d4
+		move.b	dAlgoMasks(pc,d0.w),d4
 		move.b	9(a5),d3
-		bmi.s	locret_754C0
+		bmi.s	@rts
 		moveq	#3,d5
 
-loc_754AC:
+@nextop:
 		move.b	(a2)+,d0
 		move.b	(a1)+,d1
 		lsr.b	#1,d4
-		bcc.s	loc_754BC
+		bcc.s	@nextch
 		add.b	d3,d1
-		bcs.s	loc_754BC
-		jsr	sub_74E50(pc)
+		bcs.s	@nextch
+		jsr	dWriteYMch(pc)
 
-loc_754BC:
-		dbf	d5,loc_754AC
+@nextch:
+		dbf	d5,@nextop
 
-locret_754C0:
+@rts:
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_754C2:	dc.b $30, $38, $34, $3C
+dOpVoice:	dc.b $30, $38, $34, $3C
 		dc.b $50, $58, $54, $5C
 		dc.b $60, $68, $64, $6C
 		dc.b $70, $78, $74, $7C
 		dc.b $80, $88, $84, $8C
 
-byte_754D6:	dc.b $40, $48, $44, $4C
+dOpTL:		dc.b $40, $48, $44, $4C
 ; ---------------------------------------------------------------------------
 
-loc_754DA:
+dcMod68k:
 		bset	#3,(a5)
 		move.l	a4,$14(a5)
 		move.b	(a4)+,$18(a5)
@@ -25136,116 +25151,116 @@ loc_754DA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_754FC:
+dcModOn:
 		bset	#3,(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75502:
+dcStop:
 		bclr	#7,(a5)
 		bclr	#4,(a5)
 		tst.b	1(a5)
-		bmi.s	loc_7551E
+		bmi.s	@psg
 		tst.b	8(a6)
-		bmi.w	loc_755C0
-		jsr	sub_74E2C(pc)
-		bra.s	loc_75522
+		bmi.w	@exit
+		jsr	sKeyOffFM(pc)
+		bra.s	@checksfx
 ; ---------------------------------------------------------------------------
 
-loc_7551E:
-		jsr	sub_750CA(pc)
+@psg:
+		jsr	sMutePSG(pc)
 
-loc_75522:
+@checksfx:
 		tst.b	$E(a6)
-		bpl.w	loc_755C0
+		bpl.w	@exit
 		clr.b	0(a6)
 		moveq	#0,d0
 		move.b	1(a5),d0
-		bmi.s	loc_7558A
-		lea	off_74A0C(pc),a0
+		bmi.s	@getpsg
+		lea	dMusicChanTbl(pc),a0
 		movea.l	a5,a3
 		cmpi.b	#4,d0
-		bne.s	loc_75552
+		bne.s	@getfm
 		tst.b	$340(a6)
-		bpl.s	loc_75552
+		bpl.s	@getfm
 		lea	$340(a6),a5
 		movea.l	$20(a6),a1
-		bra.s	loc_75562
+		bra.s	@voice
 ; ---------------------------------------------------------------------------
 
-loc_75552:
+@getfm:
 		subq.b	#2,d0
 		lsl.b	#2,d0
 		movea.l	(a0,d0.w),a5
 		tst.b	(a5)
-		bpl.s	loc_75572
+		bpl.s	@checkfm3
 		movea.l	$18(a6),a1
 
-loc_75562:
+@voice:
 		bclr	#2,(a5)
 		bset	#1,(a5)
 		move.b	$B(a5),d0
-		jsr	sub_753F8(pc)
+		jsr	dUpdateVoice(pc)
 
-loc_75572:
+@checkfm3:
 		movea.l	a3,a5
 		cmpi.b	#2,1(a5)
-		bne.s	loc_755C0
+		bne.s	@exit
 		clr.b	$F(a6)
 		moveq	#0,d1
 		moveq	#$27,d0
-		jsr	sub_74E5C(pc)
-		bra.s	loc_755C0
+		jsr	dWriteYM1(pc)
+		bra.s	@exit
 ; ---------------------------------------------------------------------------
 
-loc_7558A:
+@getpsg:
 		lea	$370(a6),a0
 		tst.b	(a0)
-		bpl.s	loc_7559E
+		bpl.s	@normalpsg
 		cmpi.b	#$E0,d0
-		beq.s	loc_755A8
+		beq.s	@unint
 		cmpi.b	#$C0,d0
-		beq.s	loc_755A8
+		beq.s	@unint
 
-loc_7559E:
-		lea	off_74A0C(pc),a0
+@normalpsg:
+		lea	dMusicChanTbl(pc),a0
 		lsr.b	#3,d0
 		movea.l	(a0,d0.w),a0
 
-loc_755A8:
+@unint:
 		bclr	#2,(a0)
 		bset	#1,(a0)
 		cmpi.b	#$E0,1(a0)
-		bne.s	loc_755C0
+		bne.s	@exit
 		move.b	$26(a0),($C00011).l
 
-loc_755C0:
+@exit:
 		addq.w	#8,sp
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755C4:
+dcNoisePSG:
 		move.b	#$E0,1(a5)
 		move.b	(a4)+,$26(a5)
 		btst	#2,(a5)
-		bne.s	locret_755DC
+		bne.s	@interrupted
 		move.b	-1(a4),($C00011).l
 
-locret_755DC:
+@interrupted:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755DE:
+dcModOff:
 		bclr	#3,(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755E4:
+dcVolEnv:
 		move.b	(a4)+,$B(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755EA:
+dcJump:
 		move.b	(a4)+,d0
 		lsl.w	#8,d0
 		move.b	(a4)+,d0
@@ -25254,31 +25269,31 @@ loc_755EA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755F6:
+dcLoop:
 		moveq	#0,d0
 		move.b	(a4)+,d0
 		move.b	(a4)+,d1
 		tst.b	$28(a5,d0.w)
-		bne.s	loc_75606
+		bne.s	@noreset
 		move.b	d1,$28(a5,d0.w)
 
-loc_75606:
+@noreset:
 		subq.b	#1,$28(a5,d0.w)
-		bne.s	loc_755EA
+		bne.s	dcJump
 		addq.w	#2,a4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75610:
+dcCall:
 		moveq	#0,d0
 		move.b	$D(a5),d0
 		subq.b	#4,d0
 		move.l	a4,(a5,d0.w)
 		move.b	d0,$D(a5)
-		bra.s	loc_755EA
+		bra.s	dcJump
 ; ---------------------------------------------------------------------------
 
-loc_75622:
+dcReturn:
 		moveq	#0,d0
 		move.b	$D(a5),d0
 		movea.l	(a5,d0.w),a4
@@ -25288,34 +25303,34 @@ loc_75622:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75636:
+dcTickCh:
 		move.b	(a4)+,2(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7563C:
+dcaTranspose:
 		move.b	(a4)+,d0
 		add.b	d0,8(a5)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75644:
+dcTick:
 		lea	$40(a6),a0
 		move.b	(a4)+,d0
 		moveq	#$30,d1
 		moveq	#9,d2
 
-loc_7564E:
+@tickloop:
 		move.b	d0,2(a0)
 		adda.w	d1,a0
-		dbf	d2,loc_7564E
+		dbf	d2,@tickloop
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_7565A:
 		bclr	#7,(a5)
 		bclr	#4,(a5)
-		jsr	sub_74E2C(pc)
+		jsr	sKeyOffFM(pc)
 		tst.b	$250(a6)
 		bmi.s	loc_75688
 		movea.l	a5,a3
@@ -25324,7 +25339,7 @@ loc_7565A:
 		bclr	#2,(a5)
 		bset	#1,(a5)
 		move.b	$B(a5),d0
-		jsr	sub_753F8(pc)
+		jsr	dUpdateVoice(pc)
 		movea.l	a3,a5
 
 loc_75688:
@@ -25332,36 +25347,36 @@ loc_75688:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7568C:
+dcFM3SM:
 		lea	$10(a6),a0
 		moveq	#7,d0
 
-loc_75692:
+@clear:
 		move.b	(a4)+,(a0)+
-		dbf	d0,loc_75692
+		dbf	d0,@clear
 		move.b	#$80,$F(a6)
 		move.b	#$27,d0
 		moveq	#$40,d1
-		bra.w	sub_74E5C
+		bra.w	dWriteYM1
 ; ---------------------------------------------------------------------------
 
-loc_756A8:
-		lea	byte_756C8(pc),a1
+dcSSGEG:
+		lea	dOpSSGEG(pc),a1
 		moveq	#3,d3
 
-loc_756AE:
+@oploop:
 		move.b	(a1)+,d0
 		move.b	(a4)+,d1
 		bset	#3,d1
-		jsr	sub_74E44(pc)
+		jsr	dChkWriteYMch(pc)
 		move.b	(a1)+,d0
 		moveq	#$1F,d1
-		jsr	sub_74E44(pc)
-		dbf	d3,loc_756AE
+		jsr	dChkWriteYMch(pc)
+		dbf	d3,@oploop
 		rts
 ; ---------------------------------------------------------------------------
 
-byte_756C8:	dc.b $90, $50, $98, $58
+dOpSSGEG:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
 Z80Driver:	include "sound/Z80/DAC Driver.asm"
 		even
@@ -25400,14 +25415,14 @@ mContinue:	incbin "sound/music/Continue.ssf"
 mCredits:	incbin "sound/music/Credits.ssf"
 		even
 
-mSFXList:	dc.l sA0, sA1, sA2, sA3, sA4, sA5, sA6, sA7
+dSFXList:	dc.l sA0, sA1, sA2, sA3, sA4, sA5, sA6, sA7
 		dc.l sA8, sA9, sAA, sAB, sAC, sAD, sAE, sAF
 		dc.l sB0, sB1, sB2, sB3, sB4, sB5, sB6, sB7
 		dc.l sB8, sB9, sBA, sBB, sBC_, sBD, sBE, sBF
 		dc.l sC0, sC1, sC2, sC3, sC4, sC5, sC6, sC7
 		dc.l sC8, sC9, sCA, sCB, sCC_, sCD, sCE, sCF_
 
-mSpecialSFXList:dc.l sD0, sD1, sD2
+dSpecialSFXList:dc.l sD0, sD1, sD2
 sA0:		incbin "sound/sfx/A0.ssf"
 		even
 sA1:		incbin "sound/sfx/A1.ssf"
