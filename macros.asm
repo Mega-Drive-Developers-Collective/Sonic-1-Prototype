@@ -30,10 +30,10 @@ col		equ $20
 colprop		equ $21
 status		equ $22
 respawn		equ $23
-routine		equ $24
-routine2	equ $25
+act		equ $24
+subact		equ $25
 angle		equ $26
-subtype		equ $28
+arg		equ $28
 size		equ $40
 
 ; ---------------------------------------------------------------------------
