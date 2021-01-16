@@ -290,6 +290,7 @@
 723D0 levels/SLZ/Objects 3.unc
 72460 levels/SYZ/Objects 1.unc
 728BC levels/SYZ/Objects 2.unc
+729CA levels/SYZ/Objects 729CA.unc
 72D00 levels/SYZ/Objects 3.unc
 72D0C levels/SBZ/Objects 1.unc
 72D12 levels/SBZ/Objects 2.unc
