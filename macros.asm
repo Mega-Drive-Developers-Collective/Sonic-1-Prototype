@@ -1,9 +1,22 @@
-			opt ae-		; temporary!!!
 		include "tools/LANG.ASM"
 
 align		macro pos
 		dcb.b ((\pos)-(offset(*)%(\pos)))%(\pos),$FF
 	endm
+	
+; ---------------------------------------------------------------------------
+; Z80 macros
+; ---------------------------------------------------------------------------
+	
+stopZ80		macro
+		move.w	#$100,($A11100).l
+@waitZ80:	btst	#0,($A11100).l
+		bne.s	@waitZ80
+		endm
+		
+startZ80	macro
+		move.w	#0,($A11100).l
+		endm
 ; ---------------------------------------------------------------------------
 
 ; enum object, width 64 bytes

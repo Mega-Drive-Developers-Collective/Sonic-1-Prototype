@@ -467,11 +467,7 @@ sub_BB0:
 
 loc_BBA:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_BC6:
-		btst	#0,($A11100).l
-		bne.s	loc_BC6
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -508,7 +504,7 @@ loc_BC6:
 		move.b	#0,(unk_FFF767).w
 
 loc_C7A:
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
@@ -532,11 +528,7 @@ locret_CBA:
 
 loc_CBC:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_CC8:
-		btst	#0,($A11100).l
-		bne.s	loc_CC8
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -558,7 +550,7 @@ loc_CC8:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	sSpecialPalCyc
 		tst.b	(unk_FFF767).w
 		beq.s	loc_D7A
@@ -582,11 +574,7 @@ locret_D86:
 
 sub_D88:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_D94:
-		btst	#0,($A11100).l
-		bne.s	loc_D94
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -620,7 +608,7 @@ loc_D94:
 		move.b	#0,(unk_FFF767).w
 
 loc_E3A:
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	mapLevelLoad
 		jsr	sub_1128C
 		jsr	UpdateHUD
@@ -644,11 +632,7 @@ sub_E70:
 
 sub_E78:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_E84:
-		btst	#0,($A11100).l
-		bne.s	loc_E84
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -670,7 +654,7 @@ loc_E84:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -712,31 +696,23 @@ locret_F7E:
 ; ---------------------------------------------------------------------------
 
 padInit:
-		move.w	#$100,($A11100).l
-
-loc_F88:
-		btst	#0,($A11100).l
-		bne.s	loc_F88
+		stopZ80
 		moveq	#$40,d0
 		move.b	d0,($A10009).l
 		move.b	d0,($A1000B).l
 		move.b	d0,($A1000D).l
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
 padRead:
-		move.w	#$100,($A11100).l
-
-loc_FB8:
-		btst	#0,($A11100).l
-		bne.s	loc_FB8
+		stopZ80
 		lea	(padHeld1).w,a0
 		lea	($A10003).l,a1
 		bsr.s	sub_FDC
 		addq.w	#2,a1
 		bsr.s	sub_FDC
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -855,7 +831,7 @@ dacInit:
 		move.w	#$100,($A11200).l
 		lea	(Z80Driver).l,a0
 		lea	($A00000).l,a1
-		move.w	#$1C5B,d0
+		move.w	#(Z80Driver_End-Z80Driver)-1,d0
 
 loc_1156:
 		move.b	(a0)+,(a1)+
@@ -876,7 +852,7 @@ loc_1156:
 		nop
 		nop
 		move.w	#$100,($A11200).l
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 		dc.b 3
@@ -898,6 +874,8 @@ PlaySFX:
 		move.b	d0,(SoundMemory+$B).w
 		rts
 ; ---------------------------------------------------------------------------
+
+PlayUnk:
 		move.b	d0,(SoundMemory+$C).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -1093,7 +1071,7 @@ sub_1324:
 		move.b	(a0)+,d0
 
 loc_1326:
-		cmpi.b	#$FF,d0
+		cmpi.b	#-1,d0
 		bne.s	loc_132E
 		rts
 ; ---------------------------------------------------------------------------
@@ -23101,14 +23079,10 @@ dSoundPrioList:	dcb.b $1F,$80
 ; ---------------------------------------------------------------------------
 
 SoundSource:
-		move.w	#$100,($A11100).l
-
-@wait:
-		btst	#0,($A11100).l
-		bne.s	@wait
+		stopZ80
 		btst	#7,($A01FFD).l
 		beq.s	@rundriver
-		move.w	#0,($A11100).l
+		startZ80
 		nop
 		nop
 		nop
@@ -23203,7 +23177,7 @@ SoundSource:
 		jsr	dUpdatePSG(pc)
 
 dExit:
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -25379,7 +25353,7 @@ dcSSGEG:
 dOpSSGEG:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
 Z80Driver:	include "sound/Z80/DAC Driver.asm"
-		even
+Z80Driver_End:	even
 mGHZ:		incbin "sound/music/GHZ.ssf"
 		even
 mLZ:		incbin "sound/music/LZ.ssf"
