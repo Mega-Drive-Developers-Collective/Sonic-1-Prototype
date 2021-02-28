@@ -672,7 +672,7 @@ locret_F3A:
 		move.w	#$8405,($C00004).l
 		move.w	#$857C,($C00004).l
 		move.l	#$78000003,($C00004).l
-		lea	(byte_FFF800).w,a0
+		lea	(SprTableBuff).w,a0
 		lea	($C00000).l,a5
 		move.w	#$9F,d0
 
@@ -798,7 +798,7 @@ loc_10F6:
 		move.w	#$8F02,(a5)
 		move.l	#0,(dword_FFF616).w
 		move.l	#0,(dword_FFF61A).w
-		lea	(byte_FFF800).w,a1
+		lea	(SprTableBuff).w,a1
 		moveq	#0,d0
 		move.w	#$A0,d1
 
@@ -3138,7 +3138,7 @@ AnimBlocksMZ:	incbin "levels/MZ/Blocks Ani.unc"
 nullsub_3300:
 		rts
 ; ---------------------------------------------------------------------------
-		move.l	#$5E000002,($C00004).l
+		move.l	#$5E000002,($C00004).l		; leftover debug function
 		lea	(ArtText).l,a0
 		move.w	#$9F,d1
 		bsr.s	sub_3326
@@ -3424,7 +3424,7 @@ loc_3662:
 
 ssLoadBG:
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_639B8).l,a0
+		lea	(MapSSBG1).l,a0
 		move.w	#$4051,d0
 		bsr.w	EnigmaDec
 		move.l	#$50000001,d3
@@ -3473,7 +3473,7 @@ loc_36EA:
 		adda.w	#$80,a2
 		dbf	d7,loc_368C
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_6477C).l,a0
+		lea	(MapSSBG2).l,a0
 		move.w	#$4000,d0
 		bsr.w	EnigmaDec
 		lea	((Chunks)&$FFFFFF).l,a1
@@ -9514,7 +9514,7 @@ off_8796:	dc.l off_0, (CameraX)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFF
 ; ---------------------------------------------------------------------------
 
 ProcessMaps:
-		lea	(byte_FFF800).w,a2
+		lea	(SprTableBuff).w,a2
 		moveq	#0,d5
 		lea	(DisplayLists).w,a4
 		moveq	#7,d7
@@ -22209,15 +22209,15 @@ LevelDataArray:	dc.l ($4<<24)|TilesGHZ_2, ($5<<24)|BlocksGHZ, ChunksGHZ
 		dc.l ($E<<24)|TilesSBZ, ($F<<24)|BlocksSBZ, ChunksSBZ
 		dc.b 0, $86, 9, 9
 
-plcArray:	dc.w word_122A0-plcArray, word_122C0-plcArray, word_122D4-plcArray, plcGameOver-plcArray
+plcArray:	dc.w plcMain-plcArray, plcMain2-plcArray, plcExplosion-plcArray, plcGameOver-plcArray
 		dc.w plcGHZ1-plcArray, plzGHZ2-plcArray, plcLZ1-plcArray, plcLZ2-plcArray, plcMZ1-plcArray
 		dc.w plcMZ2-plcArray, plzSLZ1-plcArray, plcSLZ2-plcArray, plzSYZ1-plcArray, plcSYZ2-plcArray
 		dc.w plcSBZ1-plcArray, plcSBZ2-plcArray, plcTitleCards-plcArray, word_12484-plcArray
-		dc.w plcSignPosts-plcArray, plcFlash-plcArray, word_124A8-plcArray, word_1251C-plcArray
-		dc.w word_1252A-plcArray, word_12538-plcArray, word_12546-plcArray, word_12554-plcArray
-		dc.w word_12562-plcArray
+		dc.w plcSignPosts-plcArray, plcFlash-plcArray, plcSpecialStage-plcArray, plcGHZAnimals-plcArray
+		dc.w plcLZAnimals-plcArray, plcMZAnimals-plcArray, plcSLZAnimals-plcArray, plcSYZAnimals-plcArray
+		dc.w plcSBZAnimals-plcArray
 
-word_122A0:	dc.w 4
+plcMain:	dc.w 4
 		dc.l ArtSmoke
 		dc.w $F400
 		dc.l ArtHUD
@@ -22229,7 +22229,7 @@ word_122A0:	dc.w 4
 		dc.l byte_2E6C8
 		dc.w $F2E0
 
-word_122C0:	dc.w 2
+plcMain2:	dc.w 2
 		dc.l ArtMonitors
 		dc.w $D000
 		dc.l ArtShield
@@ -22237,7 +22237,7 @@ word_122C0:	dc.w 2
 		dc.l ArtInvinStars
 		dc.w $AB80
 
-word_122D4:	dc.w 0
+plcExplosion:	dc.w 0
 		dc.l ArtExplosions
 		dc.w $B400
 
@@ -22417,8 +22417,8 @@ plcFlash:	dc.w 0
 		dc.l ArtFlash
 		dc.w $A820
 
-word_124A8:	dc.w $B
-		dc.l byte_64A7C
+plcSpecialStage:dc.w $B
+		dc.l ArtBGMisc
 		dc.w 0
 		dc.l ArtSpecialAnimals
 		dc.w $A20
@@ -22442,7 +22442,7 @@ word_124A8:	dc.w $B
 		dc.w $9E00
 		dc.l ArtSpecialU
 		dc.w $AE00
-		dc.l ArtSpecialEmerald
+		dc.l ArtSpecialEmerald	; all these overwrite eachother
 		dc.w 0
 		dc.l ArtSpecialZone1
 		dc.w 0
@@ -22457,37 +22457,37 @@ word_124A8:	dc.w $B
 		dc.l ArtSpecialZone6
 		dc.w 0
 
-word_1251C:	dc.w 1
+plcGHZAnimals:	dc.w 1
 		dc.l ArtAnimalPocky
 		dc.w $B000
 		dc.l ArtAnimalCucky
 		dc.w $B240
 
-word_1252A:	dc.w 1
+plcLZAnimals:	dc.w 1
 		dc.l ArtAnimalPecky
 		dc.w $B000
 		dc.l ArtAnimalRocky
 		dc.w $B240
 
-word_12538:	dc.w 1
+plcMZAnimals:	dc.w 1
 		dc.l ArtAnimalPicky
 		dc.w $B000
 		dc.l ArtAnimalFlicky
 		dc.w $B240
 
-word_12546:	dc.w 1
+plcSLZAnimals:	dc.w 1
 		dc.l ArtAnimalRicky
 		dc.w $B000
 		dc.l ArtAnimalRocky
 		dc.w $B240
 
-word_12554:	dc.w 1
+plcSYZAnimals:	dc.w 1
 		dc.l ArtAnimalPicky
 		dc.w $B000
 		dc.l ArtAnimalCucky
 		dc.w $B240
 
-word_12562:	dc.w 1
+plcSBZAnimals:	dc.w 1
 		dc.l ArtAnimalPocky
 		dc.w $B000
 		dc.l ArtAnimalFlicky
@@ -22739,13 +22739,13 @@ byte_6307A:	dc.b 1
 		dc.b $F0, $F, 0, $E9, $F0
 ArtSpecialBlocks:incbin "screens/special stage/Art Blocks.nem"
 		even
-byte_639B8:	incbin "unknown/639B8.eni"
+MapSSBG1:	incbin "unknown/639B8.eni"
 		even
 ArtSpecialAnimals:incbin "screens/special stage/Art Animals.nem"
 		even
-byte_6477C:	incbin "unknown/6477C.eni"
+MapSSBG2:	incbin "unknown/6477C.eni"
 		even
-byte_64A7C:	incbin "screens/special stage/ss bg misc.nem"
+ArtBGMisc:	incbin "screens/special stage/ss bg misc.nem"
 		even
 ArtSpecialGoal:	incbin "screens/special stage/Art Goal.nem"
 		even
@@ -25624,7 +25624,7 @@ word_FFF64C:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF660:	ds.w 1
+word_FFF660:	ds.w 1		; unused, but cleared at the SEGA screen
 word_FFF662:	ds.w 1
 		ds.b 1
 		ds.b 1
@@ -25931,7 +25931,7 @@ unk_FFF7F0:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-byte_FFF800:	ds.b $280
+SprTableBuff:	ds.b $280
 		ds.b $80					; unused??
 Palette:	ds.b $80
 PaletteTarget:	ds.b $80
@@ -26055,8 +26055,8 @@ GHZSpikeTimer:	ds.b 1
 GHZSpikeFrame:	ds.b 1
 RingTimer:	ds.b 1
 RingFrame:	ds.b 1
-UnkTimer:	ds.b 1		; (look below)
-UnkFrame:	ds.b 1		; not sure what this would've been for, this is also in the final game and Sonic 2
+UnkTimer:	ds.b 1		; not sure what this would've been for,
+UnkFrame:	ds.b 1		; this is also in the final game and Sonic 2 where it's also unused
 RingLossTimer:	ds.b 1
 RingLossFrame:	ds.b 1
 RingLossAccumulator:ds.w 1
