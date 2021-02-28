@@ -39,18 +39,18 @@ off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l ErrorTrap, ErrorTrap
 		dc.b 'SEGA MEGA DRIVE '				; Console name
 		dc.b '(C)SEGA 1989.JAN'				; Copyright/release date
-		dc.b '                                                '; Domestic name
-		dc.b '                                                '; International name
+		dc.b '                                                '; Domestic name (blank)
+		dc.b '                                                '; International name (blank)
 		dc.b 'GM 00000000-00'				; Serial code
 
 Checksum:	dc.w 0
-		dc.b 'J               '				; I/O support
+		dc.b 'J               '				; I/O support (3-button joypad)
 
-dword_1A0:	dc.l 0, $7FFFF					; ROM region
+dword_1A0:	dc.l 0, $7FFFF					; ROM region (512 KB)
 		dc.l $FF0000, $FFFFFF				; RAM region
-		dc.b '                                                               '
+		dc.b '                                                               '	; SRAM/Modem support (none)
 		dc.b ' '
-		dc.b 'JU              '				; Region codes
+		dc.b 'JU              '				; Region codes (Japan and America)
 ; ---------------------------------------------------------------------------
 
 ErrorTrap:
@@ -125,7 +125,7 @@ loc_28E:
 		dbf	d5,loc_28E
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6
-		move	#$2700,sr
+		disable_ints
 		bra.s	loc_306
 ; ---------------------------------------------------------------------------
 
@@ -135,13 +135,15 @@ InitValues:	dc.l $8000, $3FFF, $100
 		dc.l $A11200					; Z80 reset
 		dc.l $C00000					; VDP data port
 		dc.l $C00004					; VDP command port
-		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81
+		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81	; VDP values
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
-		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77
+		
+		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77	; Z80 instructions
 		dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
 		dc.b 8, $D9, $F1, $C1, $D1, $E1, 8, $D9, $F1, $D1, $E1
 		dc.b $F9, $F3, $ED, $56, $36, $E9, $E9
-		dc.b $9F, $BF, $DF, $FF
+
+		dc.b $9F, $BF, $DF, $FF				; PSG volumes (1, 2, 3 and 4)
 ; ---------------------------------------------------------------------------
 
 loc_306:
@@ -182,9 +184,9 @@ loc_36A:
 		moveq	#0,d7
 		move.w	#$3F7F,d6
 
-loc_376:
+@clearRAM:
 		move.l	d7,(a6)+
-		dbf	d6,loc_376
+		dbf	d6,@clearRAM
 		bsr.w	vdpInit
 		bsr.w	dacInit
 		bsr.w	padInit
@@ -212,7 +214,7 @@ ScreensArray:
 ; ---------------------------------------------------------------------------
 
 ChecksumError:
-		bsr.w	vdpInit
+		bsr.w	vdpInit			; not used, same as the final game.
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
 
@@ -283,7 +285,7 @@ ErrorException:
 ; ---------------------------------------------------------------------------
 
 ErrorAddress:
-		move	#$2700,sr
+		disable_ints
 		addq.w	#2,sp
 		move.l	(sp)+,(byte_FFFC00+$40).w
 		addq.w	#2,sp
@@ -297,7 +299,7 @@ ErrorAddress:
 ; ---------------------------------------------------------------------------
 
 ErrorNormal:
-		move	#$2700,sr
+		disable_ints
 		movem.l	d0-a7,(byte_FFFC00).w
 		bsr.w	ErrorPrint
 		move.l	2(sp),d0
@@ -306,7 +308,7 @@ ErrorNormal:
 loc_472:
 		bsr.w	ErrorWaitInput
 		movem.l	(byte_FFFC00).w,d0-a7
-		move	#$2300,sr
+		enable_ints
 		rte
 ; ---------------------------------------------------------------------------
 
@@ -340,25 +342,15 @@ ErrorMessages:	dc.w strErrorException-ErrorMessages, strBusErr-ErrorMessages, st
 		dc.w strPrivilegeViol-ErrorMessages, strTrace-ErrorMessages, strLineAEmu-ErrorMessages, strLineFEmu-ErrorMessages
 
 strErrorException:dc.b 'ERROR EXCEPTION    '
-
 strBusErr:	dc.b 'BUS ERROR          '
-
 strAddressErr:	dc.b 'ADDRESS ERROR      '
-
 strIllegalInstr:dc.b 'ILLEGAL INSTRUCTION'
-
-strZeroDiv:	dc.b '@ERO DIVIDE        '
-
+strZeroDiv:	dc.b '@ERO DIVIDE        '	; @ is a Z in game
 strChkInstr:	dc.b 'CHK INSTRUCTION    '
-
 strTrapvInstr:	dc.b 'TRAPV INSTRUCTION  '
-
 strPrivilegeViol:dc.b 'PRIVILEGE VIOLATION'
-
 strTrace:	dc.b 'TRACE              '
-
 strLineAEmu:	dc.b 'LINE 1010 EMULATOR '
-
 strLineFEmu:	dc.b 'LINE 1111 EMULATOR '
 		even
 ; ---------------------------------------------------------------------------
@@ -404,23 +396,21 @@ vint:
 		move.w	($C00004).l,d0
 		move.l	#$40000010,($C00004).l
 		move.l	(dword_FFF616).w,($C00000).l
-		btst	#6,(ConsoleRegion).w
-		beq.s	loc_B3C
+		btst	#6,(ConsoleRegion).w	; is this a PAL machine?
+		beq.s	loc_B3C			; if not, continue
 		move.w	#$700,d0
-
-loc_B38:
-		dbf	d0,loc_B38
+		dbf	d0,*			; do some delay
 
 loc_B3C:
 		move.b	(VintRoutine).w,d0
 		move.b	#0,(VintRoutine).w
-		move.w	#1,(word_FFF648).w
+		move.w	#1,(HintFlag).w
 		andi.w	#$3E,d0
 		move.w	off_B6A(pc,d0.w),d0
 		jsr	off_B6A(pc,d0.w)
 
 loc_B58:
-		addq.l	#1,(unk_FFFE0C).w
+		addq.l	#1,(VintCounter).w
 		jsr	SoundSource
 		movem.l	(sp)+,d0-a6
 		rte
@@ -510,14 +500,14 @@ loc_C7A:
 		jsr	UpdateHUD
 		bsr.w	loc_1454
 		moveq	#0,d0
-		move.b	(byte_FFF628).w,d0
+		move.b	(VintECounter).w,d0
 		move.b	(byte_FFF629).w,d1
 		cmp.b	d0,d1
 		bcc.s	loc_CA8
 		move.b	d0,(byte_FFF629).w
 
 loc_CA8:
-		move.b	#0,(byte_FFF628).w
+		move.b	#0,(VintECounter).w
 		tst.w	(GlobalTimer).w
 		beq.w	locret_CBA
 		subq.w	#1,(GlobalTimer).w
@@ -620,7 +610,7 @@ sub_E58:
 		bsr.w	sub_E78
 		bsr.w	RunObjects
 		bsr.w	ProcessMaps
-		addq.b	#1,(byte_FFF628).w
+		addq.b	#1,(VintECounter).w
 		move.b	#$E,(VintRoutine).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -659,7 +649,7 @@ sub_E78:
 ; ---------------------------------------------------------------------------
 
 hint:
-		tst.w	(word_FFF648).w
+		tst.w	(HintFlag).w
 		beq.s	locret_F3A
 		move.l	a5,-(sp)
 		lea	($C00004).l,a5
@@ -670,15 +660,15 @@ hint:
 		move.w	#$80,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
 		movem.l	(sp)+,a5
-		move.w	#0,(word_FFF648).w
+		move.w	#0,(HintFlag).w
 
 locret_F3A:
 		rte
 ; ---------------------------------------------------------------------------
-		tst.w	(word_FFF648).w
+		tst.w	(HintFlag).w
 		beq.s	locret_F7E
 		movem.l	d0/a0/a5,-(sp)
-		move.w	#0,(word_FFF648).w
+		move.w	#0,(HintFlag).w
 		move.w	#$8405,($C00004).l
 		move.w	#$857C,($C00004).l
 		move.l	#$78000003,($C00004).l
@@ -855,7 +845,7 @@ loc_1156:
 		startZ80
 		rts
 ; ---------------------------------------------------------------------------
-		dc.b 3
+		dc.b 3				; ??
 		dc.b 0
 		dc.b 0
 		dc.b $14
@@ -944,11 +934,11 @@ NemesisDec:
 		lea	($C00000).l,a4
 		bra.s	loc_1252
 ; ---------------------------------------------------------------------------
-		movem.l	d0-a1/a3-a5,-(sp)
+		movem.l	d0-a1/a3-a5,-(sp)	; for RAM, not used
 		lea	(sub_130E).l,a3
 
 loc_1252:
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		move.w	(a0)+,d2
 		lsl.w	#1,d2
 		bcc.s	loc_1260
@@ -1182,7 +1172,7 @@ ProcessPLC:
 		bne.s	locret_1436
 		movea.l	(plcList).w,a0
 		lea	(sub_12F8).l,a3
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		move.w	(a0)+,d2
 		bpl.s	loc_1404
 		adda.w	#$A,a3
@@ -1241,7 +1231,7 @@ loc_146C:
 		move.l	(unk_FFF6EC).w,d2
 		move.l	(unk_FFF6F0).w,d5
 		move.l	(unk_FFF6F4).w,d6
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 
 loc_14A0:
 		movea.w	#8,a5
@@ -1522,7 +1512,7 @@ locret_1690:
 		rts
 ; ---------------------------------------------------------------------------
 
-KosinskiDec:
+KosinskiDec:				; only used for the chunks
 		subq.l	#2,sp
 		move.b	(a0)+,1(sp)
 		move.b	(a0)+,(sp)
@@ -1985,7 +1975,7 @@ palSpecial:	incbin "screens/special stage/Main.pal"
 ; ---------------------------------------------------------------------------
 
 vsync:
-		move	#$2300,sr
+		enable_ints
 
 @wait:
 		tst.b	(VintRoutine).w
@@ -2284,7 +2274,7 @@ loc_2710:
 		move.l	d0,(a1)+
 		dbf	d1,loc_2710
 		move.l	d0,(dword_FFF616).w
-		move	#$2700,sr
+		disable_ints
 		lea	($C00000).l,a6
 		move.l	#$60000003,($C00004).l
 		move.w	#$3FF,d1
@@ -2917,7 +2907,7 @@ word_2F48:	dc.w $158, $90
 		dc.w $138, $A8
 		dc.w $140, $A8
 ; ---------------------------------------------------------------------------
-		lea	(byte_FFAA00).w,a0
+		lea	(NemBuffer).w,a0
 		move.w	(word_FFF64C).w,d2
 		move.w	#$9100,d3
 		move.w	#$FF,d7
@@ -3260,11 +3250,11 @@ oscUpdateTable:	dc.w 2, $10
 ; ---------------------------------------------------------------------------
 
 UpdateTimers:
-		subq.b	#1,(unk_FFFEC0).w
+		subq.b	#1,(GHZSpikeTimer).w
 		bpl.s	loc_3464
-		move.b	#$B,(unk_FFFEC0).w
-		subq.b	#1,(unk_FFFEC1).w
-		andi.b	#7,(unk_FFFEC1).w
+		move.b	#$B,(GHZSpikeTimer).w
+		subq.b	#1,(GHZSpikeFrame).w
+		andi.b	#7,(GHZSpikeFrame).w
 
 loc_3464:
 		subq.b	#1,(RingTimer).w
@@ -3274,13 +3264,13 @@ loc_3464:
 		andi.b	#3,(RingFrame).w
 
 loc_347A:
-		subq.b	#1,(unk_FFFEC4).w
+		subq.b	#1,(UnkTimer).w
 		bpl.s	loc_3498
-		move.b	#7,(unk_FFFEC4).w
-		addq.b	#1,(unk_FFFEC5).w
-		cmpi.b	#6,(unk_FFFEC5).w
+		move.b	#7,(UnkTimer).w
+		addq.b	#1,(UnkFrame).w
+		cmpi.b	#6,(UnkFrame).w
 		bcs.s	loc_3498
-		move.b	#0,(unk_FFFEC5).w
+		move.b	#0,(UnkFrame).w
 
 loc_3498:
 		tst.b	(RingLossTimer).w
@@ -3367,7 +3357,7 @@ loc_3564:
 loc_3574:
 		move.l	d0,(a1)+
 		dbf	d1,loc_3574
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		moveq	#0,d0
 		move.w	#$7F,d1
 
@@ -3623,7 +3613,7 @@ loc_39DE:
 		neg.w	d0
 		swap	d0
 		lea	(byte_3A9A).l,a1
-		lea	(byte_FFAA00).w,a3
+		lea	(NemBuffer).w,a3
 		moveq	#9,d3
 
 loc_39F4:
@@ -3638,7 +3628,7 @@ loc_39F4:
 		ext.w	d2
 		add.w	d2,(a3)+
 		dbf	d3,loc_39F4
-		lea	(byte_FFAA00).w,a3
+		lea	(NemBuffer).w,a3
 		lea	(byte_3A86).l,a2
 		bra.s	loc_3A4C
 ; ---------------------------------------------------------------------------
@@ -6422,7 +6412,7 @@ loc_5854:
 ; ---------------------------------------------------------------------------
 
 sub_5860:
-		move.b	(unk_FFFEC1).w,d0
+		move.b	(GHZSpikeFrame).w,d0
 		move.b	#0,$20(a0)
 		add.b	$3E(a0),d0
 		andi.b	#7,d0
@@ -20146,29 +20136,29 @@ loc_109E0:
 		move.b	(RingFrame).w,1(a1)
 		addq.w	#8,a1
 		addq.w	#8,a1
-		subq.b	#1,(unk_FFFEC4).w
+		subq.b	#1,(UnkTimer).w
 		bpl.s	loc_10A02
-		move.b	#7,(unk_FFFEC4).w
+		move.b	#7,(UnkTimer).w
 		bra.s	loc_10A02
 ; ---------------------------------------------------------------------------
-		addq.b	#1,(unk_FFFEC5).w
-		andi.b	#1,(unk_FFFEC5).w
+		addq.b	#1,(UnkFrame).w
+		andi.b	#1,(UnkFrame).w
 
 loc_10A02:
-		move.b	(unk_FFFEC5).w,1(a1)
+		move.b	(UnkFrame).w,1(a1)
 		addq.w	#8,a1
-		move.b	(unk_FFFEC5).w,1(a1)
-		subq.b	#1,(unk_FFFEC0).w
+		move.b	(UnkFrame).w,1(a1)
+		subq.b	#1,(GHZSpikeTimer).w
 		bpl.s	loc_10A26
-		move.b	#7,(unk_FFFEC0).w
-		subq.b	#1,(unk_FFFEC1).w
-		andi.b	#3,(unk_FFFEC1).w
+		move.b	#7,(GHZSpikeTimer).w
+		subq.b	#1,(GHZSpikeFrame).w
+		andi.b	#3,(GHZSpikeFrame).w
 
 loc_10A26:
 		lea	((byte_FF402E)&$FFFFFF).l,a1
 		lea	(sSpecial_VRAMSet).l,a0
 		moveq	#0,d0
-		move.b	(unk_FFFEC1).w,d0
+		move.b	(GHZSpikeFrame).w,d0
 		add.w	d0,d0
 		lea	(a0,d0.w),a0
 		move.w	(a0),(a1)
@@ -21940,8 +21930,8 @@ loc_11E78:
 
 loc_11EA8:
 		bsr.w	sub_11FCE
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#1,(byte_FFFE0B).w
+		move.b	#$C,(DebugTimer).w
+		move.b	#1,(DebugSpeed).w
 
 loc_11EB8:
 		moveq	#0,d0
@@ -21961,25 +21951,25 @@ sub_11ED6:
 		bne.s	loc_11F0E
 		tst.b	(padHeld1).w
 		bne.s	loc_11EF6
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#$F,(byte_FFFE0B).w
+		move.b	#$C,(DebugTimer).w
+		move.b	#$F,(DebugSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_11EF6:
-		subq.b	#1,(byte_FFFE0A).w
+		subq.b	#1,(DebugTimer).w
 		bne.s	loc_11F12
-		move.b	#1,(byte_FFFE0A).w
-		addq.b	#1,(byte_FFFE0B).w
+		move.b	#1,(DebugTimer).w
+		addq.b	#1,(DebugSpeed).w
 		bne.s	loc_11F0E
-		move.b	#$FF,(byte_FFFE0B).w
+		move.b	#$FF,(DebugSpeed).w
 
 loc_11F0E:
 		move.b	(padHeld1).w,d4
 
 loc_11F12:
 		moveq	#0,d1
-		move.b	(byte_FFFE0B).w,d1
+		move.b	(DebugSpeed).w,d1
 		addq.w	#1,d1
 		swap	d1
 		asr.l	#4,d1
@@ -25505,7 +25495,7 @@ sD2:		incbin "sound/sfx/D2.ssf"
 ; Segment type: Regular
 ; segment "RAM"
 RAM		section bss, org($FFFF0000), size($10000)
-Chunks:		ds.b $80					; note to self: sort this out later
+Chunks:		ds.b $80	; level chunks
 byte_FF0080:	ds.b $880
 byte_FF0900:	ds.b $720
 byte_FF1020:	ds.b $70E
@@ -25517,16 +25507,16 @@ byte_FF400C:	ds.b $22
 byte_FF402E:	ds.b $3D2
 byte_FF4400:	ds.b $3C00
 byte_FF8000:	ds.b $2400
-Layout:		ds.b $400
+Layout:		ds.b $400	; level layout
 byte_FFA800:	ds.b $200
-byte_FFAA00:	ds.b $100
+NemBuffer:	ds.b $100	; used for the Nemesis decompressor
 byte_FFAB00:	ds.b $100
 DisplayLists:	ds.b $400
-Blocks:		ds.b $1800
+Blocks:		ds.b $1800	; level blocks
 SonicArtBuf:	ds.b $300
 SonicPosTable:	ds.b $100
 ScrollTable:	ds.b $400
-ObjectsList:	ds.b $40
+ObjectsList:	ds.b $40	; object RAM
 byte_FFD040:	ds.b $40
 byte_FFD080:	ds.b $40
 byte_FFD0C0:	ds.b $40
@@ -25559,8 +25549,8 @@ byte_FFD600:	ds.b $40
 		ds.b $40
 		ds.b $40
 LevelObjectsList:ds.b $1800
-SoundMemory:	ds.b $600
-GameMode:	ds.b 1
+SoundMemory:	ds.b $600	; used for the sound driver
+GameMode:	ds.b 1		; used for the screen modes
 		ds.b 1
 padHeldPlayer:	ds.b 1
 padPressPlayer:	ds.b 1
@@ -25587,7 +25577,7 @@ word_FFF620:	ds.w 1
 word_FFF622:	ds.w 1
 word_FFF624:	ds.w 1
 word_FFF626:	ds.w 1
-byte_FFF628:	ds.b 1
+VintECounter:	ds.b 1		; only used if the Vint is $0E (not used)
 byte_FFF629:	ds.b 1
 VintRoutine:	ds.b 1
 		ds.b 1
@@ -25600,7 +25590,7 @@ byte_FFF62C:	ds.b 1
 word_FFF632:	ds.w 1
 word_FFF634:	ds.w 1
 RandomSeed:	ds.l 1
-PauseFlag:	ds.w 1
+PauseFlag:	ds.w 1		; self explanatory
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -25612,7 +25602,7 @@ PauseFlag:	ds.w 1
 word_FFF644:	ds.w 1
 		ds.b 1
 		ds.b 1
-word_FFF648:	ds.w 1
+HintFlag:	ds.w 1		; used when the water palette should be transferred to the next horizontal interrupt
 		ds.b 1
 		ds.b 1
 word_FFF64C:	ds.w 1
@@ -25953,9 +25943,9 @@ LevelFrames:	ds.w 1
 byte_FFFE06:	ds.b 1
 		ds.b 1
 DebugRoutine:	ds.w 1
-byte_FFFE0A:	ds.b 1
-byte_FFFE0B:	ds.b 1
-unk_FFFE0C:	ds.b 1
+DebugTimer:	ds.b 1
+DebugSpeed:	ds.b 1
+VintCounter:	ds.b 1
 		ds.b 1
 		ds.b 1
 byte_FFFE0F:	ds.b 1
@@ -26061,12 +26051,12 @@ oscValues:	ds.b $42
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFFEC0:	ds.b 1
-unk_FFFEC1:	ds.b 1
+GHZSpikeTimer:	ds.b 1
+GHZSpikeFrame:	ds.b 1
 RingTimer:	ds.b 1
 RingFrame:	ds.b 1
-unk_FFFEC4:	ds.b 1
-unk_FFFEC5:	ds.b 1
+UnkTimer:	ds.b 1		; (look below)
+UnkFrame:	ds.b 1		; not sure what this would've been for, this is also in the final game and Sonic 2
 RingLossTimer:	ds.b 1
 RingLossFrame:	ds.b 1
 RingLossAccumulator:ds.w 1
@@ -26373,3 +26363,5 @@ ConsoleRegion:	ds.b 1
 word_FFFFFA:	ds.w 1
 ChecksumStr:	ds.l 1
 ; end of 'RAM'
+
+      	      	end
