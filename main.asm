@@ -482,7 +482,7 @@ loc_BBA:
 		move.w	#$7800,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_C7A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -491,7 +491,7 @@ loc_BBA:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_C7A:
 		startZ80
@@ -542,7 +542,7 @@ loc_CBC:
 		move.w	(word_FFF644).w,(a5)
 		startZ80
 		bsr.w	sSpecialPalCyc
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_D7A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -551,7 +551,7 @@ loc_CBC:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_D7A:
 		tst.w	(GlobalTimer).w
@@ -586,7 +586,7 @@ sub_D88:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_E3A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -595,7 +595,7 @@ sub_D88:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_E3A:
 		startZ80
@@ -1627,11 +1627,11 @@ PalCycGHZ:
 		lea	(word_186C).l,a0
 
 loc_1760:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1786
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	((Palette+$50)).w,a1
@@ -1645,11 +1645,11 @@ locret_1786:
 PalCycLZ:
 		rts
 ; ---------------------------------------------------------------------------
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_17B8
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_188C).l,a0
@@ -1669,17 +1669,17 @@ PalCycMZ:
 ; ---------------------------------------------------------------------------
 
 PalCycSLZ:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_17F6
-		move.w	#$F,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#$F,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		addq.w	#1,d0
 		cmpi.w	#6,d0
 		bcs.s	loc_17D6
 		moveq	#0,d0
 
 loc_17D6:
-		move.w	d0,(word_FFF632).w
+		move.w	d0,(PalCycOffset).w
 		move.w	d0,d1
 		add.w	d1,d1
 		add.w	d1,d0
@@ -1694,12 +1694,12 @@ locret_17F6:
 ; ---------------------------------------------------------------------------
 
 PalCycSYZ:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1846
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		move.w	d0,d1
-		addq.w	#1,(word_FFF632).w
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_1918).l,a0
@@ -1872,12 +1872,12 @@ loc_1A36:
 ; ---------------------------------------------------------------------------
 
 sub_1A3A:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1A68
-		move.w	#3,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#3,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		bmi.s	locret_1A68
-		subq.w	#2,(word_FFF632).w
+		subq.w	#2,(PalCycOffset).w
 		lea	(word_1A6A).l,a0
 		lea	((Palette+4)).w,a1
 		adda.w	d0,a0
@@ -2015,7 +2015,7 @@ GetSine:
 SineTable:	incbin "unsorted/sinetable.dat"
 		even
 ; ---------------------------------------------------------------------------
-		movem.l	d1-d2,-(sp)
+		movem.l	d1-d2,-(sp)	; garbage code
 		move.w	d0,d1
 		swap	d1
 		moveq	#0,d0
@@ -2135,7 +2135,7 @@ loc_24BC:
 		bsr.w	LoadPlaneMaps
 		moveq	#0,d0
 		bsr.w	PalLoadNormal
-		move.w	#$28,(word_FFF632).w
+		move.w	#$28,(PalCycOffset).w
 		move.w	#0,(word_FFF662).w
 		move.w	#0,(word_FFF660).w
 		move.w	#$B4,(GlobalTimer).w
@@ -9235,9 +9235,9 @@ loc_82CA:
 		bne.s	loc_82F8
 		move.b	#1,(byte_FFFE2E).w
 		move.w	#$4B0,(ObjectsList+$34).w
-		move.w	#$C00,(unk_FFF760).w
-		move.w	#$18,(unk_FFF762).w
-		move.w	#$80,(unk_FFF764).w
+		move.w	#$C00,(PlayerTopSpeed).w
+		move.w	#$18,(PlayerAccel).w
+		move.w	#$80,(PlayerDecel).w
 		move.w	#$E2,d0
 		jmp	(PlayMusic).l
 ; ---------------------------------------------------------------------------
@@ -16956,9 +16956,9 @@ loc_E830:
 		move.b	#2,$19(a0)
 		move.b	#$18,$18(a0)
 		move.b	#4,1(a0)
-		move.w	#$600,(unk_FFF760).w
-		move.w	#$C,(unk_FFF762).w
-		move.w	#$40,(unk_FFF764).w
+		move.w	#$600,(PlayerTopSpeed).w
+		move.w	#$C,(PlayerAccel).w
+		move.w	#$40,(PlayerDecel).w
 
 loc_E872:
 		andi.w	#$7FF,$C(a0)
@@ -17028,9 +17028,9 @@ loc_E91C:
 		beq.s	locret_E950
 		subq.w	#1,$34(a0)
 		bne.s	locret_E950
-		move.w	#$600,(unk_FFF760).w
-		move.w	#$C,(unk_FFF762).w
-		move.w	#$40,(unk_FFF764).w
+		move.w	#$600,(PlayerTopSpeed).w
+		move.w	#$C,(PlayerAccel).w
+		move.w	#$40,(PlayerDecel).w
 		move.b	#0,(byte_FFFE2E).w
 		move.w	#$E3,d0
 		jmp	(PlaySFX).l
@@ -17094,9 +17094,9 @@ loc_E9C6:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_Move:
-		move.w	(unk_FFF760).w,d6
-		move.w	(unk_FFF762).w,d5
-		move.w	(unk_FFF764).w,d4
+		move.w	(PlayerTopSpeed).w,d6
+		move.w	(PlayerAccel).w,d5
+		move.w	(PlayerDecel).w,d4
 		tst.w	$3E(a0)
 		bne.w	ObjSonic_LookUp
 		btst	#2,(padHeldPlayer).w
@@ -17363,11 +17363,11 @@ locret_EC60:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_RollSpeed:
-		move.w	(unk_FFF760).w,d6
+		move.w	(PlayerTopSpeed).w,d6
 		asl.w	#1,d6
-		move.w	(unk_FFF762).w,d5
+		move.w	(PlayerAccel).w,d5
 		asr.w	#1,d5
-		move.w	(unk_FFF764).w,d4
+		move.w	(PlayerDecel).w,d4
 		asr.w	#2,d4
 		tst.w	$3E(a0)
 		bne.s	loc_EC92
@@ -17462,8 +17462,8 @@ loc_ED38:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_ChgJumpDirection:
-		move.w	(unk_FFF760).w,d6
-		move.w	(unk_FFF762).w,d5
+		move.w	(PlayerTopSpeed).w,d6
+		move.w	(PlayerAccel).w,d5
 		asl.w	#1,d5
 		btst	#4,$22(a0)
 		bne.s	ObjSonic_ResetScroll2
@@ -18374,9 +18374,9 @@ loc_F5FA:
 ObjSonic_DynTiles:
 		moveq	#0,d0
 		move.b	$1A(a0),d0
-		cmp.b	(unk_FFF766).w,d0
+		cmp.b	(SonicLastDPLCID).w,d0
 		beq.s	locret_F744
-		move.b	d0,(unk_FFF766).w
+		move.b	d0,(SonicLastDPLCID).w
 		lea	(DynMapSonic).l,a2
 		add.w	d0,d0
 		adda.w	(a2,d0.w),a2
@@ -18385,7 +18385,7 @@ ObjSonic_DynTiles:
 		subq.b	#1,d1
 		bmi.s	locret_F744
 		lea	(SonicArtBuf).w,a3
-		move.b	#1,(unk_FFF767).w
+		move.b	#1,(SonicVRAMReset).w
 
 ObjSonic_DynReadEntry:
 		moveq	#0,d2
@@ -25587,8 +25587,8 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF632:	ds.w 1
-word_FFF634:	ds.w 1
+PalCycOffset:	ds.w 1
+PalCycWait:	ds.w 1
 RandomSeed:	ds.l 1
 PauseFlag:	ds.w 1		; self explanatory
 		ds.b 1
@@ -25774,14 +25774,11 @@ unk_FFF75C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF760:	ds.b 1
-		ds.b 1
-unk_FFF762:	ds.b 1
-		ds.b 1
-unk_FFF764:	ds.b 1
-		ds.b 1
-unk_FFF766:	ds.b 1
-unk_FFF767:	ds.b 1
+PlayerTopSpeed:	ds.w 1		; these and the next 2 are self-explanatory
+PlayerAccel:	ds.w 1
+PlayerDecel:	ds.w 1
+SonicLastDPLCID:ds.b 1		; previous DPLC frame for Sonic
+SonicVRAMReset:	ds.b 1		; for when Sonic's art needs to be updated in VRAM
 unk_FFF768:	ds.b 1
 		ds.b 1
 unk_FFF76A:	ds.b 1
