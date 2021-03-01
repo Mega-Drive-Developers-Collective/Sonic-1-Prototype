@@ -22,7 +22,6 @@
 ROM		section org(0)
 		include "macros.asm"
 ; ---------------------------------------------------------------------------
-
 		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l IllegalInstr, ZeroDiv, ChkInstr, TrapvInstr, PrivilegeViol
 		dc.l Trace, LineAEmu, LineFEmu, ErrorException, ErrorException
@@ -3991,9 +3990,9 @@ HScrollGHZ:
 		move.w	#$6F,d1
 		sub.w	d4,d1
 		move.w	(CameraX).w,d0
-		cmpi.b	#4,(GameMode).w
-		bne.s	loc_3EA8
-		moveq	#0,d0
+		cmpi.b	#4,(GameMode).w	; is the screen mode the title screen?
+		bne.s	loc_3EA8	; if not, branch
+		moveq	#0,d0		; prevent the emblem from moving
 
 loc_3EA8:
 		neg.w	d0
@@ -4122,22 +4121,9 @@ loc_3FCE:
 		move.w	(a2)+,d0
 
 loc_3FD0:
+	 	rept 16
 		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
+		endr
 		dbf	d1,loc_3FCE
 		rts
 ; ---------------------------------------------------------------------------
@@ -24709,8 +24695,8 @@ dCommands:
 ; ---------------------------------------------------------------------------
 		bra.w	dcFM3SM
 ; ---------------------------------------------------------------------------
-;dMeta:
-		moveq	#0,d0			; unused meta flag - only used for SSGEG
+dMeta:
+		moveq	#0,d0			; unused/unrefereced meta flag
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
 		jmp	@meta(pc,d0.w)
