@@ -43,7 +43,7 @@ ROM		section org(0)
 		dc.b '                                                '; International name (blank)
 		dc.b 'GM 00000000-00'				; Serial code
 
-Checksum:	dc.w 0
+Checksum:	dc.w 0                                          ; Checksum (incorrect, but it's not checked so not relevant)
 		dc.b 'J               '				; I/O support (3-button joypad)
 
 dword_1A0:	dc.l 0, $7FFFF					; ROM region (512 KB)
@@ -214,16 +214,14 @@ ScreensArray:
 ; ---------------------------------------------------------------------------
 
 ChecksumError:
-		bsr.w	vdpInit			; not used, same as the final game.
+		bsr.w	vdpInit			; not used, since the place where it'd branch to this is nop'd out
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
 
 loc_3C2:
 		move.w	#$E,($C00000).l
 		dbf	d7,loc_3C2
-
-loc_3CE:
-		bra.s	loc_3CE
+		bra.s	*
 ; ---------------------------------------------------------------------------
 
 BusErr:
@@ -496,7 +494,7 @@ loc_BBA:
 loc_C7A:
 		startZ80
 		bsr.w	mapLevelLoad
-		jsr	sub_1128C
+		jsr	ZoneAnimTiles
 		jsr	UpdateHUD
 		bsr.w	loc_1454
 		moveq	#0,d0
@@ -600,7 +598,7 @@ sub_D88:
 loc_E3A:
 		startZ80
 		bsr.w	mapLevelLoad
-		jsr	sub_1128C
+		jsr	ZoneAnimTiles
 		jsr	UpdateHUD
 		bsr.w	sub_1438
 		rts
@@ -665,7 +663,7 @@ hint:
 locret_F3A:
 		rte
 ; ---------------------------------------------------------------------------
-		tst.w	(HintFlag).w
+		tst.w	(HintFlag).w		; earlier version of hint?
 		beq.s	locret_F7E
 		movem.l	d0/a0/a5,-(sp)
 		move.w	#0,(HintFlag).w
@@ -2227,7 +2225,7 @@ loc_25D8:
 		bsr.w	palLoadFade
 		move.b	#$8A,d0
 		bsr.w	PlaySFX
-		move.b	#0,(word_FFFFFA).w
+		move.b	#0,(EditModeFlag).w
 		move.w	#$178,(GlobalTimer).w
 		move.b	#$E,(byte_FFD040).w
 		move.b	#$F,(byte_FFD080).w
@@ -2703,7 +2701,7 @@ loc_2D3A:
 		move.b	#$21,(byte_FFD040).w
 		btst	#6,(padHeld1).w
 		beq.s	loc_2D54
-		move.b	#1,(word_FFFFFA).w
+		move.b	#1,(EditModeFlag).w
 
 loc_2D54:
 		move.w	#0,(padHeldPlayer).w
@@ -3378,8 +3376,8 @@ loc_3584:
 		move.w	#$8AAF,(word_FFF624).w
 		move.w	#$9011,(a6)
 		bsr.w	sSpecialPalCyc
-		clr.w	(unk_FFF780).w
-		move.w	#$40,(unk_FFF782).w
+		clr.w	(SpecAngle).w
+		move.w	#$40,(SpecSpeed).w
 		move.w	#$89,d0
 		bsr.w	PlaySFX
 		move.w	#0,(unk_FFF790).w
@@ -3858,7 +3856,7 @@ StartPosArray:	incbin "levels/GHZ/Start 1.dat"
 		even
 
 SpecialChunkArray:
-		dc.b $B5, $7F, $1F, $20
+		dc.b $B5, $7F, $1F, $20		; loop, loop, S-tunnel, S-tunnel (set to $7F if you don't have such)
 		dc.b $7F, $7F, $7F, $7F
 		dc.b $7F, $7F, $7F, $7F
 		dc.b $B5, $A8, $7F, $7F
@@ -4102,7 +4100,7 @@ HScrollSLZ:
 		bsr.w	sub_4302
 		move.w	(unk_FFF70C).w,(dword_FFF616+2).w
 		bsr.w	sub_3FF6
-		lea	(byte_FFA800).w,a2
+		lea	(ScrollBuffer).w,a2
 		move.w	(unk_FFF70C).w,d0
 		move.w	d0,d2
 		subi.w	#$C0,d0
@@ -4145,7 +4143,7 @@ loc_3FD0:
 ; ---------------------------------------------------------------------------
 
 sub_3FF6:
-		lea	(byte_FFA800).w,a1
+		lea	(ScrollBuffer).w,a1
 		move.w	(CameraX).w,d2
 		neg.w	d2
 		move.w	d2,d0
@@ -16963,7 +16961,7 @@ loc_E830:
 loc_E872:
 		andi.w	#$7FF,$C(a0)
 		andi.w	#$7FF,(CameraY).w
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		beq.s	loc_E892
 		btst	#4,(padPressPlayer).w
 		beq.s	loc_E892
@@ -18810,7 +18808,7 @@ loc_FD68:
 ; ---------------------------------------------------------------------------
 
 loc_FD72:
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		bne.s	loc_FD18
 
 loc_FD78:
@@ -20001,7 +19999,7 @@ sSpecial_ShowLayout:
 		bsr.w	sSpecial_AniItems
 		move.w	d5,-(sp)
 		lea	(byte_FF8000).w,a1
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		jsr	(GetSine).l
 		move.w	d0,d4
@@ -20117,7 +20115,7 @@ loc_109A6:
 sSpecial_AniWallsandRings:
 		lea	((byte_FF400C)&$FFFFFF).l,a1
 		moveq	#0,d0
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		lsr.b	#2,d0
 		andi.w	#$F,d0
 		moveq	#$F,d1
@@ -20453,22 +20451,22 @@ loc_10D48:
 		bsr.w	sub_10ECE
 		btst	#6,(padHeld1).w
 		beq.s	loc_10D66
-		subq.w	#2,(unk_FFF782).w
+		subq.w	#2,(SpecSpeed).w
 
 loc_10D66:
 		btst	#4,(padHeld1).w
 		beq.s	loc_10D72
-		addq.w	#2,(unk_FFF782).w
+		addq.w	#2,(SpecSpeed).w
 
 loc_10D72:
 		btst	#7,(padPress1).w
 		beq.s	loc_10D80
-		move.w	#0,(unk_FFF782).w
+		move.w	#0,(SpecSpeed).w
 
 loc_10D80:
-		move.w	(unk_FFF780).w,d0
-		add.w	(unk_FFF782).w,d0
-		move.w	d0,(unk_FFF780).w
+		move.w	(SpecAngle).w,d0
+		add.w	(SpecSpeed).w,d0
+		move.w	d0,(SpecAngle).w
 		jsr	ObjSonic_Animate
 		rts
 ; ---------------------------------------------------------------------------
@@ -20508,7 +20506,7 @@ loc_10DD8:
 		move.w	d0,$14(a0)
 
 loc_10DDC:
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		neg.b	d0
@@ -20591,7 +20589,7 @@ sub_10E8A:
 		move.b	(padPressPlayer).w,d0
 		andi.b	#$20,d0
 		beq.s	locret_10ECC
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		neg.b	d0
 		subi.b	#$40,d0
@@ -20631,18 +20629,18 @@ locret_10EF6:
 ; ---------------------------------------------------------------------------
 
 loc_10EF8:
-		addi.w	#$40,(unk_FFF782).w
-		cmpi.w	#$3000,(unk_FFF782).w
+		addi.w	#$40,(SpecSpeed).w
+		cmpi.w	#$3000,(SpecSpeed).w
 		blt.s	loc_10F1C
-		move.w	#0,(unk_FFF782).w
-		move.w	#$4000,(unk_FFF780).w
+		move.w	#0,(SpecSpeed).w
+		move.w	#$4000,(SpecAngle).w
 		addq.b	#2,$24(a0)
 		move.w	#$12C,$38(a0)
 
 loc_10F1C:
-		move.w	(unk_FFF780).w,d0
-		add.w	(unk_FFF782).w,d0
-		move.w	d0,(unk_FFF780).w
+		move.w	(SpecAngle).w,d0
+		add.w	(SpecSpeed).w,d0
+		move.w	d0,(SpecAngle).w
 		bsr.w	ObjSonic_Animate
 		jsr	ObjSonic_DynTiles
 		bsr.w	sub_10ECE
@@ -20652,8 +20650,8 @@ loc_10F1C:
 loc_10F3C:
 		subq.w	#1,$38(a0)
 		bne.s	loc_10F66
-		clr.w	(unk_FFF780).w
-		move.w	#$40,(unk_FFF782).w
+		clr.w	(SpecAngle).w
+		move.w	#$40,(SpecSpeed).w
 		move.w	#$458,(ObjectsList+8).w
 		move.w	#$4A0,(ObjectsList+$C).w
 		clr.b	$24(a0)
@@ -20671,7 +20669,7 @@ loc_10F66:
 sub_10F7C:
 		move.l	$C(a0),d2
 		move.l	8(a0),d3
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		jsr	(GetSine).l
 		move.w	$10(a0),d4
@@ -20893,14 +20891,14 @@ loc_11182:
 		tst.b	$36(a0)
 		bne.s	locret_111C0
 		move.b	#$1E,$36(a0)
-		btst	#6,(unk_FFF783).w
+		btst	#6,(SpecSpeed+1).w
 		beq.s	loc_111A2
-		asl	(unk_FFF782).w
+		asl	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_111A2:
-		asr	(unk_FFF782).w
+		asr	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -20910,7 +20908,7 @@ loc_111A8:
 		tst.b	$37(a0)
 		bne.s	locret_111C0
 		move.b	#$1E,$37(a0)
-		neg.w	(unk_FFF782).w
+		neg.w	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -20997,7 +20995,7 @@ loc_11286:
 		jmp	ObjectDelete
 ; ---------------------------------------------------------------------------
 
-sub_1128C:
+ZoneAnimTiles:
 		tst.w	(PauseFlag).w
 		bmi.s	locret_112A8
 		lea	($C00000).l,a6
@@ -21030,7 +21028,7 @@ loc_112B8:
 loc_112DC:
 		move.l	#$6F000001,($C00004).l
 		move.w	#7,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 loc_112EE:
@@ -21047,7 +21045,7 @@ loc_112EE:
 loc_11312:
 		move.l	#$6B800001,($C00004).l
 		move.w	#$F,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 loc_11324:
@@ -21071,7 +21069,7 @@ loc_1134C:
 		lea	(byte_6B618).l,a1
 		lea	(a1,d0.w),a1
 		move.w	#$B,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 
 locret_11370:
 		rts
@@ -21098,7 +21096,7 @@ loc_11398:
 		adda.w	d0,a1
 		move.l	#$5C400001,($C00004).l
 		move.w	#7,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 
 loc_113B4:
 		subq.b	#1,(unk_FFF7B3).w
@@ -21149,7 +21147,7 @@ loc_11436:
 		adda.w	d0,a1
 		move.l	#$5D400001,($C00004).l
 		move.w	#7,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 		lea	(byte_6C998).l,a1
 		moveq	#0,d0
 		move.b	(unk_FFF7B6).w,d0
@@ -21159,7 +21157,7 @@ loc_11436:
 		adda.w	d0,a1
 		move.l	#$5E400001,($C00004).l
 		move.w	#5,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 locret_11480:
@@ -21170,7 +21168,7 @@ locret_11482:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_11484:
+LoadAnimTiles:
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
@@ -21179,7 +21177,7 @@ sub_11484:
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
-		dbf	d1,sub_11484
+		dbf	d1,LoadAnimTiles
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -21329,14 +21327,14 @@ loc_115C6:
 ObjHUD:
 		moveq	#0,d0
 		move.b	$24(a0),d0
-		move.w	off_115EA(pc,d0.w),d1
-		jmp	off_115EA(pc,d1.w)
+		move.w	ObjHUD_Index(pc,d0.w),d1
+		jmp	ObjHUD_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
 
-off_115EA:	dc.w loc_115EE-off_115EA, loc_11618-off_115EA
+ObjHUD_Index:	dc.w ObjHUD_Init-ObjHUD_Index, ObjHUD_Display-ObjHUD_Index
 ; ---------------------------------------------------------------------------
 
-loc_115EE:
+ObjHUD_Init:
 		addq.b	#2,act(a0)
 		move.w	#$90,xpos(a0)
 		move.w	#$108,xpix(a0)
@@ -21345,7 +21343,7 @@ loc_115EE:
 		move.b	#0,render(a0)
 		move.b	#0,prio(a0)
 
-loc_11618:
+ObjHUD_Display:
 		jmp	ObjectDisplay
 ; ---------------------------------------------------------------------------
 		include "levels/shared/HUD/Sprite.map"
@@ -21374,7 +21372,7 @@ locret_11678:
 ; ---------------------------------------------------------------------------
 
 UpdateHUD:
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		bne.w	loc_11746
 		tst.b	(byte_FFFE1F).w
 		beq.s	loc_1169A
@@ -25460,7 +25458,7 @@ byte_FF402E:	ds.b $3D2
 byte_FF4400:	ds.b $3C00
 byte_FF8000:	ds.b $2400
 Layout:		ds.b $400	; level layout
-byte_FFA800:	ds.b $200
+ScrollBuffer:	ds.b $200
 NemBuffer:	ds.b $100	; used for the Nemesis decompressor
 byte_FFAB00:	ds.b $100
 DisplayLists:	ds.b $400
@@ -25755,10 +25753,8 @@ unk_FFF77C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF780:	ds.b 1
-		ds.b 1
-unk_FFF782:	ds.b 1
-unk_FFF783:	ds.b 1
+SpecAngle:	ds.w 1
+SpecSpeed:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -26309,7 +26305,7 @@ DemoNum:	ds.w 1
 		ds.b 1
 ConsoleRegion:	ds.b 1
 		ds.b 1
-word_FFFFFA:	ds.w 1
+EditModeFlag:	ds.w 1
 ChecksumStr:	ds.l 1
 ; end of 'RAM'
 
