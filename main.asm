@@ -23,7 +23,7 @@ ROM		section org(0)
 		include "macros.asm"
 ; ---------------------------------------------------------------------------
 
-off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
+		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l IllegalInstr, ZeroDiv, ChkInstr, TrapvInstr, PrivilegeViol
 		dc.l Trace, LineAEmu, LineFEmu, ErrorException, ErrorException
 		dc.l ErrorException, ErrorException, ErrorException, ErrorException
@@ -137,7 +137,7 @@ InitValues:	dc.l $8000, $3FFF, $100
 		dc.l $C00004					; VDP command port
 		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81	; VDP values
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
-		
+
 		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77	; Z80 instructions
 		dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
 		dc.b 8, $D9, $F1, $C1, $D1, $E1, 8, $D9, $F1, $D1, $E1
@@ -9510,7 +9510,7 @@ ObjectDeleteA1:
 		rts
 ; ---------------------------------------------------------------------------
 
-off_8796:	dc.l off_0, (CameraX)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFFFFF
+off_8796:	dc.l 0, (CameraX)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFFFFF
 ; ---------------------------------------------------------------------------
 
 ProcessMaps:
@@ -21558,14 +21558,9 @@ loc_11846:
 loc_11856:
 		lsl.w	#5,d2
 		lea	(a1,d2.w),a3
+		rept 8
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 		swap	d1
 		dbf	d6,loc_11846
 		rts
@@ -21608,22 +21603,9 @@ loc_118A2:
 		lsl.w	#6,d2
 		move.l	d0,4(a6)
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_118D0:
 		addi.l	#$400000,d0
@@ -21678,22 +21660,9 @@ loc_11922:
 		lsl.w	#6,d2
 		move.l	d0,4(a6)
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 		addi.l	#$400000,d0
 		dbf	d6,loc_1190C
 		rts
@@ -21727,22 +21696,9 @@ loc_1197C:
 		beq.s	loc_119AC
 		lsl.w	#6,d2
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_119A6:
 		dbf	d6,loc_11966
@@ -21792,14 +21748,9 @@ loc_119EE:
 loc_119F2:
 		lsl.w	#5,d2
 		lea	(a1,d2.w),a3
+		rept 8
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_11A08:
 		addi.l	#$400000,d0
@@ -22051,10 +22002,10 @@ sub_11FCE:
 		rts
 ; ---------------------------------------------------------------------------
 
-DebugLists:	dc.w word_11FF6-DebugLists, word_12060-DebugLists, word_1207A-DebugLists, word_12104-DebugLists
-		dc.w word_1216E-DebugLists, word_121D8-DebugLists
+DebugLists:	dc.w DebugList_GHZ-DebugLists, DebugList_LZ-DebugLists, DebugList_MZ-DebugLists, DebugList_SLZ-DebugLists
+		dc.w DebugList_SYZ-DebugLists, DebugList_SBZ-DebugLists
 
-word_11FF6:	dc.w $D
+DebugList_GHZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22082,7 +22033,7 @@ word_11FF6:	dc.w $D
 		dc.l ($19<<24)|MapRollingBall
 		dc.b 0, 0, $43, $AA
 
-word_12060:	dc.w 3
+DebugList_LZ:	dc.w 3
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22090,7 +22041,7 @@ word_12060:	dc.w 3
 		dc.l ($1F<<24)|MapCrabmeat
 		dc.b 0, 0, 4, 0
 
-word_1207A:	dc.w $11
+DebugList_MZ:	dc.w $11
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22126,7 +22077,7 @@ word_1207A:	dc.w $11
 		dc.l ($55<<24)|MapBasaran
 		dc.b 0, 0, $24, $B8
 
-word_12104:	dc.w $D
+DebugList_SLZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22154,7 +22105,7 @@ word_12104:	dc.w $D
 		dc.l ($22<<24)|MapBuzzbomber
 		dc.b 0, 0, 4, $44
 
-word_1216E:	dc.w $D
+DebugList_SYZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22182,7 +22133,7 @@ word_1216E:	dc.w $D
 		dc.l ($32<<24)|MapSwitch
 		dc.b 0, 0, 5, $13
 
-word_121D8:	dc.w 3
+DebugList_SBZ:	dc.w 3
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -23024,7 +22975,7 @@ dVolEnvPtr:	dc.l dVolEnvList
 
 dSpeedTempos:	dc.l dSpeedTempoList
 
-dVolEnvList:	dc.l vd01, vd02, vd03, vd04, vd05, v06, v07, vd08, vd09
+dVolEnvList:	dc.l vd01, vd02, vd03, vd04, vd05, vd06, vd07, vd08, vd09
 
 vd01:		dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
 		dc.b 5, 6, 6, 6, 7, $83
@@ -23035,13 +22986,13 @@ vd03:		dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
 
 vd04:		dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
 
-v06:		dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
+vd06:		dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
 
 vd05:		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
 		dc.b 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3
 		dc.b 3, 3, 3, 3, 3, 3, 4, $83
 
-v07:		dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
+vd07:		dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 4, 4, 4, 5, 5, 5, 6, 7, $83
 
 vd08:		dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
@@ -23239,7 +23190,7 @@ dUpdateFM:
 		bclr	#4,(a5)
 		jsr	dTrackerFM(pc)
 		jsr	dUpdateFreqFM(pc)
-		jsr	sPanAniInit(pc)
+		jsr	dPanAniInit(pc)
 		bra.w	dNoteOnFM
 ; ---------------------------------------------------------------------------
 
@@ -23455,7 +23406,7 @@ dUpdateFreqFM_FM3SM:
 		dc.b $A6, $A2
 ; ---------------------------------------------------------------------------
 
-sPanAniInit:
+dPanAniInit:
 		btst	#1,(a5)
 		bne.s	@tables
 		moveq	#0,d0
@@ -23467,14 +23418,14 @@ sPanAniInit:
 @tables:
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Reset
+		bra.s	dPanAni_Reset
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Reset
+		bra.s	dPanAni_Reset
 ; ---------------------------------------------------------------------------
 
-sPanAni:
+dPanAni:
 		btst	#1,(a5)
 		bne.s	@table
 		moveq	#0,d0
@@ -23488,16 +23439,16 @@ sPanAni:
 ; ---------------------------------------------------------------------------
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
 
-sPanAni_Reset:
+dPanAni_Reset:
 		move.b	$23(a5),$24(a5)
 		clr.b	$21(a5)
 
-sPanAni_Cont:
+dPanAni_Cont:
 		move.b	$24(a5),d0
 		cmp.b	$23(a5),d0
 		bne.s	loc_7457E
@@ -23517,7 +23468,7 @@ loc_7457E:
 		move.b	$20(a5),d0
 		subq.w	#1,d0
 		lsl.w	#2,d0
-		movea.l	sPanAniTable(pc,d0.w),a0
+		movea.l	dPanAniTable(pc,d0.w),a0
 		moveq	#0,d0
 		move.b	$21(a5),d0
 		subq.w	#1,d0
@@ -23533,7 +23484,7 @@ locret_745AE:
 		rts
 ; ---------------------------------------------------------------------------
 
-sPanAniTable:	dc.l pd01, pd02, pd03
+dPanAniTable:	dc.l pd01, pd02, pd03
 
 pd01:		dc.b $40, $80
 
@@ -23992,8 +23943,7 @@ dMusicChanTbl:	dc.l (SoundMemory+$D0)&$FFFFFF, 0, (SoundMemory+$100)&$FFFFFF
 		dc.l (SoundMemory+$130)&$FFFFFF, (SoundMemory+$190)&$FFFFFF, (SoundMemory+$1C0)&$FFFFFF
 		dc.l (SoundMemory+$1F0)&$FFFFFF, (SoundMemory+$1F0)&$FFFFFF
 
-dSFXChanTbl:
-		dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
+dSFXChanTbl:	dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
 		dc.l (SoundMemory+$280)&$FFFFFF, (SoundMemory+$2B0)&$FFFFFF, (SoundMemory+$2E0)&$FFFFFF
 		dc.l (SoundMemory+$310)&$FFFFFF, (SoundMemory+$310)&$FFFFFF
 ; ---------------------------------------------------------------------------
@@ -24761,7 +24711,8 @@ dCommands:
 ; ---------------------------------------------------------------------------
 		bra.w	dcFM3SM
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0
+;dMeta:
+		moveq	#0,d0			; unused meta flag - only used for SSGEG
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
 		jmp	@meta(pc,d0.w)
@@ -25344,6 +25295,7 @@ dOpSSGEG:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
 Z80Driver:	include "sound/Z80/DAC Driver.asm"
 Z80Driver_End:	even
+		include "sound/smps2asm.asm"
 mGHZ:		incbin "sound/music/GHZ.ssf"
 		even
 mLZ:		incbin "sound/music/LZ.ssf"
