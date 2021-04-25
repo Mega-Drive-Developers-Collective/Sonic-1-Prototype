@@ -52,7 +52,7 @@ WaitDACLoop:
 		ld	de, 0
 		ld	iy, 160h
 		cp	6
-		jr	c, loc_73
+		jrc	loc_73
 		ld	(1FF7h), a
 		ld	(1FF6h), a
 		ld	iy, (1FF8h)
