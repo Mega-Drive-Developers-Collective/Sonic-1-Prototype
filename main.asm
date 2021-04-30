@@ -728,7 +728,7 @@ sub_FDC:
 vdpInit:
 		lea	($C00004).l,a0
 		lea	($C00000).l,a1
-		lea	($1080).l,a2
+		lea	(vdpInitRegs).l,a2
 		moveq	#$12,d7
 
 loc_101E:
