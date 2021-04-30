@@ -25538,7 +25538,7 @@ PauseFlag:	ds.w 1		; self explanatory
 word_FFF644:	ds.w 1
 		ds.b 1
 		ds.b 1
-HintFlag:	ds.w 1		; used when the water palette should be transferred to the next horizontal interrupt
+HintFlag:	ds.w 1		; used when the palette should be transferred to the next horizontal interrupt
 		ds.b 1
 		ds.b 1
 word_FFF64C:	ds.w 1
@@ -25588,32 +25588,13 @@ LevSelSound:	ds.w 1
 		ds.b 1
 		ds.b 1
 plcList:	ds.b $60
-unk_FFF6E0:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6E4:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6E8:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6EC:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F0:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F4:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F8:	ds.b 1
-		ds.b 1
+unk_FFF6E0:	ds.l 1
+unk_FFF6E4:	ds.l 1
+unk_FFF6E8:	ds.l 1
+unk_FFF6EC:	ds.l 1
+unk_FFF6F0:	ds.l 1
+unk_FFF6F4:	ds.l 1
+unk_FFF6F8:	ds.w 1
 unk_FFF6FA:	ds.b 1
 		ds.b 1
 		ds.b 1
@@ -25622,62 +25603,30 @@ unk_FFF6FA:	ds.b 1
 		ds.b 1
 CameraX:	ds.l 1
 CameraY:	ds.l 1
-unk_FFF708:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF70C:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF710:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF714:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF718:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF71C:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF720:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF724:	ds.b 1
-		ds.b 1
-unk_FFF726:	ds.b 1
-		ds.b 1
-unk_FFF728:	ds.b 1
-		ds.b 1
-unk_FFF72A:	ds.b 1
-		ds.b 1
-unk_FFF72C:	ds.b 1
-		ds.b 1
-unk_FFF72E:	ds.b 1
-		ds.b 1
-unk_FFF730:	ds.b 1
-		ds.b 1
-unk_FFF732:	ds.b 1
+unk_FFF708:	ds.l 1
+unk_FFF70C:	ds.l 1
+unk_FFF710:	ds.l 1
+unk_FFF714:	ds.l 1
+unk_FFF718:	ds.l 1
+unk_FFF71C:	ds.l 1
+unk_FFF720:	ds.l 1
+unk_FFF724:	ds.w 1
+unk_FFF726:	ds.w 1
+unk_FFF728:	ds.w 1
+unk_FFF72A:	ds.w 1
+unk_FFF72C:	ds.w 1
+unk_FFF72E:	ds.w 1
+unk_FFF730:	ds.w 1
+unk_FFF732:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-		ds.b 1
-unk_FFF73A:	ds.b 1
-		ds.b 1
-unk_FFF73C:	ds.b 1
-		ds.b 1
-unk_FFF73E:	ds.b 1
-		ds.b 1
+unk_FFF73A:	ds.w 1
+unk_FFF73C:	ds.w 1
+unk_FFF73E:	ds.w 1
 unk_FFF740:	ds.b 1
 unk_FFF741:	ds.b 1
 EventsRoutine:	ds.b 1
@@ -25698,12 +25647,9 @@ unk_FFF74E:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF754:	ds.b 1
-		ds.b 1
-unk_FFF756:	ds.b 1
-		ds.b 1
-unk_FFF758:	ds.b 1
-		ds.b 1
+unk_FFF754:	ds.w 1
+unk_FFF756:	ds.w 1
+unk_FFF758:	ds.w 1
 		ds.b 1
 		ds.b 1
 unk_FFF75C:	ds.b 1
@@ -25753,25 +25699,18 @@ SpecSpeed:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF790:	ds.b 1
-		ds.b 1
+unk_FFF790:	ds.w 1
 unk_FFF792:	ds.b 1
 		ds.b 1
-unk_FFF794:	ds.b 1
-		ds.b 1
+unk_FFF794:	ds.w 1
 Collision:	ds.l 1
-unk_FFF79A:	ds.b 1
-		ds.b 1
-unk_FFF79C:	ds.b 1
-		ds.b 1
-unk_FFF79E:	ds.b 1
-		ds.b 1
-unk_FFF7A0:	ds.b 1
+unk_FFF79A:	ds.w 1
+unk_FFF79C:	ds.w 1
+unk_FFF79E:	ds.w 1
+unk_FFF7A0:	ds.w 1
 		ds.b 1
 		ds.b 1
-		ds.b 1
-unk_FFF7A4:	ds.b 1
-		ds.b 1
+unk_FFF7A4:	ds.w 1
 		ds.b 1
 unk_FFF7A7:	ds.b 1
 unk_FFF7A8:	ds.b 1
