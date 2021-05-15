@@ -12,7 +12,7 @@ Research disassembly of the Sonic 1 prototype that was released by Hidden Palace
 * All sound related data is in the sound folder, levels has both level data and level related objects, screens has most data to do with the SEGA screen, title screen and Special Stage
 * SONLVL folder has all the sonlvl related data, which allows you to edit levels with the SONLVL program
 * unknown and unsorted has various misc files that have yet not been relocated or identified.
-* tools folder has a few different things. Usually for hacking you don't need to touch this. Just be aware to not delete this folder.
+* tools folder has a few different things. Usually for hacking you don't need to touch this. Just be aware to not delete this folder, since it contains what you need to build the ROM.
 * diff.bat, test.bat, process.bat and split.bat are not needed after initially running split.bat!
 
 ## Credits

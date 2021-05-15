@@ -22,8 +22,7 @@
 ROM		section org(0)
 		include "macros.asm"
 ; ---------------------------------------------------------------------------
-
-off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
+		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l IllegalInstr, ZeroDiv, ChkInstr, TrapvInstr, PrivilegeViol
 		dc.l Trace, LineAEmu, LineFEmu, ErrorException, ErrorException
 		dc.l ErrorException, ErrorException, ErrorException, ErrorException
@@ -39,18 +38,18 @@ off_0:		dc.l (StackPointer)&$FFFFFF, GameInit, BusErr, AddressErr
 		dc.l ErrorTrap, ErrorTrap
 		dc.b 'SEGA MEGA DRIVE '				; Console name
 		dc.b '(C)SEGA 1989.JAN'				; Copyright/release date
-		dc.b '                                                '; Domestic name
-		dc.b '                                                '; International name
+		dc.b '                                                '; Domestic name (blank)
+		dc.b '                                                '; International name (blank)
 		dc.b 'GM 00000000-00'				; Serial code
 
-Checksum:	dc.w 0
-		dc.b 'J               '				; I/O support
+Checksum:	dc.w 0                                          ; Checksum (incorrect, but it's not checked so not relevant)
+		dc.b 'J               '				; I/O support (3-button joypad)
 
-dword_1A0:	dc.l 0, $7FFFF					; ROM region
+dword_1A0:	dc.l 0, $7FFFF					; ROM region (512 KB)
 		dc.l $FF0000, $FFFFFF				; RAM region
-		dc.b '                                                               '
+		dc.b '                                                               '	; SRAM/Modem support (none)
 		dc.b ' '
-		dc.b 'JU              '				; Region codes
+		dc.b 'JU              '				; Region codes (Japan and America)
 ; ---------------------------------------------------------------------------
 
 ErrorTrap:
@@ -125,7 +124,7 @@ loc_28E:
 		dbf	d5,loc_28E
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6
-		move	#$2700,sr
+		disable_ints
 		bra.s	loc_306
 ; ---------------------------------------------------------------------------
 
@@ -135,13 +134,15 @@ InitValues:	dc.l $8000, $3FFF, $100
 		dc.l $A11200					; Z80 reset
 		dc.l $C00000					; VDP data port
 		dc.l $C00004					; VDP command port
-		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81
+		dc.b 4, $14, $30, $3C, 7, $6C, 0, 0, 0, 0, $FF, 0, $81	; VDP values
 		dc.b $37, 0, 1, 1, 0, 0, $FF, $FF, 0, 0, $80
-		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77
+
+		dc.b $AF, 1, $D7, $1F, $11, $29, 0, $21, $28, 0, $F9, $77	; Z80 instructions
 		dc.b $ED, $B0, $DD, $E1, $FD, $E1, $ED, $47, $ED, $4F
 		dc.b 8, $D9, $F1, $C1, $D1, $E1, 8, $D9, $F1, $D1, $E1
 		dc.b $F9, $F3, $ED, $56, $36, $E9, $E9
-		dc.b $9F, $BF, $DF, $FF
+
+		dc.b $9F, $BF, $DF, $FF				; PSG volumes (1, 2, 3 and 4)
 ; ---------------------------------------------------------------------------
 
 loc_306:
@@ -182,9 +183,9 @@ loc_36A:
 		moveq	#0,d7
 		move.w	#$3F7F,d6
 
-loc_376:
+@clearRAM:
 		move.l	d7,(a6)+
-		dbf	d6,loc_376
+		dbf	d6,@clearRAM
 		bsr.w	vdpInit
 		bsr.w	dacInit
 		bsr.w	padInit
@@ -212,16 +213,14 @@ ScreensArray:
 ; ---------------------------------------------------------------------------
 
 ChecksumError:
-		bsr.w	vdpInit
+		bsr.w	vdpInit			; not used, since the place where it'd branch to this is nop'd out
 		move.l	#$C0000000,($C00004).l
 		moveq	#$3F,d7
 
 loc_3C2:
 		move.w	#$E,($C00000).l
 		dbf	d7,loc_3C2
-
-loc_3CE:
-		bra.s	loc_3CE
+		bra.s	*
 ; ---------------------------------------------------------------------------
 
 BusErr:
@@ -283,7 +282,7 @@ ErrorException:
 ; ---------------------------------------------------------------------------
 
 ErrorAddress:
-		move	#$2700,sr
+		disable_ints
 		addq.w	#2,sp
 		move.l	(sp)+,(byte_FFFC00+$40).w
 		addq.w	#2,sp
@@ -297,7 +296,7 @@ ErrorAddress:
 ; ---------------------------------------------------------------------------
 
 ErrorNormal:
-		move	#$2700,sr
+		disable_ints
 		movem.l	d0-a7,(byte_FFFC00).w
 		bsr.w	ErrorPrint
 		move.l	2(sp),d0
@@ -306,7 +305,7 @@ ErrorNormal:
 loc_472:
 		bsr.w	ErrorWaitInput
 		movem.l	(byte_FFFC00).w,d0-a7
-		move	#$2300,sr
+		enable_ints
 		rte
 ; ---------------------------------------------------------------------------
 
@@ -340,25 +339,15 @@ ErrorMessages:	dc.w strErrorException-ErrorMessages, strBusErr-ErrorMessages, st
 		dc.w strPrivilegeViol-ErrorMessages, strTrace-ErrorMessages, strLineAEmu-ErrorMessages, strLineFEmu-ErrorMessages
 
 strErrorException:dc.b 'ERROR EXCEPTION    '
-
 strBusErr:	dc.b 'BUS ERROR          '
-
 strAddressErr:	dc.b 'ADDRESS ERROR      '
-
 strIllegalInstr:dc.b 'ILLEGAL INSTRUCTION'
-
-strZeroDiv:	dc.b '@ERO DIVIDE        '
-
+strZeroDiv:	dc.b '@ERO DIVIDE        '	; @ is a Z in game
 strChkInstr:	dc.b 'CHK INSTRUCTION    '
-
 strTrapvInstr:	dc.b 'TRAPV INSTRUCTION  '
-
 strPrivilegeViol:dc.b 'PRIVILEGE VIOLATION'
-
 strTrace:	dc.b 'TRACE              '
-
 strLineAEmu:	dc.b 'LINE 1010 EMULATOR '
-
 strLineFEmu:	dc.b 'LINE 1111 EMULATOR '
 		even
 ; ---------------------------------------------------------------------------
@@ -404,23 +393,21 @@ vint:
 		move.w	($C00004).l,d0
 		move.l	#$40000010,($C00004).l
 		move.l	(dword_FFF616).w,($C00000).l
-		btst	#6,(ConsoleRegion).w
-		beq.s	loc_B3C
+		btst	#6,(ConsoleRegion).w	; is this a PAL machine?
+		beq.s	loc_B3C			; if not, continue
 		move.w	#$700,d0
-
-loc_B38:
-		dbf	d0,loc_B38
+		dbf	d0,*			; do some delay
 
 loc_B3C:
 		move.b	(VintRoutine).w,d0
 		move.b	#0,(VintRoutine).w
-		move.w	#1,(word_FFF648).w
+		move.w	#1,(HintFlag).w
 		andi.w	#$3E,d0
 		move.w	off_B6A(pc,d0.w),d0
 		jsr	off_B6A(pc,d0.w)
 
 loc_B58:
-		addq.l	#1,(unk_FFFE0C).w
+		addq.l	#1,(VintCounter).w
 		jsr	SoundSource
 		movem.l	(sp)+,d0-a6
 		rte
@@ -467,11 +454,7 @@ sub_BB0:
 
 loc_BBA:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_BC6:
-		btst	#0,($A11100).l
-		bne.s	loc_BC6
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -496,7 +479,7 @@ loc_BC6:
 		move.w	#$7800,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_C7A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -505,23 +488,23 @@ loc_BC6:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_C7A:
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	mapLevelLoad
-		jsr	sub_1128C
+		jsr	ZoneAnimTiles
 		jsr	UpdateHUD
 		bsr.w	loc_1454
 		moveq	#0,d0
-		move.b	(byte_FFF628).w,d0
+		move.b	(VintECounter).w,d0
 		move.b	(byte_FFF629).w,d1
 		cmp.b	d0,d1
 		bcc.s	loc_CA8
 		move.b	d0,(byte_FFF629).w
 
 loc_CA8:
-		move.b	#0,(byte_FFF628).w
+		move.b	#0,(VintECounter).w
 		tst.w	(GlobalTimer).w
 		beq.w	locret_CBA
 		subq.w	#1,(GlobalTimer).w
@@ -532,11 +515,7 @@ locret_CBA:
 
 loc_CBC:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_CC8:
-		btst	#0,($A11100).l
-		bne.s	loc_CC8
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -558,9 +537,9 @@ loc_CC8:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	sSpecialPalCyc
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_D7A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -569,7 +548,7 @@ loc_CC8:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_D7A:
 		tst.w	(GlobalTimer).w
@@ -582,11 +561,7 @@ locret_D86:
 
 sub_D88:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_D94:
-		btst	#0,($A11100).l
-		bne.s	loc_D94
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -608,7 +583,7 @@ loc_D94:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		tst.b	(unk_FFF767).w
+		tst.b	(SonicVRAMReset).w
 		beq.s	loc_E3A
 		lea	($C00004).l,a5
 		move.l	#$94019370,(a5)
@@ -617,12 +592,12 @@ loc_D94:
 		move.w	#$7000,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.b	#0,(unk_FFF767).w
+		move.b	#0,(SonicVRAMReset).w
 
 loc_E3A:
-		move.w	#0,($A11100).l
+		startZ80
 		bsr.w	mapLevelLoad
-		jsr	sub_1128C
+		jsr	ZoneAnimTiles
 		jsr	UpdateHUD
 		bsr.w	sub_1438
 		rts
@@ -632,7 +607,7 @@ sub_E58:
 		bsr.w	sub_E78
 		bsr.w	RunObjects
 		bsr.w	ProcessMaps
-		addq.b	#1,(byte_FFF628).w
+		addq.b	#1,(VintECounter).w
 		move.b	#$E,(VintRoutine).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -644,11 +619,7 @@ sub_E70:
 
 sub_E78:
 		bsr.w	padRead
-		move.w	#$100,($A11100).l
-
-loc_E84:
-		btst	#0,($A11100).l
-		bne.s	loc_E84
+		stopZ80
 		lea	($C00004).l,a5
 		move.l	#$94009340,(a5)
 		move.l	#$96FD9580,(a5)
@@ -670,12 +641,12 @@ loc_E84:
 		move.w	#$7C00,(a5)
 		move.w	#$83,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
 hint:
-		tst.w	(word_FFF648).w
+		tst.w	(HintFlag).w
 		beq.s	locret_F3A
 		move.l	a5,-(sp)
 		lea	($C00004).l,a5
@@ -686,19 +657,19 @@ hint:
 		move.w	#$80,(word_FFF644).w
 		move.w	(word_FFF644).w,(a5)
 		movem.l	(sp)+,a5
-		move.w	#0,(word_FFF648).w
+		move.w	#0,(HintFlag).w
 
 locret_F3A:
 		rte
 ; ---------------------------------------------------------------------------
-		tst.w	(word_FFF648).w
+		tst.w	(HintFlag).w		; earlier version of hint?
 		beq.s	locret_F7E
 		movem.l	d0/a0/a5,-(sp)
-		move.w	#0,(word_FFF648).w
+		move.w	#0,(HintFlag).w
 		move.w	#$8405,($C00004).l
 		move.w	#$857C,($C00004).l
 		move.l	#$78000003,($C00004).l
-		lea	(byte_FFF800).w,a0
+		lea	(SprTableBuff).w,a0
 		lea	($C00000).l,a5
 		move.w	#$9F,d0
 
@@ -712,31 +683,23 @@ locret_F7E:
 ; ---------------------------------------------------------------------------
 
 padInit:
-		move.w	#$100,($A11100).l
-
-loc_F88:
-		btst	#0,($A11100).l
-		bne.s	loc_F88
+		stopZ80
 		moveq	#$40,d0
 		move.b	d0,($A10009).l
 		move.b	d0,($A1000B).l
 		move.b	d0,($A1000D).l
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
 padRead:
-		move.w	#$100,($A11100).l
-
-loc_FB8:
-		btst	#0,($A11100).l
-		bne.s	loc_FB8
+		stopZ80
 		lea	(padHeld1).w,a0
 		lea	($A10003).l,a1
 		bsr.s	sub_FDC
 		addq.w	#2,a1
 		bsr.s	sub_FDC
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -765,7 +728,7 @@ sub_FDC:
 vdpInit:
 		lea	($C00004).l,a0
 		lea	($C00000).l,a1
-		lea	($1080).l,a2
+		lea	(vdpInitRegs).l,a2
 		moveq	#$12,d7
 
 loc_101E:
@@ -832,7 +795,7 @@ loc_10F6:
 		move.w	#$8F02,(a5)
 		move.l	#0,(dword_FFF616).w
 		move.l	#0,(dword_FFF61A).w
-		lea	(byte_FFF800).w,a1
+		lea	(SprTableBuff).w,a1
 		moveq	#0,d0
 		move.w	#$A0,d1
 
@@ -855,7 +818,7 @@ dacInit:
 		move.w	#$100,($A11200).l
 		lea	(Z80Driver).l,a0
 		lea	($A00000).l,a1
-		move.w	#$1C5B,d0
+		move.w	#(Z80Driver_End-Z80Driver)-1,d0
 
 loc_1156:
 		move.b	(a0)+,(a1)+
@@ -876,10 +839,10 @@ loc_1156:
 		nop
 		nop
 		move.w	#$100,($A11200).l
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
-		dc.b 3
+		dc.b 3				; ??
 		dc.b 0
 		dc.b 0
 		dc.b $14
@@ -898,6 +861,8 @@ PlaySFX:
 		move.b	d0,(SoundMemory+$B).w
 		rts
 ; ---------------------------------------------------------------------------
+
+PlayUnk:
 		move.b	d0,(SoundMemory+$C).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -966,11 +931,11 @@ NemesisDec:
 		lea	($C00000).l,a4
 		bra.s	loc_1252
 ; ---------------------------------------------------------------------------
-		movem.l	d0-a1/a3-a5,-(sp)
+		movem.l	d0-a1/a3-a5,-(sp)	; for RAM, not used
 		lea	(sub_130E).l,a3
 
 loc_1252:
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		move.w	(a0)+,d2
 		lsl.w	#1,d2
 		bcc.s	loc_1260
@@ -1093,7 +1058,7 @@ sub_1324:
 		move.b	(a0)+,d0
 
 loc_1326:
-		cmpi.b	#$FF,d0
+		cmpi.b	#-1,d0
 		bne.s	loc_132E
 		rts
 ; ---------------------------------------------------------------------------
@@ -1204,7 +1169,7 @@ ProcessPLC:
 		bne.s	locret_1436
 		movea.l	(plcList).w,a0
 		lea	(sub_12F8).l,a3
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		move.w	(a0)+,d2
 		bpl.s	loc_1404
 		adda.w	#$A,a3
@@ -1263,7 +1228,7 @@ loc_146C:
 		move.l	(unk_FFF6EC).w,d2
 		move.l	(unk_FFF6F0).w,d5
 		move.l	(unk_FFF6F4).w,d6
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 
 loc_14A0:
 		movea.w	#8,a5
@@ -1544,7 +1509,7 @@ locret_1690:
 		rts
 ; ---------------------------------------------------------------------------
 
-KosinskiDec:
+KosinskiDec:				; only used for the chunks
 		subq.l	#2,sp
 		move.b	(a0)+,1(sp)
 		move.b	(a0)+,(sp)
@@ -1659,11 +1624,11 @@ PalCycGHZ:
 		lea	(word_186C).l,a0
 
 loc_1760:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1786
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	((Palette+$50)).w,a1
@@ -1677,11 +1642,11 @@ locret_1786:
 PalCycLZ:
 		rts
 ; ---------------------------------------------------------------------------
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_17B8
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
-		addq.w	#1,(word_FFF632).w
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_188C).l,a0
@@ -1701,17 +1666,17 @@ PalCycMZ:
 ; ---------------------------------------------------------------------------
 
 PalCycSLZ:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_17F6
-		move.w	#$F,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#$F,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		addq.w	#1,d0
 		cmpi.w	#6,d0
 		bcs.s	loc_17D6
 		moveq	#0,d0
 
 loc_17D6:
-		move.w	d0,(word_FFF632).w
+		move.w	d0,(PalCycOffset).w
 		move.w	d0,d1
 		add.w	d1,d1
 		add.w	d1,d0
@@ -1726,12 +1691,12 @@ locret_17F6:
 ; ---------------------------------------------------------------------------
 
 PalCycSYZ:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1846
-		move.w	#5,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#5,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		move.w	d0,d1
-		addq.w	#1,(word_FFF632).w
+		addq.w	#1,(PalCycOffset).w
 		andi.w	#3,d0
 		lsl.w	#3,d0
 		lea	(word_1918).l,a0
@@ -1904,12 +1869,12 @@ loc_1A36:
 ; ---------------------------------------------------------------------------
 
 sub_1A3A:
-		subq.w	#1,(word_FFF634).w
+		subq.w	#1,(PalCycWait).w
 		bpl.s	locret_1A68
-		move.w	#3,(word_FFF634).w
-		move.w	(word_FFF632).w,d0
+		move.w	#3,(PalCycWait).w
+		move.w	(PalCycOffset).w,d0
 		bmi.s	locret_1A68
-		subq.w	#2,(word_FFF632).w
+		subq.w	#2,(PalCycOffset).w
 		lea	(word_1A6A).l,a0
 		lea	((Palette+4)).w,a1
 		adda.w	d0,a0
@@ -2007,7 +1972,7 @@ palSpecial:	incbin "screens/special stage/Main.pal"
 ; ---------------------------------------------------------------------------
 
 vsync:
-		move	#$2300,sr
+		enable_ints
 
 @wait:
 		tst.b	(VintRoutine).w
@@ -2047,7 +2012,7 @@ GetSine:
 SineTable:	incbin "unsorted/sinetable.dat"
 		even
 ; ---------------------------------------------------------------------------
-		movem.l	d1-d2,-(sp)
+		movem.l	d1-d2,-(sp)	; garbage code
 		move.w	d0,d1
 		swap	d1
 		moveq	#0,d0
@@ -2167,7 +2132,7 @@ loc_24BC:
 		bsr.w	LoadPlaneMaps
 		moveq	#0,d0
 		bsr.w	PalLoadNormal
-		move.w	#$28,(word_FFF632).w
+		move.w	#$28,(PalCycOffset).w
 		move.w	#0,(word_FFF662).w
 		move.w	#0,(word_FFF660).w
 		move.w	#$B4,(GlobalTimer).w
@@ -2259,7 +2224,7 @@ loc_25D8:
 		bsr.w	palLoadFade
 		move.b	#$8A,d0
 		bsr.w	PlaySFX
-		move.b	#0,(word_FFFFFA).w
+		move.b	#0,(EditModeFlag).w
 		move.w	#$178,(GlobalTimer).w
 		move.b	#$E,(byte_FFD040).w
 		move.b	#$F,(byte_FFD080).w
@@ -2306,7 +2271,7 @@ loc_2710:
 		move.l	d0,(a1)+
 		dbf	d1,loc_2710
 		move.l	d0,(dword_FFF616).w
-		move	#$2700,sr
+		disable_ints
 		lea	($C00000).l,a6
 		move.l	#$60000003,($C00004).l
 		move.w	#$3FF,d1
@@ -2735,7 +2700,7 @@ loc_2D3A:
 		move.b	#$21,(byte_FFD040).w
 		btst	#6,(padHeld1).w
 		beq.s	loc_2D54
-		move.b	#1,(word_FFFFFA).w
+		move.b	#1,(EditModeFlag).w
 
 loc_2D54:
 		move.w	#0,(padHeldPlayer).w
@@ -2939,7 +2904,7 @@ word_2F48:	dc.w $158, $90
 		dc.w $138, $A8
 		dc.w $140, $A8
 ; ---------------------------------------------------------------------------
-		lea	(byte_FFAA00).w,a0
+		lea	(NemBuffer).w,a0
 		move.w	(word_FFF64C).w,d2
 		move.w	#$9100,d3
 		move.w	#$FF,d7
@@ -3170,7 +3135,7 @@ AnimBlocksMZ:	incbin "levels/MZ/Blocks Ani.unc"
 nullsub_3300:
 		rts
 ; ---------------------------------------------------------------------------
-		move.l	#$5E000002,($C00004).l
+		move.l	#$5E000002,($C00004).l		; leftover debug function
 		lea	(ArtText).l,a0
 		move.w	#$9F,d1
 		bsr.s	sub_3326
@@ -3282,11 +3247,11 @@ oscUpdateTable:	dc.w 2, $10
 ; ---------------------------------------------------------------------------
 
 UpdateTimers:
-		subq.b	#1,(unk_FFFEC0).w
+		subq.b	#1,(GHZSpikeTimer).w
 		bpl.s	loc_3464
-		move.b	#$B,(unk_FFFEC0).w
-		subq.b	#1,(unk_FFFEC1).w
-		andi.b	#7,(unk_FFFEC1).w
+		move.b	#$B,(GHZSpikeTimer).w
+		subq.b	#1,(GHZSpikeFrame).w
+		andi.b	#7,(GHZSpikeFrame).w
 
 loc_3464:
 		subq.b	#1,(RingTimer).w
@@ -3296,13 +3261,13 @@ loc_3464:
 		andi.b	#3,(RingFrame).w
 
 loc_347A:
-		subq.b	#1,(unk_FFFEC4).w
+		subq.b	#1,(UnkTimer).w
 		bpl.s	loc_3498
-		move.b	#7,(unk_FFFEC4).w
-		addq.b	#1,(unk_FFFEC5).w
-		cmpi.b	#6,(unk_FFFEC5).w
+		move.b	#7,(UnkTimer).w
+		addq.b	#1,(UnkFrame).w
+		cmpi.b	#6,(UnkFrame).w
 		bcs.s	loc_3498
-		move.b	#0,(unk_FFFEC5).w
+		move.b	#0,(UnkFrame).w
 
 loc_3498:
 		tst.b	(RingLossTimer).w
@@ -3389,7 +3354,7 @@ loc_3564:
 loc_3574:
 		move.l	d0,(a1)+
 		dbf	d1,loc_3574
-		lea	(byte_FFAA00).w,a1
+		lea	(NemBuffer).w,a1
 		moveq	#0,d0
 		move.w	#$7F,d1
 
@@ -3410,8 +3375,8 @@ loc_3584:
 		move.w	#$8AAF,(word_FFF624).w
 		move.w	#$9011,(a6)
 		bsr.w	sSpecialPalCyc
-		clr.w	(unk_FFF780).w
-		move.w	#$40,(unk_FFF782).w
+		clr.w	(SpecAngle).w
+		move.w	#$40,(SpecSpeed).w
 		move.w	#$89,d0
 		bsr.w	PlaySFX
 		move.w	#0,(unk_FFF790).w
@@ -3456,7 +3421,7 @@ loc_3662:
 
 ssLoadBG:
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_639B8).l,a0
+		lea	(MapSSBG1).l,a0
 		move.w	#$4051,d0
 		bsr.w	EnigmaDec
 		move.l	#$50000001,d3
@@ -3505,7 +3470,7 @@ loc_36EA:
 		adda.w	#$80,a2
 		dbf	d7,loc_368C
 		lea	((Chunks)&$FFFFFF).l,a1
-		lea	(byte_6477C).l,a0
+		lea	(MapSSBG2).l,a0
 		move.w	#$4000,d0
 		bsr.w	EnigmaDec
 		lea	((Chunks)&$FFFFFF).l,a1
@@ -3645,7 +3610,7 @@ loc_39DE:
 		neg.w	d0
 		swap	d0
 		lea	(byte_3A9A).l,a1
-		lea	(byte_FFAA00).w,a3
+		lea	(NemBuffer).w,a3
 		moveq	#9,d3
 
 loc_39F4:
@@ -3660,7 +3625,7 @@ loc_39F4:
 		ext.w	d2
 		add.w	d2,(a3)+
 		dbf	d3,loc_39F4
-		lea	(byte_FFAA00).w,a3
+		lea	(NemBuffer).w,a3
 		lea	(byte_3A86).l,a2
 		bra.s	loc_3A4C
 ; ---------------------------------------------------------------------------
@@ -3890,7 +3855,7 @@ StartPosArray:	incbin "levels/GHZ/Start 1.dat"
 		even
 
 SpecialChunkArray:
-		dc.b $B5, $7F, $1F, $20
+		dc.b $B5, $7F, $1F, $20		; loop, loop, S-tunnel, S-tunnel (set to $7F if you don't have such)
 		dc.b $7F, $7F, $7F, $7F
 		dc.b $7F, $7F, $7F, $7F
 		dc.b $B5, $A8, $7F, $7F
@@ -4025,9 +3990,9 @@ HScrollGHZ:
 		move.w	#$6F,d1
 		sub.w	d4,d1
 		move.w	(CameraX).w,d0
-		cmpi.b	#4,(GameMode).w
-		bne.s	loc_3EA8
-		moveq	#0,d0
+		cmpi.b	#4,(GameMode).w	; is the screen mode the title screen?
+		bne.s	loc_3EA8	; if not, branch
+		moveq	#0,d0		; prevent the emblem from moving
 
 loc_3EA8:
 		neg.w	d0
@@ -4134,7 +4099,7 @@ HScrollSLZ:
 		bsr.w	sub_4302
 		move.w	(unk_FFF70C).w,(dword_FFF616+2).w
 		bsr.w	sub_3FF6
-		lea	(byte_FFA800).w,a2
+		lea	(ScrollBuffer).w,a2
 		move.w	(unk_FFF70C).w,d0
 		move.w	d0,d2
 		subi.w	#$C0,d0
@@ -4156,28 +4121,15 @@ loc_3FCE:
 		move.w	(a2)+,d0
 
 loc_3FD0:
+	 	rept 16
 		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
-		move.l	d0,(a1)+
+		endr
 		dbf	d1,loc_3FCE
 		rts
 ; ---------------------------------------------------------------------------
 
 sub_3FF6:
-		lea	(byte_FFA800).w,a1
+		lea	(ScrollBuffer).w,a1
 		move.w	(CameraX).w,d2
 		neg.w	d2
 		move.w	d2,d0
@@ -6444,7 +6396,7 @@ loc_5854:
 ; ---------------------------------------------------------------------------
 
 sub_5860:
-		move.b	(unk_FFFEC1).w,d0
+		move.b	(GHZSpikeFrame).w,d0
 		move.b	#0,$20(a0)
 		add.b	$3E(a0),d0
 		andi.b	#7,d0
@@ -9267,9 +9219,9 @@ loc_82CA:
 		bne.s	loc_82F8
 		move.b	#1,(byte_FFFE2E).w
 		move.w	#$4B0,(ObjectsList+$34).w
-		move.w	#$C00,(unk_FFF760).w
-		move.w	#$18,(unk_FFF762).w
-		move.w	#$80,(unk_FFF764).w
+		move.w	#$C00,(PlayerTopSpeed).w
+		move.w	#$18,(PlayerAccel).w
+		move.w	#$80,(PlayerDecel).w
 		move.w	#$E2,d0
 		jmp	(PlayMusic).l
 ; ---------------------------------------------------------------------------
@@ -9542,11 +9494,11 @@ ObjectDeleteA1:
 		rts
 ; ---------------------------------------------------------------------------
 
-off_8796:	dc.l off_0, (CameraX)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFFFFF
+off_8796:	dc.l 0, (CameraX)&$FFFFFF, (unk_FFF708)&$FFFFFF, (unk_FFF718)&$FFFFFF
 ; ---------------------------------------------------------------------------
 
 ProcessMaps:
-		lea	(byte_FFF800).w,a2
+		lea	(SprTableBuff).w,a2
 		moveq	#0,d5
 		lea	(DisplayLists).w,a4
 		moveq	#7,d7
@@ -16988,14 +16940,14 @@ loc_E830:
 		move.b	#2,$19(a0)
 		move.b	#$18,$18(a0)
 		move.b	#4,1(a0)
-		move.w	#$600,(unk_FFF760).w
-		move.w	#$C,(unk_FFF762).w
-		move.w	#$40,(unk_FFF764).w
+		move.w	#$600,(PlayerTopSpeed).w
+		move.w	#$C,(PlayerAccel).w
+		move.w	#$40,(PlayerDecel).w
 
 loc_E872:
 		andi.w	#$7FF,$C(a0)
 		andi.w	#$7FF,(CameraY).w
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		beq.s	loc_E892
 		btst	#4,(padPressPlayer).w
 		beq.s	loc_E892
@@ -17060,9 +17012,9 @@ loc_E91C:
 		beq.s	locret_E950
 		subq.w	#1,$34(a0)
 		bne.s	locret_E950
-		move.w	#$600,(unk_FFF760).w
-		move.w	#$C,(unk_FFF762).w
-		move.w	#$40,(unk_FFF764).w
+		move.w	#$600,(PlayerTopSpeed).w
+		move.w	#$C,(PlayerAccel).w
+		move.w	#$40,(PlayerDecel).w
 		move.b	#0,(byte_FFFE2E).w
 		move.w	#$E3,d0
 		jmp	(PlaySFX).l
@@ -17126,9 +17078,9 @@ loc_E9C6:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_Move:
-		move.w	(unk_FFF760).w,d6
-		move.w	(unk_FFF762).w,d5
-		move.w	(unk_FFF764).w,d4
+		move.w	(PlayerTopSpeed).w,d6
+		move.w	(PlayerAccel).w,d5
+		move.w	(PlayerDecel).w,d4
 		tst.w	$3E(a0)
 		bne.w	ObjSonic_LookUp
 		btst	#2,(padHeldPlayer).w
@@ -17395,11 +17347,11 @@ locret_EC60:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_RollSpeed:
-		move.w	(unk_FFF760).w,d6
+		move.w	(PlayerTopSpeed).w,d6
 		asl.w	#1,d6
-		move.w	(unk_FFF762).w,d5
+		move.w	(PlayerAccel).w,d5
 		asr.w	#1,d5
-		move.w	(unk_FFF764).w,d4
+		move.w	(PlayerDecel).w,d4
 		asr.w	#2,d4
 		tst.w	$3E(a0)
 		bne.s	loc_EC92
@@ -17494,8 +17446,8 @@ loc_ED38:
 ; ---------------------------------------------------------------------------
 
 ObjSonic_ChgJumpDirection:
-		move.w	(unk_FFF760).w,d6
-		move.w	(unk_FFF762).w,d5
+		move.w	(PlayerTopSpeed).w,d6
+		move.w	(PlayerAccel).w,d5
 		asl.w	#1,d5
 		btst	#4,$22(a0)
 		bne.s	ObjSonic_ResetScroll2
@@ -18406,9 +18358,9 @@ loc_F5FA:
 ObjSonic_DynTiles:
 		moveq	#0,d0
 		move.b	$1A(a0),d0
-		cmp.b	(unk_FFF766).w,d0
+		cmp.b	(SonicLastDPLCID).w,d0
 		beq.s	locret_F744
-		move.b	d0,(unk_FFF766).w
+		move.b	d0,(SonicLastDPLCID).w
 		lea	(DynMapSonic).l,a2
 		add.w	d0,d0
 		adda.w	(a2,d0.w),a2
@@ -18417,7 +18369,7 @@ ObjSonic_DynTiles:
 		subq.b	#1,d1
 		bmi.s	locret_F744
 		lea	(SonicArtBuf).w,a3
-		move.b	#1,(unk_FFF767).w
+		move.b	#1,(SonicVRAMReset).w
 
 ObjSonic_DynReadEntry:
 		moveq	#0,d2
@@ -18842,7 +18794,7 @@ loc_FD68:
 ; ---------------------------------------------------------------------------
 
 loc_FD72:
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		bne.s	loc_FD18
 
 loc_FD78:
@@ -20033,7 +19985,7 @@ sSpecial_ShowLayout:
 		bsr.w	sSpecial_AniItems
 		move.w	d5,-(sp)
 		lea	(byte_FF8000).w,a1
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		jsr	(GetSine).l
 		move.w	d0,d4
@@ -20149,7 +20101,7 @@ loc_109A6:
 sSpecial_AniWallsandRings:
 		lea	((byte_FF400C)&$FFFFFF).l,a1
 		moveq	#0,d0
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		lsr.b	#2,d0
 		andi.w	#$F,d0
 		moveq	#$F,d1
@@ -20168,29 +20120,29 @@ loc_109E0:
 		move.b	(RingFrame).w,1(a1)
 		addq.w	#8,a1
 		addq.w	#8,a1
-		subq.b	#1,(unk_FFFEC4).w
+		subq.b	#1,(UnkTimer).w
 		bpl.s	loc_10A02
-		move.b	#7,(unk_FFFEC4).w
+		move.b	#7,(UnkTimer).w
 		bra.s	loc_10A02
 ; ---------------------------------------------------------------------------
-		addq.b	#1,(unk_FFFEC5).w
-		andi.b	#1,(unk_FFFEC5).w
+		addq.b	#1,(UnkFrame).w
+		andi.b	#1,(UnkFrame).w
 
 loc_10A02:
-		move.b	(unk_FFFEC5).w,1(a1)
+		move.b	(UnkFrame).w,1(a1)
 		addq.w	#8,a1
-		move.b	(unk_FFFEC5).w,1(a1)
-		subq.b	#1,(unk_FFFEC0).w
+		move.b	(UnkFrame).w,1(a1)
+		subq.b	#1,(GHZSpikeTimer).w
 		bpl.s	loc_10A26
-		move.b	#7,(unk_FFFEC0).w
-		subq.b	#1,(unk_FFFEC1).w
-		andi.b	#3,(unk_FFFEC1).w
+		move.b	#7,(GHZSpikeTimer).w
+		subq.b	#1,(GHZSpikeFrame).w
+		andi.b	#3,(GHZSpikeFrame).w
 
 loc_10A26:
 		lea	((byte_FF402E)&$FFFFFF).l,a1
 		lea	(sSpecial_VRAMSet).l,a0
 		moveq	#0,d0
-		move.b	(unk_FFFEC1).w,d0
+		move.b	(GHZSpikeFrame).w,d0
 		add.w	d0,d0
 		lea	(a0,d0.w),a0
 		move.w	(a0),(a1)
@@ -20485,22 +20437,22 @@ loc_10D48:
 		bsr.w	sub_10ECE
 		btst	#6,(padHeld1).w
 		beq.s	loc_10D66
-		subq.w	#2,(unk_FFF782).w
+		subq.w	#2,(SpecSpeed).w
 
 loc_10D66:
 		btst	#4,(padHeld1).w
 		beq.s	loc_10D72
-		addq.w	#2,(unk_FFF782).w
+		addq.w	#2,(SpecSpeed).w
 
 loc_10D72:
 		btst	#7,(padPress1).w
 		beq.s	loc_10D80
-		move.w	#0,(unk_FFF782).w
+		move.w	#0,(SpecSpeed).w
 
 loc_10D80:
-		move.w	(unk_FFF780).w,d0
-		add.w	(unk_FFF782).w,d0
-		move.w	d0,(unk_FFF780).w
+		move.w	(SpecAngle).w,d0
+		add.w	(SpecSpeed).w,d0
+		move.w	d0,(SpecAngle).w
 		jsr	ObjSonic_Animate
 		rts
 ; ---------------------------------------------------------------------------
@@ -20540,7 +20492,7 @@ loc_10DD8:
 		move.w	d0,$14(a0)
 
 loc_10DDC:
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		addi.b	#$20,d0
 		andi.b	#$C0,d0
 		neg.b	d0
@@ -20623,7 +20575,7 @@ sub_10E8A:
 		move.b	(padPressPlayer).w,d0
 		andi.b	#$20,d0
 		beq.s	locret_10ECC
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		neg.b	d0
 		subi.b	#$40,d0
@@ -20663,18 +20615,18 @@ locret_10EF6:
 ; ---------------------------------------------------------------------------
 
 loc_10EF8:
-		addi.w	#$40,(unk_FFF782).w
-		cmpi.w	#$3000,(unk_FFF782).w
+		addi.w	#$40,(SpecSpeed).w
+		cmpi.w	#$3000,(SpecSpeed).w
 		blt.s	loc_10F1C
-		move.w	#0,(unk_FFF782).w
-		move.w	#$4000,(unk_FFF780).w
+		move.w	#0,(SpecSpeed).w
+		move.w	#$4000,(SpecAngle).w
 		addq.b	#2,$24(a0)
 		move.w	#$12C,$38(a0)
 
 loc_10F1C:
-		move.w	(unk_FFF780).w,d0
-		add.w	(unk_FFF782).w,d0
-		move.w	d0,(unk_FFF780).w
+		move.w	(SpecAngle).w,d0
+		add.w	(SpecSpeed).w,d0
+		move.w	d0,(SpecAngle).w
 		bsr.w	ObjSonic_Animate
 		jsr	ObjSonic_DynTiles
 		bsr.w	sub_10ECE
@@ -20684,8 +20636,8 @@ loc_10F1C:
 loc_10F3C:
 		subq.w	#1,$38(a0)
 		bne.s	loc_10F66
-		clr.w	(unk_FFF780).w
-		move.w	#$40,(unk_FFF782).w
+		clr.w	(SpecAngle).w
+		move.w	#$40,(SpecSpeed).w
 		move.w	#$458,(ObjectsList+8).w
 		move.w	#$4A0,(ObjectsList+$C).w
 		clr.b	$24(a0)
@@ -20703,7 +20655,7 @@ loc_10F66:
 sub_10F7C:
 		move.l	$C(a0),d2
 		move.l	8(a0),d3
-		move.b	(unk_FFF780).w,d0
+		move.b	(SpecAngle).w,d0
 		andi.b	#$FC,d0
 		jsr	(GetSine).l
 		move.w	$10(a0),d4
@@ -20925,14 +20877,14 @@ loc_11182:
 		tst.b	$36(a0)
 		bne.s	locret_111C0
 		move.b	#$1E,$36(a0)
-		btst	#6,(unk_FFF783).w
+		btst	#6,(SpecSpeed+1).w
 		beq.s	loc_111A2
-		asl	(unk_FFF782).w
+		asl	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_111A2:
-		asr	(unk_FFF782).w
+		asr	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -20942,7 +20894,7 @@ loc_111A8:
 		tst.b	$37(a0)
 		bne.s	locret_111C0
 		move.b	#$1E,$37(a0)
-		neg.w	(unk_FFF782).w
+		neg.w	(SpecSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -21029,7 +20981,7 @@ loc_11286:
 		jmp	ObjectDelete
 ; ---------------------------------------------------------------------------
 
-sub_1128C:
+ZoneAnimTiles:
 		tst.w	(PauseFlag).w
 		bmi.s	locret_112A8
 		lea	($C00000).l,a6
@@ -21062,7 +21014,7 @@ loc_112B8:
 loc_112DC:
 		move.l	#$6F000001,($C00004).l
 		move.w	#7,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 loc_112EE:
@@ -21079,7 +21031,7 @@ loc_112EE:
 loc_11312:
 		move.l	#$6B800001,($C00004).l
 		move.w	#$F,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 loc_11324:
@@ -21103,7 +21055,7 @@ loc_1134C:
 		lea	(byte_6B618).l,a1
 		lea	(a1,d0.w),a1
 		move.w	#$B,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 
 locret_11370:
 		rts
@@ -21130,7 +21082,7 @@ loc_11398:
 		adda.w	d0,a1
 		move.l	#$5C400001,($C00004).l
 		move.w	#7,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 
 loc_113B4:
 		subq.b	#1,(unk_FFF7B3).w
@@ -21181,7 +21133,7 @@ loc_11436:
 		adda.w	d0,a1
 		move.l	#$5D400001,($C00004).l
 		move.w	#7,d1
-		bsr.w	sub_11484
+		bsr.w	LoadAnimTiles
 		lea	(byte_6C998).l,a1
 		moveq	#0,d0
 		move.b	(unk_FFF7B6).w,d0
@@ -21191,7 +21143,7 @@ loc_11436:
 		adda.w	d0,a1
 		move.l	#$5E400001,($C00004).l
 		move.w	#5,d1
-		bra.w	sub_11484
+		bra.w	LoadAnimTiles
 ; ---------------------------------------------------------------------------
 
 locret_11480:
@@ -21202,7 +21154,7 @@ locret_11482:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_11484:
+LoadAnimTiles:
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
@@ -21211,7 +21163,7 @@ sub_11484:
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
 		move.l	(a1)+,(a6)
-		dbf	d1,sub_11484
+		dbf	d1,LoadAnimTiles
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -21361,14 +21313,14 @@ loc_115C6:
 ObjHUD:
 		moveq	#0,d0
 		move.b	$24(a0),d0
-		move.w	off_115EA(pc,d0.w),d1
-		jmp	off_115EA(pc,d1.w)
+		move.w	ObjHUD_Index(pc,d0.w),d1
+		jmp	ObjHUD_Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
 
-off_115EA:	dc.w loc_115EE-off_115EA, loc_11618-off_115EA
+ObjHUD_Index:	dc.w ObjHUD_Init-ObjHUD_Index, ObjHUD_Display-ObjHUD_Index
 ; ---------------------------------------------------------------------------
 
-loc_115EE:
+ObjHUD_Init:
 		addq.b	#2,act(a0)
 		move.w	#$90,xpos(a0)
 		move.w	#$108,xpix(a0)
@@ -21377,7 +21329,7 @@ loc_115EE:
 		move.b	#0,render(a0)
 		move.b	#0,prio(a0)
 
-loc_11618:
+ObjHUD_Display:
 		jmp	ObjectDisplay
 ; ---------------------------------------------------------------------------
 		include "levels/shared/HUD/Sprite.map"
@@ -21406,7 +21358,7 @@ locret_11678:
 ; ---------------------------------------------------------------------------
 
 UpdateHUD:
-		tst.w	(word_FFFFFA).w
+		tst.w	(EditModeFlag).w
 		bne.w	loc_11746
 		tst.b	(byte_FFFE1F).w
 		beq.s	loc_1169A
@@ -21590,14 +21542,9 @@ loc_11846:
 loc_11856:
 		lsl.w	#5,d2
 		lea	(a1,d2.w),a3
+		rept 8
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 		swap	d1
 		dbf	d6,loc_11846
 		rts
@@ -21640,22 +21587,9 @@ loc_118A2:
 		lsl.w	#6,d2
 		move.l	d0,4(a6)
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_118D0:
 		addi.l	#$400000,d0
@@ -21710,22 +21644,9 @@ loc_11922:
 		lsl.w	#6,d2
 		move.l	d0,4(a6)
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 		addi.l	#$400000,d0
 		dbf	d6,loc_1190C
 		rts
@@ -21759,22 +21680,9 @@ loc_1197C:
 		beq.s	loc_119AC
 		lsl.w	#6,d2
 		lea	(a1,d2.w),a3
+		rept 16
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_119A6:
 		dbf	d6,loc_11966
@@ -21824,14 +21732,9 @@ loc_119EE:
 loc_119F2:
 		lsl.w	#5,d2
 		lea	(a1,d2.w),a3
+		rept 8
 		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
-		move.l	(a3)+,(a6)
+		endr
 
 loc_11A08:
 		addi.l	#$400000,d0
@@ -21962,8 +21865,8 @@ loc_11E78:
 
 loc_11EA8:
 		bsr.w	sub_11FCE
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#1,(byte_FFFE0B).w
+		move.b	#$C,(DebugTimer).w
+		move.b	#1,(DebugSpeed).w
 
 loc_11EB8:
 		moveq	#0,d0
@@ -21983,25 +21886,25 @@ sub_11ED6:
 		bne.s	loc_11F0E
 		tst.b	(padHeld1).w
 		bne.s	loc_11EF6
-		move.b	#$C,(byte_FFFE0A).w
-		move.b	#$F,(byte_FFFE0B).w
+		move.b	#$C,(DebugTimer).w
+		move.b	#$F,(DebugSpeed).w
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_11EF6:
-		subq.b	#1,(byte_FFFE0A).w
+		subq.b	#1,(DebugTimer).w
 		bne.s	loc_11F12
-		move.b	#1,(byte_FFFE0A).w
-		addq.b	#1,(byte_FFFE0B).w
+		move.b	#1,(DebugTimer).w
+		addq.b	#1,(DebugSpeed).w
 		bne.s	loc_11F0E
-		move.b	#$FF,(byte_FFFE0B).w
+		move.b	#$FF,(DebugSpeed).w
 
 loc_11F0E:
 		move.b	(padHeld1).w,d4
 
 loc_11F12:
 		moveq	#0,d1
-		move.b	(byte_FFFE0B).w,d1
+		move.b	(DebugSpeed).w,d1
 		addq.w	#1,d1
 		swap	d1
 		asr.l	#4,d1
@@ -22083,10 +21986,10 @@ sub_11FCE:
 		rts
 ; ---------------------------------------------------------------------------
 
-DebugLists:	dc.w word_11FF6-DebugLists, word_12060-DebugLists, word_1207A-DebugLists, word_12104-DebugLists
-		dc.w word_1216E-DebugLists, word_121D8-DebugLists
+DebugLists:	dc.w DebugList_GHZ-DebugLists, DebugList_LZ-DebugLists, DebugList_MZ-DebugLists, DebugList_SLZ-DebugLists
+		dc.w DebugList_SYZ-DebugLists, DebugList_SBZ-DebugLists
 
-word_11FF6:	dc.w $D
+DebugList_GHZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22114,7 +22017,7 @@ word_11FF6:	dc.w $D
 		dc.l ($19<<24)|MapRollingBall
 		dc.b 0, 0, $43, $AA
 
-word_12060:	dc.w 3
+DebugList_LZ:	dc.w 3
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22122,7 +22025,7 @@ word_12060:	dc.w 3
 		dc.l ($1F<<24)|MapCrabmeat
 		dc.b 0, 0, 4, 0
 
-word_1207A:	dc.w $11
+DebugList_MZ:	dc.w $11
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22158,7 +22061,7 @@ word_1207A:	dc.w $11
 		dc.l ($55<<24)|MapBasaran
 		dc.b 0, 0, $24, $B8
 
-word_12104:	dc.w $D
+DebugList_SLZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22186,7 +22089,7 @@ word_12104:	dc.w $D
 		dc.l ($22<<24)|MapBuzzbomber
 		dc.b 0, 0, 4, $44
 
-word_1216E:	dc.w $D
+DebugList_SYZ:	dc.w $D
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22214,7 +22117,7 @@ word_1216E:	dc.w $D
 		dc.l ($32<<24)|MapSwitch
 		dc.b 0, 0, 5, $13
 
-word_121D8:	dc.w 3
+DebugList_SBZ:	dc.w 3
 		dc.l ($25<<24)|MapRing
 		dc.b 0, 0, $27, $B2
 		dc.l ($26<<24)|MapMonitor
@@ -22241,15 +22144,15 @@ LevelDataArray:	dc.l ($4<<24)|TilesGHZ_2, ($5<<24)|BlocksGHZ, ChunksGHZ
 		dc.l ($E<<24)|TilesSBZ, ($F<<24)|BlocksSBZ, ChunksSBZ
 		dc.b 0, $86, 9, 9
 
-plcArray:	dc.w word_122A0-plcArray, word_122C0-plcArray, word_122D4-plcArray, plcGameOver-plcArray
+plcArray:	dc.w plcMain-plcArray, plcMain2-plcArray, plcExplosion-plcArray, plcGameOver-plcArray
 		dc.w plcGHZ1-plcArray, plzGHZ2-plcArray, plcLZ1-plcArray, plcLZ2-plcArray, plcMZ1-plcArray
 		dc.w plcMZ2-plcArray, plzSLZ1-plcArray, plcSLZ2-plcArray, plzSYZ1-plcArray, plcSYZ2-plcArray
 		dc.w plcSBZ1-plcArray, plcSBZ2-plcArray, plcTitleCards-plcArray, word_12484-plcArray
-		dc.w plcSignPosts-plcArray, plcFlash-plcArray, word_124A8-plcArray, word_1251C-plcArray
-		dc.w word_1252A-plcArray, word_12538-plcArray, word_12546-plcArray, word_12554-plcArray
-		dc.w word_12562-plcArray
+		dc.w plcSignPosts-plcArray, plcFlash-plcArray, plcSpecialStage-plcArray, plcGHZAnimals-plcArray
+		dc.w plcLZAnimals-plcArray, plcMZAnimals-plcArray, plcSLZAnimals-plcArray, plcSYZAnimals-plcArray
+		dc.w plcSBZAnimals-plcArray
 
-word_122A0:	dc.w 4
+plcMain:	dc.w 4
 		dc.l ArtSmoke
 		dc.w $F400
 		dc.l ArtHUD
@@ -22261,7 +22164,7 @@ word_122A0:	dc.w 4
 		dc.l byte_2E6C8
 		dc.w $F2E0
 
-word_122C0:	dc.w 2
+plcMain2:	dc.w 2
 		dc.l ArtMonitors
 		dc.w $D000
 		dc.l ArtShield
@@ -22269,7 +22172,7 @@ word_122C0:	dc.w 2
 		dc.l ArtInvinStars
 		dc.w $AB80
 
-word_122D4:	dc.w 0
+plcExplosion:	dc.w 0
 		dc.l ArtExplosions
 		dc.w $B400
 
@@ -22449,8 +22352,8 @@ plcFlash:	dc.w 0
 		dc.l ArtFlash
 		dc.w $A820
 
-word_124A8:	dc.w $B
-		dc.l byte_64A7C
+plcSpecialStage:dc.w $B
+		dc.l ArtBGMisc
 		dc.w 0
 		dc.l ArtSpecialAnimals
 		dc.w $A20
@@ -22474,7 +22377,7 @@ word_124A8:	dc.w $B
 		dc.w $9E00
 		dc.l ArtSpecialU
 		dc.w $AE00
-		dc.l ArtSpecialEmerald
+		dc.l ArtSpecialEmerald	; all these overwrite eachother
 		dc.w 0
 		dc.l ArtSpecialZone1
 		dc.w 0
@@ -22489,37 +22392,37 @@ word_124A8:	dc.w $B
 		dc.l ArtSpecialZone6
 		dc.w 0
 
-word_1251C:	dc.w 1
+plcGHZAnimals:	dc.w 1
 		dc.l ArtAnimalPocky
 		dc.w $B000
 		dc.l ArtAnimalCucky
 		dc.w $B240
 
-word_1252A:	dc.w 1
+plcLZAnimals:	dc.w 1
 		dc.l ArtAnimalPecky
 		dc.w $B000
 		dc.l ArtAnimalRocky
 		dc.w $B240
 
-word_12538:	dc.w 1
+plcMZAnimals:	dc.w 1
 		dc.l ArtAnimalPicky
 		dc.w $B000
 		dc.l ArtAnimalFlicky
 		dc.w $B240
 
-word_12546:	dc.w 1
+plcSLZAnimals:	dc.w 1
 		dc.l ArtAnimalRicky
 		dc.w $B000
 		dc.l ArtAnimalRocky
 		dc.w $B240
 
-word_12554:	dc.w 1
+plcSYZAnimals:	dc.w 1
 		dc.l ArtAnimalPicky
 		dc.w $B000
 		dc.l ArtAnimalCucky
 		dc.w $B240
 
-word_12562:	dc.w 1
+plcSBZAnimals:	dc.w 1
 		dc.l ArtAnimalPocky
 		dc.w $B000
 		dc.l ArtAnimalFlicky
@@ -22771,13 +22674,13 @@ byte_6307A:	dc.b 1
 		dc.b $F0, $F, 0, $E9, $F0
 ArtSpecialBlocks:incbin "screens/special stage/Art Blocks.nem"
 		even
-byte_639B8:	incbin "unknown/639B8.eni"
+MapSSBG1:	incbin "unknown/639B8.eni"
 		even
 ArtSpecialAnimals:incbin "screens/special stage/Art Animals.nem"
 		even
-byte_6477C:	incbin "unknown/6477C.eni"
+MapSSBG2:	incbin "unknown/6477C.eni"
 		even
-byte_64A7C:	incbin "screens/special stage/ss bg misc.nem"
+ArtBGMisc:	incbin "screens/special stage/ss bg misc.nem"
 		even
 ArtSpecialGoal:	incbin "screens/special stage/Art Goal.nem"
 		even
@@ -23056,7 +22959,7 @@ dVolEnvPtr:	dc.l dVolEnvList
 
 dSpeedTempos:	dc.l dSpeedTempoList
 
-dVolEnvList:	dc.l vd01, vd02, vd03, vd04, vd05, v06, v07, vd08, vd09
+dVolEnvList:	dc.l vd01, vd02, vd03, vd04, vd05, vd06, vd07, vd08, vd09
 
 vd01:		dc.b 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5
 		dc.b 5, 6, 6, 6, 7, $83
@@ -23067,13 +22970,13 @@ vd03:		dc.b 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, $83
 
 vd04:		dc.b 0, 0, 2, 3, 4, 4, 5, 5, 5, 6, $83
 
-v06:		dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
+vd06:		dc.b 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, $83
 
 vd05:		dc.b 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1
 		dc.b 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3
 		dc.b 3, 3, 3, 3, 3, 3, 4, $83
 
-v07:		dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
+vd07:		dc.b 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3
 		dc.b 3, 3, 4, 4, 4, 5, 5, 5, 6, 7, $83
 
 vd08:		dc.b 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3
@@ -23101,14 +23004,10 @@ dSoundPrioList:	dcb.b $1F,$80
 ; ---------------------------------------------------------------------------
 
 SoundSource:
-		move.w	#$100,($A11100).l
-
-@wait:
-		btst	#0,($A11100).l
-		bne.s	@wait
+		stopZ80
 		btst	#7,($A01FFD).l
 		beq.s	@rundriver
-		move.w	#0,($A11100).l
+		startZ80
 		nop
 		nop
 		nop
@@ -23203,7 +23102,7 @@ SoundSource:
 		jsr	dUpdatePSG(pc)
 
 dExit:
-		move.w	#0,($A11100).l
+		startZ80
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -23275,7 +23174,7 @@ dUpdateFM:
 		bclr	#4,(a5)
 		jsr	dTrackerFM(pc)
 		jsr	dUpdateFreqFM(pc)
-		jsr	sPanAniInit(pc)
+		jsr	dPanAniInit(pc)
 		bra.w	dNoteOnFM
 ; ---------------------------------------------------------------------------
 
@@ -23491,7 +23390,7 @@ dUpdateFreqFM_FM3SM:
 		dc.b $A6, $A2
 ; ---------------------------------------------------------------------------
 
-sPanAniInit:
+dPanAniInit:
 		btst	#1,(a5)
 		bne.s	@tables
 		moveq	#0,d0
@@ -23503,14 +23402,14 @@ sPanAniInit:
 @tables:
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Reset
+		bra.s	dPanAni_Reset
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Reset
+		bra.s	dPanAni_Reset
 ; ---------------------------------------------------------------------------
 
-sPanAni:
+dPanAni:
 		btst	#1,(a5)
 		bne.s	@table
 		moveq	#0,d0
@@ -23524,16 +23423,16 @@ sPanAni:
 ; ---------------------------------------------------------------------------
 		rts
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
-		bra.s	sPanAni_Cont
+		bra.s	dPanAni_Cont
 ; ---------------------------------------------------------------------------
 
-sPanAni_Reset:
+dPanAni_Reset:
 		move.b	$23(a5),$24(a5)
 		clr.b	$21(a5)
 
-sPanAni_Cont:
+dPanAni_Cont:
 		move.b	$24(a5),d0
 		cmp.b	$23(a5),d0
 		bne.s	loc_7457E
@@ -23553,7 +23452,7 @@ loc_7457E:
 		move.b	$20(a5),d0
 		subq.w	#1,d0
 		lsl.w	#2,d0
-		movea.l	sPanAniTable(pc,d0.w),a0
+		movea.l	dPanAniTable(pc,d0.w),a0
 		moveq	#0,d0
 		move.b	$21(a5),d0
 		subq.w	#1,d0
@@ -23569,7 +23468,7 @@ locret_745AE:
 		rts
 ; ---------------------------------------------------------------------------
 
-sPanAniTable:	dc.l pd01, pd02, pd03
+dPanAniTable:	dc.l pd01, pd02, pd03
 
 pd01:		dc.b $40, $80
 
@@ -24028,8 +23927,7 @@ dMusicChanTbl:	dc.l (SoundMemory+$D0)&$FFFFFF, 0, (SoundMemory+$100)&$FFFFFF
 		dc.l (SoundMemory+$130)&$FFFFFF, (SoundMemory+$190)&$FFFFFF, (SoundMemory+$1C0)&$FFFFFF
 		dc.l (SoundMemory+$1F0)&$FFFFFF, (SoundMemory+$1F0)&$FFFFFF
 
-dSFXChanTbl:
-		dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
+dSFXChanTbl:	dc.l (SoundMemory+$220)&$FFFFFF, 0, (SoundMemory+$250)&$FFFFFF
 		dc.l (SoundMemory+$280)&$FFFFFF, (SoundMemory+$2B0)&$FFFFFF, (SoundMemory+$2E0)&$FFFFFF
 		dc.l (SoundMemory+$310)&$FFFFFF, (SoundMemory+$310)&$FFFFFF
 ; ---------------------------------------------------------------------------
@@ -24797,7 +24695,8 @@ dCommands:
 ; ---------------------------------------------------------------------------
 		bra.w	dcFM3SM
 ; ---------------------------------------------------------------------------
-		moveq	#0,d0
+dMeta:
+		moveq	#0,d0			; unused/unrefereced meta flag
 		move.b	(a4)+,d0
 		lsl.w	#2,d0
 		jmp	@meta(pc,d0.w)
@@ -25379,7 +25278,8 @@ dcSSGEG:
 dOpSSGEG:	dc.b $90, $50, $98, $58
 		dc.b $94, $54, $9C, $5C
 Z80Driver:	include "sound/Z80/DAC Driver.asm"
-		even
+Z80Driver_End:	even
+		include "sound/smps2asm.asm"
 mGHZ:		incbin "sound/music/GHZ.ssf"
 		even
 mLZ:		incbin "sound/music/LZ.ssf"
@@ -25531,7 +25431,7 @@ sD2:		incbin "sound/sfx/D2.ssf"
 ; Segment type: Regular
 ; segment "RAM"
 RAM		section bss, org($FFFF0000), size($10000)
-Chunks:		ds.b $80					; note to self: sort this out later
+Chunks:		ds.b $80	; level chunks
 byte_FF0080:	ds.b $880
 byte_FF0900:	ds.b $720
 byte_FF1020:	ds.b $70E
@@ -25543,16 +25443,16 @@ byte_FF400C:	ds.b $22
 byte_FF402E:	ds.b $3D2
 byte_FF4400:	ds.b $3C00
 byte_FF8000:	ds.b $2400
-Layout:		ds.b $400
-byte_FFA800:	ds.b $200
-byte_FFAA00:	ds.b $100
+Layout:		ds.b $400	; level layout
+ScrollBuffer:	ds.b $200
+NemBuffer:	ds.b $100	; used for the Nemesis decompressor
 byte_FFAB00:	ds.b $100
 DisplayLists:	ds.b $400
-Blocks:		ds.b $1800
+Blocks:		ds.b $1800	; level blocks
 SonicArtBuf:	ds.b $300
 SonicPosTable:	ds.b $100
 ScrollTable:	ds.b $400
-ObjectsList:	ds.b $40
+ObjectsList:	ds.b $40	; object RAM
 byte_FFD040:	ds.b $40
 byte_FFD080:	ds.b $40
 byte_FFD0C0:	ds.b $40
@@ -25585,8 +25485,8 @@ byte_FFD600:	ds.b $40
 		ds.b $40
 		ds.b $40
 LevelObjectsList:ds.b $1800
-SoundMemory:	ds.b $600
-GameMode:	ds.b 1
+SoundMemory:	ds.b $600	; used for the sound driver
+GameMode:	ds.b 1		; used for the screen modes
 		ds.b 1
 padHeldPlayer:	ds.b 1
 padPressPlayer:	ds.b 1
@@ -25613,7 +25513,7 @@ word_FFF620:	ds.w 1
 word_FFF622:	ds.w 1
 word_FFF624:	ds.w 1
 word_FFF626:	ds.w 1
-byte_FFF628:	ds.b 1
+VintECounter:	ds.b 1		; only used if the Vint is $0E (not used)
 byte_FFF629:	ds.b 1
 VintRoutine:	ds.b 1
 		ds.b 1
@@ -25623,10 +25523,10 @@ byte_FFF62C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF632:	ds.w 1
-word_FFF634:	ds.w 1
+PalCycOffset:	ds.w 1
+PalCycWait:	ds.w 1
 RandomSeed:	ds.l 1
-PauseFlag:	ds.w 1
+PauseFlag:	ds.w 1		; self explanatory
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -25638,7 +25538,7 @@ PauseFlag:	ds.w 1
 word_FFF644:	ds.w 1
 		ds.b 1
 		ds.b 1
-word_FFF648:	ds.w 1
+HintFlag:	ds.w 1		; used when the palette should be transferred to the next horizontal interrupt
 		ds.b 1
 		ds.b 1
 word_FFF64C:	ds.w 1
@@ -25660,7 +25560,7 @@ word_FFF64C:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-word_FFF660:	ds.w 1
+word_FFF660:	ds.w 1		; unused, but cleared at the SEGA screen
 word_FFF662:	ds.w 1
 		ds.b 1
 		ds.b 1
@@ -25688,32 +25588,13 @@ LevSelSound:	ds.w 1
 		ds.b 1
 		ds.b 1
 plcList:	ds.b $60
-unk_FFF6E0:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6E4:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6E8:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6EC:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F0:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F4:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF6F8:	ds.b 1
-		ds.b 1
+unk_FFF6E0:	ds.l 1
+unk_FFF6E4:	ds.l 1
+unk_FFF6E8:	ds.l 1
+unk_FFF6EC:	ds.l 1
+unk_FFF6F0:	ds.l 1
+unk_FFF6F4:	ds.l 1
+unk_FFF6F8:	ds.w 1
 unk_FFF6FA:	ds.b 1
 		ds.b 1
 		ds.b 1
@@ -25722,62 +25603,30 @@ unk_FFF6FA:	ds.b 1
 		ds.b 1
 CameraX:	ds.l 1
 CameraY:	ds.l 1
-unk_FFF708:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF70C:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF710:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF714:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF718:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF71C:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF720:	ds.b 1
-		ds.b 1
-		ds.b 1
-		ds.b 1
-unk_FFF724:	ds.b 1
-		ds.b 1
-unk_FFF726:	ds.b 1
-		ds.b 1
-unk_FFF728:	ds.b 1
-		ds.b 1
-unk_FFF72A:	ds.b 1
-		ds.b 1
-unk_FFF72C:	ds.b 1
-		ds.b 1
-unk_FFF72E:	ds.b 1
-		ds.b 1
-unk_FFF730:	ds.b 1
-		ds.b 1
-unk_FFF732:	ds.b 1
+unk_FFF708:	ds.l 1
+unk_FFF70C:	ds.l 1
+unk_FFF710:	ds.l 1
+unk_FFF714:	ds.l 1
+unk_FFF718:	ds.l 1
+unk_FFF71C:	ds.l 1
+unk_FFF720:	ds.l 1
+unk_FFF724:	ds.w 1
+unk_FFF726:	ds.w 1
+unk_FFF728:	ds.w 1
+unk_FFF72A:	ds.w 1
+unk_FFF72C:	ds.w 1
+unk_FFF72E:	ds.w 1
+unk_FFF730:	ds.w 1
+unk_FFF732:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-		ds.b 1
-unk_FFF73A:	ds.b 1
-		ds.b 1
-unk_FFF73C:	ds.b 1
-		ds.b 1
-unk_FFF73E:	ds.b 1
-		ds.b 1
+unk_FFF73A:	ds.w 1
+unk_FFF73C:	ds.w 1
+unk_FFF73E:	ds.w 1
 unk_FFF740:	ds.b 1
 unk_FFF741:	ds.b 1
 EventsRoutine:	ds.b 1
@@ -25798,26 +25647,20 @@ unk_FFF74E:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF754:	ds.b 1
-		ds.b 1
-unk_FFF756:	ds.b 1
-		ds.b 1
-unk_FFF758:	ds.b 1
-		ds.b 1
+unk_FFF754:	ds.w 1
+unk_FFF756:	ds.w 1
+unk_FFF758:	ds.w 1
 		ds.b 1
 		ds.b 1
 unk_FFF75C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF760:	ds.b 1
-		ds.b 1
-unk_FFF762:	ds.b 1
-		ds.b 1
-unk_FFF764:	ds.b 1
-		ds.b 1
-unk_FFF766:	ds.b 1
-unk_FFF767:	ds.b 1
+PlayerTopSpeed:	ds.w 1		; these and the next 2 are self-explanatory
+PlayerAccel:	ds.w 1
+PlayerDecel:	ds.w 1
+SonicLastDPLCID:ds.b 1		; previous DPLC frame for Sonic
+SonicVRAMReset:	ds.b 1		; for when Sonic's art needs to be updated in VRAM
 unk_FFF768:	ds.b 1
 		ds.b 1
 unk_FFF76A:	ds.b 1
@@ -25842,10 +25685,8 @@ unk_FFF77C:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF780:	ds.b 1
-		ds.b 1
-unk_FFF782:	ds.b 1
-unk_FFF783:	ds.b 1
+SpecAngle:	ds.w 1
+SpecSpeed:	ds.w 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
@@ -25858,25 +25699,18 @@ unk_FFF783:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFF790:	ds.b 1
-		ds.b 1
+unk_FFF790:	ds.w 1
 unk_FFF792:	ds.b 1
 		ds.b 1
-unk_FFF794:	ds.b 1
-		ds.b 1
+unk_FFF794:	ds.w 1
 Collision:	ds.l 1
-unk_FFF79A:	ds.b 1
-		ds.b 1
-unk_FFF79C:	ds.b 1
-		ds.b 1
-unk_FFF79E:	ds.b 1
-		ds.b 1
-unk_FFF7A0:	ds.b 1
+unk_FFF79A:	ds.w 1
+unk_FFF79C:	ds.w 1
+unk_FFF79E:	ds.w 1
+unk_FFF7A0:	ds.w 1
 		ds.b 1
 		ds.b 1
-		ds.b 1
-unk_FFF7A4:	ds.b 1
-		ds.b 1
+unk_FFF7A4:	ds.w 1
 		ds.b 1
 unk_FFF7A7:	ds.b 1
 unk_FFF7A8:	ds.b 1
@@ -25967,7 +25801,7 @@ unk_FFF7F0:	ds.b 1
 		ds.b 1
 		ds.b 1
 		ds.b 1
-byte_FFF800:	ds.b $280
+SprTableBuff:	ds.b $280
 		ds.b $80					; unused??
 Palette:	ds.b $80
 PaletteTarget:	ds.b $80
@@ -25979,9 +25813,9 @@ LevelFrames:	ds.w 1
 byte_FFFE06:	ds.b 1
 		ds.b 1
 DebugRoutine:	ds.w 1
-byte_FFFE0A:	ds.b 1
-byte_FFFE0B:	ds.b 1
-unk_FFFE0C:	ds.b 1
+DebugTimer:	ds.b 1
+DebugSpeed:	ds.b 1
+VintCounter:	ds.b 1
 		ds.b 1
 		ds.b 1
 byte_FFFE0F:	ds.b 1
@@ -26087,12 +25921,12 @@ oscValues:	ds.b $42
 		ds.b 1
 		ds.b 1
 		ds.b 1
-unk_FFFEC0:	ds.b 1
-unk_FFFEC1:	ds.b 1
+GHZSpikeTimer:	ds.b 1
+GHZSpikeFrame:	ds.b 1
 RingTimer:	ds.b 1
 RingFrame:	ds.b 1
-unk_FFFEC4:	ds.b 1
-unk_FFFEC5:	ds.b 1
+UnkTimer:	ds.b 1		; not sure what this would've been for,
+UnkFrame:	ds.b 1		; this is also in the final game and Sonic 2 where it's also unused
 RingLossTimer:	ds.b 1
 RingLossFrame:	ds.b 1
 RingLossAccumulator:ds.w 1
@@ -26396,6 +26230,8 @@ DemoNum:	ds.w 1
 		ds.b 1
 ConsoleRegion:	ds.b 1
 		ds.b 1
-word_FFFFFA:	ds.w 1
+EditModeFlag:	ds.w 1
 ChecksumStr:	ds.l 1
 ; end of 'RAM'
+
+      	      	end

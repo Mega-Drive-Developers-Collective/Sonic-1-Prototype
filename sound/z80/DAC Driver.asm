@@ -28,7 +28,7 @@ CheckSamples:
 WaitDACLoop:
 		ld	a, (hl)
 		zor	a
-		jp	p, WaitDACLoop
+		jpp	WaitDACLoop
 		push	af
 		push	hl
 		ld	a, 80h
@@ -52,7 +52,7 @@ WaitDACLoop:
 		ld	de, 0
 		ld	iy, 160h
 		cp	6
-		jr	c, loc_73
+		jrc	loc_73
 		ld	(1FF7h), a
 		ld	(1FF6h), a
 		ld	iy, (1FF8h)
@@ -71,7 +71,7 @@ loc_73:
 		ld	d, (iy+1)
 		ld	a, (1FF7h)
 		zor	a
-		jp	m, loc_8F
+		jpm	loc_8F
 		ld	hl, (1FF8h)
 		zadd	hl, de
 		ex	de, hl
@@ -105,7 +105,7 @@ loc_9F:
 
 loc_B8:
 		bit	7, (hl)
-		jr	nz, loc_B8
+		jrnz	loc_B8
 		ld	(hl), 2Ah
 		inc	hl
 		xor	a
@@ -130,7 +130,7 @@ loc_C5:
 
 loc_DA:
 		bit	7, (hl)
-		jr	nz, loc_DA
+		jrnz	loc_DA
 		ld	(hl), 2Ah
 		inc	hl
 		xor	a
@@ -142,28 +142,28 @@ loc_E7:
 		djnz	offset(*)
 		exx
 		bit	7, (iy+5)
-		jr	nz, loc_F5
+		jrnz	loc_F5
 		bit	7, (hl)
-		jp	nz, WaitDACLoop
+		jpnz	WaitDACLoop
 
 loc_F5:
 		inc	de
 		dec	bc
 		ld	a, c
 		zor	b
-		jp	nz, loc_9F
+		jpnz	loc_9F
 		ld	a, (1FFEh)
 		zor	a
-		jp	z, loc_153
+		jpz	loc_153
 		exx
-		jp	p, loc_10C
+		jpp	loc_10C
 		zand	7Fh
 		ld	(ix+0), c
 
 loc_10C:
 		dec	a
 		ld	(1FFEh), a
-		jr	z, loc_133
+		jrz	loc_133
 		ld	c, (ix+0)
 		exx
 		ld	l, (iy+6)
@@ -201,7 +201,7 @@ loc_153:
 		ld	hl, 1FF6h
 		ld	a, (hl)
 		zor	a
-		jp	m, CheckSamples
+		jpm	CheckSamples
 		xor	a
 		ld	(hl), a
 		jp	CheckSamples
@@ -237,5 +237,4 @@ dacSnare:	incbin "sound/Z80/Snare.dpcm"
 dacSnare_End:	even
 dacTimpani:	incbin "sound/Z80/Timpani.dpcm"
 dacTimpani_End: even
-EndOfDriver:
 		z80prog

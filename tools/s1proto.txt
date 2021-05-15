@@ -169,7 +169,7 @@
 570D2 unknown/570D2.dat
 60000
 
-# disassemble art and map data
+# disassemble data
 60000 unknown/60000.dat
 60864 unknown/60864.dat
 60BB0 unknown/60BB0.dat
@@ -298,7 +298,6 @@
 72D1E
 
 # disassemble sound data
-756D0 sound/Z80/DAC Driver.unc
 7732C sound/music/GHZ.ssf
 77C68 sound/music/LZ.ssf
 78332 sound/music/MZ.ssf
